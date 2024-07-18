@@ -1,4 +1,8 @@
-﻿using System;
+﻿using LcfSharp.Rpg.Audio;
+using LcfSharp.Rpg.Shared;
+using LcfSharp.Rpg.Troops;
+using LcfSharp.Types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -89,21 +93,6 @@ namespace LcfSharp
             EncounterSteps = reader.ReadInt( ChunkMapInfoIndex.EncounterSteps );
             AreaRect = reader.ReadRect( ChunkMapInfoIndex.AreaRect );
         }
-    }
-
-    public class Music
-    {
-        // Define the properties for Music
-    }
-
-    public class Encounter
-    {
-        // Define the properties for Encounter
-    }
-
-    public class Rect
-    {
-        // Define the properties for Rect
     }
 
     public class LmtReader : IDisposable

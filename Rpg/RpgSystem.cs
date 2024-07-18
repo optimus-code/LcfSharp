@@ -1,0 +1,511 @@
+﻿using LcfSharp.Rpg.Audio;
+using LcfSharp.Types;
+using System.Collections.Generic;
+
+namespace LcfSharp.Rpg
+{
+    public enum SystemFadeOut
+    {
+        Default = 0,
+        FadeOut = 1,
+        RemoveBlocks = 2,
+        WipeDownward = 3,
+        WipeUpward = 4,
+        VenetianBlinds = 5,
+        VerticalBlinds = 6,
+        HorizontalBlinds = 7,
+        RecedingSquare = 8,
+        ExpandingSquare = 9,
+        ScreenMovesUp = 10,
+        ScreenMovesDown = 11,
+        ScreenMovesLeft = 12,
+        ScreenMovesRight = 13,
+        VerticalDiv = 14,
+        HorizontalDiv = 15,
+        Quadrasection = 16,
+        ZoomIn = 17,
+        Mosaic = 18,
+        WaverScreen = 19,
+        Instantaneous = 20,
+        None = 21
+    }
+
+    public enum SystemFadeIn
+    {
+        Default = 0,
+        FadeIn = 1,
+        ReconstituteBlocks = 2,
+        UnwipeDownward = 3,
+        UnwipeUpward = 4,
+        VenetianBlinds = 5,
+        VerticalBlinds = 6,
+        HorizontalBlinds = 7,
+        RecedingSquare = 8,
+        ExpandingSquare = 9,
+        ScreenMovesDown = 10,
+        ScreenMovesUp = 11,
+        ScreenMovesRight = 12,
+        ScreenMovesLeft = 13,
+        VerticalUnify = 14,
+        HorizontalUnify = 15,
+        UnifyQuadrants = 16,
+        ZoomOut = 17,
+        Mosaic = 18,
+        WaverScreen = 19,
+        Instantaneous = 20,
+        None = 21
+    }
+
+    public enum SystemStretch
+    {
+        Stretch = 0,
+        Tiled = 1
+    }
+
+    public enum SystemFont
+    {
+        Gothic = 0,
+        Mincho = 1
+    }
+
+    public enum SystemBattleFormation
+    {
+        Terrain = 0,
+        Loose = 1,
+        Tight = 2
+    }
+
+    public enum SystemBattleCondition
+    {
+        None = 0,
+        Initiative = 1,
+        Back = 2,
+        Surround = 3,
+        Pincers = 4
+    }
+
+    public enum SystemEquipmentSetting
+    {
+        Actor = 0,
+        Class = 1
+    }
+
+    public class RpgSystem
+    {
+        public static readonly Dictionary<SystemFadeOut, string> FadeOutTags = new Dictionary<SystemFadeOut, string>
+        {
+            { SystemFadeOut.Default, "default" },
+            { SystemFadeOut.FadeOut, "fade_out" },
+            { SystemFadeOut.RemoveBlocks, "remove_blocks" },
+            { SystemFadeOut.WipeDownward, "wipe_downward" },
+            { SystemFadeOut.WipeUpward, "wipe_upward" },
+            { SystemFadeOut.VenetianBlinds, "venetian_blinds" },
+            { SystemFadeOut.VerticalBlinds, "vertical_blinds" },
+            { SystemFadeOut.HorizontalBlinds, "horizontal_blinds" },
+            { SystemFadeOut.RecedingSquare, "receding_square" },
+            { SystemFadeOut.ExpandingSquare, "expanding_square" },
+            { SystemFadeOut.ScreenMovesUp, "screen_moves_up" },
+            { SystemFadeOut.ScreenMovesDown, "screen_moves_down" },
+            { SystemFadeOut.ScreenMovesLeft, "screen_moves_left" },
+            { SystemFadeOut.ScreenMovesRight, "screen_moves_right" },
+            { SystemFadeOut.VerticalDiv, "vertical_div" },
+            { SystemFadeOut.HorizontalDiv, "horizontal_div" },
+            { SystemFadeOut.Quadrasection, "quadrasection" },
+            { SystemFadeOut.ZoomIn, "zoom_in" },
+            { SystemFadeOut.Mosaic, "mosaic" },
+            { SystemFadeOut.WaverScreen, "waver_screen" },
+            { SystemFadeOut.Instantaneous, "instantaneous" },
+            { SystemFadeOut.None, "none" }
+        };
+
+        public static readonly Dictionary<SystemFadeIn, string> FadeInTags = new Dictionary<SystemFadeIn, string>
+        {
+            { SystemFadeIn.Default, "default" },
+            { SystemFadeIn.FadeIn, "fade_in" },
+            { SystemFadeIn.ReconstituteBlocks, "reconstitute_blocks" },
+            { SystemFadeIn.UnwipeDownward, "unwipe_downward" },
+            { SystemFadeIn.UnwipeUpward, "unwipe_upward" },
+            { SystemFadeIn.VenetianBlinds, "venetian_blinds" },
+            { SystemFadeIn.VerticalBlinds, "vertical_blinds" },
+            { SystemFadeIn.HorizontalBlinds, "horizontal_blinds" },
+            { SystemFadeIn.RecedingSquare, "receding_square" },
+            { SystemFadeIn.ExpandingSquare, "expanding_square" },
+            { SystemFadeIn.ScreenMovesDown, "screen_moves_down" },
+            { SystemFadeIn.ScreenMovesUp, "screen_moves_up" },
+            { SystemFadeIn.ScreenMovesRight, "screen_moves_right" },
+            { SystemFadeIn.ScreenMovesLeft, "screen_moves_left" },
+            { SystemFadeIn.VerticalUnify, "vertical_unify" },
+            { SystemFadeIn.HorizontalUnify, "horizontal_unify" },
+            { SystemFadeIn.UnifyQuadrants, "unify_quadrants" },
+            { SystemFadeIn.ZoomOut, "zoom_out" },
+            { SystemFadeIn.Mosaic, "mosaic" },
+            { SystemFadeIn.WaverScreen, "waver_screen" },
+            { SystemFadeIn.Instantaneous, "instantaneous" },
+            { SystemFadeIn.None, "none" }
+        };
+
+        public static readonly Dictionary<SystemStretch, string> StretchTags = new Dictionary<SystemStretch, string>
+        {
+            { SystemStretch.Stretch, "stretch" },
+            { SystemStretch.Tiled, "tiled" }
+        };
+
+        public static readonly Dictionary<SystemFont, string> FontTags = new Dictionary<SystemFont, string>
+        {
+            { SystemFont.Gothic, "gothic" },
+            { SystemFont.Mincho, "mincho" }
+        };
+
+        public static readonly Dictionary<SystemBattleFormation, string> BattleFormationTags = new Dictionary<SystemBattleFormation, string>
+        {
+            { SystemBattleFormation.Terrain, "terrain" },
+            { SystemBattleFormation.Loose, "loose" },
+            { SystemBattleFormation.Tight, "tight" }
+        };
+
+        public static readonly Dictionary<SystemBattleCondition, string> BattleConditionTags = new Dictionary<SystemBattleCondition, string>
+        {
+            { SystemBattleCondition.None, "none" },
+            { SystemBattleCondition.Initiative, "initiative" },
+            { SystemBattleCondition.Back, "back" },
+            { SystemBattleCondition.Surround, "surround" },
+            { SystemBattleCondition.Pincers, "pincers" }
+        };
+
+        public static readonly Dictionary<SystemEquipmentSetting, string> EquipmentSettingTags = new Dictionary<SystemEquipmentSetting, string>
+        {
+            { SystemEquipmentSetting.Actor, "actor" },
+            { SystemEquipmentSetting.Class, "class" }
+        };
+
+        public int LdbID
+        {
+            get;
+            set;
+        }
+
+        public DbString BoatName
+        {
+            get;
+            set;
+        }
+
+        public DbString ShipName
+        {
+            get;
+            set;
+        }
+
+        public DbString AirshipName
+        {
+            get;
+            set;
+        }
+
+        public int BoatIndex
+        {
+            get;
+            set;
+        }
+
+        public int ShipIndex
+        {
+            get;
+            set;
+        }
+
+        public int AirshipIndex
+        {
+            get;
+            set;
+        }
+
+        public DbString TitleName
+        {
+            get;
+            set;
+        }
+
+        public DbString GameoverName
+        {
+            get;
+            set;
+        }
+
+        public DbString SystemName
+        {
+            get;
+            set;
+        }
+
+        public DbString System2Name
+        {
+            get;
+            set;
+        }
+
+        public List<short> Party
+        {
+            get;
+            set;
+        } = new List<short> { 1 };
+
+        public List<short> MenuCommands
+        {
+            get;
+            set;
+        } = new List<short> { 1 };
+
+        public Music TitleMusic
+        {
+            get;
+            set;
+        }
+
+        public Music BattleMusic
+        {
+            get;
+            set;
+        }
+
+        public Music BattleEndMusic
+        {
+            get;
+            set;
+        }
+
+        public Music InnMusic
+        {
+            get;
+            set;
+        }
+
+        public Music BoatMusic
+        {
+            get;
+            set;
+        }
+
+        public Music ShipMusic
+        {
+            get;
+            set;
+        }
+
+        public Music AirshipMusic
+        {
+            get;
+            set;
+        }
+
+        public Music GameoverMusic
+        {
+            get;
+            set;
+        }
+
+        public Sound CursorSe
+        {
+            get;
+            set;
+        }
+
+        public Sound DecisionSe
+        {
+            get;
+            set;
+        }
+
+        public Sound CancelSe
+        {
+            get;
+            set;
+        }
+
+        public Sound BuzzerSe
+        {
+            get;
+            set;
+        }
+
+        public Sound BattleSe
+        {
+            get;
+            set;
+        }
+
+        public Sound EscapeSe
+        {
+            get;
+            set;
+        }
+
+        public Sound EnemyAttackSe
+        {
+            get;
+            set;
+        }
+
+        public Sound EnemyDamagedSe
+        {
+            get;
+            set;
+        }
+
+        public Sound ActorDamagedSe
+        {
+            get;
+            set;
+        }
+
+        public Sound DodgeSe
+        {
+            get;
+            set;
+        }
+
+        public Sound EnemyDeathSe
+        {
+            get;
+            set;
+        }
+
+        public Sound ItemSe
+        {
+            get;
+            set;
+        }
+
+        public int TransitionOut
+        {
+            get;
+            set;
+        }
+
+        public int TransitionIn
+        {
+            get;
+            set;
+        }
+
+        public int BattleStartFadeOut
+        {
+            get;
+            set;
+        }
+
+        public int BattleStartFadeIn
+        {
+            get;
+            set;
+        }
+
+        public int BattleEndFadeOut
+        {
+            get;
+            set;
+        }
+
+        public int BattleEndFadeIn
+        {
+            get;
+            set;
+        }
+
+        public int MessageStretch
+        {
+            get;
+            set;
+        }
+
+        public int FontID
+        {
+            get;
+            set;
+        }
+
+        public int SelectedCondition
+        {
+            get;
+            set;
+        }
+
+        public int SelectedHero
+        {
+            get;
+            set;
+        }
+
+        public DbString BattleTestBackground
+        {
+            get;
+            set;
+        }
+
+        public List<TestBattler> BattleTestData
+        {
+            get;
+            set;
+        }
+
+        public int SaveCount
+        {
+            get;
+            set;
+        }
+
+        public int BattleTestTerrain
+        {
+            get;
+            set;
+        }
+
+        public int BattleTestFormation
+        {
+            get;
+            set;
+        }
+
+        public int BattleTestCondition
+        {
+            get;
+            set;
+        }
+
+        public int EquipmentSetting
+        {
+            get;
+            set;
+        }
+
+        public int BattleTestAltTerrain
+        {
+            get;
+            set;
+        } = -1;
+
+        public bool ShowFrame
+        {
+            get;
+            set;
+        }
+
+        public DbString FrameName
+        {
+            get;
+            set;
+        }
+
+        public bool InvertAnimations
+        {
+            get;
+            set;
+        }
+
+        public bool ShowTitle
+        {
+            get;
+            set;
+        } = true;
+    }
+}

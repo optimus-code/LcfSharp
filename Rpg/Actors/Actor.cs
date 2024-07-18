@@ -1,8 +1,8 @@
-﻿using LcfSharp.Actors;
+﻿using LcfSharp.Rpg.Shared;
 using LcfSharp.Types;
 using System.Collections.Generic;
 
-namespace LcfSharp.Database
+namespace LcfSharp.Rpg.Actors
 {
     public class Actor
     {
@@ -196,74 +196,5 @@ namespace LcfSharp.Database
             get;
             set;
         } = new List<int>();
-    }
-
-    public class EasyRPGActor : Actor
-    {
-        public int ActorAI
-        {
-            get;
-            set;
-        } = -1;
-
-        public bool PreventCritical
-        {
-            get;
-            set;
-        } = false;
-
-        public bool RaiseEvasion
-        {
-            get;
-            set;
-        } = false;
-
-        public bool ImmuneToAttributeDownshifts
-        {
-            get;
-            set;
-        } = false;
-
-        public bool IgnoreEvasion
-        {
-            get;
-            set;
-        } = false;
-
-        public int UnarmedHit
-        {
-            get;
-            set;
-        } = -1;
-
-        public DbBitArray UnarmedStateSet
-        {
-            get;
-            set;
-        }
-
-        public int UnarmedStateChance
-        {
-            get;
-            set;
-        } = 0;
-
-        public DbBitArray UnarmedAttributeSet
-        {
-            get;
-            set;
-        }
-
-        public bool DualAttack
-        {
-            get;
-            set;
-        } = false;
-
-        public bool AttackAll
-        {
-            get;
-            set;
-        } = false;
     }
 }

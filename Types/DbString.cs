@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LcfSharp.Types
 {
@@ -57,6 +58,15 @@ namespace LcfSharp.Types
         {
             _length = ( ushort ) value.Length;
             _value = value;
+        }
+
+        public static implicit operator DbString(string value)
+        {
+            return new DbString
+            {
+                _length = (ushort)value.Length,
+                _value = value
+            };
         }
 
         /// <summary>

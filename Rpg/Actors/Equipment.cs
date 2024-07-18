@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LcfSharp.Actors
+namespace LcfSharp.Rpg.Actors
 {
     public class Equipment
     {

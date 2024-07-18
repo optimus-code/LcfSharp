@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LcfSharp.Actors
+namespace LcfSharp.Rpg.Shared
 {
     public class Learning
     {
