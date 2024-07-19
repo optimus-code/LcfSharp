@@ -33,11 +33,12 @@ namespace LcfSharp.IO
             }
         }
 
-        public static void ReadChunks<TEnum>(LcfReader reader, Func<byte,bool> onReadChunk)
+        public static void ReadChunks<TEnum>(LcfReader reader, Func<Chunk,bool> onReadChunk)
             where TEnum : struct
         {
             var finishedChunks = false;
             var enumValues = ( ( byte[] ) Enum.GetValues(typeof(TEnum)) ).ToHashSet();
+            var startPosition = reader.Offset;
 
             while (!reader.IsEOF && !finishedChunks)
             {
@@ -45,9 +46,9 @@ namespace LcfSharp.IO
 
                 if (enumValues.Contains(chunk.ID))
                 {
-                    var result = onReadChunk?.Invoke(chunk.ID);
+                    var result = onReadChunk?.Invoke(chunk);
 
-                    if (result.HasValue && !result.Value)
+                    if (result.HasValue && !result.Value || !result.HasValue)
                         reader.Skip(chunk, typeof(TEnum).Name);
                 }
                 else
@@ -55,7 +56,24 @@ namespace LcfSharp.IO
                     reader.Skip(chunk, typeof(TEnum).Name);
                 }
 
-                if (chunk.ID == enumValues.Last())
+                if (chunk.ID == enumValues.Last() || reader.Offset >= (startPosition + chunk.Length))
+                {
+                    finishedChunks = true;
+                    break;
+                }
+            }
+        }
+
+        public static void ReadChunkList(LcfReader reader, uint length, Action onReadItem)
+        {
+            var finishedChunks = false;
+            var startPosition = reader.Offset;
+
+            while (!reader.IsEOF && !finishedChunks)
+            {
+                onReadItem?.Invoke();
+
+                if (reader.Offset >= (startPosition + length))
                 {
                     finishedChunks = true;
                     break;

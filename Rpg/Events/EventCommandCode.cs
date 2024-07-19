@@ -1,6 +1,6 @@
 ﻿namespace LcfSharp.Rpg.Events
 {
-    public enum EventCommandCode
+    public enum EventCommandCode : int
     {
         END = 10,
         CallCommonEvent = 1005,

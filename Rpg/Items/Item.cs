@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Items
 {
-    public enum ItemType
+    public enum ItemType : int
     {
         Normal = 0,
         Weapon = 1,
@@ -19,13 +19,13 @@ namespace LcfSharp.Rpg.Items
         Switch = 10
     }
 
-    public enum ItemTrajectory
+    public enum ItemTrajectory : int
     {
         Straight = 0,
         Return = 1
     }
 
-    public enum ItemTarget
+    public enum ItemTarget : int
     {
         Single = 0,
         Center = 1,
@@ -84,7 +84,7 @@ namespace LcfSharp.Rpg.Items
             set;
         }
 
-        public int Type
+        public ItemType Type
         {
             get;
             set;
@@ -372,13 +372,13 @@ namespace LcfSharp.Rpg.Items
             set;
         }
 
-        public int RangedTrajectory
+        public ItemTrajectory RangedTrajectory
         {
             get;
             set;
         }
 
-        public int RangedTarget
+        public ItemTarget RangedTarget
         {
             get;
             set;

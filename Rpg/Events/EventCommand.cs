@@ -1,4 +1,5 @@
-﻿using LcfSharp.Types;
+﻿using LcfSharp.IO;
+using LcfSharp.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
@@ -163,7 +164,7 @@ namespace LcfSharp.Rpg.Events
             { EventCommandCode.Maniac_ControlTextProcessing, "Maniac_ControlTextProcessing" }
         };
 
-        public int Code
+        public EventCommandCode Code
         {
             get;
             set;

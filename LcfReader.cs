@@ -33,6 +33,8 @@ namespace LcfSharp
         /// <returns>The next available character, or -1 if the end of the stream is reached.</returns>
         public int Peek( ) => _reader.PeekChar( );
 
+        public long Offset => _offset;
+
         private readonly BinaryReader _reader;
         private long _offset;
 
