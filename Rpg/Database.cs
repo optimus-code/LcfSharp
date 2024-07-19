@@ -13,6 +13,7 @@ using LcfSharp.Rpg.States;
 using LcfSharp.Rpg.Terrains;
 using LcfSharp.Rpg.Troops;
 using System.Collections.Generic;
+using System.IO;
 
 namespace LcfSharp.Rpg
 {
@@ -137,6 +138,32 @@ namespace LcfSharp.Rpg
             get;
             set;
         } = new List<BattlerAnimation>();
-    }
 
+        public Database(LcfReader reader)
+        {
+            while (!reader.IsEOF)
+            {
+                int fieldIndex = reader.ReadInt();
+                int fieldLength = reader.ReadInt();
+
+                switch (fieldIndex)
+                {
+                    case 0x01: // name
+                        Actors.Add(ReadActor(reader, fieldLength));
+                        break;
+                    case 0x02: // title
+                        Skills.Add(ReadSkill(reader, fieldLength));
+                        break;
+                    case 0x03: // character_name
+                        Items.Add(ReadItem(reader, fieldLength));
+                        break;
+                    // Add other cases here...
+                    default:
+                        reader.BaseStream.Seek(fieldLength, SeekOrigin.Current);
+                        break;
+                }
+            }
+        }
+
+    }
 }

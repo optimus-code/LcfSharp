@@ -1,21 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Shared;
+using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationItemSkillSpeed
+    public enum BattlerAnimationItemSkillChunk : byte
+    {
+        Unknown02 = 0x02,
+        Type = 0x03,
+        WeaponAnimationId = 0x04,
+        Movement = 0x05,
+        AfterImage = 0x06,
+        Attacks = 0x07,
+        Ranged = 0x08,
+        RangedAnimationId = 0x09,
+        RangedSpeed = 0x0C,
+        BattleAnimationId = 0x0D,
+        Pose = 0x0E
+    }
+
+    public enum BattlerAnimationItemSkillSpeed : int
     {
         Fast = 0,
         Medium = 1,
         Slow = 2
     }
 
-    public enum BattlerAnimationItemSkillAnimType
+    public enum BattlerAnimationItemSkillAnimType : int
     {
         Weapon = 0,
         Battle = 1
     }
 
-    public enum BattlerAnimationItemSkillMovement
+    public enum BattlerAnimationItemSkillMovement : int
     {
         None = 0,
         Step = 1,
@@ -23,7 +40,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         Move = 3
     }
 
-    public enum BattlerAnimationItemSkillAfterimage
+    public enum BattlerAnimationItemSkillAfterimage : int
     {
         None = 0,
         Add = 1
@@ -70,7 +87,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = 0;
 
-        public int Type
+        public BattlerAnimationItemSkillAnimType Type
         {
             get;
             set;
@@ -82,13 +99,13 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = 0;
 
-        public int Movement
+        public BattlerAnimationItemSkillMovement Movement
         {
             get;
             set;
         } = 0;
 
-        public int AfterImage
+        public BattlerAnimationItemSkillAfterimage AfterImage
         {
             get;
             set;
@@ -129,6 +146,59 @@ namespace LcfSharp.Rpg.Battle.Battlers
             get;
             set;
         } = 3;
-    }
 
+        public BattlerAnimationItemSkill(LcfReader reader)
+        {
+            TypeHelpers.ReadChunks<BattlerAnimationItemSkillChunk>(reader, (chunkID) =>
+            {
+                switch ((BattlerAnimationItemSkillChunk)chunkID)
+                {
+                    case BattlerAnimationItemSkillChunk.Unknown02:
+                        Unknown02 = reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.Type:
+                        Type = (BattlerAnimationItemSkillAnimType)reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.WeaponAnimationId:
+                        WeaponAnimationID = reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.Movement:
+                        Movement = (BattlerAnimationItemSkillMovement)reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.AfterImage:
+                        AfterImage = (BattlerAnimationItemSkillAfterimage)reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.Attacks:
+                        Attacks = reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.Ranged:
+                        Ranged = reader.ReadBool();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.RangedAnimationId:
+                        RangedAnimationID = reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.RangedSpeed:
+                        RangedSpeed = reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.BattleAnimationId:
+                        BattleAnimationID = reader.ReadInt();
+                        return true;
+
+                    case BattlerAnimationItemSkillChunk.Pose:
+                        Pose = reader.ReadInt();
+                        return true;
+                }
+                return false;
+            });
+        }
+    }
 }

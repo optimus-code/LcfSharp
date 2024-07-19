@@ -237,6 +237,42 @@ namespace LcfSharp
         }
 
         /// <summary>
+        /// Reads a list of short values from the stream.
+        /// </summary>
+        /// <param name="size">The number of short values to read.</param>
+        /// <returns>A list of short values.</returns>
+        public List<short> ReadShortList(int size)
+        {
+            List<short> buffer = new List<short>();
+
+            for (int i = 0; i < size; i++)
+            {
+                var val = ReadShort();
+                buffer.Add(val);
+            }
+
+            return buffer;
+        }
+
+        /// <summary>
+        /// Reads a list of Int values from the stream.
+        /// </summary>
+        /// <param name="size">The number of Int values to read.</param>
+        /// <returns>A list of Int values.</returns>
+        public List<int> ReadIntList(int size)
+        {
+            List<int> buffer = new List<int>();
+
+            for (int i = 0; i < size; i++)
+            {
+                var val = ReadInt();
+                buffer.Add(val);
+            }
+
+            return buffer;
+        }
+
+        /// <summary>
         /// Reads a string from the stream using ASCII encoding.
         /// </summary>
         /// <param name="size">The number of bytes to read for the string.</param>
@@ -247,6 +283,15 @@ namespace LcfSharp
             Read( buffer, 0, size );
             string str = Encoding.ASCII.GetString( buffer, 0, size );
             return str;
+        }
+
+        /// <summary>
+        /// Read chunk header
+        /// </summary>
+        /// <returns></returns>
+        public Chunk ReadChunkHeader()
+        {
+            return new Chunk { ID = ReadByte(), Length = ReadUInt() };
         }
 
         /// <summary>

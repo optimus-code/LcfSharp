@@ -1,9 +1,19 @@
-﻿using LcfSharp.Types;
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Shared;
+using LcfSharp.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle
 {
-    public enum BattleCommandType
+    public enum BattleCommandChunk : byte
+    {
+        /** String */
+        Name = 0x01,
+        /** Integer */
+        Type = 0x02
+    }
+
+    public enum BattleCommandType : int
     {
         Attack = 0,
         Skill = 1,
@@ -39,10 +49,28 @@ namespace LcfSharp.Rpg.Battle
             set;
         }
 
-        public int Type
+        public BattleCommandType Type
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandType.Attack;
+
+        public BattleCommand(LcfReader reader)
+        {
+            TypeHelpers.ReadChunks<BattleCommandChunk>(reader, (chunkID) =>
+            {
+                switch ((BattleCommandChunk)chunkID)
+                {
+                    case BattleCommandChunk.Name:
+                        Name = reader.ReadDbString(reader.ReadInt());
+                        return true;
+
+                    case BattleCommandChunk.Type:
+                        Type = (BattleCommandType)reader.ReadInt();
+                        return true;
+                }
+                return false;
+            });
+        }
     }
 }

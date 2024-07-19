@@ -1,7 +1,16 @@
-﻿using System;
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Actors;
+using System;
 
 namespace LcfSharp.Rpg.Shared
 {
+    public enum LearningChunk : byte
+    {
+        /** Integer */
+        Level = 0x01,
+        /** Integer */
+        SkillID = 0x02
+    }
     public class Learning
     {
         public int ID
@@ -22,38 +31,22 @@ namespace LcfSharp.Rpg.Shared
             set;
         } = 1;
 
-        public static bool operator ==(Learning left, Learning right)
+        public Learning(LcfReader reader)
         {
-            if (ReferenceEquals(left, right))
-                return true;
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return false;
-
-            return left.Level == right.Level && left.SkillID == right.SkillID;
-        }
-
-        public static bool operator !=(Learning left, Learning right)
-        {
-            return !(left == right);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is Learning other)
+            TypeHelpers.ReadChunks<LearningChunk>(reader, (chunkID) =>
             {
-                return this == other;
-            }
-            return false;
-        }
+                switch ((LearningChunk)chunkID)
+                {
+                    case LearningChunk.Level:
+                        Level = reader.ReadInt();
+                        return true;
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Level, SkillID);
-        }
-
-        public override string ToString()
-        {
-            return $"ID: {ID}, Level: {Level}, SkillID: {SkillID}";
+                    case LearningChunk.SkillID:
+                        SkillID = reader.ReadInt();
+                        return true;
+                }
+                return false;
+            });
         }
     }
 }

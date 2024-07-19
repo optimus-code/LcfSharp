@@ -1,8 +1,29 @@
-﻿using LcfSharp.Types;
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Shared;
+using LcfSharp.Rpg.Skills;
+using LcfSharp.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Attributes
 {
+    public enum AttributeChunk : byte
+    {
+        /** String */
+        Name = 0x01,
+        /** Integer */
+        Type = 0x02,
+        /** Integer */
+        ARate = 0x0B,
+        /** Integer */
+        BRate = 0x0C,
+        /** Integer */
+        CRate = 0x0D,
+        /** Integer */
+        DRate = 0x0E,
+        /** Integer */
+        ERate = 0x0F
+    }
+
     public enum AttributeTypes
     {
         Physical = 0,
@@ -64,6 +85,44 @@ namespace LcfSharp.Rpg.Attributes
         {
             get;
             set;
+        }
+
+        public Attribute(LcfReader reader)
+        {
+            TypeHelpers.ReadChunks<AttributeChunk>(reader, (chunkID) =>
+            {
+                switch ((AttributeChunk)chunkID)
+                {
+                    case AttributeChunk.Name:
+                        Name = reader.ReadDbString(reader.ReadInt());
+                        return true;
+
+                    case AttributeChunk.Type:
+                        AttributeType = (AttributeTypes)reader.ReadInt();
+                        return true;
+
+                    case AttributeChunk.ARate:
+                        ARate = reader.ReadInt();
+                        return true;
+
+                    case AttributeChunk.BRate:
+                        BRate = reader.ReadInt();
+                        return true;
+
+                    case AttributeChunk.CRate:
+                        CRate = reader.ReadInt();
+                        return true;
+
+                    case AttributeChunk.DRate:
+                        DRate = reader.ReadInt();
+                        return true;
+
+                    case AttributeChunk.ERate:
+                        ERate = reader.ReadInt();
+                        return true;
+                }
+                return false;
+            });
         }
     }
 }
