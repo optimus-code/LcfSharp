@@ -33,5 +33,14 @@ namespace LcfSharp.Rpg.Actors
             get;
             set;
         } = 0;
+
+        public Equipment(LcfReader reader)
+        {
+            WeaponID = reader.ReadShort();
+            ShieldID = reader.ReadShort();
+            ArmorID = reader.ReadShort();
+            HelmetID = reader.ReadShort();
+            AccessoryID = reader.ReadShort();
+        }
     }
 }

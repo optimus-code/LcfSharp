@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationPoseChunk : byte
+    public enum BattlerAnimationPoseChunk : int
     {
         Name = 0x01,
         BattlerName = 0x02,
@@ -64,16 +64,16 @@ namespace LcfSharp.Rpg.Battle.Battlers
 
         public BattlerAnimationPose(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<BattlerAnimationPoseChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<BattlerAnimationPoseChunk>(reader, (chunk) =>
             {
-                switch ((BattlerAnimationPoseChunk)chunkID)
+                switch ((BattlerAnimationPoseChunk)chunk.ID)
                 {
                     case BattlerAnimationPoseChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case BattlerAnimationPoseChunk.BattlerName:
-                        BattlerName = reader.ReadDbString(reader.ReadInt());
+                        BattlerName = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case BattlerAnimationPoseChunk.BattlerIndex:

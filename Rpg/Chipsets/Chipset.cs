@@ -2,10 +2,11 @@
 using LcfSharp.Rpg.Battle;
 using LcfSharp.Types;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace LcfSharp.Rpg.Chipsets
 {
-    public enum ChipsetChunk : byte
+    public enum ChipsetChunk : int
     {
         Name = 0x01,
         ChipsetName = 0x02,
@@ -79,28 +80,28 @@ namespace LcfSharp.Rpg.Chipsets
         }
         public Chipset(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<ChipsetChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<ChipsetChunk>(reader, (chunk) =>
             {
-                switch ((ChipsetChunk)chunkID)
+                switch ((ChipsetChunk)chunk.ID)
                 {
                     case ChipsetChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case ChipsetChunk.ChipsetName:
-                        ChipsetName = reader.ReadDbString(reader.ReadInt());
+                        ChipsetName = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case ChipsetChunk.TerrainData:
-                        TerrainData = reader.ReadShortList(reader.ReadInt());
+                        TerrainData = TypeHelpers.ReadChunkShortList(reader, chunk.Length);
                         return true;
 
                     case ChipsetChunk.PassableDataLower:
-                        PassableDataLower = reader.ReadByteList(reader.ReadInt());
+                        PassableDataLower = TypeHelpers.ReadChunkByteList(reader, chunk.Length);
                         return true;
 
                     case ChipsetChunk.PassableDataUpper:
-                        PassableDataUpper = reader.ReadByteList(reader.ReadInt());
+                        PassableDataUpper = TypeHelpers.ReadChunkByteList(reader, chunk.Length);
                         return true;
 
                     case ChipsetChunk.AnimationType:

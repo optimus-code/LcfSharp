@@ -4,7 +4,7 @@ using System;
 
 namespace LcfSharp.Rpg.Shared
 {
-    public enum LearningChunk : byte
+    public enum LearningChunk : int
     {
         /** Integer */
         Level = 0x01,
@@ -25,7 +25,7 @@ namespace LcfSharp.Rpg.Shared
             set;
         } = 1;
 
-        public int SkillID
+        public short SkillID
         {
             get;
             set;
@@ -33,19 +33,26 @@ namespace LcfSharp.Rpg.Shared
 
         public Learning(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<LearningChunk>(reader, (chunkID) =>
+            int expectedChunks = 2;
+            int readChunks = 0;
+            TypeHelpers.ReadChunks<LearningChunk>(reader, (chunk) =>
             {
-                switch ((LearningChunk)chunkID)
+                switch ((LearningChunk)chunk.ID)
                 {
                     case LearningChunk.Level:
                         Level = reader.ReadInt();
+                        readChunks++;
                         return true;
 
                     case LearningChunk.SkillID:
-                        SkillID = reader.ReadInt();
+                        SkillID = reader.ReadShort();
+                        readChunks++;
                         return true;
                 }
                 return false;
+            }, ()=>
+            {
+                return readChunks == expectedChunks;
             });
         }
     }

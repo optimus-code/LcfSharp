@@ -6,4 +6,12 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="LmtReader.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LmtReader.cs" />
+  </ItemGroup>
+
 </Project>

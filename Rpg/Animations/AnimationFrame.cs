@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
-    public enum AnimationFrameChunk : byte
+    public enum AnimationFrameChunk : int
     {
         /** Array - rpg::AnimationCellData */
         Cells = 0x01
@@ -26,17 +26,16 @@ namespace LcfSharp.Rpg.Animations
 
         public AnimationFrame(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<AnimationFrameChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<AnimationFrameChunk>(reader, (chunk) =>
             {
-                switch ((AnimationFrameChunk)chunkID)
+                switch ((AnimationFrameChunk)chunk.ID)
                 {
                     case AnimationFrameChunk.Cells:
-                        var cellCount = reader.ReadInt();
-
-                        for (var i = 0; i < cellCount; i++)
+                        Cells = new List<AnimationCellData>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
                             Cells.Add(new AnimationCellData(reader));
-                        }
+                        });
                         return true;
                 }
                 return false;

@@ -3,7 +3,7 @@ using LcfSharp.Rpg.Shared;
 
 namespace LcfSharp.Rpg.Troops
 {
-    public enum TroopMemberChunk : byte
+    public enum TroopMemberChunk : int
     {
         EnemyId = 0x01,
         X = 0x02,
@@ -45,9 +45,9 @@ namespace LcfSharp.Rpg.Troops
 
         public TroopMember(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<TroopMemberChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<TroopMemberChunk>(reader, (chunk) =>
             {
-                switch ((TroopMemberChunk)chunkID)
+                switch ((TroopMemberChunk)chunk.ID)
                 {
                     case TroopMemberChunk.EnemyId:
                         EnemyID = reader.ReadInt();

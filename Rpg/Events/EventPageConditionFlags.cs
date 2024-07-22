@@ -1,6 +1,8 @@
-﻿namespace LcfSharp.Rpg.Events
+﻿using LcfSharp.Types;
+
+namespace LcfSharp.Rpg.Events
 {
-    public class EventPageConditionFlags
+    public class EventPageConditionFlags : DbFlags
     {
         public bool SwitchA
         {

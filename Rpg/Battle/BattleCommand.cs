@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle
 {
-    public enum BattleCommandChunk : byte
+    public enum BattleCommandChunk : int
     {
         /** String */
         Name = 0x01,
@@ -57,12 +57,12 @@ namespace LcfSharp.Rpg.Battle
 
         public BattleCommand(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<BattleCommandChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<BattleCommandChunk>(reader, (chunk) =>
             {
-                switch ((BattleCommandChunk)chunkID)
+                switch ((BattleCommandChunk)chunk.ID)
                 {
                     case BattleCommandChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case BattleCommandChunk.Type:

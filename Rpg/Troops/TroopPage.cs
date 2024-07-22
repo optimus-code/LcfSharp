@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Troops
 {
-    public enum TroopPageChunk : byte
+    public enum TroopPageChunk : int
     {
         Condition = 0x02,
         EventCommandsSize = 0x0B,
@@ -37,9 +37,9 @@ namespace LcfSharp.Rpg.Troops
         {
             int eventCommandsCount = 0;
 
-            TypeHelpers.ReadChunks<TroopPageChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<TroopPageChunk>(reader, (chunk) =>
             {
-                switch ((TroopPageChunk)chunkID)
+                switch ((TroopPageChunk)chunk.ID)
                 {
                     case TroopPageChunk.Condition:
                         Condition = new TroopPageCondition(reader);

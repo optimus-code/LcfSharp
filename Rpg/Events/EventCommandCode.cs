@@ -2,6 +2,7 @@
 {
     public enum EventCommandCode : int
     {
+        None = 0,
         END = 10,
         CallCommonEvent = 1005,
         ForceFlee = 1006,
@@ -129,32 +130,6 @@
         EndLoop = 22210,
         Comment_2 = 22410,
         ElseBranch_B = 23310,
-        EndBranch_B = 23311,
-        Maniac_GetSaveInfo = 3001,
-        Maniac_Save = 3002,
-        Maniac_Load = 3003,
-        Maniac_EndLoadProcess = 3004,
-        Maniac_GetMousePosition = 3005,
-        Maniac_SetMousePosition = 3006,
-        Maniac_ShowStringPicture = 3007,
-        Maniac_GetPictureInfo = 3008,
-        Maniac_ControlBattle = 3009,
-        Maniac_ControlAtbGauge = 3010,
-        Maniac_ChangeBattleCommandEx = 3011,
-        Maniac_GetBattleInfo = 3012,
-        Maniac_ControlVarArray = 3013,
-        Maniac_KeyInputProcEx = 3014,
-        Maniac_RewriteMap = 3015,
-        Maniac_ControlGlobalSave = 3016,
-        Maniac_ChangePictureId = 3017,
-        Maniac_SetGameOption = 3018,
-        Maniac_CallCommand = 3019,
-        Maniac_ControlStrings = 3020,
-        Maniac_GetGameInfo = 3021,
-        Maniac_EditPicture = 3025,
-        Maniac_WritePicture = 3026,
-        Maniac_AddMoveRoute = 3027,
-        Maniac_EditTile = 3028,
-        Maniac_ControlTextProcessing = 3029
+        EndBranch_B = 23311
     }
 }

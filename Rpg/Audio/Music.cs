@@ -4,7 +4,7 @@ using System;
 
 namespace LcfSharp.Rpg.Audio
 {
-    public enum MusicChunk : byte
+    public enum MusicChunk : int
     {
         /** String */
         Name = 0x01,
@@ -50,14 +50,18 @@ namespace LcfSharp.Rpg.Audio
             set;
         } = 50;
 
+        public Music()
+        {
+        }
+
         public Music(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<MusicChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<MusicChunk>(reader, (chunk) =>
             {
-                switch ((MusicChunk)chunkID)
+                switch ((MusicChunk)chunk.ID)
                 {
                     case MusicChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case MusicChunk.FadeIn:

@@ -1,9 +1,128 @@
-﻿using LcfSharp.Rpg.Audio;
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Audio;
 using LcfSharp.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg
 {
+    public enum SystemChunk : int
+    {
+        /** Integer - RPG2003 */
+        LdbId = 0x0A,
+        /** String */
+        BoatName = 0x0B,
+        /** String */
+        ShipName = 0x0C,
+        /** String */
+        AirshipName = 0x0D,
+        /** Integer */
+        BoatIndex = 0x0E,
+        /** Integer */
+        ShipIndex = 0x0F,
+        /** Integer */
+        AirshipIndex = 0x10,
+        /** String */
+        TitleName = 0x11,
+        /** String */
+        GameoverName = 0x12,
+        /** String */
+        SystemName = 0x13,
+        /** String - RPG2003 */
+        System2Name = 0x14,
+        /** Integer */
+        PartySize = 0x15,
+        /** Array - Short */
+        Party = 0x16,
+        /** Integer - RPG2003 */
+        MenuCommandsSize = 0x1A,
+        /** Array - Short - RPG2003 */
+        MenuCommands = 0x1B,
+        /** rpg::Music */
+        TitleMusic = 0x1F,
+        /** rpg::Music */
+        BattleMusic = 0x20,
+        /** rpg::Music */
+        BattleEndMusic = 0x21,
+        /** rpg::Music */
+        InnMusic = 0x22,
+        /** rpg::Music */
+        BoatMusic = 0x23,
+        /** rpg::Music */
+        ShipMusic = 0x24,
+        /** rpg::Music */
+        AirshipMusic = 0x25,
+        /** rpg::Music */
+        GameoverMusic = 0x26,
+        /** rpg::Sound */
+        CursorSe = 0x29,
+        /** rpg::Sound */
+        DecisionSe = 0x2A,
+        /** rpg::Sound */
+        CancelSe = 0x2B,
+        /** rpg::Sound */
+        BuzzerSe = 0x2C,
+        /** rpg::Sound */
+        BattleSe = 0x2D,
+        /** rpg::Sound */
+        EscapeSe = 0x2E,
+        /** rpg::Sound */
+        EnemyAttackSe = 0x2F,
+        /** rpg::Sound */
+        EnemyDamagedSe = 0x30,
+        /** rpg::Sound */
+        ActorDamagedSe = 0x31,
+        /** rpg::Sound */
+        DodgeSe = 0x32,
+        /** rpg::Sound */
+        EnemyDeathSe = 0x33,
+        /** rpg::Sound */
+        ItemSe = 0x34,
+        /** Integer */
+        TransitionOut = 0x3D,
+        /** Integer */
+        TransitionIn = 0x3E,
+        /** Integer */
+        BattleStartFadeout = 0x3F,
+        /** Integer */
+        BattleStartFadein = 0x40,
+        /** Integer */
+        BattleEndFadeout = 0x41,
+        /** Integer */
+        BattleEndFadein = 0x42,
+        /** Integer */
+        MessageStretch = 0x47,
+        /** Integer */
+        FontId = 0x48,
+        /** Integer */
+        SelectedCondition = 0x51,
+        /** Integer */
+        SelectedHero = 0x52,
+        /** String */
+        BattletestBackground = 0x54,
+        /** Array - rpg::TestBattler */
+        BattletestData = 0x55,
+        /** Integer */
+        SaveCount = 0x5B,
+        /** Integer */
+        BattletestTerrain = 0x5E,
+        /** Integer */
+        BattletestFormation = 0x5F,
+        /** Integer */
+        BattletestCondition = 0x60,
+        /** Integer RPG2003 - Whether equipment usage is by Actor or by Class. This is a global setting in RM2k3! */
+        EquipmentSetting = 0x61,
+        /** Integer RPG2003 (EDITOR ONLY) - Double click on Terrain in Troops changes this setting and 0x54. Affects only the RM2k3 editor. */
+        BattletestAltTerrain = 0x62,
+        /** Flag - RPG2003 */
+        ShowFrame = 0x63,
+        /** String - RPG2003 */
+        FrameName = 0x64,
+        /** Flag - RPG2003 */
+        InvertAnimations = 0x65,
+        /** When false the title is skipped and the game starts directly. In TestPlay mode skips directly to the Load scene. Added in RPG Maker 2003 v1.11 */
+        ShowTitle = 0x6F
+    }
+
     public enum SystemFadeOut
     {
         Default = 0,
@@ -376,55 +495,55 @@ namespace LcfSharp.Rpg
             set;
         }
 
-        public int TransitionOut
+        public SystemFadeOut TransitionOut
         {
             get;
             set;
         }
 
-        public int TransitionIn
+        public SystemFadeIn TransitionIn
         {
             get;
             set;
         }
 
-        public int BattleStartFadeOut
+        public SystemFadeOut BattleStartFadeOut
         {
             get;
             set;
         }
 
-        public int BattleStartFadeIn
+        public SystemFadeIn BattleStartFadeIn
         {
             get;
             set;
         }
 
-        public int BattleEndFadeOut
+        public SystemFadeOut BattleEndFadeOut
         {
             get;
             set;
         }
 
-        public int BattleEndFadeIn
+        public SystemFadeIn BattleEndFadeIn
         {
             get;
             set;
         }
 
-        public int MessageStretch
+        public SystemStretch MessageStretch
         {
             get;
             set;
         }
 
-        public int FontID
+        public SystemFont FontID
         {
             get;
             set;
         }
 
-        public int SelectedCondition
+        public SystemBattleCondition SelectedCondition
         {
             get;
             set;
@@ -460,19 +579,19 @@ namespace LcfSharp.Rpg
             set;
         }
 
-        public int BattleTestFormation
+        public SystemBattleFormation BattleTestFormation
         {
             get;
             set;
         }
 
-        public int BattleTestCondition
+        public SystemBattleCondition BattleTestCondition
         {
             get;
             set;
         }
 
-        public int EquipmentSetting
+        public SystemEquipmentSetting EquipmentSetting
         {
             get;
             set;
@@ -507,5 +626,278 @@ namespace LcfSharp.Rpg
             get;
             set;
         } = true;
+
+        public RpgSystem(LcfReader reader)
+        {
+            int partySize = 0;
+            int menuCommandsSize = 0;
+
+            TypeHelpers.ReadChunks<SystemChunk>(reader, (chunk) =>
+            {
+                switch ((SystemChunk)chunk.ID)
+                {
+                    case SystemChunk.LdbId:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        LdbID = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BoatName:
+                        BoatName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.ShipName:
+                        ShipName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.AirshipName:
+                        AirshipName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.BoatIndex:
+                        BoatIndex = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.ShipIndex:
+                        ShipIndex = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.AirshipIndex:
+                        AirshipIndex = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.TitleName:
+                        TitleName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.GameoverName:
+                        GameoverName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.SystemName:
+                        SystemName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.System2Name:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        System2Name = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.PartySize:
+                        partySize = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.Party:
+                        if (partySize > 0)
+                        {
+                            Party = reader.ReadShortList(partySize);
+                            return true;
+                        }
+                        break;
+
+                    case SystemChunk.MenuCommandsSize:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        menuCommandsSize = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.MenuCommands:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        if (menuCommandsSize > 0)
+                        {
+                            MenuCommands = reader.ReadShortList(menuCommandsSize);
+                            return true;
+                        }
+                        break;
+
+                    case SystemChunk.TitleMusic:
+                        TitleMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.BattleMusic:
+                        BattleMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.BattleEndMusic:
+                        BattleEndMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.InnMusic:
+                        InnMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.BoatMusic:
+                        BoatMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.ShipMusic:
+                        ShipMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.AirshipMusic:
+                        AirshipMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.GameoverMusic:
+                        GameoverMusic = new Music(reader);
+                        return true;
+
+                    case SystemChunk.CursorSe:
+                        CursorSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.DecisionSe:
+                        DecisionSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.CancelSe:
+                        CancelSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.BuzzerSe:
+                        BuzzerSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.BattleSe:
+                        BattleSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.EscapeSe:
+                        EscapeSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.EnemyAttackSe:
+                        EnemyAttackSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.EnemyDamagedSe:
+                        EnemyDamagedSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.ActorDamagedSe:
+                        ActorDamagedSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.DodgeSe:
+                        DodgeSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.EnemyDeathSe:
+                        EnemyDeathSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.ItemSe:
+                        ItemSe = new Sound(reader);
+                        return true;
+
+                    case SystemChunk.TransitionOut:
+                        TransitionOut = (SystemFadeOut)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.TransitionIn:
+                        TransitionIn = (SystemFadeIn)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattleStartFadeout:
+                        BattleStartFadeOut = (SystemFadeOut)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattleStartFadein:
+                        BattleStartFadeIn = (SystemFadeIn)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattleEndFadeout:
+                        BattleEndFadeOut = (SystemFadeOut)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattleEndFadein:
+                        BattleEndFadeIn = (SystemFadeIn)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.MessageStretch:
+                        MessageStretch = (SystemStretch)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.FontId:
+                        FontID = (SystemFont)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.SelectedCondition:
+                        SelectedCondition = (SystemBattleCondition)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.SelectedHero:
+                        SelectedHero = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattletestBackground:
+                        BattleTestBackground = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.BattletestData:
+                        BattleTestData = new List<TestBattler>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
+                        {
+                            BattleTestData.Add(new TestBattler(reader));
+                        });
+                        return true;
+
+                    case SystemChunk.SaveCount:
+                        SaveCount = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattletestTerrain:
+                        BattleTestTerrain = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattletestFormation:
+                        BattleTestFormation = (SystemBattleFormation)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattletestCondition:
+                        BattleTestCondition = (SystemBattleCondition)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.EquipmentSetting:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        EquipmentSetting = (SystemEquipmentSetting)reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.BattletestAltTerrain:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        BattleTestAltTerrain = reader.ReadInt();
+                        return true;
+
+                    case SystemChunk.ShowFrame:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        ShowFrame = reader.ReadBool();
+                        return true;
+
+                    case SystemChunk.FrameName:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        FrameName = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case SystemChunk.InvertAnimations:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        InvertAnimations = reader.ReadBool();
+                        return true;
+
+                    case SystemChunk.ShowTitle:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        ShowTitle = reader.ReadBool();
+                        return true;
+                }
+                return false;
+            });
+        }
     }
 }

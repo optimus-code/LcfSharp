@@ -2,7 +2,7 @@
 
 namespace LcfSharp.Rpg.Animations
 {
-    public enum AnimationCellDataChunk : byte
+    public enum AnimationCellDataChunk : int
     {
         /** Bool */
         Valid = 0x01,
@@ -96,9 +96,9 @@ namespace LcfSharp.Rpg.Animations
 
         public AnimationCellData(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<AnimationCellDataChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<AnimationCellDataChunk>(reader, (chunk) =>
             {
-                switch ((AnimationCellDataChunk)chunkID)
+                switch ((AnimationCellDataChunk)chunk.ID)
                 {
                     case AnimationCellDataChunk.Valid:
                         Valid = reader.ReadInt();

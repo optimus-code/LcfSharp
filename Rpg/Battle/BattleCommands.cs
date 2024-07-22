@@ -1,10 +1,11 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Battle.Battlers;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle
 {
-    public enum BattleCommandsChunk : byte
+    public enum BattleCommandsChunk : int
     {
         /** Integer */
         Placement = 0x02,
@@ -212,15 +213,17 @@ namespace LcfSharp.Rpg.Battle
 
         public BattleCommands(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<BattleCommandsChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<BattleCommandsChunk>(reader, (chunk) =>
             {
-                switch ((BattleCommandsChunk)chunkID)
+                switch ((BattleCommandsChunk)chunk.ID)
                 {
                     case BattleCommandsChunk.Placement:
                         Placement = (BattleCommandsPlacement)reader.ReadInt();
                         return true;
 
                     case BattleCommandsChunk.DeathHandlerUnused:
+                        if (!Database.IsRM2K3)
+                            return false;
                         DeathHandlerUnused = reader.ReadBool();
                         return true;
 
@@ -233,19 +236,22 @@ namespace LcfSharp.Rpg.Battle
                         return true;
 
                     case BattleCommandsChunk.UnusedDisplayNormalParameters:
+                        if (!Database.IsRM2K3)
+                            return false;
                         UnusedDisplayNormalParameters = reader.ReadBool();
                         return true;
 
                     case BattleCommandsChunk.Commands:
-                        // Read the list of BattleCommand objects
-                        int commandCount = reader.ReadInt();
-                        for (int i = 0; i < commandCount; i++)
+                        Commands = new List<BattleCommand>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
                             Commands.Add(new BattleCommand(reader));
-                        }
+                        });
                         return true;
 
                     case BattleCommandsChunk.DeathHandler:
+                        if (!Database.IsRM2K3)
+                            return false;
                         DeathHandler = reader.ReadBool();
                         return true;
 

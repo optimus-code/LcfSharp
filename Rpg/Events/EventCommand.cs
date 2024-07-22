@@ -135,33 +135,7 @@ namespace LcfSharp.Rpg.Events
             { EventCommandCode.EndLoop, "EndLoop" },
             { EventCommandCode.Comment_2, "Comment_2" },
             { EventCommandCode.ElseBranch_B, "ElseBranch_B" },
-            { EventCommandCode.EndBranch_B, "EndBranch_B" },
-            { EventCommandCode.Maniac_GetSaveInfo, "Maniac_GetSaveInfo" },
-            { EventCommandCode.Maniac_Save, "Maniac_Save" },
-            { EventCommandCode.Maniac_Load, "Maniac_Load" },
-            { EventCommandCode.Maniac_EndLoadProcess, "Maniac_EndLoadProcess" },
-            { EventCommandCode.Maniac_GetMousePosition, "Maniac_GetMousePosition" },
-            { EventCommandCode.Maniac_SetMousePosition, "Maniac_SetMousePosition" },
-            { EventCommandCode.Maniac_ShowStringPicture, "Maniac_ShowStringPicture" },
-            { EventCommandCode.Maniac_GetPictureInfo, "Maniac_GetPictureInfo" },
-            { EventCommandCode.Maniac_ControlBattle, "Maniac_ControlBattle" },
-            { EventCommandCode.Maniac_ControlAtbGauge, "Maniac_ControlAtbGauge" },
-            { EventCommandCode.Maniac_ChangeBattleCommandEx, "Maniac_ChangeBattleCommandEx" },
-            { EventCommandCode.Maniac_GetBattleInfo, "Maniac_GetBattleInfo" },
-            { EventCommandCode.Maniac_ControlVarArray, "Maniac_ControlVarArray" },
-            { EventCommandCode.Maniac_KeyInputProcEx, "Maniac_KeyInputProcEx" },
-            { EventCommandCode.Maniac_RewriteMap, "Maniac_RewriteMap" },
-            { EventCommandCode.Maniac_ControlGlobalSave, "Maniac_ControlGlobalSave" },
-            { EventCommandCode.Maniac_ChangePictureId, "Maniac_ChangePictureId" },
-            { EventCommandCode.Maniac_SetGameOption, "Maniac_SetGameOption" },
-            { EventCommandCode.Maniac_CallCommand, "Maniac_CallCommand" },
-            { EventCommandCode.Maniac_ControlStrings, "Maniac_ControlStrings" },
-            { EventCommandCode.Maniac_GetGameInfo, "Maniac_GetGameInfo" },
-            { EventCommandCode.Maniac_EditPicture, "Maniac_EditPicture" },
-            { EventCommandCode.Maniac_WritePicture, "Maniac_WritePicture" },
-            { EventCommandCode.Maniac_AddMoveRoute, "Maniac_AddMoveRoute" },
-            { EventCommandCode.Maniac_EditTile, "Maniac_EditTile" },
-            { EventCommandCode.Maniac_ControlTextProcessing, "Maniac_ControlTextProcessing" }
+            { EventCommandCode.EndBranch_B, "EndBranch_B" }
         };
 
         public EventCommandCode Code
@@ -187,5 +161,24 @@ namespace LcfSharp.Rpg.Events
             get;
             set;
         } = new List<int>();
+
+        public EventCommand(LcfReader reader)
+        {
+            Code = (EventCommandCode)reader.ReadInt();
+
+            if (Code != EventCommandCode.None)
+            {
+                Indent = reader.ReadInt();
+                String = reader.ReadDbString(reader.ReadInt());
+
+                var parametersCount = reader.ReadInt();
+                Parameters = new List<int>(parametersCount);
+
+                for (var i = 0; i < parametersCount; i++)
+                {
+                    Parameters.Add(reader.ReadInt());
+                }
+            }
+        }
     }
 }

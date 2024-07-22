@@ -36,7 +36,7 @@ namespace LcfSharp
         public long Offset => _offset;
 
         private readonly BinaryReader _reader;
-        private long _offset;
+        private long _offset => _reader.BaseStream.Position;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LcfReader"/> class with a given stream.
@@ -45,7 +45,7 @@ namespace LcfSharp
         public LcfReader( Stream stream )
         {
             _reader = new BinaryReader( stream );
-            _offset = 0;
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         /// <summary>
@@ -66,7 +66,6 @@ namespace LcfSharp
         public int Read( byte[] buffer, int offset, int count )
         {
             int bytesRead = _reader.Read( buffer, offset, count );
-            _offset += bytesRead;
 
             if ( bytesRead < count )
             {
@@ -100,10 +99,7 @@ namespace LcfSharp
         /// <returns>The 16-bit signed integer read from the stream.</returns>
         public short ReadShort( )
         {
-            byte[] buffer = new byte[sizeof( short )];
-            Read( buffer, 0, sizeof( short ) );
-            Array.Reverse( buffer );
-            return BitConverter.ToInt16( buffer, 0 );
+            return _reader.ReadInt16();
         }
 
         /// <summary>
@@ -122,30 +118,36 @@ namespace LcfSharp
         /// Reads a compressed signed integer from the stream.
         /// </summary>
         /// <returns>The compressed signed integer read from the stream.</returns>
-        public int ReadInt( )
+        public int ReadInt()
         {
             int value = 0;
-            int shift = 0;
+            int loops = 0;
 
-            while ( true )
+            while (true)
             {
-                byte b = ReadByte( );
+                byte temp = ReadByte();
+                value <<= 7;
+                value |= temp & 0x7F;
 
-                value |= ( b & 0x7F ) << shift;
-                shift += 7;
-
-                if ( ( b & 0x80 ) == 0 )
+                if ((temp & 0x80) == 0)
                 {
                     break;
                 }
 
-                if ( shift > 28 )
+                if (loops > 5)
                 {
-                    throw new InvalidDataException( "Invalid compressed integer." );
+                    throw new InvalidDataException("Invalid compressed integer.");
                 }
+
+                loops++;
             }
 
-            return value;
+            return loops > 5 ? 0 : value;
+        }
+
+        public int ReadInt32()
+        {
+            return _reader.ReadInt32();
         }
 
         /// <summary>
@@ -275,6 +277,24 @@ namespace LcfSharp
         }
 
         /// <summary>
+        /// Reads a DbBitArray values from the stream.
+        /// </summary>
+        /// <param name="size">The number of values to read.</param>
+        /// <returns>A list of values.</returns>
+        public DbBitArray ReadBitArray(int size)
+        {
+            var buffer = new DbBitArray(size);
+
+            for (int i = 0; i < size; i++)
+            {
+                var val = ReadByte();
+                buffer[i] = val != 0;
+            }
+
+            return buffer;
+        }
+
+        /// <summary>
         /// Reads a string from the stream using ASCII encoding.
         /// </summary>
         /// <param name="size">The number of bytes to read for the string.</param>
@@ -293,7 +313,7 @@ namespace LcfSharp
         /// <returns></returns>
         public Chunk ReadChunkHeader()
         {
-            return new Chunk { ID = ReadByte(), Length = ReadUInt() };
+            return new Chunk { ID = ReadInt(), Length = ReadInt() };
         }
 
         /// <summary>
@@ -308,6 +328,31 @@ namespace LcfSharp
         }
 
         /// <summary>
+        /// Read bool flags based on size
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public bool[] ReadFlags( int size )
+        {
+            var byteCount = (size + 7) / 8;
+            var flagIndex = 0;
+            var results = new bool[size];
+
+            for (var byteIndex = 0; byteIndex < byteCount; byteIndex++)
+            {
+                var byteValue = ReadByte();
+
+                for (var bitIndex = 0; bitIndex < 8 && flagIndex < size; bitIndex++)
+                {
+                    results[flagIndex] = (byteValue & (1 << bitIndex)) != 0;
+                    flagIndex++;
+                }
+            }
+
+            return results;
+        }
+
+        /// <summary>
         /// Seeks the position within the stream based on the specified mode.
         /// </summary>
         /// <param name="pos">The position to seek to.</param>
@@ -318,15 +363,12 @@ namespace LcfSharp
             {
                 case SeekMode.FromStart:
                     _reader.BaseStream.Seek( pos, SeekOrigin.Begin );
-                    _offset = pos;
                     break;
                 case SeekMode.FromCurrent:
                     _reader.BaseStream.Seek( pos, SeekOrigin.Current );
-                    _offset += pos;
                     break;
                 case SeekMode.FromEnd:
                     _reader.BaseStream.Seek( pos, SeekOrigin.End );
-                    _offset = _reader.BaseStream.Length - pos;
                     break;
                 default:
                     throw new ArgumentException( "Invalid SeekMode." );
@@ -396,11 +438,11 @@ namespace LcfSharp
         /// <summary>
         /// Gets or sets the ID of the chunk.
         /// </summary>
-        public byte ID { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// Gets or sets the length of the chunk in bytes.
         /// </summary>
-        public uint Length { get; set; }
+        public int Length { get; set; }
     }
 }

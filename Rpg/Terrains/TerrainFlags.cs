@@ -1,6 +1,8 @@
-﻿namespace LcfSharp.Rpg.Terrains
+﻿using LcfSharp.Types;
+
+namespace LcfSharp.Rpg.Terrains
 {
-    public class TerrainFlags
+    public class TerrainFlags : DbFlags
     {
         public bool BackParty
         {

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LcfSharp", "LcfSharp.csproj", "{FB058E5D-260D-425E-A2BA-01F363F4035A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LcfSharp", "LcfSharp.csproj", "{FB058E5D-260D-425E-A2BA-01F363F4035A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LcfSharp.Tests", "..\LcfSharp.Tests\LcfSharp.Tests.csproj", "{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FB058E5D-260D-425E-A2BA-01F363F4035A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB058E5D-260D-425E-A2BA-01F363F4035A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB058E5D-260D-425E-A2BA-01F363F4035A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

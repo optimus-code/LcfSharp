@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Classes
 {
-    public enum ClassChunk : byte
+    public enum ClassChunk : int
     {
         Name = 0x01,
         TwoWeapon = 0x15,
@@ -118,12 +118,15 @@ namespace LcfSharp.Rpg.Classes
         }
         public Class(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<ClassChunk>(reader, (chunkID) =>
+            int stateRanksSize = 0;
+            int attributeRanksSize = 0;
+
+            TypeHelpers.ReadChunks<ClassChunk>(reader, (chunk) =>
             {
-                switch ((ClassChunk)chunkID)
+                switch ((ClassChunk)chunk.ID)
                 {
                     case ClassChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case ClassChunk.TwoWeapon:
@@ -143,7 +146,7 @@ namespace LcfSharp.Rpg.Classes
                         return true;
 
                     case ClassChunk.Parameters:
-                        Parameters = new Parameters(reader);
+                        Parameters = new Parameters(reader, chunk.Length);
                         return true;
 
                     case ClassChunk.ExpBase:
@@ -163,35 +166,39 @@ namespace LcfSharp.Rpg.Classes
                         return true;
 
                     case ClassChunk.Skills:
-                        int skillCount = reader.ReadInt();
-                        for (int i = 0; i < skillCount; i++)
+                        Skills = new List<Learning>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
                             Skills.Add(new Learning(reader));
-                        }
+                        });
                         return true;
 
                     case ClassChunk.StateRanksSize:
-                        reader.Skip(4); // Skipping the size
+                        stateRanksSize = reader.ReadInt();
                         return true;
 
                     case ClassChunk.StateRanks:
-                        StateRanks = reader.ReadByteList(256);
-                        return true;
+                        if (stateRanksSize > 0)
+                        {
+                            StateRanks = reader.ReadByteList(stateRanksSize);
+                            return true;
+                        }
+                        break;
 
                     case ClassChunk.AttributeRanksSize:
-                        reader.Skip(4); // Skipping the size
+                        attributeRanksSize = reader.ReadInt();
                         return true;
 
                     case ClassChunk.AttributeRanks:
-                        AttributeRanks = reader.ReadByteList(256);
-                        return true;
+                        if (attributeRanksSize > 0)
+                        {
+                            AttributeRanks = reader.ReadByteList(attributeRanksSize);
+                            return true;
+                        }
+                        break;
 
                     case ClassChunk.BattleCommands:
-                        int commandCount = reader.ReadInt();
-                        for (int i = 0; i < commandCount; i++)
-                        {
-                            BattleCommands.Add(reader.ReadInt());
-                        }
+                        BattleCommands = TypeHelpers.ReadChunkIntList(reader, chunk.Length);
                         return true;
                 }
                 return false;

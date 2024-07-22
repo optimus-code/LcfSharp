@@ -1,10 +1,9 @@
 ﻿using LcfSharp.IO;
-using LcfSharp.Rpg.Shared;
 using LcfSharp.Types;
 
 namespace LcfSharp.Rpg.Audio
 {
-    public enum SoundChunk : byte
+    public enum SoundChunk : int
     {
         /** String */
         Name = 0x01,
@@ -42,14 +41,18 @@ namespace LcfSharp.Rpg.Audio
             set;
         } = 50;
 
+        public Sound()
+        {
+        }
+
         public Sound(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<SoundChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<SoundChunk>(reader, (chunk) =>
             {
-                switch ((SoundChunk)chunkID)
+                switch ((SoundChunk)chunk.ID)
                 {
                     case SoundChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case SoundChunk.Volume:

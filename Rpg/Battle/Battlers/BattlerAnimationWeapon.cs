@@ -3,7 +3,7 @@ using LcfSharp.Types;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationWeaponChunk : byte
+    public enum BattlerAnimationWeaponChunk : int
     {
         /** String */
         Name = 0x01,
@@ -41,16 +41,16 @@ namespace LcfSharp.Rpg.Battle.Battlers
 
         public BattlerAnimationWeapon(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<BattlerAnimationWeaponChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<BattlerAnimationWeaponChunk>(reader, (chunk) =>
             {
-                switch ((BattlerAnimationWeaponChunk)chunkID)
+                switch ((BattlerAnimationWeaponChunk)chunk.ID)
                 {
                     case BattlerAnimationWeaponChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case BattlerAnimationWeaponChunk.WeaponName:
-                        WeaponName = reader.ReadDbString(reader.ReadInt());
+                        WeaponName = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case BattlerAnimationWeaponChunk.WeaponIndex:

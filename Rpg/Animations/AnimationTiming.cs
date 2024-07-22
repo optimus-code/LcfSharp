@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
-    public enum AnimationTimingChunk : byte
+    public enum AnimationTimingChunk : int
     {
         /** Integer */
         Frame = 0x01,
@@ -111,9 +111,9 @@ namespace LcfSharp.Rpg.Animations
 
         public AnimationTiming(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<AnimationTimingChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<AnimationTimingChunk>(reader, (chunk) =>
             {
-                switch ((AnimationTimingChunk)chunkID)
+                switch ((AnimationTimingChunk)chunk.ID)
                 {
                     case AnimationTimingChunk.Frame:
                         Frame = reader.ReadInt();
@@ -144,6 +144,8 @@ namespace LcfSharp.Rpg.Animations
                         return true;
 
                     case AnimationTimingChunk.ScreenShake:
+                        if (!Database.IsRM2K3)
+                            return false;
                         ScreenShakeValue = reader.ReadInt();
                         return true;
                 }

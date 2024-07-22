@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
-    public enum AnimationChunk : byte
+    public enum AnimationChunk : int
     {
         /** String */
         Name = 0x01,
@@ -23,26 +23,26 @@ namespace LcfSharp.Rpg.Animations
         Frames = 0x0C
     }
 
+    public enum AnimationScope
+    {
+        Target = 0,
+        Screen = 1
+    }
+
+    public enum AnimationPosition
+    {
+        Up = 0,
+        Middle = 1,
+        Down = 2
+    }
+
     public class Animation
     {
-        public enum AnimationScope
-        {
-            Target = 0,
-            Screen = 1
-        }
-
         public static readonly Dictionary<AnimationScope, string> ScopeTags = new Dictionary<AnimationScope, string>
         {
             { AnimationScope.Target, "target" },
             { AnimationScope.Screen, "screen" }
         };
-
-        public enum AnimationPosition
-        {
-            Up = 0,
-            Middle = 1,
-            Down = 2
-        }
 
         public static readonly Dictionary<AnimationPosition, string> PositionTags = new Dictionary<AnimationPosition, string>
         {
@@ -81,13 +81,13 @@ namespace LcfSharp.Rpg.Animations
             set;
         } = [];
 
-        public int Scope
+        public AnimationScope Scope
         {
             get;
             set;
         }
 
-        public int Position
+        public AnimationPosition Position
         {
             get;
             set;
@@ -101,16 +101,16 @@ namespace LcfSharp.Rpg.Animations
 
         public Animation(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<AnimationChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<AnimationChunk>(reader, (chunk) =>
             {
-                switch ((AnimationChunk)chunkID)
+                switch ((AnimationChunk)chunk.ID)
                 {
                     case AnimationChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case AnimationChunk.AnimationName:
-                        AnimationName = reader.ReadDbString(reader.ReadInt());
+                        AnimationName = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case AnimationChunk.Large:
@@ -118,29 +118,27 @@ namespace LcfSharp.Rpg.Animations
                         return true;
 
                     case AnimationChunk.Timings:
-                        var timingsCount = reader.ReadInt();
-
-                        for (var i = 0; i < timingsCount; i++)
+                        Timings = new List<AnimationTiming>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
                             Timings.Add(new AnimationTiming(reader));
-                        }
+                        });
                         return true;
 
                     case AnimationChunk.Scope:
-                        Scope = reader.ReadInt();
+                        Scope =  (AnimationScope)reader.ReadInt();
                         return true;
 
                     case AnimationChunk.Position:
-                        Position = reader.ReadInt();
+                        Position = (AnimationPosition)reader.ReadInt();
                         return true;
 
                     case AnimationChunk.Frames:
-                        var framesCount = reader.ReadInt();
-
-                        for (var i = 0; i < framesCount; i++)
+                        Frames = new List<AnimationFrame>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
                             Frames.Add(new AnimationFrame(reader));
-                        }
+                        });
                         return true;
                 }
                 return false;

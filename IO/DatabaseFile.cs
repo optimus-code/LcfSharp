@@ -13,18 +13,9 @@ namespace LcfSharp.IO
         {
             using (var stream = File.OpenRead(path))
             using (var reader = new LcfReader(stream))
-            {
-                var headerLength = reader.ReadInt();
-                var header = reader.ReadString(headerLength);
-
-                if (string.IsNullOrEmpty( header ) || header.Length != 11)
-                    throw new InvalidDataException();
-
-                if (header != "LcfDataBase")
-                    Console.WriteLine("This may not be a correct database format");
-
-                var database = new Database();
-                database.LdbHeader = header;
+            {                
+                var database = new Database(reader);
+                return database;
             }
         }
     }

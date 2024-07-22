@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Attributes
 {
-    public enum AttributeChunk : byte
+    public enum AttributeChunk : int
     {
         /** String */
         Name = 0x01,
@@ -89,12 +89,12 @@ namespace LcfSharp.Rpg.Attributes
 
         public Attribute(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<AttributeChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<AttributeChunk>(reader, (chunk) =>
             {
-                switch ((AttributeChunk)chunkID)
+                switch ((AttributeChunk)chunk.ID)
                 {
                     case AttributeChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case AttributeChunk.Type:

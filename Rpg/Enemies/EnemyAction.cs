@@ -1,6 +1,38 @@
-﻿namespace LcfSharp.Rpg.Enemies
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Battle;
+using System.Collections.Generic;
+
+namespace LcfSharp.Rpg.Enemies
 {
-    using System.Collections.Generic;
+    public enum EnemyActionChunk : int
+    {
+        /** Integer */
+        Kind = 0x01,
+        /** Integer */
+        Basic = 0x02,
+        /** Integer */
+        SkillId = 0x03,
+        /** Integer */
+        EnemyId = 0x04,
+        /** Integer */
+        ConditionType = 0x05,
+        /** Integer */
+        ConditionParam1 = 0x06,
+        /** Integer */
+        ConditionParam2 = 0x07,
+        /** Integer */
+        SwitchId = 0x08,
+        /** Flag */
+        SwitchOn = 0x09,
+        /** Integer */
+        SwitchOnId = 0x0A,
+        /** Flag */
+        SwitchOff = 0x0B,
+        /** Integer */
+        SwitchOffId = 0x0C,
+        /** Integer */
+        Rating = 0x0D
+    }
 
     public enum EnemyActionKind
     {
@@ -72,13 +104,13 @@
             set;
         }
 
-        public int KindValue
+        public EnemyActionKind KindValue
         {
             get;
             set;
         }
 
-        public int BasicValue
+        public EnemyActionBasic BasicValue
         {
             get;
             set;
@@ -96,7 +128,7 @@
             set;
         }
 
-        public int ConditionTypeValue
+        public EnemyActionConditionType ConditionTypeValue
         {
             get;
             set;
@@ -149,6 +181,67 @@
             get;
             set;
         }
-    }
 
+        public EnemyAction(LcfReader reader)
+        {
+            TypeHelpers.ReadChunks<BattleCommandChunk>(reader, (chunk) =>
+            {
+                switch ((EnemyActionChunk)chunk.ID)
+                {
+                    case EnemyActionChunk.Kind:
+                        KindValue = (EnemyActionKind)reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.Basic:
+                        BasicValue = (EnemyActionBasic)reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.SkillId:
+                        SkillID = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.EnemyId:
+                        EnemyID = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.ConditionType:
+                        ConditionTypeValue = (EnemyActionConditionType)reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.ConditionParam1:
+                        ConditionParam1 = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.ConditionParam2:
+                        ConditionParam2 = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.SwitchId:
+                        SwitchID = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.SwitchOn:
+                        SwitchOn = reader.ReadBool();
+                        return true;
+
+                    case EnemyActionChunk.SwitchOnId:
+                        SwitchOnID = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.SwitchOff:
+                        SwitchOff = reader.ReadBool();
+                        return true;
+
+                    case EnemyActionChunk.SwitchOffId:
+                        SwitchOffID = reader.ReadInt();
+                        return true;
+
+                    case EnemyActionChunk.Rating:
+                        Rating = reader.ReadInt();
+                        return true;
+                }
+                return false;
+            });
+        }
+    }
 }

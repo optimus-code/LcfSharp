@@ -1,4 +1,4 @@
-﻿namespace LcfSharp.Rpg.Troops
+﻿namespace LcfSharp.Rpg.Maps
 {
     public class Encounter
     {

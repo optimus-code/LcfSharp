@@ -1,6 +1,8 @@
-﻿namespace LcfSharp.Rpg.Troops
+﻿using LcfSharp.Types;
+
+namespace LcfSharp.Rpg.Troops
 {
-    public class TroopPageConditionFlags
+    public class TroopPageConditionFlags : DbFlags
     {
         public bool SwitchA
         {

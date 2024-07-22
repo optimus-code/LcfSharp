@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
-    public enum CommonEventChunk : byte
+    public enum CommonEventChunk : int
     {
         Name = 0x01,
         Trigger = 0x0B,
@@ -73,12 +73,12 @@ namespace LcfSharp.Rpg.Events
         {
             int eventCommandsCount = 0;
 
-            TypeHelpers.ReadChunks<CommonEventChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<CommonEventChunk>(reader, (chunk) =>
             {
-                switch ((CommonEventChunk)chunkID)
+                switch ((CommonEventChunk)chunk.ID)
                 {
                     case CommonEventChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case CommonEventChunk.Trigger:

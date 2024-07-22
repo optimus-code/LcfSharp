@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Troops
 {
-    public enum TroopChunk : byte
+    public enum TroopChunk : int
     {
         Name = 0x01,
         Members = 0x02,
@@ -57,18 +57,18 @@ namespace LcfSharp.Rpg.Troops
         {
             get;
             set;
-        } = new List<TroopPage>();
+        } = [];
 
         public Troop(LcfReader reader)
         {
-            int eventCommandsCount = 0;
+            int terrainSetSize = 0;
 
             TypeHelpers.ReadChunks<TroopChunk>(reader, (chunk) =>
             {
                 switch ((TroopChunk)chunk.ID)
                 {
                     case TroopChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case TroopChunk.Members:
@@ -78,20 +78,32 @@ namespace LcfSharp.Rpg.Troops
                         });
                         return true;
 
-                    case TroopChunk.EventCommandsSize:
-                        eventCommandsCount = reader.ReadInt();
+                    case TroopChunk.AutoAlignment:
+                        AutoAlignment = reader.ReadBool();
                         return true;
 
-                    case TroopChunk.EventCommands:
-                        if (eventCommandsCount > 0)
+                    case TroopChunk.TerrainSetSize:
+                        terrainSetSize = reader.ReadInt();
+                        return true;
+
+                    case TroopChunk.TerrainSet:
+                        if (terrainSetSize > 0)
                         {
-                            for ( var i = 0; i < eventCommandsCount; i++)
-                            {
-                                EventCommands.Add(new EventCommand(reader));
-                            }
+                            TerrainSet = reader.ReadBitArray(terrainSetSize);
                             return true;
                         }
-                        break;
+                        return false;
+
+                    case TroopChunk.AppearRandomly:
+                        AppearRandomly = reader.ReadBool();
+                        return true;
+
+                    case TroopChunk.Pages:
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
+                        {
+                            Pages.Add(new TroopPage(reader));
+                        });
+                        return true;
                 }
                 return false;
             });

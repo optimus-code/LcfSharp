@@ -1,6 +1,6 @@
 ﻿using LcfSharp.Rpg.Audio;
+using LcfSharp.Rpg.Maps;
 using LcfSharp.Rpg.Shared;
-using LcfSharp.Rpg.Troops;
 using LcfSharp.Types;
 using System;
 using System.Collections.Generic;

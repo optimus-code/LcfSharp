@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationChunk : byte
+    public enum BattlerAnimationChunk : int
     {
         /** String */
         Name = 0x01,
@@ -83,11 +83,11 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = BattlerAnimationSpeed.Slow;
 
-        public List<BattlerAnimationPoses> Poses
+        public List<BattlerAnimationPose> Poses
         {
             get;
             set;
-        } = new List<BattlerAnimationPoses>();
+        } = new List<BattlerAnimationPose>();
 
         public List<BattlerAnimationWeapon> Weapons
         {
@@ -98,12 +98,12 @@ namespace LcfSharp.Rpg.Battle.Battlers
 
         public BattlerAnimation(LcfReader reader)
         {
-            TypeHelpers.ReadChunks<BattlerAnimationChunk>(reader, (chunkID) =>
+            TypeHelpers.ReadChunks<BattlerAnimationChunk>(reader, (chunk) =>
             {
-                switch ((BattlerAnimationChunk)chunkID)
+                switch ((BattlerAnimationChunk)chunk.ID)
                 {
                     case BattlerAnimationChunk.Name:
-                        Name = reader.ReadDbString(reader.ReadInt());
+                        Name = reader.ReadDbString(chunk.Length);
                         return true;
 
                     case BattlerAnimationChunk.Speed:
@@ -111,21 +111,19 @@ namespace LcfSharp.Rpg.Battle.Battlers
                         return true;
 
                     case BattlerAnimationChunk.Poses:
-                        // Read the list of BattlerAnimationPoses objects
-                        int poseCount = reader.ReadInt();
-                        for (int i = 0; i < poseCount; i++)
+                        Poses = new List<BattlerAnimationPose>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
-                            Poses.Add((BattlerAnimationPoses)reader.ReadInt());
-                        }
+                            Poses.Add(new BattlerAnimationPose(reader));
+                        });
                         return true;
 
                     case BattlerAnimationChunk.Weapons:
-                        // Read the list of BattlerAnimationWeapon objects
-                        int weaponCount = reader.ReadInt();
-                        for (int i = 0; i < weaponCount; i++)
+                        Weapons = new List<BattlerAnimationWeapon>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
                         {
                             Weapons.Add(new BattlerAnimationWeapon(reader));
-                        }
+                        });
                         return true;
                 }
                 return false;

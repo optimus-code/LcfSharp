@@ -5,6 +5,7 @@ using LcfSharp.Rpg.Skills;
 using System.Reflection.Emit;
 using System.Reflection.PortableExecutable;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace LcfSharp.IO
 {
@@ -33,11 +34,11 @@ namespace LcfSharp.IO
             }
         }
 
-        public static void ReadChunks<TEnum>(LcfReader reader, Func<Chunk,bool> onReadChunk)
+        public static void ReadChunks<TEnum>(LcfReader reader, Func<Chunk,bool> onReadChunk, Chunk? parentChunk = null )
             where TEnum : struct
         {
             var finishedChunks = false;
-            var enumValues = ( ( byte[] ) Enum.GetValues(typeof(TEnum)) ).ToHashSet();
+            var enumValues = ( ( int[] ) Enum.GetValues(typeof(TEnum)) ).ToHashSet();
             var startPosition = reader.Offset;
 
             while (!reader.IsEOF && !finishedChunks)
@@ -56,7 +57,7 @@ namespace LcfSharp.IO
                     reader.Skip(chunk, typeof(TEnum).Name);
                 }
 
-                if (chunk.ID == enumValues.Last() || reader.Offset >= (startPosition + chunk.Length))
+                if (parentChunk.HasValue && reader.Offset >= startPosition + parentChunk.Value.Length)
                 {
                     finishedChunks = true;
                     break;
@@ -64,21 +65,48 @@ namespace LcfSharp.IO
             }
         }
 
-        public static void ReadChunkList(LcfReader reader, uint length, Action onReadItem)
+        public static void ReadChunkList(LcfReader reader, int length, Action onReadItem, bool readID = true)
         {
-            var finishedChunks = false;
-            var startPosition = reader.Offset;
+            var count = reader.ReadInt();
 
-            while (!reader.IsEOF && !finishedChunks)
+            for ( var i = 0; i < count; i++)
             {
-                onReadItem?.Invoke();
-
-                if (reader.Offset >= (startPosition + length))
+                if (readID)
                 {
-                    finishedChunks = true;
-                    break;
+                    var id = reader.ReadInt();
                 }
+                onReadItem?.Invoke();
             }
+        }
+
+        public static List<byte> ReadChunkByteList(LcfReader reader, int length)
+        {
+            var results = new List<byte>((int)length);
+            ReadChunkList(reader, length, () =>
+            {
+                results.Add(reader.ReadByte());
+            });
+            return results;
+        }
+
+        public static List<short> ReadChunkShortList(LcfReader reader, int length)
+        {
+            var results = new List<short>((int)(length / Marshal.SizeOf<short>()));
+            ReadChunkList(reader, length, () =>
+            {
+                results.Add(reader.ReadShort());
+            });
+            return results;
+        }
+
+        public static List<int> ReadChunkIntList(LcfReader reader, int length)
+        {
+            var results = new List<int>();
+            ReadChunkList(reader, length, () =>
+            {
+                results.Add(reader.ReadInt());
+            });
+            return results;
         }
     }
 }

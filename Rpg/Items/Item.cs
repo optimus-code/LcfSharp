@@ -1,9 +1,126 @@
-﻿using LcfSharp.Rpg.Shared;
+﻿using LcfSharp.IO;
+using LcfSharp.Rpg.Shared;
 using LcfSharp.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Items
 {
+    public enum ItemChunk : int
+    {
+        /** String */
+        Name = 0x01,
+        /** String */
+        Description = 0x02,
+        /** Integer */
+        Type = 0x03,
+        /** Integer */
+        Price = 0x05,
+        /** Integer */
+        Uses = 0x06,
+        /** Integer */
+        AtkPoints1 = 0x0B,
+        /** Integer */
+        DefPoints1 = 0x0C,
+        /** Integer */
+        SpiPoints1 = 0x0D,
+        /** Integer */
+        AgiPoints1 = 0x0E,
+        /** Flag */
+        TwoHanded = 0x0F,
+        /** Integer */
+        SpCost = 0x10,
+        /** Integer */
+        Hit = 0x11,
+        /** Integer */
+        CriticalHit = 0x12,
+        /** Integer */
+        AnimationId = 0x14,
+        /** Flag */
+        Preemptive = 0x15,
+        /** Flag */
+        DualAttack = 0x16,
+        /** Flag */
+        AttackAll = 0x17,
+        /** Flag */
+        IgnoreEvasion = 0x18,
+        /** Flag */
+        PreventCritical = 0x19,
+        /** Flag */
+        RaiseEvasion = 0x1A,
+        /** Flag */
+        HalfSpCost = 0x1B,
+        /** Flag */
+        NoTerrainDamage = 0x1C,
+        /** Flag - RPG2003 */
+        Cursed = 0x1D,
+        /** Flag */
+        EntireParty = 0x1F,
+        /** Integer */
+        RecoverHpRate = 0x20,
+        /** Integer */
+        RecoverHp = 0x21,
+        /** Integer */
+        RecoverSpRate = 0x22,
+        /** Integer */
+        RecoverSp = 0x23,
+        /** Flag */
+        OccasionField1 = 0x25,
+        /** Flag */
+        KoOnly = 0x26,
+        /** Integer */
+        MaxHpPoints = 0x29,
+        /** Integer */
+        MaxSpPoints = 0x2A,
+        /** Integer */
+        AtkPoints2 = 0x2B,
+        /** Integer */
+        DefPoints2 = 0x2C,
+        /** Integer */
+        SpiPoints2 = 0x2D,
+        /** Integer */
+        AgiPoints2 = 0x2E,
+        /** Integer */
+        UsingMessage = 0x33,
+        /** Integer */
+        SkillId = 0x35,
+        /** Integer */
+        SwitchId = 0x37,
+        /** Flag */
+        OccasionField2 = 0x39,
+        /** Flag */
+        OccasionBattle = 0x3A,
+        /** Integer */
+        ActorSetSize = 0x3D,
+        /** Array - Flag */
+        ActorSet = 0x3E,
+        /** Integer */
+        StateSetSize = 0x3F,
+        /** Array - Flag */
+        StateSet = 0x40,
+        /** Integer */
+        AttributeSetSize = 0x41,
+        /** Array - Flag */
+        AttributeSet = 0x42,
+        /** Integer */
+        StateChance = 0x43,
+        /** Flag */
+        ReverseStateEffect = 0x44,
+        /** Integer - RPG2003 */
+        WeaponAnimation = 0x45,
+        /** Array - RPG2003 */
+        AnimationData = 0x46,
+        /** Flag - RPG2003 */
+        UseSkill = 0x47,
+        /** Integer - RPG2003 */
+        ClassSetSize = 0x48,
+        /** Array - Flag - RPG2003 */
+        ClassSet = 0x49,
+        /** Integer */
+        RangedTrajectory = 0x4B,
+        /** Integer */
+        RangedTarget = 0x4C
+    }
+
     public enum ItemType : int
     {
         Normal = 0,
@@ -382,6 +499,277 @@ namespace LcfSharp.Rpg.Items
         {
             get;
             set;
+        }
+
+        public Item(LcfReader reader)
+        {
+            int actorSetSize = 0;
+            int stateSetSize = 0;
+            int attributeSetSize = 0;
+            int classSetSize = 0;
+
+            TypeHelpers.ReadChunks<ItemChunk>(reader, (chunk) =>
+            {
+                switch ((ItemChunk)chunk.ID)
+                {
+                    case ItemChunk.Name:
+                        Name = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case ItemChunk.Description:
+                        Description = reader.ReadDbString(chunk.Length);
+                        return true;
+
+                    case ItemChunk.Type:
+                        Type = (ItemType)reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.Price:
+                        Price = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.Uses:
+                        Uses = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AtkPoints1:
+                        AtkPoints1 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.DefPoints1:
+                        DefPoints1 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.SpiPoints1:
+                        SpiPoints1 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AgiPoints1:
+                        AgiPoints1 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.TwoHanded:
+                        TwoHanded = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.SpCost:
+                        SpCost = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.Hit:
+                        Hit = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.CriticalHit:
+                        CriticalHit = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AnimationId:
+                        AnimationID = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.Preemptive:
+                        Preemptive = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.DualAttack:
+                        DualAttack = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.AttackAll:
+                        AttackAll = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.IgnoreEvasion:
+                        IgnoreEvasion = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.PreventCritical:
+                        PreventCritical = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.RaiseEvasion:
+                        RaiseEvasion = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.HalfSpCost:
+                        HalfSpCost = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.NoTerrainDamage:
+                        NoTerrainDamage = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.Cursed:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        Cursed = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.EntireParty:
+                        EntireParty = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.RecoverHpRate:
+                        RecoverHpRate = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.RecoverHp:
+                        RecoverHp = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.RecoverSpRate:
+                        RecoverSpRate = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.RecoverSp:
+                        RecoverSp = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.OccasionField1:
+                        OccasionField1 = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.KoOnly:
+                        KoOnly = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.MaxHpPoints:
+                        MaxHpPoints = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.MaxSpPoints:
+                        MaxSpPoints = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AtkPoints2:
+                        AtkPoints2 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.DefPoints2:
+                        DefPoints2 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.SpiPoints2:
+                        SpiPoints2 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AgiPoints2:
+                        AgiPoints2 = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.UsingMessage:
+                        UsingMessage = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.SkillId:
+                        SkillID = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.SwitchId:
+                        SwitchID = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.OccasionField2:
+                        OccasionField2 = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.OccasionBattle:
+                        OccasionBattle = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.ActorSetSize:
+                        actorSetSize = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.ActorSet:
+                        if (actorSetSize > 0)
+                        { 
+                            ActorSet = reader.ReadBitArray(actorSetSize);
+                            return true;
+                        }
+                        break;
+
+                    case ItemChunk.StateSetSize:
+                        stateSetSize = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.StateSet:
+                        if (stateSetSize > 0)
+                        {
+                            StateSet = reader.ReadBitArray(stateSetSize);
+                            return true;
+                        }
+                        break;
+
+                    case ItemChunk.AttributeSetSize:
+                        attributeSetSize = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AttributeSet:
+                        if (attributeSetSize > 0)
+                        {
+                            AttributeSet = reader.ReadBitArray(attributeSetSize);
+                            return true;
+                        }
+                        break;
+
+                    case ItemChunk.StateChance:
+                        StateChance = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.ReverseStateEffect:
+                        ReverseStateEffect = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.WeaponAnimation:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        WeaponAnimation = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.AnimationData:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        AnimationData = new List<BattlerAnimationItemSkill>();
+                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
+                        {
+                            AnimationData.Add(new BattlerAnimationItemSkill(reader));
+                        });
+                        return true;
+
+                    case ItemChunk.UseSkill:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        UseSkill = reader.ReadBool();
+                        return true;
+
+                    case ItemChunk.ClassSetSize:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        classSetSize = reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.ClassSet:
+                        if (!Database.IsRM2K3)
+                            return false;
+                        if (classSetSize > 0)
+                        {
+                            ClassSet = reader.ReadBitArray(classSetSize);
+                            return true;
+                        }
+                        break;
+
+                    case ItemChunk.RangedTrajectory:
+                        RangedTrajectory = (ItemTrajectory)reader.ReadInt();
+                        return true;
+
+                    case ItemChunk.RangedTarget:
+                        RangedTarget = (ItemTarget)reader.ReadInt();
+                        return true;
+                }
+                return false;
+            });
         }
     }
 }
