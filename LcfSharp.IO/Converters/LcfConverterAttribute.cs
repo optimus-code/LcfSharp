@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LcfSharp.Converters
+namespace LcfSharp.IO.Converters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Field | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Struct, AllowMultiple = false)]
     public class LcfConverterAttribute : Attribute
@@ -14,7 +14,7 @@ namespace LcfSharp.Converters
 
         public virtual LcfConverter CreateConverter(Type typeToConvert)
         {
-            return (LcfConverter)Activator.CreateInstance(ConverterType!);
+            return (LcfConverter)Activator.CreateInstance(ConverterType);
         }
     }
 }

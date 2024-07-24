@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LcfSharp.Exceptions
+namespace LcfSharp.IO.Exceptions
 {
     public class LcfMissingConverterException : LcfException
     {

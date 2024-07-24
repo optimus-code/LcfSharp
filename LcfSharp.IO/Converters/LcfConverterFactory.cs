@@ -1,21 +1,31 @@
-﻿using LcfSharp.Converters.Types;
-using LcfSharp.Exceptions;
+﻿using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Converters.Types;
+using LcfSharp.IO.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
-namespace LcfSharp.Converters
+namespace LcfSharp.IO.Converters
 {
     public static class LcfConverterFactory
     {
         private static readonly Dictionary<Type, LcfConverter> Converters = new()
         {
             { typeof(string), new LcfStringConverter() },
-            { typeof(int), new LcfIntConverter() },
+            { typeof(byte), new LcfByteConverter() },
+            { typeof(short), new LcfInt16Converter() },
+            { typeof(int), new LcfInt32Converter() },
+            { typeof(long), new LcfInt64Converter() },
             // Add other default converters
         };
 
         public static LcfConverter GetConverter(Type type)
         {
+            if (type.IsClass && type.GetCustomAttribute<LcfChunkAttribute>() != null)
+            {
+                return new LcfChunkConverter(type);
+            }
+
             if (Converters.TryGetValue(type, out var converter))
             {
                 return converter;
