@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
 using LcfSharp.Rpg.Skills;
 using LcfSharp.Types;
@@ -78,8 +79,10 @@ namespace LcfSharp.Rpg.Actors
         BattleCommands = 0x50,
     }
 
+    [LcfChunk<ActorChunk>]
     public class Actor
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -253,12 +256,14 @@ namespace LcfSharp.Rpg.Actors
             set;
         }
 
+        [LcfSize((int)ActorChunk.StateRanksSize)]
         public List<byte> StateRanks
         {
             get;
             set;
         } = new List<byte>();
 
+        [LcfSize((int)ActorChunk.AttributeRanksSize)]
         public List<byte> AttributeRanks
         {
             get;

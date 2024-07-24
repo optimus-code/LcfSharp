@@ -14,4 +14,12 @@
     <None Include="LmtReader.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LcfSharp.IO\LcfSharp.IO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IO\Lcf\Attributes\" />
+  </ItemGroup>
+
 </Project>

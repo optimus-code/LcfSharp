@@ -3,19 +3,20 @@
 namespace LcfSharp.IO.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class LcfChunkAttribute(Type enumType): Attribute
+    public class LcfChunkAttribute(Type chunkEnumType) : Attribute
     {
-        public virtual Type EnumType
+        public Type ChunkEnumType
         {
             get;
-        } = enumType;
+            protected set;
+        } = chunkEnumType;
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class LcfChunkAttribute<TEnum> : LcfChunkAttribute
-        where TEnum : Enum
     {
-        public LcfChunkAttribute() : base(typeof(TEnum))
+        public LcfChunkAttribute() 
+            : base(typeof(TEnum))
         {
         }
     }

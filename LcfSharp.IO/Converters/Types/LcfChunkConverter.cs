@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using LcfSharp.IO.Attributes;
 using System.Collections.Generic;
+using LcfSharp.IO.Exceptions;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -22,7 +23,7 @@ namespace LcfSharp.IO.Converters.Types
             Type = chunkType;
         }
 
-        private void ProcessProperty(BinaryReader reader, object obj, PropertyInfo property, int length)
+        private void ProcessProperty(BinaryReader reader, object obj, PropertyInfo property, int? length)
         {
             var converter = LcfConverterFactory.GetConverter(property.PropertyType);
             if (converter is not null)
@@ -40,10 +41,22 @@ namespace LcfSharp.IO.Converters.Types
         {
             var obj = Activator.CreateInstance(Type);
             var properties = Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(p => p.GetCustomAttribute<LcfFieldAttribute>() != null)
-                .ToDictionary(p => p.GetCustomAttribute<LcfFieldAttribute>().ChunkID, p => p);
+                .Where(p => p.GetCustomAttribute<LcfIgnoreAttribute>() == null)
+                .ToDictionary(p => p.Name, p => p);
 
-            var lengthEvaluations = new Dictionary<int, int>();
+            var chunkAttribute = Type.GetCustomAttribute<LcfChunkAttribute>();
+
+            if (chunkAttribute == null)
+                throw new LcfException($"Missing LcfChunk attribute on '{Type.FullName}.");
+
+            var chunkEnumType = chunkAttribute.ChunkEnumType;
+            var lengthEvaluations = new Dictionary<string, int>();
+
+            var idProperty = properties.Values.FirstOrDefault(p => p.PropertyType.GetCustomAttribute<LcfIDAttribute>() != null);
+
+            // If it has an ID property read in that first!
+            if (idProperty != null)
+                idProperty.SetValue(obj, reader.Read7BitEncodedInt());
 
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
@@ -54,16 +67,32 @@ namespace LcfSharp.IO.Converters.Types
 
                 var chunkLength = reader.Read7BitEncodedInt();
 
-                if (properties.TryGetValue(chunkID, out var property))
+                if (Enum.IsDefined(chunkEnumType, chunkID))
                 {
-                    var propertyLength = chunkLength;
-                    var sizeAttribute = property.PropertyType.GetCustomAttribute<LcfSizeAttribute>();
-                    if (sizeAttribute != null && lengthEvaluations.ContainsKey(chunkID))
+                    PropertyInfo match = null;
+                    foreach ( var property in properties.Values)
                     {
-                        propertyLength = lengthEvaluations[chunkID];
-                        lengthEvaluations.Remove(chunkID);
+                        if (Enum.TryParse(chunkEnumType, property.Name, out var enumValue) &&
+                            (int)enumValue == chunkID)
+                        {
+                            match = property;
+                            break;
+                        }
                     }
-                    ProcessProperty(reader, obj, property, propertyLength);
+
+                    if (match != null)
+                    {
+                        var propertyLength = chunkLength;
+                        var sizeAttribute = match.PropertyType.GetCustomAttribute<LcfSizeAttribute>();
+                        if (sizeAttribute != null && lengthEvaluations.ContainsKey(match.Name))
+                        {
+                            propertyLength = lengthEvaluations[match.Name];
+                            lengthEvaluations.Remove(match.Name);
+                        }
+                        ProcessProperty(reader, obj, match, propertyLength);
+                    }
+                    else
+                        throw new LcfException($"Missing property match for chunk: '{chunkID}' in '{Type.FullName}'.");
                 }
                 // If there's a property with a size value dependent on this
                 else if (properties.Count(p => p.Value.PropertyType.GetCustomAttribute<LcfSizeAttribute>()?.ChunkID == chunkID) > 0)

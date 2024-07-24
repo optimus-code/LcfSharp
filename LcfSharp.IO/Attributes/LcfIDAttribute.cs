@@ -3,11 +3,7 @@
 namespace LcfSharp.IO.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class LcfSizeAttribute(int chunkID) : Attribute
+    public class LcfIDAttribute : Attribute
     {
-        public int ChunkID
-        {
-            get;
-        } = chunkID;
     }
 }

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LcfSharp.IO\LcfSharp.IO.csproj" />
     <ProjectReference Include="..\LcfSharp\LcfSharp.csproj" />
   </ItemGroup>
 
