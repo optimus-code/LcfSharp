@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using LcfSharp.Rpg.Events;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Maps
 {

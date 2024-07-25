@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Troops;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg
 {
@@ -10,8 +11,10 @@ namespace LcfSharp.Rpg
         Name = 0x01
     }
 
+    [LcfChunk<SwitchChunk>]
     public class Switch
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -22,20 +25,6 @@ namespace LcfSharp.Rpg
         {
             get;
             set;
-        }
-
-        public Switch(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<SwitchChunk>(reader, (chunk) =>
-            {
-                switch ((SwitchChunk)chunk.ID)
-                {
-                    case SwitchChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

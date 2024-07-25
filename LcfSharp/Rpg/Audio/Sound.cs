@@ -1,5 +1,5 @@
-﻿using LcfSharp.IO;
-using LcfSharp.Types;
+﻿using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Audio
 {
@@ -15,8 +15,10 @@ namespace LcfSharp.Rpg.Audio
         Balance = 0x05
     }
 
+    [LcfChunk<SoundChunk>]
     public class Sound
     {
+        [LcfAlwaysPersistAttribute]
         public DbString Name
         {
             get;
@@ -40,35 +42,5 @@ namespace LcfSharp.Rpg.Audio
             get;
             set;
         } = 50;
-
-        public Sound()
-        {
-        }
-
-        public Sound(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<SoundChunk>(reader, (chunk) =>
-            {
-                switch ((SoundChunk)chunk.ID)
-                {
-                    case SoundChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SoundChunk.Volume:
-                        Volume = reader.ReadInt();
-                        return true;
-
-                    case SoundChunk.Tempo:
-                        Tempo = reader.ReadInt();
-                        return true;
-
-                    case SoundChunk.Balance:
-                        Balance = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

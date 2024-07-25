@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO;
-using LcfSharp.Types;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
@@ -13,8 +14,10 @@ namespace LcfSharp.Rpg.Battle.Battlers
         WeaponIndex = 0x03
     }
 
+    [LcfChunk<BattlerAnimationWeaponChunk>]
     public class BattlerAnimationWeapon
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -38,27 +41,5 @@ namespace LcfSharp.Rpg.Battle.Battlers
             get;
             set;
         } = 0;
-
-        public BattlerAnimationWeapon(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattlerAnimationWeaponChunk>(reader, (chunk) =>
-            {
-                switch ((BattlerAnimationWeaponChunk)chunk.ID)
-                {
-                    case BattlerAnimationWeaponChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case BattlerAnimationWeaponChunk.WeaponName:
-                        WeaponName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case BattlerAnimationWeaponChunk.WeaponIndex:
-                        WeaponIndex = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

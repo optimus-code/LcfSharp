@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -26,8 +27,10 @@ namespace LcfSharp.Rpg.Animations
         Transparency = 0x0A
     }
 
+    [LcfChunk<AnimationCellDataChunk>]
     public class AnimationCellData
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -93,56 +96,5 @@ namespace LcfSharp.Rpg.Animations
             get;
             set;
         }
-
-        public AnimationCellData(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<AnimationCellDataChunk>(reader, (chunk) =>
-            {
-                switch ((AnimationCellDataChunk)chunk.ID)
-                {
-                    case AnimationCellDataChunk.Valid:
-                        Valid = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.CellId:
-                        CellID = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.X:
-                        X = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.Y:
-                        Y = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.Zoom:
-                        Zoom = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.ToneRed:
-                        ToneRed = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.ToneGreen:
-                        ToneGreen = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.ToneBlue:
-                        ToneBlue = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.ToneGray:
-                        ToneGray = reader.ReadInt();
-                        return true;
-
-                    case AnimationCellDataChunk.Transparency:
-                        Transparency = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
-
 }

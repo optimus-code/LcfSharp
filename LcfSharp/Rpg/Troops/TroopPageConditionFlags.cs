@@ -1,8 +1,8 @@
-﻿using LcfSharp.Types;
+﻿using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Troops
 {
-    public class TroopPageConditionFlags : DbFlags
+    public class TroopPageConditionFlags : IDbFlags
     {
         public bool SwitchA
         {
@@ -62,20 +62,6 @@ namespace LcfSharp.Rpg.Troops
         {
             get;
             set;
-        }
-
-        public TroopPageConditionFlags()
-        {
-            SwitchA = false;
-            SwitchB = false;
-            Variable = false;
-            Turn = false;
-            Fatigue = false;
-            EnemyHP = false;
-            ActorHP = false;
-            TurnEnemy = false;
-            TurnActor = false;
-            CommandActor = false;
         }
     }
 }

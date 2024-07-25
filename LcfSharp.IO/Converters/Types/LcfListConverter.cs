@@ -1,25 +1,33 @@
-﻿using System;
+﻿using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace LcfSharp.IO.Converters.Types
 {
     public class LcfListConverter<T> : LcfConverter<List<T>>
     {
         private readonly LcfConverter _elementConverter;
+        private readonly bool _hasIDAttribute;
 
         public LcfListConverter()
         {
             _elementConverter = LcfConverterFactory.GetConverter(typeof(T));
+            _hasIDAttribute = _elementConverter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Count(p => p.GetCustomAttribute<LcfIDAttribute>() != null) > 0;
         }
 
         public override object Read(BinaryReader reader, int? length)
         {
-            var count = length.HasValue ? length.Value : reader.Read7BitEncodedInt();
-            var list = new List<object>(count);
+            var count = !_hasIDAttribute && length.HasValue ? length.Value : reader.ReadVarInt();
+            var list = new List<T>(count);
             for (var i = 0; i < count; i++)
             {
-                list.Add(_elementConverter.Read(reader, null));
+                list.Add((T)_elementConverter.Read(reader, null));
             }
             return list;
         }

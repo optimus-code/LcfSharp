@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
 
@@ -10,36 +11,21 @@ namespace LcfSharp.Rpg.Animations
         Cells = 0x01
     }
 
+    [LcfChunk<AnimationFrameChunk>]
     public class AnimationFrame
     {
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public List<AnimationCellData> Cells
         {
             get;
             set;
         } = [];
-
-        public AnimationFrame(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<AnimationFrameChunk>(reader, (chunk) =>
-            {
-                switch ((AnimationFrameChunk)chunk.ID)
-                {
-                    case AnimationFrameChunk.Cells:
-                        Cells = new List<AnimationCellData>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Cells.Add(new AnimationCellData(reader));
-                        });
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

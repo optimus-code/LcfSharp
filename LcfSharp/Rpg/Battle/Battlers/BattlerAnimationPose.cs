@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO;
-using LcfSharp.Types;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
@@ -19,6 +20,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         Battle = 1
     }
 
+    [LcfChunk<BattlerAnimationPoseChunk>]
     public class BattlerAnimationPose
     {
         public static readonly Dictionary<BattlerAnimationPoseAnimType, string> AnimTypeTags = new Dictionary<BattlerAnimationPoseAnimType, string>
@@ -26,19 +28,21 @@ namespace LcfSharp.Rpg.Battle.Battlers
             { BattlerAnimationPoseAnimType.Character, "character" },
             { BattlerAnimationPoseAnimType.Battle, "battle" }
         };
+
+        [LcfID]
         public int ID
         {
             get;
             set;
         } = 0;
-
-        public DbString Name
+[LcfAlwaysPersistAttribute]
+		public DbString Name
         {
             get;
             set;
         }
-
-        public DbString BattlerName
+[LcfAlwaysPersistAttribute]
+		public DbString BattlerName
         {
             get;
             set;
@@ -61,35 +65,5 @@ namespace LcfSharp.Rpg.Battle.Battlers
             get;
             set;
         } = 1;
-
-        public BattlerAnimationPose(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattlerAnimationPoseChunk>(reader, (chunk) =>
-            {
-                switch ((BattlerAnimationPoseChunk)chunk.ID)
-                {
-                    case BattlerAnimationPoseChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case BattlerAnimationPoseChunk.BattlerName:
-                        BattlerName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case BattlerAnimationPoseChunk.BattlerIndex:
-                        BattlerIndex = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationPoseChunk.AnimationType:
-                        AnimationType = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationPoseChunk.BattleAnimationId:
-                        BattleAnimationID = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

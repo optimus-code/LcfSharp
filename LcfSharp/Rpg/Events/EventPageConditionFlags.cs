@@ -1,8 +1,8 @@
-﻿using LcfSharp.Types;
+﻿using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Events
 {
-    public class EventPageConditionFlags : DbFlags
+    public class EventPageConditionFlags : IDbFlags
     {
         public bool SwitchA
         {
@@ -44,17 +44,6 @@ namespace LcfSharp.Rpg.Events
         {
             get;
             set;
-        }
-
-        public EventPageConditionFlags()
-        {
-            SwitchA = false;
-            SwitchB = false;
-            Variable = false;
-            Item = false;
-            Actor = false;
-            Timer = false;
-            Timer2 = false;
         }
     }
 }

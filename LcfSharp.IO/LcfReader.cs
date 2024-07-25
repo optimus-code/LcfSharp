@@ -6,11 +6,20 @@ using System.Linq;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Extensions;
 using LcfSharp.IO.Converters.Types;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.IO
 {
-    public class LcfReader
+    public class LcfReader : IDisposable
     {
+        public long Position
+        {
+            get
+            {
+                return _reader.BaseStream.Position;
+            }
+        }
+
         private readonly BinaryReader _reader;
 
         public LcfReader(Stream stream)
@@ -19,15 +28,35 @@ namespace LcfSharp.IO
         }
 
         public T Deserialize<T>() 
-            where T : new()
+            where T : ILcfRootChunk
         {
             return (T)Deserialize(typeof(T));
         }
 
-        private object Deserialize(Type type)
+        private ILcfRootChunk Deserialize(Type type)
         {
             var chunkReader = new LcfChunkConverter(type);
-            return chunkReader.Read(_reader, null);
+            return (ILcfRootChunk)chunkReader.Read(_reader, null);
+        }
+
+        public int ReadVarInt()
+        {
+            return _reader.ReadVarInt();
+        }
+
+        public string ReadString(int length)
+        {
+            return _reader.ReadString(length);
+        }
+
+        public DbString ReadDbString(int length)
+        {
+            return _reader.ReadDbString(length);
+        }
+
+        public void Dispose()
+        {
+            _reader?.Dispose();
         }
     }
 }

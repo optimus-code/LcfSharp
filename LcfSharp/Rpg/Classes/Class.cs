@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Classes
@@ -25,8 +26,10 @@ namespace LcfSharp.Rpg.Classes
         BattleCommands = 0x50
     }
 
+    [LcfChunk<ClassChunk>]
     public class Class
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -93,116 +96,34 @@ namespace LcfSharp.Rpg.Classes
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public List<Learning> Skills
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
+        [LcfSize((int)ClassChunk.StateRanksSize)]
         public List<byte> StateRanks
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
+        [LcfSize((int)ClassChunk.AttributeRanksSize)]
         public List<byte> AttributeRanks
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public List<int> BattleCommands
         {
             get;
             set;
-        }
-        public Class(LcfReader reader)
-        {
-            int stateRanksSize = 0;
-            int attributeRanksSize = 0;
-
-            TypeHelpers.ReadChunks<ClassChunk>(reader, (chunk) =>
-            {
-                switch ((ClassChunk)chunk.ID)
-                {
-                    case ClassChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case ClassChunk.TwoWeapon:
-                        TwoWeapon = reader.ReadBool();
-                        return true;
-
-                    case ClassChunk.LockEquipment:
-                        LockEquipment = reader.ReadBool();
-                        return true;
-
-                    case ClassChunk.AutoBattle:
-                        AutoBattle = reader.ReadBool();
-                        return true;
-
-                    case ClassChunk.SuperGuard:
-                        SuperGuard = reader.ReadBool();
-                        return true;
-
-                    case ClassChunk.Parameters:
-                        Parameters = new Parameters(reader, chunk.Length);
-                        return true;
-
-                    case ClassChunk.ExpBase:
-                        ExpBase = reader.ReadInt();
-                        return true;
-
-                    case ClassChunk.ExpInflation:
-                        ExpInflation = reader.ReadInt();
-                        return true;
-
-                    case ClassChunk.ExpCorrection:
-                        ExpCorrection = reader.ReadInt();
-                        return true;
-
-                    case ClassChunk.BattlerAnimation:
-                        BattlerAnimation = reader.ReadInt();
-                        return true;
-
-                    case ClassChunk.Skills:
-                        Skills = new List<Learning>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Skills.Add(new Learning(reader));
-                        });
-                        return true;
-
-                    case ClassChunk.StateRanksSize:
-                        stateRanksSize = reader.ReadInt();
-                        return true;
-
-                    case ClassChunk.StateRanks:
-                        if (stateRanksSize > 0)
-                        {
-                            StateRanks = reader.ReadByteList(stateRanksSize);
-                            return true;
-                        }
-                        break;
-
-                    case ClassChunk.AttributeRanksSize:
-                        attributeRanksSize = reader.ReadInt();
-                        return true;
-
-                    case ClassChunk.AttributeRanks:
-                        if (attributeRanksSize > 0)
-                        {
-                            AttributeRanks = reader.ReadByteList(attributeRanksSize);
-                            return true;
-                        }
-                        break;
-
-                    case ClassChunk.BattleCommands:
-                        BattleCommands = TypeHelpers.ReadChunkIntList(reader, chunk.Length);
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

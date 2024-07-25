@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Audio;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg
@@ -8,7 +9,7 @@ namespace LcfSharp.Rpg
     public enum SystemChunk : int
     {
         /** Integer - RPG2003 */
-        LdbId = 0x0A,
+        LdbID = 0x0A,
         /** String */
         BoatName = 0x0B,
         /** String */
@@ -92,7 +93,7 @@ namespace LcfSharp.Rpg
         /** Integer */
         MessageStretch = 0x47,
         /** Integer */
-        FontId = 0x48,
+        FontID = 0x48,
         /** Integer */
         SelectedCondition = 0x51,
         /** Integer */
@@ -209,6 +210,7 @@ namespace LcfSharp.Rpg
         Class = 1
     }
 
+    [LcfChunk<SystemChunk>]
     public class RpgSystem
     {
         public static readonly Dictionary<SystemFadeOut, string> FadeOutTags = new Dictionary<SystemFadeOut, string>
@@ -369,6 +371,7 @@ namespace LcfSharp.Rpg
             set;
         } = new List<short> { 1 };
 
+        [LcfAlwaysPersistAttribute]
         public List<short> MenuCommands
         {
             get;
@@ -591,313 +594,46 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public SystemEquipmentSetting EquipmentSetting
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public int BattleTestAltTerrain
         {
             get;
             set;
         } = -1;
 
+        [LcfAlwaysPersistAttribute]
         public bool ShowFrame
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public DbString FrameName
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public bool InvertAnimations
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public bool ShowTitle
         {
             get;
             set;
         } = true;
-
-        public RpgSystem(LcfReader reader)
-        {
-            int partySize = 0;
-            int menuCommandsSize = 0;
-
-            TypeHelpers.ReadChunks<SystemChunk>(reader, (chunk) =>
-            {
-                switch ((SystemChunk)chunk.ID)
-                {
-                    case SystemChunk.LdbId:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        LdbID = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BoatName:
-                        BoatName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.ShipName:
-                        ShipName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.AirshipName:
-                        AirshipName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.BoatIndex:
-                        BoatIndex = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.ShipIndex:
-                        ShipIndex = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.AirshipIndex:
-                        AirshipIndex = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.TitleName:
-                        TitleName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.GameoverName:
-                        GameoverName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.SystemName:
-                        SystemName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.System2Name:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        System2Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.PartySize:
-                        partySize = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.Party:
-                        if (partySize > 0)
-                        {
-                            Party = reader.ReadShortList(partySize);
-                            return true;
-                        }
-                        break;
-
-                    case SystemChunk.MenuCommandsSize:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        menuCommandsSize = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.MenuCommands:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        if (menuCommandsSize > 0)
-                        {
-                            MenuCommands = reader.ReadShortList(menuCommandsSize);
-                            return true;
-                        }
-                        break;
-
-                    case SystemChunk.TitleMusic:
-                        TitleMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.BattleMusic:
-                        BattleMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.BattleEndMusic:
-                        BattleEndMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.InnMusic:
-                        InnMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.BoatMusic:
-                        BoatMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.ShipMusic:
-                        ShipMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.AirshipMusic:
-                        AirshipMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.GameoverMusic:
-                        GameoverMusic = new Music(reader);
-                        return true;
-
-                    case SystemChunk.CursorSe:
-                        CursorSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.DecisionSe:
-                        DecisionSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.CancelSe:
-                        CancelSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.BuzzerSe:
-                        BuzzerSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.BattleSe:
-                        BattleSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.EscapeSe:
-                        EscapeSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.EnemyAttackSe:
-                        EnemyAttackSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.EnemyDamagedSe:
-                        EnemyDamagedSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.ActorDamagedSe:
-                        ActorDamagedSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.DodgeSe:
-                        DodgeSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.EnemyDeathSe:
-                        EnemyDeathSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.ItemSe:
-                        ItemSe = new Sound(reader);
-                        return true;
-
-                    case SystemChunk.TransitionOut:
-                        TransitionOut = (SystemFadeOut)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.TransitionIn:
-                        TransitionIn = (SystemFadeIn)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattleStartFadeout:
-                        BattleStartFadeOut = (SystemFadeOut)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattleStartFadein:
-                        BattleStartFadeIn = (SystemFadeIn)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattleEndFadeout:
-                        BattleEndFadeOut = (SystemFadeOut)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattleEndFadein:
-                        BattleEndFadeIn = (SystemFadeIn)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.MessageStretch:
-                        MessageStretch = (SystemStretch)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.FontId:
-                        FontID = (SystemFont)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.SelectedCondition:
-                        SelectedCondition = (SystemBattleCondition)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.SelectedHero:
-                        SelectedHero = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattletestBackground:
-                        BattleTestBackground = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.BattletestData:
-                        BattleTestData = new List<TestBattler>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            BattleTestData.Add(new TestBattler(reader));
-                        });
-                        return true;
-
-                    case SystemChunk.SaveCount:
-                        SaveCount = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattletestTerrain:
-                        BattleTestTerrain = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattletestFormation:
-                        BattleTestFormation = (SystemBattleFormation)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattletestCondition:
-                        BattleTestCondition = (SystemBattleCondition)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.EquipmentSetting:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        EquipmentSetting = (SystemEquipmentSetting)reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.BattletestAltTerrain:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BattleTestAltTerrain = reader.ReadInt();
-                        return true;
-
-                    case SystemChunk.ShowFrame:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        ShowFrame = reader.ReadBool();
-                        return true;
-
-                    case SystemChunk.FrameName:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        FrameName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SystemChunk.InvertAnimations:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        InvertAnimations = reader.ReadBool();
-                        return true;
-
-                    case SystemChunk.ShowTitle:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        ShowTitle = reader.ReadBool();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

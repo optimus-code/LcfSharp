@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
@@ -40,6 +41,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         Item = 11
     }
 
+    [LcfChunk<BattlerAnimationChunk>]
     public class BattlerAnimation
     {
         public static readonly Dictionary<BattlerAnimationSpeed, string> SpeedTags = new Dictionary<BattlerAnimationSpeed, string>
@@ -65,13 +67,15 @@ namespace LcfSharp.Rpg.Battle.Battlers
             { BattlerAnimationPoses.Item, "Item" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         } = 0;
 
-        public DbString Name
+        [LcfAlwaysPersistAttribute]
+		public DbString Name
         {
             get;
             set;
@@ -83,51 +87,18 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = BattlerAnimationSpeed.Slow;
 
+        [LcfAlwaysPersistAttribute]
         public List<BattlerAnimationPose> Poses
         {
             get;
             set;
         } = new List<BattlerAnimationPose>();
 
+        [LcfAlwaysPersistAttribute]
         public List<BattlerAnimationWeapon> Weapons
         {
             get;
             set;
         } = new List<BattlerAnimationWeapon>();
-
-
-        public BattlerAnimation(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattlerAnimationChunk>(reader, (chunk) =>
-            {
-                switch ((BattlerAnimationChunk)chunk.ID)
-                {
-                    case BattlerAnimationChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case BattlerAnimationChunk.Speed:
-                        Speed = (BattlerAnimationSpeed)reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationChunk.Poses:
-                        Poses = new List<BattlerAnimationPose>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Poses.Add(new BattlerAnimationPose(reader));
-                        });
-                        return true;
-
-                    case BattlerAnimationChunk.Weapons:
-                        Weapons = new List<BattlerAnimationWeapon>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Weapons.Add(new BattlerAnimationWeapon(reader));
-                        });
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

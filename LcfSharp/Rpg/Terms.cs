@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Troops;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg
 {
@@ -262,1294 +263,896 @@ namespace LcfSharp.Rpg
         No = 0x99
     }
 
+    [LcfChunk<TermsChunk>]
     public class Terms
     {
-        // Sentinel name used to denote that the default hardcoded term should be used.
-        public const string DefaultTerm = "default_term";
-
-        public static string TermOrDefault(DbString dbTerm, string defaultTerm)
-        {
-            return dbTerm.ToString() ?? defaultTerm;
-        }
-
-        public DbString Encounter
+		[LcfAlwaysPersistAttribute]
+		public DbString Encounter
         {
             get;
             set;
         }
 
-        public DbString SpecialCombat
+		[LcfAlwaysPersistAttribute]
+		public DbString SpecialCombat
         {
             get;
             set;
         }
 
-        public DbString EscapeSuccess
+		[LcfAlwaysPersistAttribute]
+		public DbString EscapeSuccess
         {
             get;
             set;
         }
 
-        public DbString EscapeFailure
+		[LcfAlwaysPersistAttribute]
+		public DbString EscapeFailure
         {
             get;
             set;
         }
 
-        public DbString Victory
+		[LcfAlwaysPersistAttribute]
+		public DbString Victory
         {
             get;
             set;
         }
 
-        public DbString Defeat
+		[LcfAlwaysPersistAttribute]
+		public DbString Defeat
         {
             get;
             set;
         }
 
-        public DbString ExpReceived
+		[LcfAlwaysPersistAttribute]
+		public DbString ExpReceived
         {
             get;
             set;
         }
 
-        public DbString GoldReceivedA
+		[LcfAlwaysPersistAttribute]
+		public DbString GoldReceivedA
         {
             get;
             set;
         }
 
-        public DbString GoldReceivedB
+		[LcfAlwaysPersistAttribute]
+		public DbString GoldReceivedB
         {
             get;
             set;
         }
 
-        public DbString ItemReceived
+		[LcfAlwaysPersistAttribute]
+		public DbString ItemReceived
         {
             get;
             set;
         }
 
-        public DbString Attacking
+		[LcfAlwaysPersistAttribute]
+		public DbString Attacking
         {
             get;
             set;
         }
 
-        public DbString EnemyCritical
+		[LcfAlwaysPersistAttribute]
+		public DbString EnemyCritical
         {
             get;
             set;
         }
 
-        public DbString ActorCritical
+		[LcfAlwaysPersistAttribute]
+		public DbString ActorCritical
         {
             get;
             set;
         }
 
-        public DbString Defending
+		[LcfAlwaysPersistAttribute]
+		public DbString Defending
         {
             get;
             set;
         }
 
-        public DbString Observing
+		[LcfAlwaysPersistAttribute]
+		public DbString Observing
         {
             get;
             set;
         }
 
-        public DbString Focus
+		[LcfAlwaysPersistAttribute]
+		public DbString Focus
         {
             get;
             set;
         }
 
-        public DbString Autodestruction
+		[LcfAlwaysPersistAttribute]
+		public DbString Autodestruction
         {
             get;
             set;
         }
 
-        public DbString EnemyEscape
+		[LcfAlwaysPersistAttribute]
+		public DbString EnemyEscape
         {
             get;
             set;
         }
 
-        public DbString EnemyTransform
+		[LcfAlwaysPersistAttribute]
+		public DbString EnemyTransform
         {
             get;
             set;
         }
 
-        public DbString EnemyDamaged
+		[LcfAlwaysPersistAttribute]
+		public DbString EnemyDamaged
         {
             get;
             set;
         }
 
-        public DbString EnemyUndamaged
+		[LcfAlwaysPersistAttribute]
+		public DbString EnemyUndamaged
         {
             get;
             set;
         }
 
-        public DbString ActorDamaged
+		[LcfAlwaysPersistAttribute]
+		public DbString ActorDamaged
         {
             get;
             set;
         }
 
-        public DbString ActorUndamaged
+		[LcfAlwaysPersistAttribute]
+		public DbString ActorUndamaged
         {
             get;
             set;
         }
 
-        public DbString SkillFailureA
+		[LcfAlwaysPersistAttribute]
+		public DbString SkillFailureA
         {
             get;
             set;
         }
 
-        public DbString SkillFailureB
+		[LcfAlwaysPersistAttribute]
+		public DbString SkillFailureB
         {
             get;
             set;
         }
 
-        public DbString SkillFailureC
+		[LcfAlwaysPersistAttribute]
+		public DbString SkillFailureC
         {
             get;
             set;
         }
 
-        public DbString Dodge
+		[LcfAlwaysPersistAttribute]
+		public DbString Dodge
         {
             get;
             set;
         }
 
-        public DbString UseItem
+		[LcfAlwaysPersistAttribute]
+		public DbString UseItem
         {
             get;
             set;
         }
 
-        public DbString HpRecovery
+		[LcfAlwaysPersistAttribute]
+		public DbString HpRecovery
         {
             get;
             set;
         }
 
-        public DbString ParameterIncrease
+		[LcfAlwaysPersistAttribute]
+		public DbString ParameterIncrease
         {
             get;
             set;
         }
 
-        public DbString ParameterDecrease
+		[LcfAlwaysPersistAttribute]
+		public DbString ParameterDecrease
         {
             get;
             set;
         }
 
-        public DbString EnemyHpAbsorbed
+		[LcfAlwaysPersistAttribute]
+		public DbString EnemyHpAbsorbed
         {
             get;
             set;
         }
 
-        public DbString ActorHpAbsorbed
+		[LcfAlwaysPersistAttribute]
+		public DbString ActorHpAbsorbed
         {
             get;
             set;
         }
 
-        public DbString ResistanceIncrease
+		[LcfAlwaysPersistAttribute]
+		public DbString ResistanceIncrease
         {
             get;
             set;
         }
 
-        public DbString ResistanceDecrease
+		[LcfAlwaysPersistAttribute]
+		public DbString ResistanceDecrease
         {
             get;
             set;
         }
 
-        public DbString LevelUp
+		[LcfAlwaysPersistAttribute]
+		public DbString LevelUp
         {
             get;
             set;
         }
 
-        public DbString SkillLearned
+		[LcfAlwaysPersistAttribute]
+		public DbString SkillLearned
         {
             get;
             set;
         }
 
-        public DbString BattleStart
+		[LcfAlwaysPersistAttribute]
+		public DbString BattleStart
         {
             get;
             set;
         }
 
-        public DbString Miss
+		[LcfAlwaysPersistAttribute]
+		public DbString Miss
         {
             get;
             set;
         }
 
-        public DbString ShopGreeting1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopGreeting1
         {
             get;
             set;
         }
 
-        public DbString ShopRegreeting1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopRegreeting1
         {
             get;
             set;
         }
 
-        public DbString ShopBuy1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuy1
         {
             get;
             set;
         }
 
-        public DbString ShopSell1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSell1
         {
             get;
             set;
         }
 
-        public DbString ShopLeave1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopLeave1
         {
             get;
             set;
         }
 
-        public DbString ShopBuySelect1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuySelect1
         {
             get;
             set;
         }
 
-        public DbString ShopBuyNumber1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuyNumber1
         {
             get;
             set;
         }
 
-        public DbString ShopPurchased1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopPurchased1
         {
             get;
             set;
         }
 
-        public DbString ShopSellSelect1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSellSelect1
         {
             get;
             set;
         }
 
-        public DbString ShopSellNumber1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSellNumber1
         {
             get;
             set;
         }
 
-        public DbString ShopSold1
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSold1
         {
             get;
             set;
         }
 
-        public DbString ShopGreeting2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopGreeting2
         {
             get;
             set;
         }
 
-        public DbString ShopRegreeting2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopRegreeting2
         {
             get;
             set;
         }
 
-        public DbString ShopBuy2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuy2
         {
             get;
             set;
         }
 
-        public DbString ShopSell2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSell2
         {
             get;
             set;
         }
 
-        public DbString ShopLeave2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopLeave2
         {
             get;
             set;
         }
 
-        public DbString ShopBuySelect2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuySelect2
         {
             get;
             set;
         }
 
-        public DbString ShopBuyNumber2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuyNumber2
         {
             get;
             set;
         }
 
-        public DbString ShopPurchased2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopPurchased2
         {
             get;
             set;
         }
 
-        public DbString ShopSellSelect2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSellSelect2
         {
             get;
             set;
         }
 
-        public DbString ShopSellNumber2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSellNumber2
         {
             get;
             set;
         }
 
-        public DbString ShopSold2
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSold2
         {
             get;
             set;
         }
 
-        public DbString ShopGreeting3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopGreeting3
         {
             get;
             set;
         }
 
-        public DbString ShopRegreeting3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopRegreeting3
         {
             get;
             set;
         }
 
-        public DbString ShopBuy3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuy3
         {
             get;
             set;
         }
 
-        public DbString ShopSell3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSell3
         {
             get;
             set;
         }
 
-        public DbString ShopLeave3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopLeave3
         {
             get;
             set;
         }
 
-        public DbString ShopBuySelect3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuySelect3
         {
             get;
             set;
         }
 
-        public DbString ShopBuyNumber3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopBuyNumber3
         {
             get;
             set;
         }
 
-        public DbString ShopPurchased3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopPurchased3
         {
             get;
             set;
         }
 
-        public DbString ShopSellSelect3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSellSelect3
         {
             get;
             set;
         }
 
-        public DbString ShopSellNumber3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSellNumber3
         {
             get;
             set;
         }
 
-        public DbString ShopSold3
+		[LcfAlwaysPersistAttribute]
+		public DbString ShopSold3
         {
             get;
             set;
         }
 
-        public DbString InnAGreeting1
+		[LcfAlwaysPersistAttribute]
+		public DbString InnAGreeting1
         {
             get;
             set;
         }
 
-        public DbString InnAGreeting2
+		[LcfAlwaysPersistAttribute]
+		public DbString InnAGreeting2
         {
             get;
             set;
         }
 
-        public DbString InnAGreeting3
+		[LcfAlwaysPersistAttribute]
+		public DbString InnAGreeting3
         {
             get;
             set;
         }
 
-        public DbString InnAAccept
+		[LcfAlwaysPersistAttribute]
+		public DbString InnAAccept
         {
             get;
             set;
         }
 
-        public DbString InnACancel
+		[LcfAlwaysPersistAttribute]
+		public DbString InnACancel
         {
             get;
             set;
         }
 
-        public DbString InnBGreeting1
+		[LcfAlwaysPersistAttribute]
+		public DbString InnBGreeting1
         {
             get;
             set;
         }
 
-        public DbString InnBGreeting2
+		[LcfAlwaysPersistAttribute]
+		public DbString InnBGreeting2
         {
             get;
             set;
         }
 
-        public DbString InnBGreeting3
+		[LcfAlwaysPersistAttribute]
+		public DbString InnBGreeting3
         {
             get;
             set;
         }
 
-        public DbString InnBAccept
+		[LcfAlwaysPersistAttribute]
+		public DbString InnBAccept
         {
             get;
             set;
         }
 
-        public DbString InnBCancel
+		[LcfAlwaysPersistAttribute]
+		public DbString InnBCancel
         {
             get;
             set;
         }
 
-        public DbString PossessedItems
+		[LcfAlwaysPersistAttribute]
+		public DbString PossessedItems
         {
             get;
             set;
         }
 
-        public DbString EquippedItems
+		[LcfAlwaysPersistAttribute]
+		public DbString EquippedItems
         {
             get;
             set;
         }
 
-        public DbString Gold
+		[LcfAlwaysPersistAttribute]
+		public DbString Gold
         {
             get;
             set;
         }
 
-        public DbString BattleFight
+		[LcfAlwaysPersistAttribute]
+		public DbString BattleFight
         {
             get;
             set;
         }
 
-        public DbString BattleAuto
+		[LcfAlwaysPersistAttribute]
+		public DbString BattleAuto
         {
             get;
             set;
         }
 
-        public DbString BattleEscape
+		[LcfAlwaysPersistAttribute]
+		public DbString BattleEscape
         {
             get;
             set;
         }
 
-        public DbString CommandAttack
+		[LcfAlwaysPersistAttribute]
+		public DbString CommandAttack
         {
             get;
             set;
         }
 
-        public DbString CommandDefend
+		[LcfAlwaysPersistAttribute]
+		public DbString CommandDefend
         {
             get;
             set;
         }
 
-        public DbString CommandItem
+		[LcfAlwaysPersistAttribute]
+		public DbString CommandItem
         {
             get;
             set;
         }
 
-        public DbString CommandSkill
+		[LcfAlwaysPersistAttribute]
+		public DbString CommandSkill
         {
             get;
             set;
         }
 
-        public DbString MenuEquipment
+		[LcfAlwaysPersistAttribute]
+		public DbString MenuEquipment
         {
             get;
             set;
         }
 
-        public DbString MenuSave
+		[LcfAlwaysPersistAttribute]
+		public DbString MenuSave
         {
             get;
             set;
         }
 
-        public DbString MenuQuit
+		[LcfAlwaysPersistAttribute]
+		public DbString MenuQuit
         {
             get;
             set;
         }
 
-        public DbString NewGame
+		[LcfAlwaysPersistAttribute]
+		public DbString NewGame
         {
             get;
             set;
         }
 
-        public DbString LoadGame
+		[LcfAlwaysPersistAttribute]
+		public DbString LoadGame
         {
             get;
             set;
         }
 
-        public DbString ExitGame
+		[LcfAlwaysPersistAttribute]
+		public DbString ExitGame
         {
             get;
             set;
         }
 
-        public DbString Status
+		[LcfAlwaysPersistAttribute]
+		public DbString Status
         {
             get;
             set;
         }
 
-        public DbString Row
+		[LcfAlwaysPersistAttribute]
+		public DbString Row
         {
             get;
             set;
         }
 
-        public DbString Order
+		[LcfAlwaysPersistAttribute]
+		public DbString Order
         {
             get;
             set;
         }
 
-        public DbString WaitOn
+		[LcfAlwaysPersistAttribute]
+		public DbString WaitOn
         {
             get;
             set;
         }
 
-        public DbString WaitOff
+		[LcfAlwaysPersistAttribute]
+		public DbString WaitOff
         {
             get;
             set;
         }
 
-        public DbString Level
+		[LcfAlwaysPersistAttribute]
+		public DbString Level
         {
             get;
             set;
         }
 
-        public DbString HealthPoints
+		[LcfAlwaysPersistAttribute]
+		public DbString HealthPoints
         {
             get;
             set;
         }
 
-        public DbString SpiritPoints
+		[LcfAlwaysPersistAttribute]
+		public DbString SpiritPoints
         {
             get;
             set;
         }
 
-        public DbString NormalStatus
+		[LcfAlwaysPersistAttribute]
+		public DbString NormalStatus
         {
             get;
             set;
         }
 
-        public DbString ExpShort
+		[LcfAlwaysPersistAttribute]
+		public DbString ExpShort
         {
             get;
             set;
         }
 
-        public DbString LvlShort
+		[LcfAlwaysPersistAttribute]
+		public DbString LvlShort
         {
             get;
             set;
         }
 
-        public DbString HpShort
+		[LcfAlwaysPersistAttribute]
+		public DbString HpShort
         {
             get;
             set;
         }
 
-        public DbString SpShort
+		[LcfAlwaysPersistAttribute]
+		public DbString SpShort
         {
             get;
             set;
         }
 
-        public DbString SpCost
+		[LcfAlwaysPersistAttribute]
+		public DbString SpCost
         {
             get;
             set;
         }
 
-        public DbString Attack
+		[LcfAlwaysPersistAttribute]
+		public DbString Attack
         {
             get;
             set;
         }
 
-        public DbString Defense
+		[LcfAlwaysPersistAttribute]
+		public DbString Defense
         {
             get;
             set;
         }
 
-        public DbString Spirit
+		[LcfAlwaysPersistAttribute]
+		public DbString Spirit
         {
             get;
             set;
         }
 
-        public DbString Agility
+		[LcfAlwaysPersistAttribute]
+		public DbString Agility
         {
             get;
             set;
         }
 
-        public DbString Weapon
+		[LcfAlwaysPersistAttribute]
+		public DbString Weapon
         {
             get;
             set;
         }
 
-        public DbString Shield
+		[LcfAlwaysPersistAttribute]
+		public DbString Shield
         {
             get;
             set;
         }
 
-        public DbString Armor
+		[LcfAlwaysPersistAttribute]
+		public DbString Armor
         {
             get;
             set;
         }
 
-        public DbString Helmet
+		[LcfAlwaysPersistAttribute]
+		public DbString Helmet
         {
             get;
             set;
         }
 
-        public DbString Accessory
+		[LcfAlwaysPersistAttribute]
+		public DbString Accessory
         {
             get;
             set;
         }
 
-        public DbString SaveGameMessage
+		[LcfAlwaysPersistAttribute]
+		public DbString SaveGameMessage
         {
             get;
             set;
         }
 
-        public DbString LoadGameMessage
+		[LcfAlwaysPersistAttribute]
+		public DbString LoadGameMessage
         {
             get;
             set;
         }
 
-        public DbString File
+		[LcfAlwaysPersistAttribute]
+		public DbString File
         {
             get;
             set;
         }
 
-        public DbString ExitGameMessage
+		[LcfAlwaysPersistAttribute]
+		public DbString ExitGameMessage
         {
             get;
             set;
         }
 
-        public DbString Yes
+		[LcfAlwaysPersistAttribute]
+		public DbString Yes
         {
             get;
             set;
         }
 
-        public DbString No
+		[LcfAlwaysPersistAttribute]
+		public DbString No
         {
             get;
             set;
-        }
-
-        public Terms(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<TermsChunk>(reader, (chunk) =>
-            {
-                switch ((TermsChunk)chunk.ID)
-                {
-                    case TermsChunk.Encounter:
-                        Encounter = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SpecialCombat:
-                        SpecialCombat = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EscapeSuccess:
-                        EscapeSuccess = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EscapeFailure:
-                        EscapeFailure = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Victory:
-                        Victory = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Defeat:
-                        Defeat = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ExpReceived:
-                        ExpReceived = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.GoldReceivedA:
-                        GoldReceivedA = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.GoldReceivedB:
-                        GoldReceivedB = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ItemReceived:
-                        ItemReceived = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Attacking:
-                        Attacking = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EnemyCritical:
-                        EnemyCritical = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ActorCritical:
-                        ActorCritical = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Defending:
-                        Defending = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Observing:
-                        Observing = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Focus:
-                        Focus = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Autodestruction:
-                        Autodestruction = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EnemyEscape:
-                        EnemyEscape = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EnemyTransform:
-                        EnemyTransform = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EnemyDamaged:
-                        EnemyDamaged = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EnemyUndamaged:
-                        EnemyUndamaged = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ActorDamaged:
-                        ActorDamaged = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ActorUndamaged:
-                        ActorUndamaged = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SkillFailureA:
-                        SkillFailureA = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SkillFailureB:
-                        SkillFailureB = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SkillFailureC:
-                        SkillFailureC = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Dodge:
-                        Dodge = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.UseItem:
-                        UseItem = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.HpRecovery:
-                        HpRecovery = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ParameterIncrease:
-                        ParameterIncrease = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ParameterDecrease:
-                        ParameterDecrease = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EnemyHpAbsorbed:
-                        EnemyHpAbsorbed = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ActorHpAbsorbed:
-                        ActorHpAbsorbed = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ResistanceIncrease:
-                        ResistanceIncrease = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ResistanceDecrease:
-                        ResistanceDecrease = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.LevelUp:
-                        LevelUp = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SkillLearned:
-                        SkillLearned = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.BattleStart:
-                        BattleStart = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Miss:
-                        Miss = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopGreeting1:
-                        ShopGreeting1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopRegreeting1:
-                        ShopRegreeting1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuy1:
-                        ShopBuy1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSell1:
-                        ShopSell1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopLeave1:
-                        ShopLeave1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuySelect1:
-                        ShopBuySelect1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuyNumber1:
-                        ShopBuyNumber1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopPurchased1:
-                        ShopPurchased1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSellSelect1:
-                        ShopSellSelect1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSellNumber1:
-                        ShopSellNumber1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSold1:
-                        ShopSold1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopGreeting2:
-                        ShopGreeting2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopRegreeting2:
-                        ShopRegreeting2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuy2:
-                        ShopBuy2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSell2:
-                        ShopSell2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopLeave2:
-                        ShopLeave2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuySelect2:
-                        ShopBuySelect2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuyNumber2:
-                        ShopBuyNumber2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopPurchased2:
-                        ShopPurchased2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSellSelect2:
-                        ShopSellSelect2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSellNumber2:
-                        ShopSellNumber2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSold2:
-                        ShopSold2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopGreeting3:
-                        ShopGreeting3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopRegreeting3:
-                        ShopRegreeting3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuy3:
-                        ShopBuy3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSell3:
-                        ShopSell3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopLeave3:
-                        ShopLeave3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuySelect3:
-                        ShopBuySelect3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopBuyNumber3:
-                        ShopBuyNumber3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopPurchased3:
-                        ShopPurchased3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSellSelect3:
-                        ShopSellSelect3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSellNumber3:
-                        ShopSellNumber3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ShopSold3:
-                        ShopSold3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnAGreeting1:
-                        InnAGreeting1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnAGreeting2:
-                        InnAGreeting2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnAGreeting3:
-                        InnAGreeting3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnAAccept:
-                        InnAAccept = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnACancel:
-                        InnACancel = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnBGreeting1:
-                        InnBGreeting1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnBGreeting2:
-                        InnBGreeting2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnBGreeting3:
-                        InnBGreeting3 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnBAccept:
-                        InnBAccept = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.InnBCancel:
-                        InnBCancel = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.PossessedItems:
-                        PossessedItems = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.EquippedItems:
-                        EquippedItems = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Gold:
-                        Gold = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.BattleFight:
-                        BattleFight = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.BattleAuto:
-                        BattleAuto = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.BattleEscape:
-                        BattleEscape = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.CommandAttack:
-                        CommandAttack = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.CommandDefend:
-                        CommandDefend = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.CommandItem:
-                        CommandItem = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.CommandSkill:
-                        CommandSkill = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.MenuEquipment:
-                        MenuEquipment = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.MenuSave:
-                        MenuSave = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.MenuQuit:
-                        MenuQuit = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.NewGame:
-                        NewGame = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.LoadGame:
-                        LoadGame = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ExitGame:
-                        ExitGame = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Status:
-                        Status = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Row:
-                        Row = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Order:
-                        Order = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.WaitOn:
-                        WaitOn = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.WaitOff:
-                        WaitOff = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Level:
-                        Level = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.HealthPoints:
-                        HealthPoints = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SpiritPoints:
-                        SpiritPoints = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.NormalStatus:
-                        NormalStatus = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ExpShort:
-                        ExpShort = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.LvlShort:
-                        LvlShort = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.HpShort:
-                        HpShort = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SpShort:
-                        SpShort = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SpCost:
-                        SpCost = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Attack:
-                        Attack = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Defense:
-                        Defense = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Spirit:
-                        Spirit = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Agility:
-                        Agility = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Weapon:
-                        Weapon = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Shield:
-                        Shield = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Armor:
-                        Armor = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Helmet:
-                        Helmet = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Accessory:
-                        Accessory = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.SaveGameMessage:
-                        SaveGameMessage = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.LoadGameMessage:
-                        LoadGameMessage = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.File:
-                        File = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.ExitGameMessage:
-                        ExitGameMessage = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.Yes:
-                        Yes = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TermsChunk.No:
-                        No = reader.ReadDbString(chunk.Length);
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

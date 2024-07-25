@@ -1,5 +1,6 @@
 ﻿namespace LcfSharp.Rpg.Events
 {
+    using LcfSharp.IO.Attributes;
     using System.Collections.Generic;
 
     public enum EventPageConditionComparison
@@ -68,12 +69,14 @@
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public int Timer2Sec
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public int CompareOperator
         {
             get;

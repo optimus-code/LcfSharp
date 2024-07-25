@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle.Battlers;
 using System.Collections.Generic;
 
@@ -46,6 +47,7 @@ namespace LcfSharp.Rpg.Shared
         Add = 1
     }
 
+    [LcfChunk<BattlerAnimationItemSkillChunk>]
     public class BattlerAnimationItemSkill
     {
         public static readonly Dictionary<BattlerAnimationItemSkillSpeed, string> SpeedTags = new Dictionary<BattlerAnimationItemSkillSpeed, string>
@@ -75,6 +77,7 @@ namespace LcfSharp.Rpg.Shared
             { BattlerAnimationItemSkillAfterimage.Add, "add" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
@@ -146,59 +149,5 @@ namespace LcfSharp.Rpg.Shared
             get;
             set;
         } = BattlerAnimationPoses.Skill;
-
-        public BattlerAnimationItemSkill(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattlerAnimationItemSkillChunk>(reader, (chunk) =>
-            {
-                switch ((BattlerAnimationItemSkillChunk)chunk.ID)
-                {
-                    case BattlerAnimationItemSkillChunk.Unknown02:
-                        Unknown02 = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.Type:
-                        Type = (BattlerAnimationItemSkillAnimType)reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.WeaponAnimationId:
-                        WeaponAnimationID = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.Movement:
-                        Movement = (BattlerAnimationItemSkillMovement)reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.AfterImage:
-                        AfterImage = (BattlerAnimationItemSkillAfterimage)reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.Attacks:
-                        Attacks = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.Ranged:
-                        Ranged = reader.ReadBool();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.RangedAnimationId:
-                        RangedAnimationID = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.RangedSpeed:
-                        RangedSpeed = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.BattleAnimationId:
-                        BattleAnimationID = reader.ReadInt();
-                        return true;
-
-                    case BattlerAnimationItemSkillChunk.Pose:
-                        Pose = (BattlerAnimationPoses)reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

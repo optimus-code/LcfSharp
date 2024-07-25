@@ -2,9 +2,10 @@
 using System.Collections;
 using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Shared;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using LcfSharp.IO;
 using LcfSharp.Rpg.Troops;
+using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Skills
 {
@@ -21,19 +22,19 @@ namespace LcfSharp.Rpg.Skills
         /** Integer - RPG2000 */
         FailureMessage = 0x07,
         /** Integer */
-        Type = 0x08,
+        SkillType = 0x08,
         /** Integer - RPG2003 */
-        SpType = 0x09,
+        SPType = 0x09,
         /** Integer - RPG2003 */
-        SpPercent = 0x0A,
+        SPPercent = 0x0A,
         /** Integer */
-        SpCost = 0x0B,
+        SPCost = 0x0B,
         /** Integer */
-        Scope = 0x0C,
+        SkillScope = 0x0C,
         /** Integer */
-        SwitchId = 0x0D,
+        SwitchID = 0x0D,
         /** Integer */
-        AnimationId = 0x0E,
+        AnimationID = 0x0E,
         /** rpg::Sound */
         SoundEffect = 0x10,
         /** Flag */
@@ -53,9 +54,9 @@ namespace LcfSharp.Rpg.Skills
         /** Integer */
         Hit = 0x19,
         /** Flag */
-        AffectHp = 0x1F,
+        AffectHP = 0x1F,
         /** Flag */
-        AffectSp = 0x20,
+        AffectSP = 0x20,
         /** Flag */
         AffectAttack = 0x21,
         /** Flag */
@@ -84,6 +85,7 @@ namespace LcfSharp.Rpg.Skills
         BattlerAnimationData = 0x32
     }
 
+    [LcfChunk<SkillChunk>]
     public class Skill
     {
         // Sentinel name used to denote that the default skill start message should be used.
@@ -119,6 +121,7 @@ namespace LcfSharp.Rpg.Skills
             Percent = 1
         }
 
+        [LcfID]
         public int ID
         {
             get;
@@ -155,48 +158,53 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = 0;
 
+        [LcfAlwaysPersistAttribute]
         public Type SkillType
         {
             get;
             set;
         } = Type.Normal;
 
-        public SpType SkillSpType
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        public SpType SPType
         {
             get;
             set;
         } = SpType.Cost;
 
-        public int SpPercent
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        public int SPPercent
         {
             get;
             set;
         } = 0;
 
-        public int SpCost
+        public int SPCost
         {
             get;
             set;
         } = 0;
 
+        [LcfAlwaysPersistAttribute]
         public Scope SkillScope
         {
             get;
             set;
         } = Scope.Enemy;
 
-        public int SwitchId
+        public int SwitchID
         {
             get;
             set;
         } = 1;
 
-        public int AnimationId
+        public int AnimationID
         {
             get;
             set;
         } = 1;
 
+        [LcfAlwaysPersistAttribute]
         public Sound SoundEffect
         {
             get;
@@ -215,6 +223,7 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = false;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public bool ReverseStateEffect
         {
             get;
@@ -251,13 +260,13 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = 100;
 
-        public bool AffectHp
+        public bool AffectHP
         {
             get;
             set;
         } = false;
 
-        public bool AffectSp
+        public bool AffectSP
         {
             get;
             set;
@@ -299,13 +308,17 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = false;
 
-        public DbBitArray StateEffects
+        [LcfAlwaysPersistAttribute]
+        [LcfSize((int)SkillChunk.StateEffectsSize)]
+        public BitArray StateEffects
         {
             get;
             set;
         }
 
-        public DbBitArray AttributeEffects
+        [LcfAlwaysPersistAttribute]
+        [LcfSize((int)SkillChunk.AttributeEffectsSize)]
+        public BitArray AttributeEffects
         {
             get;
             set;
@@ -317,195 +330,19 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = false;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public int BattlerAnimation
         {
             get;
             set;
         } = -1;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
         public List<BattlerAnimationItemSkill> BattlerAnimationData
         {
             get;
             set;
-        }
-
-        public Skill(LcfReader reader)
-        {
-            int stateEffectsSize = 0;
-            int attributeEffectsSize = 0;
-
-            TypeHelpers.ReadChunks<SkillChunk>(reader, (chunk) =>
-            {
-                switch ((SkillChunk)chunk.ID)
-                {
-                    case SkillChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SkillChunk.Description:
-                        Description = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SkillChunk.UsingMessage1:
-                        UsingMessage1 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SkillChunk.UsingMessage2:
-                        UsingMessage2 = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case SkillChunk.FailureMessage:
-                        FailureMessage = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.Type:
-                        SkillType = (Type)reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.SpType:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SkillSpType = (SpType)reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.SpPercent:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SpPercent = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.SpCost:
-                        SpCost = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.Scope:
-                        SkillScope = (Scope)reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.SwitchId:
-                        SwitchId = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.AnimationId:
-                        AnimationId = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.SoundEffect:
-                        SoundEffect = new Sound(reader);
-                        return true;
-
-                    case SkillChunk.OccasionField:
-                        OccasionField = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.OccasionBattle:
-                        OccasionBattle = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.ReverseStateEffect:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        ReverseStateEffect = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.PhysicalRate:
-                        PhysicalRate = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.MagicalRate:
-                        MagicalRate = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.Variance:
-                        Variance = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.Power:
-                        Power = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.Hit:
-                        Hit = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.AffectHp:
-                        AffectHp = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.AffectSp:
-                        AffectSp = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.AffectAttack:
-                        AffectAttack = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.AffectDefense:
-                        AffectDefense = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.AffectSpirit:
-                        AffectSpirit = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.AffectAgility:
-                        AffectAgility = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.AbsorbDamage:
-                        AbsorbDamage = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.IgnoreDefense:
-                        IgnoreDefense = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.StateEffectsSize:
-                        stateEffectsSize = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.StateEffects:
-                        if (stateEffectsSize > 0)
-                        {
-                            StateEffects = reader.ReadBitArray(stateEffectsSize);
-                            return true;
-                        }
-                        break;
-
-                    case SkillChunk.AttributeEffectsSize:
-                        attributeEffectsSize = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.AttributeEffects:
-                        if (attributeEffectsSize > 0)
-                        {
-                            AttributeEffects = reader.ReadBitArray(attributeEffectsSize);
-                            return true;
-                        }
-                        break;
-
-                    case SkillChunk.AffectAttrDefence:
-                        AffectAttrDefence = reader.ReadBool();
-                        return true;
-
-                    case SkillChunk.BattlerAnimation:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BattlerAnimation = reader.ReadInt();
-                        return true;
-
-                    case SkillChunk.BattlerAnimationData:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BattlerAnimationData = new List<BattlerAnimationItemSkill>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            BattlerAnimationData.Add(new BattlerAnimationItemSkill(reader));
-                        });
-                        return true;
-                }
-                return false;
-            });
-        }
+        } = [];
     }
 }

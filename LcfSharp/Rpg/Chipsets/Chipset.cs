@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -23,6 +24,7 @@ namespace LcfSharp.Rpg.Chipsets
         Cyclic = 1
     }
 
+    [LcfChunk<ChipsetChunk>]
     public class Chipset
     {
         public static readonly Dictionary<ChipsetAnimType, string> Tags = new Dictionary<ChipsetAnimType, string>
@@ -31,6 +33,7 @@ namespace LcfSharp.Rpg.Chipsets
             { ChipsetAnimType.Cyclic, "cyclic" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
@@ -77,43 +80,6 @@ namespace LcfSharp.Rpg.Chipsets
         {
             get;
             set;
-        }
-        public Chipset(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<ChipsetChunk>(reader, (chunk) =>
-            {
-                switch ((ChipsetChunk)chunk.ID)
-                {
-                    case ChipsetChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case ChipsetChunk.ChipsetName:
-                        ChipsetName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case ChipsetChunk.TerrainData:
-                        TerrainData = TypeHelpers.ReadChunkShortList(reader, chunk.Length);
-                        return true;
-
-                    case ChipsetChunk.PassableDataLower:
-                        PassableDataLower = TypeHelpers.ReadChunkByteList(reader, chunk.Length);
-                        return true;
-
-                    case ChipsetChunk.PassableDataUpper:
-                        PassableDataUpper = TypeHelpers.ReadChunkByteList(reader, chunk.Length);
-                        return true;
-
-                    case ChipsetChunk.AnimationType:
-                        AnimationType = reader.ReadInt();
-                        return true;
-
-                    case ChipsetChunk.AnimationSpeed:
-                        AnimationSpeed = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

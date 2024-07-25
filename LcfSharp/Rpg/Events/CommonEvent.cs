@@ -1,8 +1,9 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Classes;
 using LcfSharp.Rpg.Shared;
 using LcfSharp.Rpg.Skills;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
@@ -12,7 +13,7 @@ namespace LcfSharp.Rpg.Events
         Name = 0x01,
         Trigger = 0x0B,
         SwitchFlag = 0x0C,
-        SwitchId = 0x0D,
+        SwitchID = 0x0D,
         EventCommandsSize = 0x15,
         EventCommands = 0x16
     }
@@ -24,6 +25,7 @@ namespace LcfSharp.Rpg.Events
         Call = 5
     }
 
+    [LcfChunk<CommonEventChunk>]
     public class CommonEvent
     {
         public static readonly Dictionary<CommonEventTrigger, string> Tags = new Dictionary<CommonEventTrigger, string>
@@ -33,13 +35,14 @@ namespace LcfSharp.Rpg.Events
             { CommonEventTrigger.Call, "call" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
-
-        public DbString Name
+[       LcfAlwaysPersistAttribute]
+		public DbString Name
         {
             get;
             set;
@@ -63,53 +66,12 @@ namespace LcfSharp.Rpg.Events
             set;
         } = 1;
 
+        [LcfAlwaysPersistAttribute]
+        [LcfSize((int)CommonEventChunk.EventCommandsSize)]
         public List<EventCommand> EventCommands
         {
             get;
             set;
         } = new List<EventCommand>();
-
-        public CommonEvent(LcfReader reader)
-        {
-            int eventCommandsCount = 0;
-
-            TypeHelpers.ReadChunks<CommonEventChunk>(reader, (chunk) =>
-            {
-                switch ((CommonEventChunk)chunk.ID)
-                {
-                    case CommonEventChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case CommonEventChunk.Trigger:
-                        Trigger = (CommonEventTrigger)reader.ReadInt();
-                        return true;
-
-                    case CommonEventChunk.SwitchFlag:
-                        SwitchFlag = reader.ReadBool();
-                        return true;
-
-                    case CommonEventChunk.SwitchId:
-                        SwitchID = reader.ReadInt();
-                        return true;
-
-                    case CommonEventChunk.EventCommandsSize:
-                        eventCommandsCount = reader.ReadInt();
-                        return true;
-
-                    case CommonEventChunk.EventCommands:
-                        if (eventCommandsCount > 0)
-                        { 
-                            for (int i = 0; i < eventCommandsCount; i++)
-                            {
-                                EventCommands.Add(new EventCommand(reader));
-                            }
-                            return true;
-                        }
-                        break;
-                }
-                return false;
-            });
-        }
     }
 }

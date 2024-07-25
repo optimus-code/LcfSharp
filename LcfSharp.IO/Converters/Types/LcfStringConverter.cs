@@ -9,7 +9,7 @@ namespace LcfSharp.IO.Converters.Types
     {
         public override object Read(BinaryReader reader, int? length)
         {
-            var count = length.HasValue ? length.Value : reader.Read7BitEncodedInt();
+            var count = length.HasValue ? length.Value : reader.ReadVarInt();
             return reader.ReadString(count);
         }
 

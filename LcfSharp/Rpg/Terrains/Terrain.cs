@@ -1,7 +1,8 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Troops;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System;
 using System.Collections.Generic;
 
@@ -89,6 +90,7 @@ namespace LcfSharp.Rpg.Terrains
         Frame = 1
     }
 
+    [LcfChunk<TerrainChunk>]
     public class Terrain
     {
         public static readonly Dictionary<TerrainBushDepth, string> BushDepthTags = new Dictionary<TerrainBushDepth, string>
@@ -105,6 +107,7 @@ namespace LcfSharp.Rpg.Terrains
             { TerrainBGAssociation.Frame, "frame" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
@@ -159,12 +162,14 @@ namespace LcfSharp.Rpg.Terrains
             set;
         } = true;
 
+        [LcfAlwaysPersistAttribute]
         public TerrainBushDepth BushDepth
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public Sound Footstep
         {
             get;
@@ -249,7 +254,11 @@ namespace LcfSharp.Rpg.Terrains
             set;
         }
 
-        public TerrainFlags SpecialFlags { get; set; } = new TerrainFlags();
+        public TerrainFlags SpecialFlags
+        { 
+            get; 
+            set; 
+        } = new TerrainFlags();
 
         public int SpecialBackParty
         {
@@ -298,189 +307,5 @@ namespace LcfSharp.Rpg.Terrains
             get;
             set;
         } = 16000;
-
-        public Terrain(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<TerrainChunk>(reader, (chunk) =>
-            {
-                switch ((TerrainChunk)chunk.ID)
-                {
-                    case TerrainChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TerrainChunk.Damage:
-                        Damage = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.EncounterRate:
-                        EncounterRate = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.BackgroundName:
-                        BackgroundName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TerrainChunk.BoatPass:
-                        BoatPass = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.ShipPass:
-                        ShipPass = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.AirshipPass:
-                        AirshipPass = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.AirshipLand:
-                        AirshipLand = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BushDepth:
-                        BushDepth = (TerrainBushDepth)reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.Footstep:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        Footstep = new Sound(reader);
-                        return true;
-
-                    case TerrainChunk.OnDamageSe:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        OnDamageSe = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BackgroundType:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundType = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.BackgroundAName:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundAName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TerrainChunk.BackgroundAScrollH:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundAScrollH = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BackgroundAScrollV:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundAScrollV = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BackgroundAScrollHSpeed:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundAScrollHSpeed = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.BackgroundAScrollVSpeed:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundAScrollVSpeed = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.BackgroundB:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundB = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BackgroundBName:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundBName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case TerrainChunk.BackgroundBScrollH:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundBScrollH = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BackgroundBScrollV:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundBScrollV = reader.ReadBool();
-                        return true;
-
-                    case TerrainChunk.BackgroundBScrollHSpeed:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundBScrollHSpeed = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.BackgroundBScrollVSpeed:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BackgroundBScrollVSpeed = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.SpecialFlags:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SpecialFlags = DbFlags.Read<TerrainFlags>(reader);
-                        return SpecialFlags != null;
-
-                    case TerrainChunk.SpecialBackParty:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SpecialBackParty = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.SpecialBackEnemies:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SpecialBackEnemies = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.SpecialLateralParty:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SpecialLateralParty = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.SpecialLateralEnemies:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        SpecialLateralEnemies = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.GridLocation:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        GridLocation = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.GridTopY:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        GridTopY = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.GridElongation:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        GridElongation = reader.ReadInt();
-                        return true;
-
-                    case TerrainChunk.GridInclination:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        GridInclination = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

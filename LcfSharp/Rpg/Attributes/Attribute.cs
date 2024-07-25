@@ -1,7 +1,6 @@
 ﻿using LcfSharp.IO;
-using LcfSharp.Rpg.Shared;
-using LcfSharp.Rpg.Skills;
-using LcfSharp.Types;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Attributes
@@ -30,6 +29,7 @@ namespace LcfSharp.Rpg.Attributes
         Magical = 1
     }
 
+    [LcfChunk<AttributeChunk>]
     public class Attribute
     {
 
@@ -39,19 +39,21 @@ namespace LcfSharp.Rpg.Attributes
             { AttributeTypes.Magical, "magical" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
-
-        public DbString Name
+[LcfAlwaysPersistAttribute]
+		public DbString Name
         {
             get;
             set;
         }
 
-        public AttributeTypes AttributeType
+        [LcfAlwaysPersistAttribute]
+        public AttributeTypes Type
         {
             get;
             set;
@@ -85,44 +87,6 @@ namespace LcfSharp.Rpg.Attributes
         {
             get;
             set;
-        }
-
-        public Attribute(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<AttributeChunk>(reader, (chunk) =>
-            {
-                switch ((AttributeChunk)chunk.ID)
-                {
-                    case AttributeChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case AttributeChunk.Type:
-                        AttributeType = (AttributeTypes)reader.ReadInt();
-                        return true;
-
-                    case AttributeChunk.ARate:
-                        ARate = reader.ReadInt();
-                        return true;
-
-                    case AttributeChunk.BRate:
-                        BRate = reader.ReadInt();
-                        return true;
-
-                    case AttributeChunk.CRate:
-                        CRate = reader.ReadInt();
-                        return true;
-
-                    case AttributeChunk.DRate:
-                        DRate = reader.ReadInt();
-                        return true;
-
-                    case AttributeChunk.ERate:
-                        ERate = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

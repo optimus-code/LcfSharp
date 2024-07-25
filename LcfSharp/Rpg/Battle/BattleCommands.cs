@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle.Battlers;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace LcfSharp.Rpg.Battle
         /** Integer */
         DeathTeleport = 0x19,
         /** Integer */
-        DeathTeleportId = 0x1A,
+        DeathTeleportID = 0x1A,
         /** Integer */
         DeathTeleportX = 0x1B,
         /** Integer */
@@ -79,6 +80,7 @@ namespace LcfSharp.Rpg.Battle
         Left = 4
     }
 
+    [LcfChunk<BattleCommandsChunk>]
     public class BattleCommands
     {
         public static readonly Dictionary<BattleCommandsPlacement, string> PlacementTags = new Dictionary<BattleCommandsPlacement, string>
@@ -127,6 +129,7 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = 0;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public bool DeathHandlerUnused
         {
             get;
@@ -151,12 +154,14 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = true;
 
+        [LcfAlwaysPersistAttribute]
         public List<BattleCommand> Commands
         {
             get;
             set;
         } = new List<BattleCommand>();
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public bool DeathHandler
         {
             get;
@@ -187,7 +192,7 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = false;
 
-        public int DeathTeleportId
+        public int DeathTeleportID
         {
             get;
             set;
@@ -210,84 +215,5 @@ namespace LcfSharp.Rpg.Battle
             get;
             set;
         } = 0;
-
-        public BattleCommands(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattleCommandsChunk>(reader, (chunk) =>
-            {
-                switch ((BattleCommandsChunk)chunk.ID)
-                {
-                    case BattleCommandsChunk.Placement:
-                        Placement = (BattleCommandsPlacement)reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.DeathHandlerUnused:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        DeathHandlerUnused = reader.ReadBool();
-                        return true;
-
-                    case BattleCommandsChunk.Row:
-                        Row = (BattleCommandsRowShown)reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.BattleType:
-                        BattleType = (BattleCommandsBattleType)reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.UnusedDisplayNormalParameters:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        UnusedDisplayNormalParameters = reader.ReadBool();
-                        return true;
-
-                    case BattleCommandsChunk.Commands:
-                        Commands = new List<BattleCommand>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Commands.Add(new BattleCommand(reader));
-                        });
-                        return true;
-
-                    case BattleCommandsChunk.DeathHandler:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        DeathHandler = reader.ReadBool();
-                        return true;
-
-                    case BattleCommandsChunk.DeathEvent:
-                        DeathEvent = reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.WindowSize:
-                        WindowSize = (BattleCommandsWindowSize)reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.Transparency:
-                        Transparency = (BattleCommandsTransparency)reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.DeathTeleport:
-                        DeathTeleport = reader.ReadBool();
-                        return true;
-                    case BattleCommandsChunk.DeathTeleportId:
-                        DeathTeleportId = reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.DeathTeleportX:
-                        DeathTeleportX = reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.DeathTeleportY:
-                        DeathTeleportY = reader.ReadInt();
-                        return true;
-
-                    case BattleCommandsChunk.DeathTeleportFace:
-                        DeathTeleportFace = (BattleCommandsFacing)reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using LcfSharp.IO;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
@@ -161,24 +161,5 @@ namespace LcfSharp.Rpg.Events
             get;
             set;
         } = new List<int>();
-
-        public EventCommand(LcfReader reader)
-        {
-            Code = (EventCommandCode)reader.ReadInt();
-
-            if (Code != EventCommandCode.None)
-            {
-                Indent = reader.ReadInt();
-                String = reader.ReadDbString(reader.ReadInt());
-
-                var parametersCount = reader.ReadInt();
-                Parameters = new List<int>(parametersCount);
-
-                for (var i = 0; i < parametersCount; i++)
-                {
-                    Parameters.Add(reader.ReadInt());
-                }
-            }
-        }
     }
 }

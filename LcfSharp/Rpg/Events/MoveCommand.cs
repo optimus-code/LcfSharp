@@ -1,4 +1,4 @@
-﻿using LcfSharp.Types;
+﻿using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events

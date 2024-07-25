@@ -1,7 +1,7 @@
 ﻿
 using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Shared;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Maps

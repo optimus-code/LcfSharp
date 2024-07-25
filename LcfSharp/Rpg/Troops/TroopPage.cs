@@ -1,7 +1,6 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Events;
-using LcfSharp.Rpg.Shared;
-using LcfSharp.Rpg.Skills;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Troops
@@ -13,55 +12,29 @@ namespace LcfSharp.Rpg.Troops
         EventCommands = 0x0C
     }
 
+    [LcfChunk<TroopPageChunk>]
     public class TroopPage
     {
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public TroopPageCondition Condition
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
+        [LcfSize((int)TroopPageChunk.EventCommandsSize)]
         public List<EventCommand> EventCommands
         {
             get;
             set;
         } = [];
-
-        public TroopPage(LcfReader reader)
-        {
-            int eventCommandsCount = 0;
-
-            TypeHelpers.ReadChunks<TroopPageChunk>(reader, (chunk) =>
-            {
-                switch ((TroopPageChunk)chunk.ID)
-                {
-                    case TroopPageChunk.Condition:
-                        Condition = new TroopPageCondition(reader);
-                        return true;
-
-                    case TroopPageChunk.EventCommandsSize:
-                        eventCommandsCount = reader.ReadInt();
-                        return true;
-
-                    case TroopPageChunk.EventCommands:
-                        if (eventCommandsCount > 0)
-                        {
-                            for (var i = 0; i < eventCommandsCount; i++)
-                            {
-                                EventCommands.Add(new EventCommand(reader));
-                            }
-                            return true;
-                        }
-                        break;
-                }
-                return false;
-            });
-        }
     }
 }

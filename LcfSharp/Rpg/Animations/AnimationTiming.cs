@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace LcfSharp.Rpg.Animations
         ScreenShake = 0x08
     }
 
+    [LcfChunk<AnimationTimingChunk>]
     public class AnimationTiming
     {
         public enum AnimationFlashScope
@@ -55,6 +57,7 @@ namespace LcfSharp.Rpg.Animations
             { AnimationScreenShake.Screen, "screen" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
@@ -67,13 +70,15 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public Sound Se
         {
             get;
             set;
         }
 
-        public int FlashScopeValue
+        [LcfAlwaysPersistAttribute]
+        public int FlashScope
         {
             get;
             set;
@@ -107,50 +112,6 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
-
-        public AnimationTiming(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<AnimationTimingChunk>(reader, (chunk) =>
-            {
-                switch ((AnimationTimingChunk)chunk.ID)
-                {
-                    case AnimationTimingChunk.Frame:
-                        Frame = reader.ReadInt();
-                        return true;
-
-                    case AnimationTimingChunk.Se:
-                        Se = new Sound(reader);
-                        return true;
-
-                    case AnimationTimingChunk.FlashScope:
-                        FlashScopeValue = reader.ReadInt();
-                        return true;
-
-                    case AnimationTimingChunk.FlashRed:
-                        FlashRed = reader.ReadInt();
-                        return true;
-
-                    case AnimationTimingChunk.FlashGreen:
-                        FlashGreen = reader.ReadInt();
-                        return true;
-
-                    case AnimationTimingChunk.FlashBlue:
-                        FlashBlue = reader.ReadInt();
-                        return true;
-
-                    case AnimationTimingChunk.FlashPower:
-                        FlashPower = reader.ReadInt();
-                        return true;
-
-                    case AnimationTimingChunk.ScreenShake:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        ScreenShakeValue = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

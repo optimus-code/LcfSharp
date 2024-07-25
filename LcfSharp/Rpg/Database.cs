@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Actors;
 using LcfSharp.Rpg.Animations;
 using LcfSharp.Rpg.Attributes;
@@ -66,15 +67,11 @@ namespace LcfSharp.Rpg
         BattlerAnimations = 0x20
     }
 
-    public class Database
+    [LcfChunk<DatabaseChunk>]
+    public class Database : ILcfRootChunk
     {
-        public string LdbHeader
-        {
-            get;
-            set;
-        }
-
-        public static bool IsRM2K3
+        [LcfIgnore]
+        public string Header
         {
             get;
             set;
@@ -176,188 +173,27 @@ namespace LcfSharp.Rpg
             set;
         } = 0;
 
+        [LcfAlwaysPersistAttribute]
         public BattleCommands BattleCommands
         {
             get;
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
         public List<Class> Classes
         {
             get;
             set;
         } = new List<Class>();
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
         public List<BattlerAnimation> BattlerAnimations
         {
             get;
             set;
         } = new List<BattlerAnimation>();
-
-        public Database(LcfReader reader)
-        {
-            var headerLength = reader.ReadInt();
-            var header = reader.ReadString(headerLength);
-
-            if (string.IsNullOrEmpty(header) || header.Length != 11)
-                throw new InvalidDataException();
-
-            //if (header != "LcfDataBase")
-            //    System.Console.WriteLine("This may not be a correct database format");
-
-            LdbHeader = header;
-
-            TypeHelpers.ReadChunks<DatabaseChunk>(reader, (chunk) =>
-            {
-                switch ((DatabaseChunk)chunk.ID)
-                {
-                    case DatabaseChunk.Actors:
-                        Actors = new List<Actor>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Actors.Add(new Actor(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Skills:
-                        Skills = new List<Skill>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Skills.Add(new Skill(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Items:
-                        Items = new List<Item>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Items.Add(new Item(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Enemies:
-                        Enemies = new List<Enemy>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Enemies.Add(new Enemy(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Troops:
-                        Troops = new List<Troop>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Troops.Add(new Troop(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Terrains:
-                        Terrains = new List<Terrain>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Terrains.Add(new Terrain(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Attributes:
-                        Attributes = new List<Attribute>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Attributes.Add(new Attribute(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.States:
-                        States = new List<State>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            States.Add(new State(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Animations:
-                        Animations = new List<Animation>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Animations.Add(new Animation(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Chipsets:
-                        Chipsets = new List<Chipset>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Chipsets.Add(new Chipset(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Terms:
-                        Terms = new Terms(reader);
-                        return true;
-
-                    case DatabaseChunk.System:
-                        System = new RpgSystem(reader);
-                        return true;
-
-                    case DatabaseChunk.Switches:
-                        Switches = new List<Switch>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Switches.Add(new Switch(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Variables:
-                        Variables = new List<Variable>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Variables.Add(new Variable(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.CommonEvents:
-                        CommonEvents = new List<CommonEvent>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            CommonEvents.Add(new CommonEvent(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.Version:
-                        Version = reader.ReadInt();
-                        return true;
-
-                    case DatabaseChunk.BattleCommands:
-                        if (!IsRM2K3)
-                            return false;
-                        BattleCommands = new BattleCommands(reader);
-                        return true;
-
-                    case DatabaseChunk.Classes:
-                        if (!IsRM2K3)
-                            return false;
-                        Classes = new List<Class>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Classes.Add(new Class(reader));
-                        });
-                        return true;
-
-                    case DatabaseChunk.BattlerAnimations:
-                        if (!IsRM2K3)
-                            return false;
-                        BattlerAnimations = new List<BattlerAnimation>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            BattlerAnimations.Add(new BattlerAnimation(reader));
-                        });
-                        return true;
-                }
-                return false;
-            }, () =>
-            {
-                return reader.IsEOF;
-            });
-        }
     }
 }

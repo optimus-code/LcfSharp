@@ -7,43 +7,6 @@ namespace LcfSharp.Tests
     [TestClass]
     public class DatabaseTests
     {
-        [TestMethod]
-        public void TestReadShort()
-        {
-            // Sample data in little-endian format for various test cases
-            byte[] data1 = { 0x88, 0x13 }; // Should represent 5000
-            byte[] data2 = { 0xFF, 0x7F }; // Should represent 32767 (max positive value for int16)
-            byte[] data3 = { 0x00, 0x80 }; // Should represent -32768 (min negative value for int16)
-            byte[] data4 = { 0x00, 0x00 }; // Should represent 0
-
-            using (MemoryStream ms = new MemoryStream(data1))
-            {
-                LcfReader lcfReader = new LcfReader(ms);
-                short result = lcfReader.ReadShort();
-                Assert.AreEqual(5000, result);
-            }
-
-            using (MemoryStream ms = new MemoryStream(data2))
-            {
-                LcfReader lcfReader = new LcfReader(ms);
-                short result = lcfReader.ReadShort();
-                Assert.AreEqual(32767, result);
-            }
-
-            using (MemoryStream ms = new MemoryStream(data3))
-            {
-                LcfReader lcfReader = new LcfReader(ms);
-                short result = lcfReader.ReadShort();
-                Assert.AreEqual(-32768, result);
-            }
-
-            using (MemoryStream ms = new MemoryStream(data4))
-            {
-                LcfReader lcfReader = new LcfReader(ms);
-                short result = lcfReader.ReadShort();
-                Assert.AreEqual(0, result);
-            }
-        }
 
         [TestMethod]
         public void ReadInt()
@@ -53,7 +16,7 @@ namespace LcfSharp.Tests
             using (MemoryStream ms = new MemoryStream(data))
             {
                 LcfReader lcfReader = new LcfReader(ms);
-                int result = lcfReader.ReadInt();
+                int result = lcfReader.ReadVarInt();
                 Assert.IsTrue(result == 600);
             }
         }
@@ -70,15 +33,70 @@ namespace LcfSharp.Tests
 
             Assert.IsTrue(actor1.Name.Value == "Alex");
             Assert.IsTrue(actor1.CharacterName.Value == "Actor1");
+            Assert.IsTrue(actor1.InitialLevel == 1);
+            Assert.IsTrue(actor1.FinalLevel == -1); // Not persisted if default value - i.e -1 is max value
+            Assert.IsTrue(actor1.CriticalHit == true);
+            Assert.IsTrue(actor1.CriticalHitChance == 30);
+            Assert.IsTrue(actor1.InitialEquipment.WeaponID == 18);
+            Assert.IsTrue(actor1.InitialEquipment.ArmorID == 54);
+            Assert.IsTrue(actor1.InitialEquipment.HelmetID == 0);
+            Assert.IsTrue(actor1.InitialEquipment.AccessoryID == 0);
 
+            var actor2 = db.Actors[1];
 
-            Assert.IsTrue(db.Actors[1].Name.Value == "Brian");
+            Assert.IsTrue(actor2.Name.Value == "Brian");
+            Assert.IsTrue(actor2.CharacterName.Value == "Actor1");
+            Assert.IsTrue(actor2.InitialLevel == 1);
+            Assert.IsTrue(actor2.FinalLevel == -1); // Not persisted if default value - i.e -1 is max value
+            Assert.IsTrue(actor2.CriticalHit == true);
+            Assert.IsTrue(actor2.CriticalHitChance == 30);
+            Assert.IsTrue(actor2.InitialEquipment.WeaponID == 18);
+            Assert.IsTrue(actor2.InitialEquipment.ArmorID == 54);
+            Assert.IsTrue(actor2.InitialEquipment.HelmetID == 0);
+            Assert.IsTrue(actor2.InitialEquipment.AccessoryID == 0);
+
             Assert.IsTrue(db.Actors[2].Name.Value == "Carol");
             Assert.IsTrue(db.Actors[3].Name.Value == "Daisy");
             Assert.IsTrue(db.Actors[4].Name.Value == "Enryuu");
             Assert.IsTrue(db.Actors[5].Name.Value == "Falcon");
             Assert.IsTrue(db.Actors[6].Name.Value == "Gomez");
             Assert.IsTrue(db.Actors[7].Name.Value == "Helen");
+
+            var item1 = db.Items[0];
+            Assert.IsTrue(item1.Name.Value == "Potion");
+
+            var lastItem = db.Items.Last();
+            Assert.IsTrue(lastItem.Name.Value == "--------------------");
+
+
+            var enemy1 = db.Enemies[0];
+            Assert.IsTrue(enemy1.Name.Value == "Slime");
+
+            var lastEnemy = db.Enemies.Last();
+            Assert.IsTrue(lastEnemy.Name.Value == "Demon God");
+
+
+            var troop1 = db.Troops[0];
+            Assert.IsTrue(troop1.Name.Value == "Slimex2");
+            Assert.IsTrue(troop1.Members.Count == 2);
+            Assert.IsTrue(troop1.Members[0].EnemyID == 1);
+            Assert.IsTrue(troop1.Members[1].EnemyID == 1);
+            Assert.IsTrue(troop1.TerrainSet.Length == 10);
+            Assert.IsTrue(troop1.TerrainSet[0] == true);
+            Assert.IsTrue(troop1.TerrainSet[1] == true);
+            Assert.IsTrue(troop1.TerrainSet[2] == true);
+            Assert.IsTrue(troop1.TerrainSet[3] == true);
+            Assert.IsTrue(troop1.TerrainSet[4] == true);
+            Assert.IsTrue(troop1.TerrainSet[5] == true);
+            Assert.IsTrue(troop1.TerrainSet[6] == true);
+            Assert.IsTrue(troop1.TerrainSet[7] == true);
+            Assert.IsTrue(troop1.TerrainSet[8] == false);
+            Assert.IsTrue(troop1.TerrainSet[9] == false);
+
+            Assert.IsTrue(db.Troops[1].Name.Value == "Slimex3");
+
+            var lastTroop = db.Troops.Last();
+            Assert.IsTrue(lastTroop.Name.Value == "Demon God");
         }
 
         [TestMethod]
@@ -87,7 +105,7 @@ namespace LcfSharp.Tests
             using (var stream = File.OpenRead("Data\\RPG_RT.ldb"))
             using (var reader = new LcfReader(stream))
             {
-                var headerLength = reader.ReadInt();
+                var headerLength = reader.ReadVarInt();
                 var header = reader.ReadString(headerLength);
 
                 Assert.IsNotNull(header);
@@ -97,22 +115,21 @@ namespace LcfSharp.Tests
                 var inActors = false;
 
                 //var chunk = reader.ReadChunkHeader();
-                var startOffset = reader.Offset;
-                var actorsCID = reader.ReadInt();
-                var actorsCL = reader.ReadInt();
+                var actorsCID = reader.ReadVarInt();
+                var actorsCL = reader.ReadVarInt();
 
                 Assert.AreEqual(actorsCID, (int)DatabaseChunk.Actors);
 
-                var actorsCount = reader.ReadInt();
+                var actorsCount = reader.ReadVarInt();
 
                 Assert.AreEqual(actorsCount, 8);
 
-                var actor1ID = reader.ReadInt();
+                var actor1ID = reader.ReadVarInt();
 
                 Assert.AreEqual(actor1ID, 1);
 
-                var actor1NameCID = reader.ReadInt();
-                var actor1NameCL = reader.ReadInt();
+                var actor1NameCID = reader.ReadVarInt();
+                var actor1NameCL = reader.ReadVarInt();
 
                 Assert.AreEqual(actor1NameCID, (byte)ActorChunk.Name);
 

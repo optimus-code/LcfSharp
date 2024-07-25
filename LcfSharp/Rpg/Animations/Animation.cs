@@ -1,6 +1,5 @@
-﻿using LcfSharp.IO;
-using LcfSharp.Rpg.Shared;
-using LcfSharp.Types;
+﻿using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Animations
@@ -36,6 +35,7 @@ namespace LcfSharp.Rpg.Animations
         Down = 2
     }
 
+    [LcfChunk<AnimationChunk>]
     public class Animation
     {
         public static readonly Dictionary<AnimationScope, string> ScopeTags = new Dictionary<AnimationScope, string>
@@ -51,19 +51,20 @@ namespace LcfSharp.Rpg.Animations
             { AnimationPosition.Down, "down" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
-
-        public DbString Name
+[LcfAlwaysPersistAttribute]
+		public DbString Name
         {
             get;
             set;
         }
-
-        public DbString AnimationName
+[LcfAlwaysPersistAttribute]
+		public DbString AnimationName
         {
             get;
             set;
@@ -75,74 +76,32 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public List<AnimationTiming> Timings
         {
             get;
             set;
         } = [];
 
+        [LcfAlwaysPersistAttribute]
         public AnimationScope Scope
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public AnimationPosition Position
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         public List<AnimationFrame> Frames
         {
             get;
             set;
         } = [];
-
-        public Animation(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<AnimationChunk>(reader, (chunk) =>
-            {
-                switch ((AnimationChunk)chunk.ID)
-                {
-                    case AnimationChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case AnimationChunk.AnimationName:
-                        AnimationName = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case AnimationChunk.Large:
-                        Large = reader.ReadBool();
-                        return true;
-
-                    case AnimationChunk.Timings:
-                        Timings = new List<AnimationTiming>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Timings.Add(new AnimationTiming(reader));
-                        });
-                        return true;
-
-                    case AnimationChunk.Scope:
-                        Scope =  (AnimationScope)reader.ReadInt();
-                        return true;
-
-                    case AnimationChunk.Position:
-                        Position = (AnimationPosition)reader.ReadInt();
-                        return true;
-
-                    case AnimationChunk.Frames:
-                        Frames = new List<AnimationFrame>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Frames.Add(new AnimationFrame(reader));
-                        });
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

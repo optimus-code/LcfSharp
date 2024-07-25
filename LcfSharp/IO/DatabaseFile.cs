@@ -1,4 +1,5 @@
-﻿using LcfSharp.Rpg;
+﻿using LcfSharp.IO.Converters;
+using LcfSharp.Rpg;
 using System;
 using System.IO;
 
@@ -12,10 +13,11 @@ namespace LcfSharp.IO
         public static Database Load(string path)
         {
             using (var stream = File.OpenRead(path))
-            using (var reader = new LcfReader(stream))
-            {                
-                var database = new Database(reader);
-                return database;
+            {
+                return LcfSerializer.Deserialize<Database>(stream, new LcfSerializerOptions
+                {
+                    Converters = [new LcfEventCommandConverter()]
+                });
             }
         }
     }

@@ -1,6 +1,5 @@
-﻿using LcfSharp.IO;
-using LcfSharp.Rpg.Shared;
-using LcfSharp.Types;
+﻿using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle
@@ -24,6 +23,7 @@ namespace LcfSharp.Rpg.Battle
         Special = 6
     }
 
+    [LcfChunk<BattleCommandChunk>]
     public class BattleCommand
     {
         public static readonly Dictionary<BattleCommandType, string> TypeTags = new Dictionary<BattleCommandType, string>
@@ -37,12 +37,14 @@ namespace LcfSharp.Rpg.Battle
             { BattleCommandType.Special, "special" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         } = 0;
 
+        [LcfAlwaysPersistAttribute]
         public DbString Name
         {
             get;
@@ -54,23 +56,5 @@ namespace LcfSharp.Rpg.Battle
             get;
             set;
         } = BattleCommandType.Attack;
-
-        public BattleCommand(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattleCommandChunk>(reader, (chunk) =>
-            {
-                switch ((BattleCommandChunk)chunk.ID)
-                {
-                    case BattleCommandChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-
-                    case BattleCommandChunk.Type:
-                        Type = (BattleCommandType)reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
-        }
     }
 }

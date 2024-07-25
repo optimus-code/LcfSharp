@@ -2,7 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
 using LcfSharp.Rpg.Skills;
-using LcfSharp.Types;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
@@ -88,20 +88,20 @@ namespace LcfSharp.Rpg.Actors
             get;
             set;
         } = 0;
-
-        public DbString Name
+[LcfAlwaysPersistAttribute]
+		public DbString Name
         {
             get;
             set;
         }
-
-        public DbString Title
+[LcfAlwaysPersistAttribute]
+		public DbString Title
         {
             get;
             set;
         }
-
-        public DbString CharacterName
+[LcfAlwaysPersistAttribute]
+		public DbString CharacterName
         {
             get;
             set;
@@ -142,8 +142,8 @@ namespace LcfSharp.Rpg.Actors
             get;
             set;
         } = 30;
-
-        public DbString FaceName
+[LcfAlwaysPersistAttribute]
+		public DbString FaceName
         {
             get;
             set;
@@ -179,6 +179,7 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = false;
 
+        [LcfAlwaysPersistAttribute]
         public Parameters Parameters
         {
             get;
@@ -203,6 +204,7 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = 0;
 
+        [LcfAlwaysPersistAttribute]
         public Equipment InitialEquipment
         {
             get;
@@ -215,30 +217,36 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = 1;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public int ClassId
         {
             get;
             set;
         } = 0;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public int BattleX
         {
             get;
             set;
         } = 220;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public int BattleY
         {
             get;
             set;
         } = 120;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public int BattlerAnimation
         {
             get;
             set;
         } = 1;
 
+
+        [LcfAlwaysPersistAttribute]
         public List<Learning> Skills
         {
             get; set;
@@ -250,12 +258,14 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = false;
 
-        public DbString SkillName
+        [LcfAlwaysPersistAttribute]
+		public DbString SkillName
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersistAttribute]
         [LcfSize((int)ActorChunk.StateRanksSize)]
         public List<byte> StateRanks
         {
@@ -263,6 +273,7 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = new List<byte>();
 
+        [LcfAlwaysPersistAttribute]
         [LcfSize((int)ActorChunk.AttributeRanksSize)]
         public List<byte> AttributeRanks
         {
@@ -270,217 +281,12 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = new List<byte>();
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
         public List<int> BattleCommands
         {
             get;
             set;
         } = new List<int>();
-
-        public Actor(LcfReader reader)
-        {
-            int stateRanksSize = 0;
-            int attributeRanksSize = 0;
-            int expectedCount = System.Enum.GetValues<ActorChunk>().Length + (!Database.IsRM2K3 ? -5 : 0);
-            var readCount = 0;
-
-            TypeHelpers.ReadChunks<ActorChunk>(reader, (chunk) =>
-            {
-                switch ((ActorChunk)chunk.ID)
-                {
-                    case ActorChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.Title:
-                        Title = reader.ReadDbString(chunk.Length);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.CharacterName:
-                        CharacterName = reader.ReadDbString(chunk.Length);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.CharacterIndex:
-                        CharacterIndex = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.Transparent:
-                        Transparent = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.InitialLevel:
-                        InitialLevel = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.FinalLevel:
-                        FinalLevel = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.CriticalHit:
-                        CriticalHit = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.CriticalHitChance:
-                        CriticalHitChance = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.FaceName:
-                        FaceName = reader.ReadDbString(chunk.Length);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.FaceIndex:
-                        FaceIndex = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.TwoWeapon:
-                        TwoWeapon = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.LockEquipment:
-                        LockEquipment = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.AutoBattle:
-                        AutoBattle = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.SuperGuard:
-                        SuperGuard = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.Parameters:
-                        Parameters = new Parameters(reader, chunk.Length / 2);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.ExpBase:
-                        ExpBase = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.ExpInflation:
-                        ExpInflation = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.ExpCorrection:
-                        ExpCorrection = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.InitialEquipment:
-                        InitialEquipment = new Equipment(reader);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.UnarmedAnimation:
-                        UnarmedAnimation = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.ClassId:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        ClassId = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.BattleX:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BattleX = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.BattleY:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BattleY = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.BattlerAnimation:
-                        if (!Database.IsRM2K3)
-                            return false;
-                        BattlerAnimation = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.Skills:
-                        Skills = new List<Learning>();
-                        TypeHelpers.ReadChunkList(reader, chunk.Length, () =>
-                        {
-                            Skills.Add(new Learning(reader));
-                        });
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.RenameSkill:
-                        RenameSkill = reader.ReadBool();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.SkillName:
-                        SkillName = reader.ReadDbString(chunk.Length);
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.StateRanksSize:
-                        stateRanksSize = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.StateRanks:
-                        if (stateRanksSize > 0)
-                        {
-                            StateRanks = reader.ReadByteList(stateRanksSize);
-                            return true;
-                        }
-                        readCount++;
-                        break;
-
-                    case ActorChunk.AttributeRanksSize:
-                        attributeRanksSize = reader.ReadInt();
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.AttributeRanks:
-                        if (attributeRanksSize > 0)
-                        {
-                            AttributeRanks = reader.ReadByteList(attributeRanksSize);
-                            return true;
-                        }
-                        readCount++;
-                        return true;
-
-                    case ActorChunk.BattleCommands:
-                        if (!Database.IsRM2K3)
-                            return false;
-
-                        BattleCommands = TypeHelpers.ReadChunkIntList(reader, chunk.Length);
-                        readCount++;
-                        return true;
-                }
-                return false;
-            }, () =>
-            {
-                return expectedCount == readCount;
-            });
-        }
-
     }
 }

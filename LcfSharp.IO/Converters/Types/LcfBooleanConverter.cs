@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using LcfSharp.IO.Extensions;
+using System;
+using System.IO;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -6,13 +8,12 @@ namespace LcfSharp.IO.Converters.Types
     {
         public override object Read(BinaryReader reader, int? length)
         {
-            return reader.Read7BitEncodedInt() > 0;
+            return reader.ReadVarInt() > 0;
         }
 
         public override void Write(BinaryWriter writer, object value)
         {
-            var booleanValue = (bool)value;
-            writer.Write7BitEncodedInt(booleanValue ? 1 : 0);
+            throw new NotImplementedException();
         }
     }
 }

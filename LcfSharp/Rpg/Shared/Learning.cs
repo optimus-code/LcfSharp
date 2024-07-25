@@ -1,6 +1,4 @@
-﻿using LcfSharp.IO;
-using LcfSharp.Rpg.Actors;
-using System;
+﻿using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Shared
 {
@@ -11,8 +9,11 @@ namespace LcfSharp.Rpg.Shared
         /** Integer */
         SkillID = 0x02
     }
+
+    [LcfChunk<LearningChunk>]
     public class Learning
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -25,35 +26,10 @@ namespace LcfSharp.Rpg.Shared
             set;
         } = 1;
 
-        public short SkillID
+        public int SkillID
         {
             get;
             set;
         } = 1;
-
-        public Learning(LcfReader reader)
-        {
-            int expectedChunks = 2;
-            int readChunks = 0;
-            TypeHelpers.ReadChunks<LearningChunk>(reader, (chunk) =>
-            {
-                switch ((LearningChunk)chunk.ID)
-                {
-                    case LearningChunk.Level:
-                        Level = reader.ReadInt();
-                        readChunks++;
-                        return true;
-
-                    case LearningChunk.SkillID:
-                        SkillID = reader.ReadShort();
-                        readChunks++;
-                        return true;
-                }
-                return false;
-            }, ()=>
-            {
-                return readChunks == expectedChunks;
-            });
-        }
     }
 }

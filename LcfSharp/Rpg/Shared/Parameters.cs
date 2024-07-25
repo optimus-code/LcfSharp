@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Runtime.InteropServices;
+using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Shared
 {
+    [LcfListCollection]
     public class Parameters
     {
         public List<short> MaxHP { get; set; } = new List<short>();
@@ -13,17 +14,6 @@ namespace LcfSharp.Rpg.Shared
         public List<short> Defense { get; set; } = new List<short>();
         public List<short> Spirit { get; set; } = new List<short>();
         public List<short> Agility { get; set; } = new List<short>();
-
-        public Parameters(LcfReader reader, int length)
-        {
-            var count = (length / 6);
-            MaxHP = reader.ReadShortList(count);
-            MaxSP = reader.ReadShortList(count);
-            Attack = reader.ReadShortList(count);
-            Defense = reader.ReadShortList(count);
-            Spirit = reader.ReadShortList(count);
-            Agility = reader.ReadShortList(count);
-        }
 
         public void Setup(int finalLevel)
         {

@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO;
-using LcfSharp.Types;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg
 {
@@ -9,8 +10,10 @@ namespace LcfSharp.Rpg
         Name = 0x01
     }
 
+    [LcfChunk<VariableChunk>]
     public class Variable
     {
+        [LcfID]
         public int ID
         {
             get;
@@ -21,20 +24,6 @@ namespace LcfSharp.Rpg
         {
             get;
             set;
-        }
-
-        public Variable(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<VariableChunk>(reader, (chunk) =>
-            {
-                switch ((VariableChunk)chunk.ID)
-                {
-                    case VariableChunk.Name:
-                        Name = reader.ReadDbString(chunk.Length);
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }

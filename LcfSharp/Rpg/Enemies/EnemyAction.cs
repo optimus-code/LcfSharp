@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle;
 using System.Collections.Generic;
 
@@ -11,9 +12,9 @@ namespace LcfSharp.Rpg.Enemies
         /** Integer */
         Basic = 0x02,
         /** Integer */
-        SkillId = 0x03,
+        SkillID = 0x03,
         /** Integer */
-        EnemyId = 0x04,
+        EnemyID = 0x04,
         /** Integer */
         ConditionType = 0x05,
         /** Integer */
@@ -21,15 +22,15 @@ namespace LcfSharp.Rpg.Enemies
         /** Integer */
         ConditionParam2 = 0x07,
         /** Integer */
-        SwitchId = 0x08,
+        SwitchID = 0x08,
         /** Flag */
         SwitchOn = 0x09,
         /** Integer */
-        SwitchOnId = 0x0A,
+        SwitchOnID = 0x0A,
         /** Flag */
         SwitchOff = 0x0B,
         /** Integer */
-        SwitchOffId = 0x0C,
+        SwitchOffID = 0x0C,
         /** Integer */
         Rating = 0x0D
     }
@@ -65,6 +66,7 @@ namespace LcfSharp.Rpg.Enemies
         PartyFatigue = 7
     }
 
+    [LcfChunk<EnemyActionChunk>]
     public class EnemyAction
     {
         public static readonly Dictionary<EnemyActionBasic, string> BasicTags = new Dictionary<EnemyActionBasic, string>
@@ -98,19 +100,22 @@ namespace LcfSharp.Rpg.Enemies
             { EnemyActionConditionType.PartyFatigue, "party_fatigue" }
         };
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
-        public EnemyActionKind KindValue
+        [LcfAlwaysPersistAttribute]
+        public EnemyActionKind Kind
         {
             get;
             set;
         }
 
-        public EnemyActionBasic BasicValue
+        [LcfAlwaysPersistAttribute]
+        public EnemyActionBasic Basic
         {
             get;
             set;
@@ -128,7 +133,8 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
-        public EnemyActionConditionType ConditionTypeValue
+        [LcfAlwaysPersistAttribute]
+        public EnemyActionConditionType ConditionType
         {
             get;
             set;
@@ -180,68 +186,6 @@ namespace LcfSharp.Rpg.Enemies
         {
             get;
             set;
-        }
-
-        public EnemyAction(LcfReader reader)
-        {
-            TypeHelpers.ReadChunks<BattleCommandChunk>(reader, (chunk) =>
-            {
-                switch ((EnemyActionChunk)chunk.ID)
-                {
-                    case EnemyActionChunk.Kind:
-                        KindValue = (EnemyActionKind)reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.Basic:
-                        BasicValue = (EnemyActionBasic)reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.SkillId:
-                        SkillID = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.EnemyId:
-                        EnemyID = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.ConditionType:
-                        ConditionTypeValue = (EnemyActionConditionType)reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.ConditionParam1:
-                        ConditionParam1 = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.ConditionParam2:
-                        ConditionParam2 = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.SwitchId:
-                        SwitchID = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.SwitchOn:
-                        SwitchOn = reader.ReadBool();
-                        return true;
-
-                    case EnemyActionChunk.SwitchOnId:
-                        SwitchOnID = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.SwitchOff:
-                        SwitchOff = reader.ReadBool();
-                        return true;
-
-                    case EnemyActionChunk.SwitchOffId:
-                        SwitchOffID = reader.ReadInt();
-                        return true;
-
-                    case EnemyActionChunk.Rating:
-                        Rating = reader.ReadInt();
-                        return true;
-                }
-                return false;
-            });
         }
     }
 }
