@@ -8,6 +8,7 @@ using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Extensions;
 using System.Runtime.InteropServices;
 using LcfSharp.IO.Types;
+using System.Text.RegularExpressions;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -21,6 +22,89 @@ namespace LcfSharp.IO.Converters.Types
 
         public override bool CanConvert(Type typeToConvert) => typeToConvert == Type;
 
+        private static Dictionary<Type, LcfType> _typeCache = [];
+        private static Dictionary<Type, List<LcfProperty>> _propertyCache = [];
+        private static Dictionary<string, int> _lengthEvaluations = [];
+        class LcfType
+        {
+            public List<LcfProperty> Properties
+            {
+                get;
+                private set;
+            }
+
+            public Type ChunkEnumType
+            {
+                get;
+                private set;
+            }
+
+            public LcfProperty IDProperty
+            {
+                get;
+                set;
+            }
+
+            public Dictionary<int, LcfProperty> Chunks
+            {
+                get;
+                private set;
+            } = [];
+
+            public LcfType(Type type)
+            {
+                Properties = LcfProperty.Get(type);
+
+                var chunkAttribute = type.GetCustomAttribute<LcfChunkAttribute>();
+
+                if (chunkAttribute == null)
+                    throw new LcfException($"Missing LcfChunk attribute on '{type.FullName}.");
+
+                ChunkEnumType = chunkAttribute.ChunkEnumType;
+                IDProperty = GetIDProperty();
+                MapChunks();
+            }
+
+            private void MapChunks()
+            {
+                foreach (var property in Properties)
+                {
+                    if (Enum.TryParse(ChunkEnumType, property.Property.Name, out var enumValue))
+                    {
+                        Chunks[(int)enumValue] = property;
+                    }
+                }
+            }
+
+            private LcfProperty GetIDProperty()
+            {
+                foreach (var property in Properties)
+                {
+                    if (property.ID != null)
+                    {
+                        return property;
+                    }
+                }
+                return null;
+            }
+
+            public static LcfType Get(Type type)
+            {
+                if (!_typeCache.TryGetValue(type, out var lcfType))
+                {
+                    lcfType = new LcfType(type);
+                    _typeCache[type] = lcfType;
+                }
+                return lcfType;
+            }
+
+            public LcfProperty GetPropertyByChunkID(int chunkID)
+            {
+                Chunks.TryGetValue(chunkID, out var property);
+                return property;
+            }
+        }
+
         class LcfProperty
         {
             public PropertyInfo Property { get; set; }
@@ -28,10 +112,29 @@ namespace LcfSharp.IO.Converters.Types
             public LcfAlwaysPersistAttribute AlwaysPersist { get; set; }
             public LcfSizeAttribute Size { get; set; }
             public LcfVersionAttribute Version { get; set; }
+
             public bool IsAllowed 
             {
                 get;
-                set;
+                private set;
+            }
+
+            public bool IsGenericListType
+            {
+                get;
+                private set;
+            }
+
+            public Type GenericListInnerType
+            {
+                get;
+                private set;
+            }
+
+            public bool IsGenericListBasicType
+            {
+                get;
+                private set;
             }
 
             public LcfProperty(PropertyInfo property)
@@ -42,13 +145,36 @@ namespace LcfSharp.IO.Converters.Types
                 Size = property.GetCustomAttribute<LcfSizeAttribute>();
                 Version = property.GetCustomAttribute<LcfVersionAttribute>();
                 IsAllowed = CheckIsAllowed();
+                IsGenericListType = property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>);
+
+                if (IsGenericListType)
+                {
+                    GenericListInnerType = property.PropertyType.GetGenericArguments()[0];
+                    IsGenericListBasicType = !GenericListInnerType.IsClass && GenericListInnerType.IsPrimitive;
+                }
             }
 
             private bool CheckIsAllowed()
             {
                 return (Property != null && Version?.Version == LcfConverterFactory.EngineVersion)
                     || (Version == null && LcfConverterFactory.EngineVersion == LcfEngineVersion.RM2K);
+            }
 
+            public static List<LcfProperty> Get(Type type)
+            {
+                if (!_propertyCache.TryGetValue(type, out var properties))
+                {
+                    properties = new List<LcfProperty>();
+                    foreach (var p in LcfConverterFactory.GetProperties(type))
+                    {
+                        if (p.GetCustomAttribute<LcfIgnoreAttribute>() == null)
+                        {
+                            properties.Add(new LcfProperty(p));
+                        }
+                    }
+                    _propertyCache[type] = properties;
+                }
+                return properties;
             }
         }
 
@@ -71,33 +197,21 @@ namespace LcfSharp.IO.Converters.Types
             }
         }
 
-
         public override object Read(BinaryReader reader, int? length)
         {
             var obj = Activator.CreateInstance(Type);
-            var properties = LcfConverterFactory.GetProperties(Type)
-                .Where(p => p.GetCustomAttribute<LcfIgnoreAttribute>() == null)
-                .Select(p => new LcfProperty(p))
-                .ToList();
-
-            var chunkAttribute = Type.GetCustomAttribute<LcfChunkAttribute>();
-
-            if (chunkAttribute == null)
-                throw new LcfException($"Missing LcfChunk attribute on '{Type.FullName}.");
-
-            var chunkEnumType = chunkAttribute.ChunkEnumType;
-            var lengthEvaluations = new Dictionary<string, int>();
-
-            var idProperty = properties.FirstOrDefault(p => p.ID != null);
-
+            var lcfType = LcfType.Get(Type);
             var parsedProperties = new HashSet<string>();
 
             // If it has an ID property read in that first!
-            if (idProperty != null)
+            if (lcfType.IDProperty != null)
             {
-                idProperty.Property.SetValue(obj, reader.ReadVarInt());
-                parsedProperties.Add(idProperty.Property.Name);
+                lcfType.IDProperty.Property.SetValue(obj, reader.ReadVarInt());
+                parsedProperties.Add(lcfType.IDProperty.Property.Name);
             }
+
+            var properties = lcfType.Properties;
+            var chunkEnumType = lcfType.ChunkEnumType;
 
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
@@ -110,16 +224,7 @@ namespace LcfSharp.IO.Converters.Types
 
                 if (Enum.IsDefined(chunkEnumType, chunkID))
                 {
-                    LcfProperty match = null;
-                    foreach ( var property in properties)
-                    {
-                        if (Enum.TryParse(chunkEnumType, property.Property.Name, out var enumValue) &&
-                            (int)enumValue == chunkID)
-                        {
-                            match = property;
-                            break;
-                        }
-                    }
+                    LcfProperty match = lcfType.GetPropertyByChunkID(chunkID);
 
                     if (match != null && match.IsAllowed)
                     {
@@ -128,19 +233,16 @@ namespace LcfSharp.IO.Converters.Types
 
                         var propertyLength = chunkLength;
 
-                        if (match.Property.PropertyType.IsGenericType && match.Property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                        if (match.IsGenericListType)
                         {
-                            var innerType = match.Property.PropertyType.GetGenericArguments()[0];
-                            var isBasicType = !innerType.IsClass && innerType.IsPrimitive;
-
-                            if (isBasicType)
-                                propertyLength = chunkLength / Marshal.SizeOf(innerType);
+                            if (match.IsGenericListBasicType)
+                                propertyLength = chunkLength / Marshal.SizeOf(match.GenericListInnerType);
                         }
 
-                        if (match.Size != null && lengthEvaluations.ContainsKey(match.Property.Name))
+                        if (match.Size != null && _lengthEvaluations.ContainsKey(match.Property.Name))
                         {
-                            propertyLength = lengthEvaluations[match.Property.Name];
-                            lengthEvaluations.Remove(match.Property.Name);
+                            propertyLength = _lengthEvaluations[match.Property.Name];
+                            _lengthEvaluations.Remove(match.Property.Name);
                         }
                         ProcessProperty(reader, obj, match.Property, propertyLength);
                         parsedProperties.Add(match.Property.Name);
@@ -149,7 +251,7 @@ namespace LcfSharp.IO.Converters.Types
                     else if (properties.Count(p => p.Size?.ChunkID == chunkID && p.IsAllowed) > 0)
                     {
                         var propertyTarget = properties.FirstOrDefault(p => p.Size?.ChunkID == chunkID);
-                        lengthEvaluations.Add(propertyTarget.Property.Name, reader.ReadVarInt());
+                        _lengthEvaluations.Add(propertyTarget.Property.Name, reader.ReadVarInt());
                     }
                     else
                     {
@@ -165,15 +267,18 @@ namespace LcfSharp.IO.Converters.Types
             }
 
             var unusedProperties = properties.Where(p => p.IsAllowed
-            && !parsedProperties.Contains(p.Property.Name) 
-            && p.AlwaysPersist != null
-            && p.Property.PropertyType != typeof(DbString))
-                .ToList();
+                && !parsedProperties.Contains(p.Property.Name) 
+                && p.AlwaysPersist != null
+                && p.Property.PropertyType != typeof(DbString))
+                    .ToList();
 
             if (unusedProperties.Any())
             {
                 Console.WriteLine($"Unparsed properites in type '{Type.FullName}': {unusedProperties.Count}");
             }
+
+            _lengthEvaluations.Clear();
+
             return obj;
         }
 
