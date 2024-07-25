@@ -359,6 +359,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public DbString System2Name
         {
             get;
@@ -371,7 +372,9 @@ namespace LcfSharp.Rpg
             set;
         } = new List<short> { 1 };
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
+        [LcfSize((int)SystemChunk.MenuCommandsSize)]
         public List<short> MenuCommands
         {
             get;
@@ -594,6 +597,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public SystemEquipmentSetting EquipmentSetting
         {
@@ -601,6 +605,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public int BattleTestAltTerrain
         {
@@ -608,6 +613,7 @@ namespace LcfSharp.Rpg
             set;
         } = -1;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public bool ShowFrame
         {
@@ -615,6 +621,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public DbString FrameName
         {
@@ -622,6 +629,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public bool InvertAnimations
         {
@@ -629,6 +637,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public bool ShowTitle
         {

@@ -173,6 +173,7 @@ namespace LcfSharp.Rpg
             set;
         } = 0;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public BattleCommands BattleCommands
         {

@@ -525,6 +525,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
 		[LcfAlwaysPersistAttribute]
 		public DbString BattleStart
         {
@@ -532,7 +533,8 @@ namespace LcfSharp.Rpg
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
 		public DbString Miss
         {
             get;
@@ -952,35 +954,40 @@ namespace LcfSharp.Rpg
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
 		public DbString Status
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
 		public DbString Row
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
 		public DbString Order
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
 		public DbString WaitOn
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
 		public DbString WaitOff
         {
             get;

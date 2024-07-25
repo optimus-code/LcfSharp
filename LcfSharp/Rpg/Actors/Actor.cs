@@ -258,7 +258,6 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = false;
 
-        [LcfAlwaysPersistAttribute]
 		public DbString SkillName
         {
             get;

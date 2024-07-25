@@ -169,6 +169,7 @@ namespace LcfSharp.Rpg.Terrains
             set;
         }
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         public Sound Footstep
         {

@@ -9,6 +9,9 @@ namespace LcfSharp.IO.Converters.Types
     {
         public override object Read(BinaryReader reader, int? length)
         {
+            if (length.HasValue && length.Value == 0)
+                return new DbString();
+
             var count = length.HasValue ? length.Value : reader.ReadVarInt();
             return reader.ReadDbString(count);
         }

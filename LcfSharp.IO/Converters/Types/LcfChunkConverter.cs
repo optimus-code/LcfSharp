@@ -8,6 +8,7 @@ using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Extensions;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -75,9 +76,12 @@ namespace LcfSharp.IO.Converters.Types
                 parsedProperties.Add(idProperty.Name);
             }
 
-            if (Type.Name == "TroopPageCondition")
+            if (Type.Name == "Animation")
             {
+                if ((int)idProperty.GetValue(obj) == 21)
+                {
 
+                }
             }
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
@@ -88,7 +92,7 @@ namespace LcfSharp.IO.Converters.Types
 
                 var chunkLength = reader.ReadVarInt();
 
-                if (Type.Name == "TroopPageCondition")
+                if (Type.Name == "Animation")
                 {
 
                 }
@@ -148,14 +152,17 @@ namespace LcfSharp.IO.Converters.Types
                 }
             }
 
-            var unusedProperties = properties.Values.Where(p => IsAllowed(p) && !parsedProperties.Contains(p.Name) && p.GetCustomAttribute<LcfAlwaysPersistAttribute>() != null)
+            var unusedProperties = properties.Values.Where(p => IsAllowed(p) 
+            && !parsedProperties.Contains(p.Name) 
+            && p.GetCustomAttribute<LcfAlwaysPersistAttribute>() != null
+            && p.PropertyType != typeof(DbString))
                 .ToList();
 
             if (unusedProperties.Any())
             {
                 Console.WriteLine($"Unparsed properites in type '{Type.FullName}': {unusedProperties.Count}");
             }
-            if (Type.Name == "TroopPageCondition")
+            if (Type.Name == "Animation")
             {
 
             }

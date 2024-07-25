@@ -57,13 +57,15 @@ namespace LcfSharp.Rpg.Animations
             get;
             set;
         }
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString Name
         {
             get;
             set;
         }
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersist]
 		public DbString AnimationName
         {
             get;
