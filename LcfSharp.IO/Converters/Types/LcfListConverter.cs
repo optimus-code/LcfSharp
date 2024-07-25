@@ -17,7 +17,7 @@ namespace LcfSharp.IO.Converters.Types
         public LcfListConverter()
         {
             _elementConverter = LcfConverterFactory.GetConverter(typeof(T));
-            _hasIDAttribute = _elementConverter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            _hasIDAttribute = LcfConverterFactory.GetProperties(_elementConverter.Type)
                 .Count(p => p.GetCustomAttribute<LcfIDAttribute>() != null) > 0;
         }
 

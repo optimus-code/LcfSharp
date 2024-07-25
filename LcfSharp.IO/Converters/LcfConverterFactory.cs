@@ -5,6 +5,7 @@ using LcfSharp.IO.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace LcfSharp.IO.Converters
@@ -29,11 +30,26 @@ namespace LcfSharp.IO.Converters
             { typeof(DbString), new LcfDbStringConverter() }
         };
 
+        private static Dictionary<Type, List<PropertyInfo>> Cache
+        {
+            get;
+            set;
+        } = [];
+
         private static Dictionary<Type, LcfConverter> CustomConverters
         {
             get;
             set;
         } = [];
+
+        public static List<PropertyInfo> GetProperties(Type type)
+        {
+            if (Cache.TryGetValue(type, out var properties))
+                return properties;
+
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .ToList();
+        }
 
         public static void RegisterConverter(LcfConverter converter)
         {

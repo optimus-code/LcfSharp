@@ -31,7 +31,7 @@ namespace LcfSharp.IO.Converters.Types
             if (!Type.IsAssignableTo(typeof(IDbFlags)))
                 throw new LcfException("Invalid DbFlags type, does not inherit from IDbFlags.");
 
-            Properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            Properties = LcfConverterFactory.GetProperties(type)
                 .Where(p => p.PropertyType == typeof(bool))
                 .ToList();
 

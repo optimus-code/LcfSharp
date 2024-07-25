@@ -47,7 +47,7 @@ namespace LcfSharp.IO.Converters.Types
         public override object Read(BinaryReader reader, int? length)
         {
             var obj = Activator.CreateInstance(Type);
-            var properties = Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            var properties = LcfConverterFactory.GetProperties(Type)
                 .Where(p => p.GetCustomAttribute<LcfIgnoreAttribute>() == null);
             
             foreach (var property in properties)

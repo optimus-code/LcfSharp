@@ -30,7 +30,7 @@ namespace LcfSharp.IO.Converters.Types
             if (!length.HasValue || length.Value == 0)
                 throw new LcfException("No length specified for LcfListCollection converter!.");
 
-            var properties = Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            var properties = LcfConverterFactory.GetProperties(Type)
                 .Where(p => p.GetCustomAttribute<LcfIgnoreAttribute>() == null &&
                 p.PropertyType.IsGenericType &&
                 p.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
