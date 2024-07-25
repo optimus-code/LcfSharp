@@ -75,7 +75,7 @@ namespace LcfSharp.IO.Converters.Types
                 parsedProperties.Add(idProperty.Name);
             }
 
-            if (Type.Name == "Chipset")
+            if (Type.Name == "TroopPageCondition")
             {
 
             }
@@ -88,7 +88,7 @@ namespace LcfSharp.IO.Converters.Types
 
                 var chunkLength = reader.ReadVarInt();
 
-                if (Type.Name == "Chipset")
+                if (Type.Name == "TroopPageCondition")
                 {
 
                 }
@@ -148,14 +148,14 @@ namespace LcfSharp.IO.Converters.Types
                 }
             }
 
-            var unusedProperties = properties.Values.Where(p => !parsedProperties.Contains(p.Name) && p.GetCustomAttribute<LcfAlwaysPersistAttribute>() != null)
+            var unusedProperties = properties.Values.Where(p => IsAllowed(p) && !parsedProperties.Contains(p.Name) && p.GetCustomAttribute<LcfAlwaysPersistAttribute>() != null)
                 .ToList();
 
             if (unusedProperties.Any())
             {
-                Console.WriteLine($"Unparsed properites: {unusedProperties.Count}");
+                Console.WriteLine($"Unparsed properites in type '{Type.FullName}': {unusedProperties.Count}");
             }
-            if (Type.Name == "Chipset")
+            if (Type.Name == "TroopPageCondition")
             {
 
             }

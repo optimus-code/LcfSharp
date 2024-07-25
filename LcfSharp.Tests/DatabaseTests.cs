@@ -97,6 +97,19 @@ namespace LcfSharp.Tests
 
             var lastTroop = db.Troops.Last();
             Assert.IsTrue(lastTroop.Name.Value == "Demon God");
+
+            var system = db.System;
+            Assert.IsTrue(system.TitleMusic.Name.Value == "Opening1");
+            Assert.IsTrue(system.BattleMusic.Name.Value == "Battle1");
+            Assert.IsTrue(system.BattleEndMusic.Name.Value == "BattleEnd1");
+            Assert.IsTrue(system.InnMusic.Name.Value == "Inn1");
+            Assert.IsTrue(system.BoatMusic.Name.Value == "Ship1");
+            Assert.IsTrue(system.ShipMusic.Name.Value == "Ship2");
+            Assert.IsTrue(system.AirshipMusic.Name.Value == "Vehicle1");
+            Assert.IsTrue(system.GameoverMusic.Name.Value == "Gameover1");
+
+            Assert.IsTrue(db.Terms.Autodestruction.Value == "%S exploded!");
+
         }
 
         [TestMethod]

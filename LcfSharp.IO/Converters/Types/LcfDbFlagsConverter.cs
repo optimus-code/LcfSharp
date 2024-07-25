@@ -42,7 +42,7 @@ namespace LcfSharp.IO.Converters.Types
         public override object Read(BinaryReader reader, int? length)
         {
             var instance = Activator.CreateInstance(Type);
-            var size = Properties.Count;
+            var size = length.HasValue ? length.Value : Properties.Count;
             var byteCount = (size + 7) / 8;
             var flagIndex = 0;
 

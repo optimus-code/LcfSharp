@@ -8,7 +8,7 @@ namespace LcfSharp.Rpg.Animations
         /** Bool */
         Valid = 0x01,
         /** Integer */
-        CellId = 0x02,
+        CellID = 0x02,
         /** Integer */
         X = 0x03,
         /** Integer */

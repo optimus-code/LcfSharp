@@ -34,7 +34,6 @@ namespace LcfSharp.Rpg.Troops
     [LcfChunk<TroopPageConditionChunk>]
     public class TroopPageCondition
     {
-        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersist]
         public TroopPageConditionFlags Flags 
         {

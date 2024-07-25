@@ -83,13 +83,13 @@ namespace LcfSharp.Rpg
         /** Integer */
         TransitionIn = 0x3E,
         /** Integer */
-        BattleStartFadeout = 0x3F,
+        BattleStartFadeOut = 0x3F,
         /** Integer */
-        BattleStartFadein = 0x40,
+        BattleStartFadeIn = 0x40,
         /** Integer */
-        BattleEndFadeout = 0x41,
+        BattleEndFadeOut = 0x41,
         /** Integer */
-        BattleEndFadein = 0x42,
+        BattleEndFadeIn = 0x42,
         /** Integer */
         MessageStretch = 0x47,
         /** Integer */
@@ -99,17 +99,17 @@ namespace LcfSharp.Rpg
         /** Integer */
         SelectedHero = 0x52,
         /** String */
-        BattletestBackground = 0x54,
+        BattleTestBackground = 0x54,
         /** Array - rpg::TestBattler */
-        BattletestData = 0x55,
+        BattleTestData = 0x55,
         /** Integer */
         SaveCount = 0x5B,
         /** Integer */
-        BattletestTerrain = 0x5E,
+        BattleTestTerrain = 0x5E,
         /** Integer */
-        BattletestFormation = 0x5F,
+        BattleTestFormation = 0x5F,
         /** Integer */
-        BattletestCondition = 0x60,
+        BattleTestCondition = 0x60,
         /** Integer RPG2003 - Whether equipment usage is by Actor or by Class. This is a global setting in RM2k3! */
         EquipmentSetting = 0x61,
         /** Integer RPG2003 (EDITOR ONLY) - Double click on Terrain in Troops changes this setting and 0x54. Affects only the RM2k3 editor. */
