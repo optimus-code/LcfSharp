@@ -3,6 +3,7 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Classes
 {
@@ -30,6 +31,7 @@ namespace LcfSharp.Rpg.Classes
     public class Class
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -42,24 +44,28 @@ namespace LcfSharp.Rpg.Classes
             set;
         }
 
+        [XmlAttribute]
         public bool TwoWeapon
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool LockEquipment
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool AutoBattle
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool SuperGuard
         {
             get;
@@ -72,24 +78,28 @@ namespace LcfSharp.Rpg.Classes
             set;
         }
 
+        [XmlAttribute]
         public int ExpBase
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ExpInflation
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ExpCorrection
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int BattlerAnimation
         {
             get;
@@ -97,6 +107,7 @@ namespace LcfSharp.Rpg.Classes
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Skill")]
         public List<Learning> Skills
         {
             get;

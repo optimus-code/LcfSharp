@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace LcfSharp.IO.Converters.Types
+namespace LcfSharp.IO.Converters
 {
     public class LcfClassConverter : LcfConverter
     {
@@ -25,8 +25,8 @@ namespace LcfSharp.IO.Converters.Types
         {
             var versionAttribute = property.GetCustomAttribute<LcfVersionAttribute>();
 
-            return (property != null && versionAttribute?.Version == LcfConverterFactory.EngineVersion)
-                || (versionAttribute == null && LcfConverterFactory.EngineVersion == LcfEngineVersion.RM2K);
+            return property != null && versionAttribute?.Version == LcfConverterFactory.EngineVersion
+                || versionAttribute == null && LcfConverterFactory.EngineVersion == LcfEngineVersion.RM2K;
 
         }
 
@@ -49,7 +49,7 @@ namespace LcfSharp.IO.Converters.Types
             var obj = Activator.CreateInstance(Type);
             var properties = LcfConverterFactory.GetProperties(Type)
                 .Where(p => p.GetCustomAttribute<LcfIgnoreAttribute>() == null);
-            
+
             foreach (var property in properties)
             {
                 if (reader.BaseStream.Position >= reader.BaseStream.Length)

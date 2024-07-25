@@ -1,9 +1,12 @@
 ﻿using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
+    [LcfNoIndex]
     public class EventCommand
     {
         public static readonly Dictionary<EventCommandCode, string> Tags = new Dictionary<EventCommandCode, string>
@@ -138,12 +141,14 @@ namespace LcfSharp.Rpg.Events
             { EventCommandCode.EndBranch_B, "EndBranch_B" }
         };
 
+        [XmlAttribute]
         public EventCommandCode Code
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Indent
         {
             get;

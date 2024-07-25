@@ -2,6 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -15,6 +16,7 @@ namespace LcfSharp.Rpg.Animations
     public class AnimationFrame
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -22,6 +24,7 @@ namespace LcfSharp.Rpg.Animations
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Cell")]
         public List<AnimationCellData> Cells
         {
             get;

@@ -2,6 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Events;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Troops
 {
@@ -16,6 +17,7 @@ namespace LcfSharp.Rpg.Troops
     public class TroopPage
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -31,6 +33,7 @@ namespace LcfSharp.Rpg.Troops
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)TroopPageChunk.EventCommandsSize)]
+        [XmlElement("EventCommand")]
         public List<EventCommand> EventCommands
         {
             get;

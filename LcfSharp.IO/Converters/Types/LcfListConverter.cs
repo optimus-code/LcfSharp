@@ -13,23 +13,40 @@ namespace LcfSharp.IO.Converters.Types
     {
         private readonly LcfConverter _elementConverter;
         private readonly bool _hasIDAttribute;
+        private readonly bool _noIndex;
 
         public LcfListConverter()
         {
             _elementConverter = LcfConverterFactory.GetConverter(typeof(T));
             _hasIDAttribute = LcfConverterFactory.GetProperties(_elementConverter.Type)
                 .Count(p => p.GetCustomAttribute<LcfIDAttribute>() != null) > 0;
+            _noIndex = typeof(T).GetCustomAttribute<LcfNoIndexAttribute>() != null;
         }
 
         public override object Read(BinaryReader reader, int? length)
         {
-            var count = !_hasIDAttribute && length.HasValue ? length.Value : reader.ReadVarInt();
-            var list = new List<T>(count);
-            for (var i = 0; i < count; i++)
+            // When there's no index we have to just keep reading until we've hit length
+            if (_noIndex && length.HasValue)
             {
-                list.Add((T)_elementConverter.Read(reader, null));
+                var startPosition = reader.BaseStream.Position;
+
+                var list = new List<T>();
+                while (reader.BaseStream.Position < (startPosition + length.Value))
+                {
+                    list.Add((T)_elementConverter.Read(reader, null));
+                }
+                return list;
             }
-            return list;
+            else
+            {
+                var count = !_hasIDAttribute && length.HasValue ? length.Value : reader.ReadVarInt();
+                var list = new List<T>(count);
+                for (var i = 0; i < count; i++)
+                {
+                    list.Add((T)_elementConverter.Read(reader, null));
+                }
+                return list;
+            }
         }
 
         public override void Write(BinaryWriter writer, object value)

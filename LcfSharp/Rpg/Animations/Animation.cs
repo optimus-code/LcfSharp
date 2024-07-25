@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -52,6 +53,7 @@ namespace LcfSharp.Rpg.Animations
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -72,6 +74,7 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        [XmlAttribute]
         public bool Large
         {
             get;
@@ -79,6 +82,7 @@ namespace LcfSharp.Rpg.Animations
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Timing")]
         public List<AnimationTiming> Timings
         {
             get;
@@ -86,6 +90,7 @@ namespace LcfSharp.Rpg.Animations
         } = [];
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public AnimationScope Scope
         {
             get;
@@ -93,6 +98,7 @@ namespace LcfSharp.Rpg.Animations
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public AnimationPosition Position
         {
             get;
@@ -100,6 +106,7 @@ namespace LcfSharp.Rpg.Animations
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Frame")]
         public List<AnimationFrame> Frames
         {
             get;

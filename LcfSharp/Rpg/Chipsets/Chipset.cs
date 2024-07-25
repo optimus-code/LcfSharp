@@ -4,6 +4,7 @@ using LcfSharp.Rpg.Battle;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Chipsets
 {
@@ -34,6 +35,7 @@ namespace LcfSharp.Rpg.Chipsets
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -70,12 +72,14 @@ namespace LcfSharp.Rpg.Chipsets
             set;
         } = [31, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15];
 
+        [XmlAttribute]
         public int AnimationType
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int AnimationSpeed
         {
             get;

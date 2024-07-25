@@ -42,6 +42,12 @@ namespace LcfSharp.IO.Converters
             set;
         } = [];
 
+        private static Dictionary<Type, LcfConverter> DynamicConverters
+        {
+            get;
+            set;
+        } = [];
+
         public static List<PropertyInfo> GetProperties(Type type)
         {
             if (Cache.TryGetValue(type, out var properties))
@@ -64,42 +70,57 @@ namespace LcfSharp.IO.Converters
 
         public static LcfConverter GetConverter(Type type)
         {
+            if (DynamicConverters.TryGetValue(type, out var dynamicConverter))
+                return DynamicConverters[type];
+
+            var isBasicConverter = false;
+            LcfConverter resultantConverter = null;
+
             if (type.IsEnum)
             {
-                return new LcfEnumConverter(type);
+                resultantConverter = new LcfEnumConverter(type);
             }
             else if (type.IsAssignableTo(typeof(IDbFlags)))
             {
-                return new LcfDbFlagsConverter(type);
+                resultantConverter = new LcfDbFlagsConverter(type);
             }
             else if (type.IsClass && type.GetCustomAttribute<LcfListCollectionAttribute>() != null)
             {
-                return new LcfListCollectionConverter(type);
+                resultantConverter = new LcfListCollectionConverter(type);
             }
             else if (type.IsClass && type.GetCustomAttribute<LcfChunkAttribute>() != null)
             {
-                return new LcfChunkConverter(type);
+                resultantConverter = new LcfChunkConverter(type);
             }
             else if (CustomConverters.TryGetValue(type, out var customConverter))
             {
-                return customConverter;
+                resultantConverter = customConverter;
+                isBasicConverter = true;
             }
             else if (Converters.TryGetValue(type, out var converter))
             {
-                return converter;
+                resultantConverter = converter;
+                isBasicConverter = true;
             }
             else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
             {
                 var elementType = type.GetGenericArguments()[0];
                 var listConverterType = typeof(LcfListConverter<>).MakeGenericType(elementType);
-                return (LcfConverter)Activator.CreateInstance(listConverterType);
+                resultantConverter = (LcfConverter)Activator.CreateInstance(listConverterType);
             }
             else if (type.IsClass)
             {
-                return new LcfClassConverter(type);
+                resultantConverter = new LcfClassConverter(type);
             }
 
-            throw new LcfMissingConverterException(type);
+            if (resultantConverter == null)
+                throw new LcfMissingConverterException(type);
+
+            // Cache the result
+            if (!isBasicConverter)
+                DynamicConverters.Add(type, resultantConverter);
+
+            return resultantConverter;
         }
     }
 }

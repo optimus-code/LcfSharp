@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle
 {
@@ -38,6 +39,7 @@ namespace LcfSharp.Rpg.Battle
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -51,6 +53,7 @@ namespace LcfSharp.Rpg.Battle
             set;
         }
 
+        [XmlAttribute]
         public BattleCommandType Type
         {
             get;

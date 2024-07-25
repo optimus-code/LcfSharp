@@ -1,7 +1,10 @@
-﻿namespace LcfSharp.IO.Types
+﻿using System.Xml.Serialization;
+
+namespace LcfSharp.IO.Types
 {
     public struct DbString
     {
+        [XmlText]
         public string Value 
         { 
             get;

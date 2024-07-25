@@ -2,6 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Enemies
 {
@@ -101,6 +102,7 @@ namespace LcfSharp.Rpg.Enemies
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -108,6 +110,7 @@ namespace LcfSharp.Rpg.Enemies
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public EnemyActionKind Kind
         {
             get;
@@ -115,18 +118,21 @@ namespace LcfSharp.Rpg.Enemies
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public EnemyActionBasic Basic
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int SkillID
         {
             get;
             set;
         }
-
+        
+        [XmlAttribute]
         public int EnemyID
         {
             get;

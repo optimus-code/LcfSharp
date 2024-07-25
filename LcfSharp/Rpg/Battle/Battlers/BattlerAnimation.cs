@@ -3,6 +3,7 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Shared;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
@@ -68,6 +69,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -81,6 +83,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         }
 
+        [XmlAttribute]
         public BattlerAnimationSpeed Speed
         {
             get;
@@ -88,6 +91,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         } = BattlerAnimationSpeed.Slow;
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Pose")]
         public List<BattlerAnimationPose> Poses
         {
             get;
@@ -95,6 +99,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         } = new List<BattlerAnimationPose>();
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Weapon")]
         public List<BattlerAnimationWeapon> Weapons
         {
             get;

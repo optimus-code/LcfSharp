@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -31,66 +32,77 @@ namespace LcfSharp.Rpg.Animations
     public class AnimationCellData
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Valid
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int CellID
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int X
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Y
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Zoom
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ToneRed
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ToneGreen
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ToneBlue
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ToneGray
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Transparency
         {
             get;

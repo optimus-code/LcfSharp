@@ -2,6 +2,7 @@
 {
     using LcfSharp.IO.Attributes;
     using System.Collections.Generic;
+    using System.Xml.Serialization;
 
     public enum EventPageConditionComparison
     {
@@ -27,42 +28,49 @@
 
         public EventPageConditionFlags Flags { get; set; } = new EventPageConditionFlags();
 
+        [XmlAttribute]
         public int SwitchAID
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int SwitchBID
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int VariableID
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int VariableValue
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ItemID
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int ActorID
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int TimerSec
         {
             get;
@@ -70,6 +78,7 @@
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public int Timer2Sec
         {
             get;
@@ -77,6 +86,7 @@
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public int CompareOperator
         {
             get;

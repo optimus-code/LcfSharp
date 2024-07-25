@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO.Attributes;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Shared
 {
@@ -14,18 +15,21 @@ namespace LcfSharp.Rpg.Shared
     public class Learning
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         } = 0;
 
+        [XmlAttribute]
         public int Level
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int SkillID
         {
             get;

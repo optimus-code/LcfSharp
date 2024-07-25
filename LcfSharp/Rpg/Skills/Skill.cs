@@ -6,6 +6,7 @@ using LcfSharp.IO.Types;
 using LcfSharp.IO;
 using LcfSharp.Rpg.Troops;
 using LcfSharp.IO.Attributes;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Skills
 {
@@ -122,6 +123,7 @@ namespace LcfSharp.Rpg.Skills
         }
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -159,6 +161,7 @@ namespace LcfSharp.Rpg.Skills
         } = 0;
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public Type SkillType
         {
             get;
@@ -166,6 +169,7 @@ namespace LcfSharp.Rpg.Skills
         } = Type.Normal;
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
+        [XmlAttribute]
         public SpType SPType
         {
             get;
@@ -173,12 +177,14 @@ namespace LcfSharp.Rpg.Skills
         } = SpType.Cost;
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
+        [XmlAttribute]
         public int SPPercent
         {
             get;
             set;
         } = 0;
 
+        [XmlAttribute]
         public int SPCost
         {
             get;
@@ -186,6 +192,7 @@ namespace LcfSharp.Rpg.Skills
         } = 0;
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public Scope SkillScope
         {
             get;
@@ -310,7 +317,7 @@ namespace LcfSharp.Rpg.Skills
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)SkillChunk.StateEffectsSize)]
-        public BitArray StateEffects
+        public List<bool> StateEffects
         {
             get;
             set;
@@ -318,7 +325,7 @@ namespace LcfSharp.Rpg.Skills
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)SkillChunk.AttributeEffectsSize)]
-        public BitArray AttributeEffects
+        public List<bool> AttributeEffects
         {
             get;
             set;

@@ -3,6 +3,7 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Troops
 {
@@ -21,6 +22,7 @@ namespace LcfSharp.Rpg.Troops
     public class Troop
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -34,12 +36,14 @@ namespace LcfSharp.Rpg.Troops
         }
 
         [LcfAlwaysPersist]
+        [XmlElement("Member")]
         public List<TroopMember> Members
         {
             get;
             set;
         } = new List<TroopMember>();
 
+        [XmlAttribute]
         public bool AutoAlignment
         {
             get;
@@ -48,12 +52,13 @@ namespace LcfSharp.Rpg.Troops
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)TroopChunk.TerrainSetSize)]
-        public BitArray TerrainSet
+        public List<bool> TerrainSet
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool AppearRandomly
         {
             get;
@@ -61,6 +66,7 @@ namespace LcfSharp.Rpg.Troops
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Page")]
         public List<TroopPage> Pages
         {
             get;

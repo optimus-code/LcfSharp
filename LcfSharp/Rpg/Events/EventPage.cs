@@ -1,5 +1,7 @@
-﻿using LcfSharp.IO.Types;
+﻿using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -164,6 +166,8 @@ namespace LcfSharp.Rpg.Events
             { EventPageManiacEventInfo.BattleEvent, "battle_event" }
         };
 
+        [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -182,66 +186,77 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
+        [XmlAttribute]
         public int CharacterIndex
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int CharacterDirection
         {
             get;
             set;
         } = 2;
 
+        [XmlAttribute]
         public int CharacterPattern
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public bool Translucent
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int MoveType
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int MoveFrequency
         {
             get;
             set;
         } = 3;
 
+        [XmlAttribute]
         public int Trigger
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Layer
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool OverlapForbidden
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int AnimationType
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int MoveSpeed
         {
             get;

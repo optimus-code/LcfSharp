@@ -2,6 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Attributes
 {
@@ -40,12 +41,14 @@ namespace LcfSharp.Rpg.Attributes
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString Name
         {
             get;
@@ -53,36 +56,42 @@ namespace LcfSharp.Rpg.Attributes
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public AttributeTypes Type
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ARate
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int BRate
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int CRate
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int DRate
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ERate
         {
             get;

@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Troops
 {
@@ -15,30 +16,35 @@ namespace LcfSharp.Rpg.Troops
     public class TroopMember
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int EnemyID
         {
             get;
             set;
         } = 1;
 
+        [XmlAttribute]
         public int X
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Y
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool Invisible
         {
             get;

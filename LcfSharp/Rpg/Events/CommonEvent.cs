@@ -5,6 +5,7 @@ using LcfSharp.Rpg.Shared;
 using LcfSharp.Rpg.Skills;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -36,6 +37,7 @@ namespace LcfSharp.Rpg.Events
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -49,18 +51,21 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
+        [XmlAttribute]
         public CommonEventTrigger Trigger
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public bool SwitchFlag
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int SwitchID
         {
             get;

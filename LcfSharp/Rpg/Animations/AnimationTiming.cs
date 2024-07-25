@@ -3,6 +3,7 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -58,12 +59,14 @@ namespace LcfSharp.Rpg.Animations
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Frame
         {
             get;
@@ -78,36 +81,42 @@ namespace LcfSharp.Rpg.Animations
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public int FlashScope
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int FlashRed
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int FlashGreen
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int FlashBlue
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int FlashPower
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ScreenShakeValue
         {
             get;

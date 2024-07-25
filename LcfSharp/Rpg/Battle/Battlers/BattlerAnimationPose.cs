@@ -2,6 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
@@ -30,36 +31,42 @@ namespace LcfSharp.Rpg.Battle.Battlers
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         } = 0;
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString Name
         {
             get;
             set;
         }
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString BattlerName
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int BattlerIndex
         {
             get;
             set;
         } = 0;
 
+        [XmlAttribute]
         public int AnimationType
         {
             get;
             set;
         } = 0;
 
+        [XmlAttribute]
         public int BattleAnimationID
         {
             get;

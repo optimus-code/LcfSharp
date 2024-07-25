@@ -1,6 +1,7 @@
 ﻿using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
@@ -18,6 +19,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
     public class BattlerAnimationWeapon
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -36,6 +38,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         }
 
+        [XmlAttribute]
         public int WeaponIndex
         {
             get;

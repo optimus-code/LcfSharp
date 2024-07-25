@@ -4,6 +4,7 @@ using LcfSharp.Rpg.Shared;
 using LcfSharp.IO.Types;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Items
 {
@@ -187,6 +188,7 @@ namespace LcfSharp.Rpg.Items
         };
 
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -206,18 +208,21 @@ namespace LcfSharp.Rpg.Items
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlAttribute]
         public ItemType Type
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Price
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int Uses
         {
             get;
@@ -446,7 +451,7 @@ namespace LcfSharp.Rpg.Items
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)ItemChunk.ActorSetSize)]
-        public BitArray ActorSet
+        public List<bool> ActorSet
         {
             get;
             set;
@@ -454,7 +459,7 @@ namespace LcfSharp.Rpg.Items
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)ItemChunk.StateSetSize)]
-        public BitArray StateSet
+        public List<bool> StateSet
         {
             get;
             set;
@@ -462,7 +467,7 @@ namespace LcfSharp.Rpg.Items
 
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)ItemChunk.AttributeSetSize)]
-        public BitArray AttributeSet
+        public List<bool> AttributeSet
         {
             get;
             set;
@@ -505,7 +510,7 @@ namespace LcfSharp.Rpg.Items
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
         [LcfSize((int)ItemChunk.ClassSetSize)]
-        public BitArray ClassSet
+        public List<bool> ClassSet
         {
             get;
             set;

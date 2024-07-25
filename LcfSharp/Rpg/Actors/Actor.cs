@@ -6,6 +6,7 @@ using LcfSharp.IO.Types;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Actors
 {
@@ -83,24 +84,28 @@ namespace LcfSharp.Rpg.Actors
     public class Actor
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
             set;
         } = 0;
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString Name
         {
             get;
             set;
         }
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString Title
         {
             get;
             set;
         }
-[LcfAlwaysPersistAttribute]
+
+        [LcfAlwaysPersistAttribute]
 		public DbString CharacterName
         {
             get;
@@ -142,7 +147,8 @@ namespace LcfSharp.Rpg.Actors
             get;
             set;
         } = 30;
-[LcfAlwaysPersistAttribute]
+        
+        [LcfAlwaysPersistAttribute]
 		public DbString FaceName
         {
             get;

@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -51,6 +52,7 @@ namespace LcfSharp.Rpg.Events
             { MoveCommandCode.DecreaseTransp, "decrease_transp" }
         };
 
+        [XmlAttribute]
         public int CommandID
         {
             get;
@@ -63,18 +65,21 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
+        [XmlAttribute]
         public int ParameterA
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ParameterB
         {
             get;
             set;
         }
 
+        [XmlAttribute]
         public int ParameterC
         {
             get;

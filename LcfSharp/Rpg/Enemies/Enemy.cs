@@ -4,6 +4,7 @@ using LcfSharp.Rpg.Actors;
 using LcfSharp.Rpg.Shared;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Enemies
 {
@@ -61,6 +62,7 @@ namespace LcfSharp.Rpg.Enemies
     public class Enemy
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;
@@ -120,7 +122,7 @@ namespace LcfSharp.Rpg.Enemies
             get;
             set;
         }
-
+        
         public bool Transparent
         {
             get;
@@ -192,6 +194,7 @@ namespace LcfSharp.Rpg.Enemies
         }
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Action")]
         public List<EnemyAction> Actions
         {
             get;

@@ -2,6 +2,7 @@
 using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Troops;
 using LcfSharp.IO.Types;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg
 {
@@ -15,6 +16,7 @@ namespace LcfSharp.Rpg
     public class Switch
     {
         [LcfID]
+        [XmlAttribute]
         public int ID
         {
             get;

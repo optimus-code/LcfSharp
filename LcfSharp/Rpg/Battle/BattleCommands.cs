@@ -3,6 +3,7 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle.Battlers;
 using LcfSharp.Rpg.Shared;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle
 {
@@ -123,6 +124,7 @@ namespace LcfSharp.Rpg.Battle
             { BattleCommandsFacing.Left, "left" }
         };
 
+        [XmlAttribute]
         public BattleCommandsPlacement Placement
         {
             get;
@@ -136,12 +138,14 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = false;
 
+        [XmlAttribute]
         public BattleCommandsRowShown Row
         {
             get;
             set;
         } = 0;
 
+        [XmlAttribute]
         public BattleCommandsBattleType BattleType
         {
             get;
@@ -155,6 +159,7 @@ namespace LcfSharp.Rpg.Battle
         } = true;
 
         [LcfAlwaysPersistAttribute]
+        [XmlElement("Command")]
         public List<BattleCommand> Commands
         {
             get;
@@ -174,12 +179,14 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = 1;
 
+        [XmlAttribute]
         public BattleCommandsWindowSize WindowSize
         {
             get;
             set;
         } = 0;
 
+        [XmlAttribute]
         public BattleCommandsTransparency Transparency
         {
             get;
