@@ -23,7 +23,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;

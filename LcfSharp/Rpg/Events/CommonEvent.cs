@@ -45,7 +45,7 @@ namespace LcfSharp.Rpg.Events
         }
 
         [LcfAlwaysPersist]
-		public DbString Name
+		public string Name
         {
             get;
             set;

@@ -114,7 +114,7 @@ namespace LcfSharp.Rpg.Terrains
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
@@ -132,7 +132,7 @@ namespace LcfSharp.Rpg.Terrains
             set;
         } = 100;
 
-        public DbString BackgroundName
+        public string BackgroundName
         {
             get;
             set;
@@ -189,7 +189,7 @@ namespace LcfSharp.Rpg.Terrains
             set;
         }
 
-        public DbString BackgroundAName
+        public string BackgroundAName
         {
             get;
             set;
@@ -225,7 +225,7 @@ namespace LcfSharp.Rpg.Terrains
             set;
         }
 
-        public DbString BackgroundBName
+        public string BackgroundBName
         {
             get;
             set;

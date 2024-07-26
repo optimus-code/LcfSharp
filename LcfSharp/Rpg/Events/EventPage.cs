@@ -180,7 +180,7 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
-        public DbString CharacterName
+        public string CharacterName
         {
             get;
             set;

@@ -47,7 +47,7 @@ namespace LcfSharp.Rpg.Battle
         } = 0;
 
         [LcfAlwaysPersistAttribute]
-        public DbString Name
+        public string Name
         {
             get;
             set;

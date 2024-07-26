@@ -20,17 +20,6 @@ namespace LcfSharp.IO.Extensions
         }
 
         /// <summary>
-        /// Read a variable encoding string with no length prefixed
-        /// </summary>
-        /// <param name="br"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static DbString ReadDbString(this BinaryReader br, int length)
-        {
-            return Encoding.ASCII.GetString(br.ReadBytes(length));
-        }
-
-        /// <summary>
         /// Reads a list of short values from the stream.
         /// </summary>
         /// <param name="br"></param>

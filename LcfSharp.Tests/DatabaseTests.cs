@@ -33,8 +33,8 @@ namespace LcfSharp.Tests
 
             var actor1 = db.Actors[0];
 
-            Assert.IsTrue(actor1.Name.Value == "Alex");
-            Assert.IsTrue(actor1.CharacterName.Value == "Actor1");
+            Assert.IsTrue(actor1.Name == "Alex");
+            Assert.IsTrue(actor1.CharacterName == "Actor1");
             Assert.IsTrue(actor1.InitialLevel == 1);
             Assert.IsTrue(actor1.FinalLevel == -1); // Not persisted if default value - i.e -1 is max value
             Assert.IsTrue(actor1.CriticalHit == true);
@@ -46,8 +46,8 @@ namespace LcfSharp.Tests
 
             var actor2 = db.Actors[1];
 
-            Assert.IsTrue(actor2.Name.Value == "Brian");
-            Assert.IsTrue(actor2.CharacterName.Value == "Actor1");
+            Assert.IsTrue(actor2.Name == "Brian");
+            Assert.IsTrue(actor2.CharacterName == "Actor1");
             Assert.IsTrue(actor2.InitialLevel == 1);
             Assert.IsTrue(actor2.FinalLevel == -1); // Not persisted if default value - i.e -1 is max value
             Assert.IsTrue(actor2.CriticalHit == true);
@@ -57,29 +57,29 @@ namespace LcfSharp.Tests
             Assert.IsTrue(actor2.InitialEquipment.HelmetID == 0);
             Assert.IsTrue(actor2.InitialEquipment.AccessoryID == 0);
 
-            Assert.IsTrue(db.Actors[2].Name.Value == "Carol");
-            Assert.IsTrue(db.Actors[3].Name.Value == "Daisy");
-            Assert.IsTrue(db.Actors[4].Name.Value == "Enryuu");
-            Assert.IsTrue(db.Actors[5].Name.Value == "Falcon");
-            Assert.IsTrue(db.Actors[6].Name.Value == "Gomez");
-            Assert.IsTrue(db.Actors[7].Name.Value == "Helen");
+            Assert.IsTrue(db.Actors[2].Name == "Carol");
+            Assert.IsTrue(db.Actors[3].Name == "Daisy");
+            Assert.IsTrue(db.Actors[4].Name == "Enryuu");
+            Assert.IsTrue(db.Actors[5].Name == "Falcon");
+            Assert.IsTrue(db.Actors[6].Name == "Gomez");
+            Assert.IsTrue(db.Actors[7].Name == "Helen");
 
             var item1 = db.Items[0];
-            Assert.IsTrue(item1.Name.Value == "Potion");
+            Assert.IsTrue(item1.Name == "Potion");
 
             var lastItem = db.Items.Last();
-            Assert.IsTrue(lastItem.Name.Value == "--------------------");
+            Assert.IsTrue(lastItem.Name == "--------------------");
 
 
             var enemy1 = db.Enemies[0];
-            Assert.IsTrue(enemy1.Name.Value == "Slime");
+            Assert.IsTrue(enemy1.Name == "Slime");
 
             var lastEnemy = db.Enemies.Last();
-            Assert.IsTrue(lastEnemy.Name.Value == "Demon God");
+            Assert.IsTrue(lastEnemy.Name == "Demon God");
 
 
             var troop1 = db.Troops[0];
-            Assert.IsTrue(troop1.Name.Value == "Slimex2");
+            Assert.IsTrue(troop1.Name == "Slimex2");
             //Assert.IsTrue(troop1.Members.Count == 2);
             //Assert.IsTrue(troop1.Members[0].EnemyID == 1);
             //Assert.IsTrue(troop1.Members[1].EnemyID == 1);
@@ -95,22 +95,22 @@ namespace LcfSharp.Tests
             Assert.IsTrue(troop1.TerrainSet[8] == false);
             Assert.IsTrue(troop1.TerrainSet[9] == false);
 
-            Assert.IsTrue(db.Troops[1].Name.Value == "Slimex3");
+            Assert.IsTrue(db.Troops[1].Name == "Slimex3");
 
             var lastTroop = db.Troops.Last();
-            Assert.IsTrue(lastTroop.Name.Value == "Demon God");
+            Assert.IsTrue(lastTroop.Name == "Demon God");
 
             var system = db.System;
-            Assert.IsTrue(system.TitleMusic.Name.Value == "Opening1");
-            Assert.IsTrue(system.BattleMusic.Name.Value == "Battle1");
-            Assert.IsTrue(system.BattleEndMusic.Name.Value == "BattleEnd1");
-            Assert.IsTrue(system.InnMusic.Name.Value == "Inn1");
-            Assert.IsTrue(system.BoatMusic.Name.Value == "Ship1");
-            Assert.IsTrue(system.ShipMusic.Name.Value == "Ship2");
-            Assert.IsTrue(system.AirshipMusic.Name.Value == "Vehicle1");
-            Assert.IsTrue(system.GameoverMusic.Name.Value == "Gameover1");
+            Assert.IsTrue(system.TitleMusic.Name == "Opening1");
+            Assert.IsTrue(system.BattleMusic.Name == "Battle1");
+            Assert.IsTrue(system.BattleEndMusic.Name == "BattleEnd1");
+            Assert.IsTrue(system.InnMusic.Name == "Inn1");
+            Assert.IsTrue(system.BoatMusic.Name == "Ship1");
+            Assert.IsTrue(system.ShipMusic.Name == "Ship2");
+            Assert.IsTrue(system.AirshipMusic.Name == "Vehicle1");
+            Assert.IsTrue(system.GameoverMusic.Name == "Gameover1");
 
-            Assert.IsTrue(db.Terms.Autodestruction.Value == "%S exploded!");
+            Assert.IsTrue(db.Terms.Autodestruction == "%S exploded!");
         }
 
         [TestMethod]
@@ -119,12 +119,12 @@ namespace LcfSharp.Tests
             var db = DatabaseFile.Load("Data\\RPG_RT_rw.ldb");
 
             Assert.IsNotNull(db);
-            Assert.IsTrue(db.Actors[0].Name.Value == "Ryle");
-            Assert.IsTrue(db.Actors[1].Name.Value == "Caris");
-            Assert.IsTrue(db.Actors[2].Name.Value == "Orubia");
-            Assert.IsTrue(db.Actors[3].Name.Value == "Latyss");
-            Assert.IsTrue(db.Actors[4].Name.Value == "Hayami");
-            Assert.IsTrue(db.Actors[5].Name.Value == "Fina");
+            Assert.IsTrue(db.Actors[0].Name == "Ryle");
+            Assert.IsTrue(db.Actors[1].Name == "Caris");
+            Assert.IsTrue(db.Actors[2].Name == "Orubia");
+            Assert.IsTrue(db.Actors[3].Name == "Latyss");
+            Assert.IsTrue(db.Actors[4].Name == "Hayami");
+            Assert.IsTrue(db.Actors[5].Name == "Fina");
         }
            
         [TestMethod]
@@ -188,9 +188,9 @@ namespace LcfSharp.Tests
 
                 Assert.AreEqual(actor1NameCID, (byte)ActorChunk.Name);
 
-                var actorName = reader.ReadDbString(actor1NameCL);
+                var actorName = reader.ReadString(actor1NameCL);
 
-                Assert.AreEqual(actorName.Value, "Alex");
+                Assert.AreEqual(actorName, "Alex");
                 //Console.WriteLine($"Chunk: {chunk.ID} Length: {chunk.Length}");
 
                 //reader.Seek(chunkLength, SeekMode.FromCurrent);

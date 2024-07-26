@@ -59,7 +59,7 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
-        public DbString ParameterString
+        public string ParameterString
         {
             get;
             set;

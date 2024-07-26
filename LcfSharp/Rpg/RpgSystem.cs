@@ -306,19 +306,19 @@ namespace LcfSharp.Rpg
             set;
         }
 
-        public DbString BoatName
+        public string BoatName
         {
             get;
             set;
         }
 
-        public DbString ShipName
+        public string ShipName
         {
             get;
             set;
         }
 
-        public DbString AirshipName
+        public string AirshipName
         {
             get;
             set;
@@ -342,26 +342,26 @@ namespace LcfSharp.Rpg
             set;
         }
 
-        public DbString TitleName
+        public string TitleName
         {
             get;
             set;
         }
 
-        public DbString GameoverName
+        public string GameoverName
         {
             get;
             set;
         }
 
-        public DbString SystemName
+        public string SystemName
         {
             get;
             set;
         }
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
-        public DbString System2Name
+        public string System2Name
         {
             get;
             set;
@@ -563,7 +563,7 @@ namespace LcfSharp.Rpg
             set;
         }
 
-        public DbString BattleTestBackground
+        public string BattleTestBackground
         {
             get;
             set;
@@ -625,7 +625,7 @@ namespace LcfSharp.Rpg
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
-        public DbString FrameName
+        public string FrameName
         {
             get;
             set;

@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LcfSharp.Editor.Views.Database"
+             xmlns:controls="clr-namespace:LcfSharp.Editor.Controls"
              xmlns:actors="clr-namespace:LcfSharp.Rpg.Actors;assembly=LcfSharp"
-             mc:Ignorable="d"  d:DataContext="{d:DesignInstance actors:Actor}"
+             xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic"
+             mc:Ignorable="d"  d:DataContext="{d:DesignInstance actors:Actor}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -46,7 +48,7 @@
                                 <Button Grid.Column="1" VerticalAlignment="Bottom" Padding="2" Margin="7 0 0 0">Set...</Button>
                             </Grid>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox VerticalAlignment="Center" />
+                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding Transparent}" />
                                 <Label VerticalAlignment="Center">Transparent</Label>
                             </StackPanel>
                         </StackPanel>
@@ -86,37 +88,37 @@
                                 <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
                                     Maximum HP
                                 </TextBlock>
-                                <Border Background="Tomato"></Border>
+                                <controls:ParameterCurve CurveBrush="#FF5533" Data="{Binding Parameters.MaxHP}" />
                             </DockPanel>
                             <DockPanel Margin="3.5 0 0 0" Grid.Column="1" Grid.Row="0" LastChildFill="True">
                                 <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
                                     Maximum MP
                                 </TextBlock>
-                                <Border Background="Magenta"></Border>
+                                <controls:ParameterCurve CurveBrush="#EE55FF" Data="{Binding Parameters.MaxSP}" />
                             </DockPanel>
                             <DockPanel Margin="0 0 3.5 0" Grid.Column="0" Grid.Row="1" LastChildFill="True">
                                 <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
                                     Attack
                                 </TextBlock>
-                                <Border Background="Yellow"></Border>
+                                <controls:ParameterCurve CurveBrush="#FFCC11" Data="{Binding Parameters.Attack}" />
                             </DockPanel>
                             <DockPanel Margin="3.5 0 0 0" Grid.Column="1" Grid.Row="1" LastChildFill="True">
                                 <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
                                     Defence
                                 </TextBlock>
-                                <Border Background="Lime"></Border>
+                                <controls:ParameterCurve CurveBrush="#11DD33" Data="{Binding Parameters.Defense}" />
                             </DockPanel>
                             <DockPanel Margin="0 0 3.5 0" Grid.Column="0" Grid.Row="2" LastChildFill="True">
                                 <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
                                     Mind
                                 </TextBlock>
-                                <Border Background="MidnightBlue"></Border>
+                                <controls:ParameterCurve CurveBrush="#5577FF" Data="{Binding Parameters.Spirit}" />
                             </DockPanel>
                             <DockPanel Margin="3.5 0 0 0" Grid.Column="1" Grid.Row="2" LastChildFill="True">
                                 <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
                                     Agility
                                 </TextBlock>
-                                <Border Background="DeepSkyBlue"></Border>
+                                <controls:ParameterCurve CurveBrush="#11DDFF" Data="{Binding Parameters.Agility}" />
                             </DockPanel>
                         </Grid>
                     </GroupBox>
@@ -131,7 +133,7 @@
                     <StackPanel Grid.Column="0">
                         <StackPanel Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center" IsChecked="{Binding TwoWeapon}" />
-                            <Label VerticalAlignment="Center">Dual Weld</Label>
+                            <Label VerticalAlignment="Center">Dual Wield</Label>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center" IsChecked="{Binding LockEquipment}" />
@@ -157,32 +159,58 @@
                     <ColumnDefinition Width="65*" />
                     <ColumnDefinition Width="35*" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Margin="7 0 0 0">
-                    <GroupBox Header="Starting Equipment">
-                        <StackPanel Margin="2">
-                            <DockPanel LastChildFill="True">
-                                <TextBlock Text="Weapon:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
-                                <ComboBox></ComboBox>
+                <DockPanel Grid.Column="0" Margin="7 0 0 0" LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top">
+                        <GroupBox Header="Starting Equipment">
+                            <StackPanel Margin="2">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Weapon:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                                    <ComboBox></ComboBox>
+                                </DockPanel>
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Shield:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                                    <ComboBox></ComboBox>
+                                </DockPanel>
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Body:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                                    <ComboBox></ComboBox>
+                                </DockPanel>
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Head:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                                    <ComboBox></ComboBox>
+                                </DockPanel>
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock Text="Accessory:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                                    <ComboBox></ComboBox>
+                                </DockPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Barehand Animation">
+                            <ComboBox Margin="80 2 2 2" />
+                        </GroupBox>
+                    </StackPanel>
+                    <GroupBox Header="Skills">
+                        <DockPanel Margin="2" LastChildFill="True">
+                            <DockPanel DockPanel.Dock="Bottom" LastChildFill="True" Margin="0 7 0 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding RenameSkill}" />
+                                    <Label VerticalAlignment="Center">Command Name</Label>
+                                </StackPanel>
+                                <TextBox Margin="5 0 0 0" Text="{Binding SkillName}" />
                             </DockPanel>
-                            <DockPanel LastChildFill="True">
-                                <TextBlock Text="Shield:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
-                                <ComboBox></ComboBox>
-                            </DockPanel>
-                            <DockPanel LastChildFill="True">
-                                <TextBlock Text="Body:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
-                                <ComboBox></ComboBox>
-                            </DockPanel>
-                            <DockPanel LastChildFill="True">
-                                <TextBlock Text="Head:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
-                                <ComboBox></ComboBox>
-                            </DockPanel>
-                            <DockPanel LastChildFill="True">
-                                <TextBlock Text="Accessory:" TextAlignment="Right" MinWidth="96" Margin="0 0 7 0" VerticalAlignment="Center" DockPanel.Dock="Left" />
-                                <ComboBox></ComboBox>
-                            </DockPanel>
-                        </StackPanel>
+                            <ListView
+                                DataContext="{Binding}"
+                                ItemsSource="{Binding Skills}" >
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Level}" Header="Level" Width="50"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding SkillID}" Header="Skill" Width="160"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </DockPanel>
                     </GroupBox>
-                </StackPanel>
+                </DockPanel>                
                 <StackPanel Grid.Column="1" Margin="7 0 0 0">
                     <GroupBox Header="State Rate" MinHeight="220">
                         <ListBox Margin="2" VerticalAlignment="Stretch"></ListBox>

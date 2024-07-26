@@ -16,7 +16,7 @@ namespace LcfSharp.IO.Converters
             if (instance.Code != EventCommandCode.None)
             {
                 instance.Indent = reader.ReadVarInt();
-                instance.String = reader.ReadDbString(reader.ReadVarInt());
+                instance.String = reader.ReadString(reader.ReadVarInt());
 
                 var parametersCount = reader.ReadVarInt();
                 instance.Parameters = new List<int>(parametersCount);

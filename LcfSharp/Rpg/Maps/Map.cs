@@ -86,7 +86,7 @@ namespace LcfSharp.Rpg.Maps
             set;
         }
 
-        public DbString ParallaxName
+        public string ParallaxName
         {
             get;
             set;

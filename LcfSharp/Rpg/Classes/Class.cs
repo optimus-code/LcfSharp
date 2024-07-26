@@ -38,7 +38,7 @@ namespace LcfSharp.Rpg.Classes
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;

@@ -92,21 +92,21 @@ namespace LcfSharp.Rpg.Actors
         } = 0;
 
         [LcfAlwaysPersistAttribute]
-		public DbString Name
+		public string Name
         {
             get;
             set;
         }
 
         [LcfAlwaysPersistAttribute]
-		public DbString Title
+		public string Title
         {
             get;
             set;
         }
 
         [LcfAlwaysPersistAttribute]
-		public DbString CharacterName
+		public string CharacterName
         {
             get;
             set;
@@ -149,7 +149,7 @@ namespace LcfSharp.Rpg.Actors
         } = 30;
         
         [LcfAlwaysPersistAttribute]
-		public DbString FaceName
+		public string FaceName
         {
             get;
             set;
@@ -264,7 +264,7 @@ namespace LcfSharp.Rpg.Actors
             set;
         } = false;
 
-		public DbString SkillName
+		public string SkillName
         {
             get;
             set;

@@ -1,7 +1,5 @@
 ﻿using LcfSharp.IO.Extensions;
-using System;
 using System.IO;
-using System.Text;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -9,6 +7,9 @@ namespace LcfSharp.IO.Converters.Types
     {
         public override object Read(BinaryReader reader, int? length)
         {
+            if ( length.HasValue && length.Value == 0 )
+                return null;
+
             var count = length.HasValue ? length.Value : reader.ReadVarInt();
             return reader.ReadString(count);
         }

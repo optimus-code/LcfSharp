@@ -49,7 +49,7 @@ namespace LcfSharp.Rpg.Attributes
         }
 
         [LcfAlwaysPersistAttribute]
-		public DbString Name
+		public string Name
         {
             get;
             set;

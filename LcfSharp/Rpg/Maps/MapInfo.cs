@@ -56,7 +56,7 @@ namespace LcfSharp.Rpg.Maps
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
@@ -116,7 +116,7 @@ namespace LcfSharp.Rpg.Maps
             set;
         }
 
-        public DbString BackgroundName
+        public string BackgroundName
         {
             get;
             set;

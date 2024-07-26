@@ -29,7 +29,7 @@ namespace LcfSharp.Rpg.Troops
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;

@@ -21,7 +21,7 @@ namespace LcfSharp.Rpg.Audio
     [LcfChunk<MusicChunk>]
     public class Music
     {
-        public DbString Name
+        public string Name
         {
             get;
             set;

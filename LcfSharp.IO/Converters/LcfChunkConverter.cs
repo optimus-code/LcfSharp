@@ -123,7 +123,7 @@ namespace LcfSharp.IO.Converters
             var unusedProperties = lcfType.Chunks.Values
                 .Where(p => !parsedProperties.Contains(p.Property.Name) &&
                     p.AlwaysPersist != null &&
-                    p.Property.PropertyType != typeof(DbString))
+                    p.Property.PropertyType != typeof(string))
                 .ToList();
 
             if (unusedProperties.Any())

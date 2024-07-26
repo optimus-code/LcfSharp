@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LcfSharp.Editor.Views.Database"
              xmlns:rpg="clr-namespace:LcfSharp.Rpg;assembly=LcfSharp"
+             xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic"
              xmlns:actors="clr-namespace:LcfSharp.Rpg.Actors;assembly=LcfSharp"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance rpg:Database}"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance rpg:Database}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,7 +21,7 @@
                 </TextBlock>
             </Border>
             <Button DockPanel.Dock="Bottom" Padding="3" Margin="0 7 0 0">Maximum Number</Button>
-            <ListBox Name="ListBox" DataContext="{Binding}" ItemsSource="{Binding Actors}">
+            <ListBox Name="ListBox" DataContext="{Binding}" ItemsSource="{Binding Actors}" SelectedIndex="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -37,7 +38,14 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </DockPanel>
-        <local:Actor Margin="0 7 7 7" Grid.Column="1" DataContext="{Binding ElementName=ListBox, Path=SelectedItem}">            
-        </local:Actor>
+
+        <theme:ClassicBorderDecorator Margin="0 7 7 7" Grid.Column="1" 
+                        BorderStyle="Sunken"
+                        BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                        BorderThickness="3"
+                        SnapsToDevicePixels="True">
+            <local:Actor DataContext="{Binding ElementName=ListBox, Path=SelectedItem}" Margin="7">
+            </local:Actor>
+        </theme:ClassicBorderDecorator>
     </Grid>
 </UserControl>

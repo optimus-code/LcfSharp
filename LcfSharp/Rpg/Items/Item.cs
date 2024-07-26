@@ -195,13 +195,13 @@ namespace LcfSharp.Rpg.Items
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
         }
 
-        public DbString Description
+        public string Description
         {
             get;
             set;

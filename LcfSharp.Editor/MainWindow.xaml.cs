@@ -23,7 +23,7 @@ namespace LcfSharp.Editor
             
             InitializeComponent();
 
-            DataContext = DatabaseFile.Load("C:\\Users\\User\\source\\repos\\LcfSharp\\LcfSharp.Tests\\Data\\RPG_RT_rw.ldb");
+            DataContext = DatabaseFile.Load("..\\..\\..\\..\\LcfSharp.Tests\\Data\\RPG_RT_rw.ldb");
         }
     }
 }

@@ -267,688 +267,267 @@ namespace LcfSharp.Rpg
     public class Terms
     {
 		[LcfAlwaysPersistAttribute]
-		public DbString Encounter
+		public string Encounter
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SpecialCombat
+		public string SpecialCombat
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EscapeSuccess
+		public string EscapeSuccess
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EscapeFailure
+		public string EscapeFailure
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Victory
+		public string Victory
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Defeat
+		public string Defeat
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ExpReceived
+		public string ExpReceived
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString GoldReceivedA
+		public string GoldReceivedA
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString GoldReceivedB
+		public string GoldReceivedB
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ItemReceived
+		public string ItemReceived
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Attacking
+		public string Attacking
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EnemyCritical
+		public string EnemyCritical
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ActorCritical
+		public string ActorCritical
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Defending
+		public string Defending
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Observing
+		public string Observing
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Focus
+		public string Focus
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Autodestruction
+		public string Autodestruction
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EnemyEscape
+		public string EnemyEscape
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EnemyTransform
+		public string EnemyTransform
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EnemyDamaged
+		public string EnemyDamaged
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EnemyUndamaged
+		public string EnemyUndamaged
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ActorDamaged
+		public string ActorDamaged
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ActorUndamaged
+		public string ActorUndamaged
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SkillFailureA
+		public string SkillFailureA
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SkillFailureB
+		public string SkillFailureB
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SkillFailureC
+		public string SkillFailureC
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Dodge
+		public string Dodge
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString UseItem
+		public string UseItem
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString HpRecovery
+		public string HpRecovery
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ParameterIncrease
+		public string ParameterIncrease
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ParameterDecrease
+		public string ParameterDecrease
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString EnemyHpAbsorbed
+		public string EnemyHpAbsorbed
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ActorHpAbsorbed
+		public string ActorHpAbsorbed
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ResistanceIncrease
+		public string ResistanceIncrease
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ResistanceDecrease
+		public string ResistanceDecrease
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString LevelUp
+		public string LevelUp
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SkillLearned
-        {
-            get;
-            set;
-        }
-
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-		[LcfAlwaysPersistAttribute]
-		public DbString BattleStart
+		public string SkillLearned
         {
             get;
             set;
         }
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public DbString Miss
-        {
-            get;
-            set;
-        }
-
 		[LcfAlwaysPersistAttribute]
-		public DbString ShopGreeting1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopRegreeting1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuy1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSell1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopLeave1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuySelect1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuyNumber1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopPurchased1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSellSelect1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSellNumber1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSold1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopGreeting2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopRegreeting2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuy2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSell2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopLeave2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuySelect2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuyNumber2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopPurchased2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSellSelect2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSellNumber2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSold2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopGreeting3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopRegreeting3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuy3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSell3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopLeave3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuySelect3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopBuyNumber3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopPurchased3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSellSelect3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSellNumber3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ShopSold3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnAGreeting1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnAGreeting2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnAGreeting3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnAAccept
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnACancel
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnBGreeting1
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnBGreeting2
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnBGreeting3
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnBAccept
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString InnBCancel
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString PossessedItems
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString EquippedItems
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString Gold
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString BattleFight
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString BattleAuto
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString BattleEscape
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString CommandAttack
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString CommandDefend
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString CommandItem
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString CommandSkill
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString MenuEquipment
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString MenuSave
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString MenuQuit
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString NewGame
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString LoadGame
-        {
-            get;
-            set;
-        }
-
-		[LcfAlwaysPersistAttribute]
-		public DbString ExitGame
+		public string BattleStart
         {
             get;
             set;
@@ -956,7 +535,420 @@ namespace LcfSharp.Rpg
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
-		public DbString Status
+		public string Miss
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopGreeting1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopRegreeting1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuy1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSell1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopLeave1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuySelect1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuyNumber1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopPurchased1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSellSelect1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSellNumber1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSold1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopGreeting2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopRegreeting2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuy2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSell2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopLeave2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuySelect2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuyNumber2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopPurchased2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSellSelect2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSellNumber2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSold2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopGreeting3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopRegreeting3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuy3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSell3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopLeave3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuySelect3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopBuyNumber3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopPurchased3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSellSelect3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSellNumber3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ShopSold3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnAGreeting1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnAGreeting2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnAGreeting3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnAAccept
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnACancel
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnBGreeting1
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnBGreeting2
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnBGreeting3
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnBAccept
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string InnBCancel
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string PossessedItems
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string EquippedItems
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string Gold
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string BattleFight
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string BattleAuto
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string BattleEscape
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string CommandAttack
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string CommandDefend
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string CommandItem
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string CommandSkill
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string MenuEquipment
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string MenuSave
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string MenuQuit
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string NewGame
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string LoadGame
+        {
+            get;
+            set;
+        }
+
+		[LcfAlwaysPersistAttribute]
+		public string ExitGame
         {
             get;
             set;
@@ -964,7 +956,7 @@ namespace LcfSharp.Rpg
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
-		public DbString Row
+		public string Status
         {
             get;
             set;
@@ -972,7 +964,7 @@ namespace LcfSharp.Rpg
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
-		public DbString Order
+		public string Row
         {
             get;
             set;
@@ -980,7 +972,7 @@ namespace LcfSharp.Rpg
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
-		public DbString WaitOn
+		public string Order
         {
             get;
             set;
@@ -988,175 +980,183 @@ namespace LcfSharp.Rpg
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersistAttribute]
-		public DbString WaitOff
+		public string WaitOn
+        {
+            get;
+            set;
+        }
+
+        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfAlwaysPersistAttribute]
+		public string WaitOff
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Level
+		public string Level
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString HealthPoints
+		public string HealthPoints
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SpiritPoints
+		public string SpiritPoints
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString NormalStatus
+		public string NormalStatus
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ExpShort
+		public string ExpShort
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString LvlShort
+		public string LvlShort
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString HpShort
+		public string HpShort
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SpShort
+		public string SpShort
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SpCost
+		public string SpCost
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Attack
+		public string Attack
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Defense
+		public string Defense
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Spirit
+		public string Spirit
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Agility
+		public string Agility
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Weapon
+		public string Weapon
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Shield
+		public string Shield
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Armor
+		public string Armor
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Helmet
+		public string Helmet
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Accessory
+		public string Accessory
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString SaveGameMessage
+		public string SaveGameMessage
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString LoadGameMessage
+		public string LoadGameMessage
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString File
+		public string File
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString ExitGameMessage
+		public string ExitGameMessage
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString Yes
+		public string Yes
         {
             get;
             set;
         }
 
 		[LcfAlwaysPersistAttribute]
-		public DbString No
+		public string No
         {
             get;
             set;

@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:LcfSharp.Editor"
         xmlns:db="clr-namespace:LcfSharp.Editor.Views.Database"
         xmlns:rpg="clr-namespace:LcfSharp.Rpg;assembly=LcfSharp"
+        xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic"
         d:DataContext="{d:DesignInstance rpg:Database}"
-        mc:Ignorable="d" Background="#F0F0F0"
-        
+        mc:Ignorable="d" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+        FontSize="13" FontFamily="Verdana"
              SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Display"
-        Title="MainWindow" Height="615" Width="1004">
+        Title="Database" Height="615" Width="1004">
     <Grid>
         <TabControl Margin="7">
             <TabItem Header="Actors">
@@ -26,6 +27,7 @@
             <TabItem Header="Animations" />
             <TabItem Header="Terrain" />
             <TabItem Header="Tilesets" />
+            <TabItem Header="Terms" />
             <TabItem Header="System" />
             <TabItem Header="Common Events" />
         </TabControl>

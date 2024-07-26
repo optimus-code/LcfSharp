@@ -20,7 +20,7 @@ namespace LcfSharp.Rpg.Audio
     public class Sound
     {
         [LcfAlwaysPersistAttribute]
-        public DbString Name
+        public string Name
         {
             get;
             set;

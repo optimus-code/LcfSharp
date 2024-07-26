@@ -155,7 +155,7 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
-        public DbString String
+        public string String
         {
             get;
             set;

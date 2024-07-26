@@ -42,13 +42,13 @@ namespace LcfSharp.Rpg.Chipsets
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
         }
 
-        public DbString ChipsetName
+        public string ChipsetName
         {
             get;
             set;

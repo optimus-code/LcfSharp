@@ -26,8 +26,7 @@ namespace LcfSharp.IO.Converters
             { typeof(short), new LcfInt16Converter() },
             { typeof(int), new LcfInt32Converter() },
             { typeof(long), new LcfInt64Converter() },
-            { typeof(BitArray), new LcfBitArrayConverter() },
-            { typeof(DbString), new LcfDbStringConverter() }
+            { typeof(BitArray), new LcfBitArrayConverter() }
         };
 
         private static Dictionary<Type, List<PropertyInfo>> Cache

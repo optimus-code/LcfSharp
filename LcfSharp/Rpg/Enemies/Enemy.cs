@@ -69,13 +69,13 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
         }
 
-        public DbString BattlerName
+        public string BattlerName
         {
             get;
             set;

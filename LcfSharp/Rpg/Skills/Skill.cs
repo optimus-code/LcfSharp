@@ -130,25 +130,25 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = 0;
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
         }
 
-        public DbString Description
+        public string Description
         {
             get;
             set;
         }
 
-        public DbString UsingMessage1
+        public string UsingMessage1
         {
             get;
             set;
         }
 
-        public DbString UsingMessage2
+        public string UsingMessage2
         {
             get;
             set;

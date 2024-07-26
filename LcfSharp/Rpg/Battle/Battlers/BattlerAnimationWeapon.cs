@@ -26,13 +26,13 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = 0;
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
         }
 
-        public DbString WeaponName
+        public string WeaponName
         {
             get;
             set;

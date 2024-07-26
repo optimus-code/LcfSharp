@@ -39,14 +39,14 @@ namespace LcfSharp.Rpg.Battle.Battlers
         } = 0;
 
         [LcfAlwaysPersistAttribute]
-		public DbString Name
+		public string Name
         {
             get;
             set;
         }
 
         [LcfAlwaysPersistAttribute]
-		public DbString BattlerName
+		public string BattlerName
         {
             get;
             set;

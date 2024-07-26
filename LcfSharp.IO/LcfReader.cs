@@ -49,11 +49,6 @@ namespace LcfSharp.IO
             return _reader.ReadString(length);
         }
 
-        public DbString ReadDbString(int length)
-        {
-            return _reader.ReadDbString(length);
-        }
-
         public void Dispose()
         {
             _reader?.Dispose();

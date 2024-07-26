@@ -121,7 +121,7 @@ namespace LcfSharp.Rpg.States
             set;
         }
 
-        public DbString Name
+        public string Name
         {
             get;
             set;
@@ -297,31 +297,31 @@ namespace LcfSharp.Rpg.States
             set;
         }
 
-        public DbString MessageActor
+        public string MessageActor
         {
             get;
             set;
         }
 
-        public DbString MessageEnemy
+        public string MessageEnemy
         {
             get;
             set;
         }
 
-        public DbString MessageAlready
+        public string MessageAlready
         {
             get;
             set;
         }
 
-        public DbString MessageAffected
+        public string MessageAffected
         {
             get;
             set;
         }
 
-        public DbString MessageRecovery
+        public string MessageRecovery
         {
             get;
             set;
