@@ -24,7 +24,7 @@
            TargetType="{x:Type TabItem}">
                 <Setter Property="FocusVisualStyle"
                 Value="{StaticResource &#276;}"/>
-                <Setter Property="Padding" Value="4 0 4 0"/>
+                <Setter Property="Padding" Value="5 0 5 0"/>
                 <Setter Property="Foreground"
                 Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
                 <Setter Property="Background"

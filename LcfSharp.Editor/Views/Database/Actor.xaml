@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LcfSharp.Editor.Views.Database"
              xmlns:controls="clr-namespace:LcfSharp.Editor.Controls"
-             xmlns:actors="clr-namespace:LcfSharp.Rpg.Actors;assembly=LcfSharp"
+             xmlns:models="clr-namespace:LcfSharp.Editor.ViewModels"
              xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic"
-             mc:Ignorable="d"  d:DataContext="{d:DesignInstance actors:Actor}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"  d:DataContext="{d:DesignInstance models:MainViewModel}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+             d:DesignHeight="650" d:DesignWidth="900"
+             x:Name="CurrentWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350" />
@@ -22,10 +23,10 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Margin="0 0 7 0">
                     <GroupBox Header="Name">
-                        <TextBox Text="{Binding Name}" Margin="2" />
+                        <TextBox Text="{Binding CurrentActor.Name}" Margin="2" />
                     </GroupBox>
                     <GroupBox Header="Nickname">
-                        <TextBox Text="{Binding Title}" Margin="2" />
+                        <TextBox Text="{Binding CurrentActor.Title}" Margin="2" />
                     </GroupBox>
                     <GroupBox Header="Faceset">
                         <StackPanel Margin="2">
@@ -48,7 +49,7 @@
                                 <Button Grid.Column="1" VerticalAlignment="Bottom" Padding="2" Margin="7 0 0 0">Set...</Button>
                             </Grid>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding Transparent}" />
+                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding CurrentActor.Transparent}" />
                                 <Label VerticalAlignment="Center">Transparent</Label>
                             </StackPanel>
                         </StackPanel>
@@ -61,20 +62,20 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <GroupBox Grid.Column="0" Header="Initial Level" Margin="0 0 3.5 0">
-                            <TextBox Text="{Binding InitialLevel}" Margin="2" />
+                            <TextBox Text="{Binding CurrentActor.InitialLevel}" Margin="2" />
                         </GroupBox>
                         <GroupBox Grid.Column="1" Header="Max Level" Margin="3.5 0 0 0">
-                            <TextBox Text="{Binding FinalLevel}" Margin="2" />
+                            <TextBox Text="{Binding CurrentActor.FinalLevel}" Margin="2" />                            
                         </GroupBox>
                     </Grid>
                     <GroupBox Header="Critical Rate">
                         <DockPanel LastChildFill="True">
                             <CheckBox Margin="2" VerticalAlignment="Center" DockPanel.Dock="Left" IsChecked="{Binding CriticalHit}" />
-                            <TextBox Text="{Binding CriticalHitChance}" Margin="2" />
+                            <TextBox Text="{Binding CurrentActor.CriticalHitChance}" Margin="2" />
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Header="Parameter Curves">
-                        <Grid MinHeight="242">
+                        <Grid MinHeight="242" Margin="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -84,41 +85,77 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <DockPanel Margin="0 0 3.5 0" Grid.Column="0" Grid.Row="0" LastChildFill="True">
-                                <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
-                                    Maximum HP
-                                </TextBlock>
-                                <controls:ParameterCurve CurveBrush="#FF5533" Data="{Binding Parameters.MaxHP}" />
+                            <DockPanel Margin="0 0 3.5 5" Grid.Column="0" Grid.Row="0" LastChildFill="True">
+                                <theme:ClassicBorderDecorator DockPanel.Dock="Top"
+                                        BorderStyle="Sunken"
+                                        BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Padding="1" TextAlignment="Center">
+                                        Maximum HP
+                                    </TextBlock>
+                                </theme:ClassicBorderDecorator>
+                                <controls:ParameterCurve CurveBrush="#FF5533" Data="{Binding CurrentActor.Parameters.MaxHP}" />
                             </DockPanel>
-                            <DockPanel Margin="3.5 0 0 0" Grid.Column="1" Grid.Row="0" LastChildFill="True">
-                                <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
+                            <DockPanel Margin="3.5 0 0 5" Grid.Column="1" Grid.Row="0" LastChildFill="True">
+                                <theme:ClassicBorderDecorator DockPanel.Dock="Top"
+                                    BorderStyle="Sunken"
+                                    BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                                    BorderThickness="1"
+                                    SnapsToDevicePixels="True">
+                                    <TextBlock Padding="1" TextAlignment="Center">
                                     Maximum MP
-                                </TextBlock>
-                                <controls:ParameterCurve CurveBrush="#EE55FF" Data="{Binding Parameters.MaxSP}" />
+                                    </TextBlock>
+                                </theme:ClassicBorderDecorator>
+                                <controls:ParameterCurve CurveBrush="#EE55FF" Data="{Binding CurrentActor.Parameters.MaxSP}" />
                             </DockPanel>
-                            <DockPanel Margin="0 0 3.5 0" Grid.Column="0" Grid.Row="1" LastChildFill="True">
-                                <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
-                                    Attack
-                                </TextBlock>
-                                <controls:ParameterCurve CurveBrush="#FFCC11" Data="{Binding Parameters.Attack}" />
+                            <DockPanel Margin="0 0 3.5 5" Grid.Column="0" Grid.Row="1" LastChildFill="True">
+                                <theme:ClassicBorderDecorator DockPanel.Dock="Top"
+                                        BorderStyle="Sunken"
+                                        BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Padding="1" TextAlignment="Center">
+                                        Attack
+                                    </TextBlock>
+                                </theme:ClassicBorderDecorator>
+                                <controls:ParameterCurve CurveBrush="#FFCC11" Data="{Binding CurrentActor.Parameters.Attack}" />
                             </DockPanel>
-                            <DockPanel Margin="3.5 0 0 0" Grid.Column="1" Grid.Row="1" LastChildFill="True">
-                                <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
-                                    Defence
-                                </TextBlock>
-                                <controls:ParameterCurve CurveBrush="#11DD33" Data="{Binding Parameters.Defense}" />
+                            <DockPanel Margin="3.5 0 0 5" Grid.Column="1" Grid.Row="1" LastChildFill="True">
+                                <theme:ClassicBorderDecorator DockPanel.Dock="Top"
+                                        BorderStyle="Sunken"
+                                        BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Padding="1" TextAlignment="Center">
+                                        Defence
+                                    </TextBlock>
+                                </theme:ClassicBorderDecorator>
+                                <controls:ParameterCurve CurveBrush="#11DD33" Data="{Binding CurrentActor.Parameters.Defense}" />
                             </DockPanel>
-                            <DockPanel Margin="0 0 3.5 0" Grid.Column="0" Grid.Row="2" LastChildFill="True">
-                                <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
-                                    Mind
-                                </TextBlock>
-                                <controls:ParameterCurve CurveBrush="#5577FF" Data="{Binding Parameters.Spirit}" />
+                            <DockPanel Margin="0 0 3.5 5" Grid.Column="0" Grid.Row="2" LastChildFill="True">
+                                <theme:ClassicBorderDecorator DockPanel.Dock="Top"
+                                        BorderStyle="Sunken"
+                                        BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Padding="1" TextAlignment="Center">
+                                        Mind
+                                    </TextBlock>
+                                </theme:ClassicBorderDecorator>
+                                <controls:ParameterCurve CurveBrush="#5577FF" Data="{Binding CurrentActor.Parameters.Spirit}" />
                             </DockPanel>
-                            <DockPanel Margin="3.5 0 0 0" Grid.Column="1" Grid.Row="2" LastChildFill="True">
-                                <TextBlock Padding="1" TextAlignment="Center" DockPanel.Dock="Top">
-                                    Agility
-                                </TextBlock>
-                                <controls:ParameterCurve CurveBrush="#11DDFF" Data="{Binding Parameters.Agility}" />
+                            <DockPanel Margin="3.5 0 0 5" Grid.Column="1" Grid.Row="2" LastChildFill="True">
+                                <theme:ClassicBorderDecorator DockPanel.Dock="Top"
+                                        BorderStyle="Sunken"
+                                        BorderBrush="{x:Static theme:ClassicBorderDecorator.ClassicBorderBrush}"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Padding="1" TextAlignment="Center">
+                                        Agility
+                                    </TextBlock>
+                                </theme:ClassicBorderDecorator>
+                                <controls:ParameterCurve CurveBrush="#11DDFF" Data="{Binding CurrentActor.Parameters.Agility}" />
                             </DockPanel>
                         </Grid>
                     </GroupBox>
@@ -132,21 +169,21 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding TwoWeapon}" />
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding CurrentActor.TwoWeapon}" />
                             <Label VerticalAlignment="Center">Dual Wield</Label>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding LockEquipment}" />
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding CurrentActor.LockEquipment}" />
                             <Label VerticalAlignment="Center">Fixed Equip</Label>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding AutoBattle}" />
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding CurrentActor.AutoBattle}" />
                             <Label VerticalAlignment="Center">Auto Battle</Label>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding SuperGuard}" />
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding CurrentActor.SuperGuard}" />
                             <Label VerticalAlignment="Center">Mighty Guard</Label>
                         </StackPanel>
                     </StackPanel>
@@ -186,25 +223,25 @@
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Barehand Animation">
-                            <ComboBox Margin="80 2 2 2" />
+                            <controls:DbComboBox Margin="80 2 2 2" ItemsSource="Animations" DataContext="{Binding CurrentActor.UnarmedAnimation}" />
                         </GroupBox>
                     </StackPanel>
                     <GroupBox Header="Skills">
                         <DockPanel Margin="2" LastChildFill="True">
                             <DockPanel DockPanel.Dock="Bottom" LastChildFill="True" Margin="0 7 0 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding RenameSkill}" />
+                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CurrentActor.RenameSkill}" />
                                     <Label VerticalAlignment="Center">Command Name</Label>
                                 </StackPanel>
-                                <TextBox Margin="5 0 0 0" Text="{Binding SkillName}" />
+                                <TextBox Margin="5 0 0 0" Text="{Binding CurrentActor.SkillName}" />
                             </DockPanel>
-                            <ListView
-                                DataContext="{Binding}"
-                                ItemsSource="{Binding Skills}" >
+                            <ListView ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                DataContext="{Binding}" Height="170"
+                                ItemsSource="{Binding CurrentActor.Skills}" >
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Level}" Header="Level" Width="50"/>
-                                        <GridViewColumn DisplayMemberBinding="{Binding SkillID}" Header="Skill" Width="160"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding CurrentActor.Level}" Header="Level" Width="50"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding CurrentActor.SkillID}" Header="Skill" Width="160"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -212,11 +249,19 @@
                     </GroupBox>
                 </DockPanel>                
                 <StackPanel Grid.Column="1" Margin="7 0 0 0">
-                    <GroupBox Header="State Rate" MinHeight="220">
-                        <ListBox Margin="2" VerticalAlignment="Stretch"></ListBox>
+                    <GroupBox Header="State Rate">
+                        <ListBox Margin="2" VerticalAlignment="Stretch"
+                                 Height="188"
+                                 DataContext="{Binding}" 
+                                 ItemsSource="{Binding CurrentActor.AttributeRanks}">                            
+                        </ListBox>
                     </GroupBox>
-                    <GroupBox Header="Element Rate" MinHeight="220">
-                        <ListBox Margin="2" VerticalAlignment="Stretch"></ListBox>
+                    <GroupBox Header="Element Rate">
+                        <ListBox Margin="2" VerticalAlignment="Stretch"
+                                 Height="188"
+                                 DataContext="{Binding}" 
+                                 ItemsSource="{Binding CurrentActor.AttributeRanks}">                            
+                        </ListBox>
                     </GroupBox>
                 </StackPanel>
             </Grid>            

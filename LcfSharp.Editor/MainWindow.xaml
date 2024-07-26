@@ -6,15 +6,27 @@
         xmlns:local="clr-namespace:LcfSharp.Editor"
         xmlns:db="clr-namespace:LcfSharp.Editor.Views.Database"
         xmlns:rpg="clr-namespace:LcfSharp.Rpg;assembly=LcfSharp"
+        xmlns:models="clr-namespace:LcfSharp.Editor.ViewModels"
         xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic"
-        d:DataContext="{d:DesignInstance rpg:Database}"
+        d:DataContext="{d:DesignInstance models:MainViewModel}"
         mc:Ignorable="d" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-        FontSize="13" FontFamily="Verdana"
+        FontSize="12" FontFamily="Verdana" ResizeMode="NoResize"
              SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Display"
         Title="Database" Height="615" Width="1004">
-    <Grid>
-        <TabControl Margin="7">
+    <Window.DataContext>
+        <models:MainViewModel />
+    </Window.DataContext>
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Bottom" Margin="10">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Width="85" Padding="0 3 0 3">OK</Button>
+                <Button Width="85" Padding="0 3 0 3" Margin="10 0 0 0">Cancel</Button>
+                <Button Width="85" Padding="0 3 0 3" Margin="10 0 0 0">Apply</Button>
+                <Button Width="85" Padding="0 3 0 3" Margin="10 0 0 0">Help</Button>
+            </StackPanel>
+        </Grid>
+        <TabControl Margin="7 7 7 0">
             <TabItem Header="Actors">
                 <db:Actors DataContext="{Binding}" />
             </TabItem>
@@ -31,5 +43,5 @@
             <TabItem Header="System" />
             <TabItem Header="Common Events" />
         </TabControl>
-    </Grid>
+    </DockPanel>
 </Window>
