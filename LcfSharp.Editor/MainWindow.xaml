@@ -1,0 +1,33 @@
+﻿<Window x:Class="LcfSharp.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LcfSharp.Editor"
+        xmlns:db="clr-namespace:LcfSharp.Editor.Views.Database"
+        xmlns:rpg="clr-namespace:LcfSharp.Rpg;assembly=LcfSharp"
+        d:DataContext="{d:DesignInstance rpg:Database}"
+        mc:Ignorable="d" Background="#F0F0F0"
+        
+             SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"
+             TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Display"
+        Title="MainWindow" Height="615" Width="1004">
+    <Grid>
+        <TabControl Margin="7">
+            <TabItem Header="Actors">
+                <db:Actors DataContext="{Binding}" />
+            </TabItem>
+            <TabItem Header="Skills" />
+            <TabItem Header="Items" />
+            <TabItem Header="Enemies" />
+            <TabItem Header="Troops" />
+            <TabItem Header="Elements" />
+            <TabItem Header="States" />
+            <TabItem Header="Animations" />
+            <TabItem Header="Terrain" />
+            <TabItem Header="Tilesets" />
+            <TabItem Header="System" />
+            <TabItem Header="Common Events" />
+        </TabControl>
+    </Grid>
+</Window>

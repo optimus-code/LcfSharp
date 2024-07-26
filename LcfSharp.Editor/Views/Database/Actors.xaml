@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="LcfSharp.Editor.Views.Database.Actors"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LcfSharp.Editor.Views.Database"
+             xmlns:rpg="clr-namespace:LcfSharp.Rpg;assembly=LcfSharp"
+             xmlns:actors="clr-namespace:LcfSharp.Rpg.Actors;assembly=LcfSharp"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance rpg:Database}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <DockPanel LastChildFill="True" Margin="10">
+            <Border DockPanel.Dock="Top" Background="Black" Margin="0 0 0 7">
+                <TextBlock TextAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="White">
+                    Actors
+                </TextBlock>
+            </Border>
+            <Button DockPanel.Dock="Bottom" Padding="3" Margin="0 7 0 0">Maximum Number</Button>
+            <ListBox Name="ListBox" DataContext="{Binding}" ItemsSource="{Binding Actors}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0:D4}: {1}">
+                                        <Binding Path="ID"/>
+                                        <Binding Path="Name"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <local:Actor Margin="0 7 7 7" Grid.Column="1" DataContext="{Binding ElementName=ListBox, Path=SelectedItem}">            
+        </local:Actor>
+    </Grid>
+</UserControl>
