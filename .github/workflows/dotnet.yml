@@ -1,10 +1,7 @@
 name: .NET
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,7 +19,11 @@ jobs:
       run: dotnet restore ./LcfSharp/LcfSharp.csproj
     
     - name: Build
-      run: dotnet build --no-restore ./LcfSharp/LcfSharp.csproj
+      run: dotnet build --configuration Release --no-restore ./LcfSharp/LcfSharp.csproj
+    
+    # Comment out the Test step if it's causing issues
+    #- name: Test
+    #  run: dotnet test --no-build --verbosity normal ./LcfSharp.Tests/LcfSharp.Tests.csproj
 
   publish:
     needs: build
@@ -40,7 +41,7 @@ jobs:
       run: dotnet restore ./LcfSharp/LcfSharp.csproj
     
     - name: Build
-      run: dotnet build --no-restore ./LcfSharp/LcfSharp.csproj
+      run: dotnet build --configuration Release --no-restore ./LcfSharp/LcfSharp.csproj
     
     - name: Pack NuGet package
       run: dotnet pack --configuration Release --no-build --output ./nupkg ./LcfSharp/LcfSharp.csproj
