@@ -1,16 +1,88 @@
 # LcfSharp
 
-LcfSharp is a .NET library for reading and writing RPG Maker 2000/03 Lcf (Ldb, Lmt, Lmu etc.) files. This library aims to provide a straightforward and efficient way to work with Lcf files in C# applications.
+LcfSharp is a .NET library for reading and writing RPG Maker 2000/03 Lcf (Ldb, Lmt, Lmu, etc.) files. This library aims to provide a straightforward and efficient way to work with Lcf files in C# applications.
 
 ## Features
 
 - **Read Lcf Files**: Parse RPG Maker 2000/03 Lcf files into .NET objects.
-- **Write Lcf Files**: Serialize .NET objects back into RPG Maker 2000/03 Lcf files.
+- **Write Lcf Files**: Serialise .NET objects back into RPG Maker 2000/03 Lcf files.
 - **Modeled on System.Text.Json**: Familiar interface for developers who have worked with `System.Text.Json`.
+
+## Usage
+
+To use existing types provided by LcfSharp, such as `Database`, you can deserialise an Lcf file with the following code snippet:
+
+```csharp
+using (var stream = File.OpenRead(path))
+{
+    return LcfSerialiser.Deserialise<Database>(stream);
+}
+```
+
+## Implementing Your Own Readers/Writers
+
+Each Lcf file has a header and a collection of chunks. To deserialise a type, you need to use the `ILcfRootChunk` interface for the core class (see `Database.cs`).
+
+### Decorate Classes with Attributes
+
+To serialize Lcf chunks, use `[LcfChunk<ChunkEnumType>]` to decorate your classes. The enum value names need to correspond to properties in the class described by that attribute.
+
+#### Example:
+
+```csharp
+[LcfChunk(ChunkEnumType.MyChunk)]
+public class MyLcfClass
+{
+    public string PropertyOne { get; set; }
+    public int PropertyTwo { get; set; }
+}
+```
+
+### Ignoring Properties
+
+For properties you don't want to be serialized, use `[LcfIgnore]`.
+
+#### Example:
+
+```csharp
+public class MyLcfClass
+{
+    [LcfIgnore]
+    public string IgnoredProperty { get; set; }
+}
+```
+
+### Always Persist Fields
+
+For fields that must always be serialised/deserialised, even if they equal the default value, decorate them with `[LcfAlwaysPersist]`.
+
+#### Example:
+
+```csharp
+public class MyLcfClass
+{
+    [LcfAlwaysPersist]
+    public int AlwaysPersistedProperty { get; set; }
+}
+```
+
+### Version-Specific Properties
+
+You can decorate properties that correspond to specific versions using `[LcfVersion(LcfEngineVersion.RM2K3)]`.
+
+#### Example:
+
+```csharp
+public class MyLcfClass
+{
+    [LcfVersion(LcfEngineVersion.RM2K3)]
+    public string VersionSpecificProperty { get; set; }
+}
+```
 
 ## Status
 
-Reading is implemented and is mostly working. There may be bugs that need to be ironed out. Writing is not confirmed working yet and needs more time to handle niche scenarios with Lcf writing (Like list lengths etc.).
+Reading is implemented and is mostly working. There may be bugs that need to be ironed out. Writing is not confirmed working yet and needs more time to handle niche scenarios with Lcf writing (like list lengths, etc.).
 
 ## Contributing
 
