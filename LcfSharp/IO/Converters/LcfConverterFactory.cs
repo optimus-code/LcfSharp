@@ -33,6 +33,7 @@ using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Types;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Reflection;
 
@@ -62,7 +63,8 @@ namespace LcfSharp.IO.Converters
             { typeof(bool), new LcfBooleanConverter() },
             { typeof(short), new LcfInt16Converter() },
             { typeof(int), new LcfInt32Converter() },
-            { typeof(long), new LcfInt64Converter() }
+            { typeof(long), new LcfInt64Converter() },
+            { typeof(EventCommand), new LcfEventCommandConverter() }
         };
 
         /// <summary>

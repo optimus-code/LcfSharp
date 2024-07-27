@@ -255,10 +255,7 @@ namespace LcfSharp.Rpg
         {
             using ( var stream = File.OpenRead( path ) )
             {
-                return LcfSerialiser.Deserialise<Database>( stream, new LcfSerialiserOptions
-                {
-                    Converters = [new LcfEventCommandConverter( )]
-                } );
+                return LcfSerialiser.Deserialise<Database>( stream );
             }
         }
     }
