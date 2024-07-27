@@ -1,8 +1,4 @@
-﻿using LcfSharp.IO.Attributes;
-using LcfSharp.IO.Types;
-using System;
-using System.IO;
-/// <copyright>
+﻿/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -31,6 +27,10 @@ using System.IO;
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 

@@ -5,5 +5,22 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
+  <PropertyGroup>
+	  <PackageId>LcfSharp</PackageId>
+	  <Version>0.0.1</Version>
+	  <Authors>optimus-code</Authors>
+	  <Product>LcfSharp</Product>
+	  <Description>LcfSharp is a .NET library for handling LCF data structures, providing essential functionalities for reading, writing, and manipulating LCF files.</Description>
+	  <PackageTags>lcfsharp;library;LCF</PackageTags>
+	  <RepositoryUrl>https://github.com/optimus-code/LcfSharp</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageProjectUrl>https://github.com/optimus-code/LcfSharp</PackageProjectUrl>
+	  <PackageIconUrl>https://raw.githubusercontent.com/optimus-code/LcfSharp/main/icon.png</PackageIconUrl>
+  </PropertyGroup>
 
+  <ItemGroup>
+	  <None Update="LICENSE" Pack="true" PackagePath="" />
+	  <None Update="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>
