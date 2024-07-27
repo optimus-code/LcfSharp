@@ -27,11 +27,11 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Converters;
+using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Types;
 using System;
 using System.IO;
-using LcfSharp.IO.Extensions;
-using LcfSharp.IO.Converters;
-using LcfSharp.IO.Types;
 
 namespace LcfSharp.IO
 {
@@ -67,13 +67,18 @@ namespace LcfSharp.IO
         /// </summary>
         /// <typeparam name="T">The type of object to deserialise.</typeparam>
         /// <returns>An object of type <typeparamref name="T"/>.</returns>
-        public T Deserialize<T>( )
+        public T Deserialise<T>( )
             where T : ILcfRootChunk
         {
-            return ( T ) Deserialize( typeof( T ) );
+            return ( T ) Deserialise( typeof( T ) );
         }
 
-        private ILcfRootChunk Deserialize( Type type )
+        /// <summary>
+        /// Deserialises data from the stream into an object of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="type">The type of object to deserialise.</param>
+        /// <returns>An object of declared type.</returns>
+        private ILcfRootChunk Deserialise( Type type )
         {
             var chunkReader = new LcfChunkConverter( type );
             return ( ILcfRootChunk ) chunkReader.Read( _reader, null );

@@ -82,7 +82,7 @@ namespace LcfSharp.IO
             {
                 var header = ReadHeader( reader, currentOptions );
 
-                var instance = reader.Deserialize<T>( );
+                var instance = reader.Deserialise<T>( );
 
                 if ( instance != null )
                     instance.Header = header;
@@ -107,7 +107,7 @@ namespace LcfSharp.IO
             using ( var writer = new LcfWriter( stream ) )
             {
                 WriteHeader( writer, currentOptions );
-                writer.Serialize( value );
+                writer.Serialise( value );
             }
         }
 

@@ -67,13 +67,18 @@ namespace LcfSharp.IO
         /// </summary>
         /// <typeparam name="T">The type of object to serialise.</typeparam>
         /// <param name="value">The object to serialise.</param>
-        public void Serialize<T>( T value )
+        public void Serialise<T>( T value )
             where T : ILcfRootChunk
         {
-            Serialize( typeof( T ), value );
+            Serialise( typeof( T ), value );
         }
 
-        private void Serialize( Type type, ILcfRootChunk value )
+        /// <summary>
+        /// Serialises the specified object and writes it to the stream.
+        /// </summary>
+        /// <param name="type">The type of object to serialise.</param>
+        /// <param name="value">The object to serialise.</param>
+        private void Serialise( Type type, ILcfRootChunk value )
         {
             var chunkWriter = new LcfChunkConverter( type );
             chunkWriter.Write( _writer, value );
