@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '8.0.x'
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./LcfSharp/LcfSharp.csproj
     
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./LcfSharp/LcfSharp.csproj
     
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal ./LcfSharp.Tests/LcfSharp.Tests.csproj
 
   publish:
     needs: build
@@ -40,13 +40,13 @@ jobs:
         dotnet-version: '8.0.x'
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./LcfSharp/LcfSharp.csproj
     
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./LcfSharp/LcfSharp.csproj
     
     - name: Pack NuGet package
-      run: dotnet pack --configuration Release --no-build --output ./nupkg
+      run: dotnet pack --configuration Release --no-build --output ./nupkg ./LcfSharp/LcfSharp.csproj
     
     - name: Publish NuGet package to GitHub Packages
       env:
