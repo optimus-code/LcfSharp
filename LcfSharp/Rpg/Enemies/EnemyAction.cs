@@ -1,41 +1,37 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database.Enemies;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Battle;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Enemies
 {
-    public enum EnemyActionChunk : int
-    {
-        /** Integer */
-        Kind = 0x01,
-        /** Integer */
-        Basic = 0x02,
-        /** Integer */
-        SkillID = 0x03,
-        /** Integer */
-        EnemyID = 0x04,
-        /** Integer */
-        ConditionType = 0x05,
-        /** Integer */
-        ConditionParam1 = 0x06,
-        /** Integer */
-        ConditionParam2 = 0x07,
-        /** Integer */
-        SwitchID = 0x08,
-        /** Flag */
-        SwitchOn = 0x09,
-        /** Integer */
-        SwitchOnID = 0x0A,
-        /** Flag */
-        SwitchOff = 0x0B,
-        /** Integer */
-        SwitchOffID = 0x0C,
-        /** Integer */
-        Rating = 0x0D
-    }
-
     public enum EnemyActionKind
     {
         Basic = 0,
@@ -70,76 +66,40 @@ namespace LcfSharp.Rpg.Enemies
     [LcfChunk<EnemyActionChunk>]
     public class EnemyAction
     {
-        public static readonly Dictionary<EnemyActionBasic, string> BasicTags = new Dictionary<EnemyActionBasic, string>
-        {
-            { EnemyActionBasic.Attack, "attack" },
-            { EnemyActionBasic.DualAttack, "dual_attack" },
-            { EnemyActionBasic.Defense, "defense" },
-            { EnemyActionBasic.Observe, "observe" },
-            { EnemyActionBasic.Charge, "charge" },
-            { EnemyActionBasic.Autodestruction, "autodestruction" },
-            { EnemyActionBasic.Escape, "escape" },
-            { EnemyActionBasic.Nothing, "nothing" }
-        };
-
-        public static readonly Dictionary<EnemyActionKind, string> KindTags = new Dictionary<EnemyActionKind, string>
-        {
-            { EnemyActionKind.Basic, "basic" },
-            { EnemyActionKind.Skill, "skill" },
-            { EnemyActionKind.Transformation, "transformation" }
-        };
-
-        public static readonly Dictionary<EnemyActionConditionType, string> ConditionTypeTags = new Dictionary<EnemyActionConditionType, string>
-        {
-            { EnemyActionConditionType.Always, "always" },
-            { EnemyActionConditionType.Switch, "switch" },
-            { EnemyActionConditionType.Turn, "turn" },
-            { EnemyActionConditionType.Actors, "actors" },
-            { EnemyActionConditionType.HP, "hp" },
-            { EnemyActionConditionType.SP, "sp" },
-            { EnemyActionConditionType.PartyLvl, "party_lvl" },
-            { EnemyActionConditionType.PartyFatigue, "party_fatigue" }
-        };
-
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
-        [XmlAttribute]
+        [LcfAlwaysPersist]
         public EnemyActionKind Kind
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
-        [XmlAttribute]
+        [LcfAlwaysPersist]
         public EnemyActionBasic Basic
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int SkillID
         {
             get;
             set;
         }
         
-        [XmlAttribute]
         public int EnemyID
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
+        [LcfAlwaysPersist]
         public EnemyActionConditionType ConditionType
         {
             get;

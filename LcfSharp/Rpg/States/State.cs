@@ -1,119 +1,51 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Troops;
-using LcfSharp.IO.Types;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.States
 {
-    public enum StateChunk : int
-    {
-        Name = 0x01,
-        Type = 0x02,
-        Color = 0x03,
-        Priority = 0x04,
-        Restriction = 0x05,
-        ARate = 0x0B,
-        BRate = 0x0C,
-        CRate = 0x0D,
-        DRate = 0x0E,
-        ERate = 0x0F,
-        HoldTurn = 0x15,
-        AutoReleaseProb = 0x16,
-        ReleaseByDamage = 0x17,
-        AffectType = 0x1E,
-        AffectAttack = 0x1F,
-        AffectDefense = 0x20,
-        AffectSpirit = 0x21,
-        AffectAgility = 0x22,
-        ReduceHitRatio = 0x23,
-        AvoidAttacks = 0x24,
-        ReflectMagic = 0x25,
-        Cursed = 0x26,
-        BattlerAnimationId = 0x27,
-        RestrictSkill = 0x29,
-        RestrictSkillLevel = 0x2A,
-        RestrictMagic = 0x2B,
-        RestrictMagicLevel = 0x2C,
-        HpChangeType = 0x2D,
-        SpChangeType = 0x2E,
-        MessageActor = 0x33,
-        MessageEnemy = 0x34,
-        MessageAlready = 0x35,
-        MessageAffected = 0x36,
-        MessageRecovery = 0x37,
-        HpChangeMax = 0x3D,
-        HpChangeVal = 0x3E,
-        HpChangeMapSteps = 0x3F,
-        HpChangeMapVal = 0x40,
-        SpChangeMax = 0x41,
-        SpChangeVal = 0x42,
-        SpChangeMapSteps = 0x43,
-        SpChangeMapVal = 0x44
-    }
-
-    public enum StatePersistence
-    {
-        Ends = 0,
-        Persists = 1
-    }
-
-    public enum StateRestriction
-    {
-        Normal = 0,
-        DoNothing = 1,
-        AttackEnemy = 2,
-        AttackAlly = 3
-    }
-
-    public enum StateAffectType
-    {
-        Half = 0,
-        Double = 1,
-        Nothing = 2
-    }
-
-
-    public enum StateChangeType
-    {
-        Lose = 0,
-        Gain = 1,
-        Nothing = 2
-    }
-
+    /// <summary>
+    /// Class representing a state in the game.
+    /// </summary>
     [LcfChunk<StateChunk>]
     public class State
     {
+        /// <summary>
+        /// The constant ID for the death state.
+        /// </summary>
         public const int DeathID = 1;
 
-        public static readonly Dictionary<StatePersistence, string> PersistenceTags = new Dictionary<StatePersistence, string>
-        {
-            { StatePersistence.Ends, "ends" },
-            { StatePersistence.Persists, "persists" }
-        };
-
-        public static readonly Dictionary<StateRestriction, string> RestrictionTags = new Dictionary<StateRestriction, string>
-        {
-            { StateRestriction.Normal, "normal" },
-            { StateRestriction.DoNothing, "do_nothing" },
-            { StateRestriction.AttackEnemy, "attack_enemy" },
-            { StateRestriction.AttackAlly, "attack_ally" }
-        };
-
-        public static readonly Dictionary<StateAffectType, string> AffectTypeTags = new Dictionary<StateAffectType, string>
-        {
-            { StateAffectType.Half, "half" },
-            { StateAffectType.Double, "double" },
-            { StateAffectType.Nothing, "nothing" }
-        };
-
-        public static readonly Dictionary<StateChangeType, string> ChangeTypeTags = new Dictionary<StateChangeType, string>
-        {
-            { StateChangeType.Lose, "lose" },
-            { StateChangeType.Gain, "gain" },
-            { StateChangeType.Nothing, "nothing" }
-        };
-
+        /// <summary>
+        /// The unique identifier for the state.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -121,255 +53,381 @@ namespace LcfSharp.Rpg.States
             set;
         }
 
+        /// <summary>
+        /// The name of the state.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
+        /// <summary>
+        /// The persistence type of the state.
+        /// </summary>
+        [LcfAlwaysPersist]
         public StatePersistence Type
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The color of the state. Default is 6.
+        /// </summary>
         public int Color
         {
             get;
             set;
         } = 6;
 
+        /// <summary>
+        /// The priority of the state. Default is 50.
+        /// </summary>
         public int Priority
         {
             get;
             set;
         } = 50;
 
-        [LcfAlwaysPersistAttribute]
+        /// <summary>
+        /// The restriction of the state.
+        /// </summary>
+        [LcfAlwaysPersist]
         public StateRestriction Restriction
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The A-rate of the state. Default is 100.
+        /// </summary>
         public int ARate
         {
             get;
             set;
         } = 100;
 
+        /// <summary>
+        /// The B-rate of the state. Default is 80.
+        /// </summary>
         public int BRate
         {
             get;
             set;
         } = 80;
 
+        /// <summary>
+        /// The C-rate of the state. Default is 60.
+        /// </summary>
         public int CRate
         {
             get;
             set;
         } = 60;
 
+        /// <summary>
+        /// The D-rate of the state. Default is 30.
+        /// </summary>
         public int DRate
         {
             get;
             set;
         } = 30;
 
+        /// <summary>
+        /// The E-rate of the state.
+        /// </summary>
         public int ERate
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The number of turns the state is held.
+        /// </summary>
         public int HoldTurn
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The probability of the state being automatically released.
+        /// </summary>
         public int AutoReleaseProb
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The probability of the state being released by damage.
+        /// </summary>
         public int ReleaseByDamage
         {
             get;
             set;
         }
 
-        public int AffectType
+        /// <summary>
+        /// The type of effect the state has.
+        /// </summary>
+        public StateAffectType AffectType
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state affects attack.
+        /// </summary>
         public bool AffectAttack
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state affects defense.
+        /// </summary>
         public bool AffectDefense
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state affects spirit.
+        /// </summary>
         public bool AffectSpirit
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state affects agility.
+        /// </summary>
         public bool AffectAgility
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The reduction in hit ratio caused by the state. Default is 100.
+        /// </summary>
         public int ReduceHitRatio
         {
             get;
             set;
         } = 100;
 
+        /// <summary>
+        /// Indicates whether the state causes the character to avoid attacks.
+        /// </summary>
         public bool AvoidAttacks
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state reflects magic.
+        /// </summary>
         public bool ReflectMagic
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state is cursed.
+        /// </summary>
         public bool Cursed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the battler animation associated with the state. Default is 100.
+        /// </summary>
         public int BattlerAnimationID
         {
             get;
             set;
         } = 100;
 
+        /// <summary>
+        /// Indicates whether the state restricts skill usage.
+        /// </summary>
         public bool RestrictSkill
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The skill level restricted by the state.
+        /// </summary>
         public int RestrictSkillLevel
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the state restricts magic usage.
+        /// </summary>
         public bool RestrictMagic
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The magic level restricted by the state.
+        /// </summary>
         public int RestrictMagicLevel
         {
             get;
             set;
         }
 
-        public int HpChangeType
+        /// <summary>
+        /// The type of HP change caused by the state.
+        /// </summary>
+        public StateChangeType HPChangeType
         {
             get;
             set;
         }
 
-        public int SpChangeType
+        /// <summary>
+        /// The type of SP change caused by the state.
+        /// </summary>
+        public StateChangeType SPChangeType
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The message shown when the state affects an actor.
+        /// </summary>
         public string MessageActor
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The message shown when the state affects an enemy.
+        /// </summary>
         public string MessageEnemy
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The message shown when the state is already present.
+        /// </summary>
         public string MessageAlready
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The message shown when the state affects a character.
+        /// </summary>
         public string MessageAffected
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The message shown when the state is recovered.
+        /// </summary>
         public string MessageRecovery
         {
             get;
             set;
         }
 
-        public int HpChangeMax
+        /// <summary>
+        /// The maximum HP change caused by the state.
+        /// </summary>
+        public int HPChangeMax
         {
             get;
             set;
         }
 
-        public int HpChangeVal
+        /// <summary>
+        /// The HP change value caused by the state.
+        /// </summary>
+        public int HPChangeVal
         {
             get;
             set;
         }
 
-        public int HpChangeMapSteps
+        /// <summary>
+        /// The number of map steps required to change HP.
+        /// </summary>
+        public int HPChangeMapSteps
         {
             get;
             set;
         }
 
-        public int HpChangeMapVal
+        /// <summary>
+        /// The HP change value per map step.
+        /// </summary>
+        public int HPChangeMapVal
         {
             get;
             set;
         }
 
-        public int SpChangeMax
+        /// <summary>
+        /// The maximum SP change caused by the state.
+        /// </summary>
+        public int SPChangeMax
         {
             get;
             set;
         }
 
-        public int SpChangeVal
+        /// <summary>
+        /// The SP change value caused by the state.
+        /// </summary>
+        public int SPChangeVal
         {
             get;
             set;
         }
 
-        public int SpChangeMapSteps
+        /// <summary>
+        /// The number of map steps required to change SP.
+        /// </summary>
+        public int SPChangeMapSteps
         {
             get;
             set;
         }
 
-        public int SpChangeMapVal
+        /// <summary>
+        /// The SP change value per map step.
+        /// </summary>
+        public int SPChangeMapVal
         {
             get;
             set;

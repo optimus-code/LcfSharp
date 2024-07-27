@@ -1,24 +1,38 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Classes;
-using LcfSharp.Rpg.Shared;
-using LcfSharp.Rpg.Skills;
-using LcfSharp.IO.Types;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
-    public enum CommonEventChunk : int
-    {
-        Name = 0x01,
-        Trigger = 0x0B,
-        SwitchFlag = 0x0C,
-        SwitchID = 0x0D,
-        EventCommandsSize = 0x15,
-        EventCommands = 0x16
-    }
-
     public enum CommonEventTrigger : int
     {
         Automatic = 3,
@@ -29,15 +43,7 @@ namespace LcfSharp.Rpg.Events
     [LcfChunk<CommonEventChunk>]
     public class CommonEvent
     {
-        public static readonly Dictionary<CommonEventTrigger, string> Tags = new Dictionary<CommonEventTrigger, string>
-        {
-            { CommonEventTrigger.Automatic, "automatic" },
-            { CommonEventTrigger.Parallel, "parallel" },
-            { CommonEventTrigger.Call, "call" }
-        };
-
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
@@ -51,33 +57,30 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
-        [XmlAttribute]
         public CommonEventTrigger Trigger
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public bool SwitchFlag
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int SwitchID
         {
             get;
             set;
         } = 1;
 
-        [LcfAlwaysPersistAttribute]
-        [LcfSize((int)CommonEventChunk.EventCommandsSize)]
+        [LcfAlwaysPersist]
+        [LcfSize(( int ) CommonEventChunk.EventCommandsSize)]
         public List<EventCommand> EventCommands
         {
             get;
             set;
-        } = new List<EventCommand>();
+        } = [];
     }
 }

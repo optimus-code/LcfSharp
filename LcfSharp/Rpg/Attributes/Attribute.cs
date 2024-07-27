@@ -1,29 +1,37 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using LcfSharp.IO.Types;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Attributes
 {
-    public enum AttributeChunk : int
-    {
-        /** String */
-        Name = 0x01,
-        /** Integer */
-        Type = 0x02,
-        /** Integer */
-        ARate = 0x0B,
-        /** Integer */
-        BRate = 0x0C,
-        /** Integer */
-        CRate = 0x0D,
-        /** Integer */
-        DRate = 0x0E,
-        /** Integer */
-        ERate = 0x0F
-    }
-
     public enum AttributeTypes
     {
         Physical = 0,
@@ -33,65 +41,51 @@ namespace LcfSharp.Rpg.Attributes
     [LcfChunk<AttributeChunk>]
     public class Attribute
     {
-
-        public static readonly Dictionary<AttributeTypes, string> TypeTags = new Dictionary<AttributeTypes, string>
-        {
-            { AttributeTypes.Physical, "physical" },
-            { AttributeTypes.Magical, "magical" }
-        };
-
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
+        [LcfAlwaysPersist]
 		public string Name
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
-        [XmlAttribute]
+        [LcfAlwaysPersist]
         public AttributeTypes Type
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ARate
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int BRate
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int CRate
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int DRate
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ERate
         {
             get;

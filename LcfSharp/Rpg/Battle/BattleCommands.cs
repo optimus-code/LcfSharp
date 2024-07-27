@@ -1,46 +1,39 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Battle.Battlers;
-using LcfSharp.Rpg.Shared;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle
 {
-    public enum BattleCommandsChunk : int
-    {
-        /** Integer */
-        Placement = 0x02,
-        /** Set by the RM2k3 Editor when you enable death handler; but has no effect in RPG_RT. */
-        DeathHandlerUnused = 0x04,
-        /** Integer */
-        Row = 0x06,
-        /** Integer */
-        BattleType = 0x07,
-        /** Unused hidden checkbox Display normal parameters in RPG2003's battle settings tab */
-        UnusedDisplayNormalParameters = 0x09,
-        /** Array - rpg::BattleCommand */
-        Commands = 0x0A,
-        /** True if a 2k3 random encounter death handler is active */
-        DeathHandler = 0x0F,
-        /** Integer */
-        DeathEvent = 0x10,
-        /** Integer */
-        WindowSize = 0x14,
-        /** Integer */
-        Transparency = 0x18,
-        /** Integer */
-        DeathTeleport = 0x19,
-        /** Integer */
-        DeathTeleportID = 0x1A,
-        /** Integer */
-        DeathTeleportX = 0x1B,
-        /** Integer */
-        DeathTeleportY = 0x1C,
-        /** Integer */
-        DeathTeleportFace = 0x1D
-    }
-
     public enum BattleCommandsPlacement : int
     {
         Manual = 0,
@@ -84,47 +77,6 @@ namespace LcfSharp.Rpg.Battle
     [LcfChunk<BattleCommandsChunk>]
     public class BattleCommands
     {
-        public static readonly Dictionary<BattleCommandsPlacement, string> PlacementTags = new Dictionary<BattleCommandsPlacement, string>
-        {
-            { BattleCommandsPlacement.Manual, "manual" },
-            { BattleCommandsPlacement.Automatic, "automatic" }
-        };
-
-        public static readonly Dictionary<BattleCommandsRowShown, string> RowShownTags = new Dictionary<BattleCommandsRowShown, string>
-        {
-            { BattleCommandsRowShown.Front, "front" },
-            { BattleCommandsRowShown.Back, "back" }
-        };
-
-        public static readonly Dictionary<BattleCommandsBattleType, string> BattleTypeTags = new Dictionary<BattleCommandsBattleType, string>
-        {
-            { BattleCommandsBattleType.Traditional, "traditional" },
-            { BattleCommandsBattleType.Alternative, "alternative" },
-            { BattleCommandsBattleType.Gauge, "gauge" }
-        };
-
-        public static readonly Dictionary<BattleCommandsWindowSize, string> WindowSizeTags = new Dictionary<BattleCommandsWindowSize, string>
-        {
-            { BattleCommandsWindowSize.Large, "large" },
-            { BattleCommandsWindowSize.Small, "small" }
-        };
-
-        public static readonly Dictionary<BattleCommandsTransparency, string> TransparencyTags = new Dictionary<BattleCommandsTransparency, string>
-        {
-            { BattleCommandsTransparency.Opaque, "opaque" },
-            { BattleCommandsTransparency.Transparent, "transparent" }
-        };
-
-        public static readonly Dictionary<BattleCommandsFacing, string> FacingTags = new Dictionary<BattleCommandsFacing, string>
-        {
-            { BattleCommandsFacing.Retain, "retain" },
-            { BattleCommandsFacing.Up, "up" },
-            { BattleCommandsFacing.Right, "right" },
-            { BattleCommandsFacing.Down, "down" },
-            { BattleCommandsFacing.Left, "left" }
-        };
-
-        [XmlAttribute]
         public BattleCommandsPlacement Placement
         {
             get;
@@ -138,14 +90,12 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = false;
 
-        [XmlAttribute]
         public BattleCommandsRowShown Row
         {
             get;
             set;
         } = 0;
 
-        [XmlAttribute]
         public BattleCommandsBattleType BattleType
         {
             get;
@@ -158,13 +108,12 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = true;
 
-        [LcfAlwaysPersistAttribute]
-        [XmlElement("Command")]
+        [LcfAlwaysPersist]
         public List<BattleCommand> Commands
         {
             get;
             set;
-        } = new List<BattleCommand>();
+        } = [];
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
         public bool DeathHandler
@@ -179,14 +128,12 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = 1;
 
-        [XmlAttribute]
         public BattleCommandsWindowSize WindowSize
         {
             get;
             set;
         } = 0;
 
-        [XmlAttribute]
         public BattleCommandsTransparency Transparency
         {
             get;

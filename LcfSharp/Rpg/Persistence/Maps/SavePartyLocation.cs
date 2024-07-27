@@ -1,4 +1,31 @@
-﻿using System.Collections.Generic;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
 
 namespace LcfSharp.Rpg.Persistence.Maps
 {
@@ -18,20 +45,6 @@ namespace LcfSharp.Rpg.Persistence.Maps
 
     public class SavePartyLocation : SaveMapEventBase
     {
-        public static readonly Dictionary<SavePartyLocationVehicleType, string> VehicleTypeTags = new Dictionary<SavePartyLocationVehicleType, string>
-        {
-            { SavePartyLocationVehicleType.None, "none" },
-            { SavePartyLocationVehicleType.Skiff, "skiff" },
-            { SavePartyLocationVehicleType.Ship, "ship" },
-            { SavePartyLocationVehicleType.Airship, "airship" }
-        };
-
-        public static readonly Dictionary<SavePartyLocationPanState, string> PanStateTags = new Dictionary<SavePartyLocationPanState, string>
-        {
-            { SavePartyLocationPanState.Fixed, "fixed" },
-            { SavePartyLocationPanState.Follow, "follow" }
-        };
-
         // Equal to 9 tiles in 1/16th pixels
         public const int PanXDefault = 9 * 256;
         // Equal to 7 tiles in 1/16th pixels

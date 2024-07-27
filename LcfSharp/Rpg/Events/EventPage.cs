@@ -1,7 +1,34 @@
-﻿using LcfSharp.IO.Attributes;
-using LcfSharp.IO.Types;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.IO.Attributes;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -86,88 +113,7 @@ namespace LcfSharp.Rpg.Events
 
     public class EventPage
     {
-        public static readonly Dictionary<EventPageDirection, string> DirectionTags = new Dictionary<EventPageDirection, string>
-        {
-            { EventPageDirection.Up, "up" },
-            { EventPageDirection.Right, "right" },
-            { EventPageDirection.Down, "down" },
-            { EventPageDirection.Left, "left" }
-        };
-
-        public static readonly Dictionary<EventPageFrame, string> FrameTags = new Dictionary<EventPageFrame, string>
-        {
-            { EventPageFrame.Left, "left" },
-            { EventPageFrame.Middle, "middle" },
-            { EventPageFrame.Right, "right" },
-            { EventPageFrame.Middle2, "middle2" }
-        };
-
-        public static readonly Dictionary<EventPageMoveType, string> MoveTypeTags = new Dictionary<EventPageMoveType, string>
-        {
-            { EventPageMoveType.Stationary, "stationary" },
-            { EventPageMoveType.Random, "random" },
-            { EventPageMoveType.Vertical, "vertical" },
-            { EventPageMoveType.Horizontal, "horizontal" },
-            { EventPageMoveType.Toward, "toward" },
-            { EventPageMoveType.Away, "away" },
-            { EventPageMoveType.Custom, "custom" }
-        };
-
-        public static readonly Dictionary<EventPageTrigger, string> TriggerTags = new Dictionary<EventPageTrigger, string>
-        {
-            { EventPageTrigger.Action, "action" },
-            { EventPageTrigger.Touched, "touched" },
-            { EventPageTrigger.Collision, "collision" },
-            { EventPageTrigger.AutoStart, "auto_start" },
-            { EventPageTrigger.Parallel, "parallel" }
-        };
-
-
-        public static readonly Dictionary<EventPageLayers, string> LayersTags = new Dictionary<EventPageLayers, string>
-        {
-            { EventPageLayers.Below, "below" },
-            { EventPageLayers.Same, "same" },
-            { EventPageLayers.Above, "above" }
-        };
-
-        public static readonly Dictionary<EventPageAnimType, string> AnimTypeTags = new Dictionary<EventPageAnimType, string>
-        {
-            { EventPageAnimType.NonContinuous, "non_continuous" },
-            { EventPageAnimType.Continuous, "continuous" },
-            { EventPageAnimType.FixedNonContinuous, "fixed_non_continuous" },
-            { EventPageAnimType.FixedContinuous, "fixed_continuous" },
-            { EventPageAnimType.FixedGraphic, "fixed_graphic" },
-            { EventPageAnimType.Spin, "spin" },
-            { EventPageAnimType.StepFrameFix, "step_frame_fix" }
-        };
-
-        public static readonly Dictionary<EventPageMoveSpeed, string> MoveSpeedTags = new Dictionary<EventPageMoveSpeed, string>
-        {
-            { EventPageMoveSpeed.Eighth, "eighth" },
-            { EventPageMoveSpeed.Quarter, "quarter" },
-            { EventPageMoveSpeed.Half, "half" },
-            { EventPageMoveSpeed.Normal, "normal" },
-            { EventPageMoveSpeed.Double, "double" },
-            { EventPageMoveSpeed.Fourfold, "fourfold" }
-        };
-
-        public static readonly Dictionary<EventPageManiacEventInfo, string> ManiacEventInfoTags = new Dictionary<EventPageManiacEventInfo, string>
-        {
-            { EventPageManiacEventInfo.Action, "action" },
-            { EventPageManiacEventInfo.Touched, "touched" },
-            { EventPageManiacEventInfo.Collision, "collision" },
-            { EventPageManiacEventInfo.AutoStart, "auto_start" },
-            { EventPageManiacEventInfo.Parallel, "parallel" },
-            { EventPageManiacEventInfo.Called, "called" },
-            { EventPageManiacEventInfo.BattleStart, "battle_start" },
-            { EventPageManiacEventInfo.BattleParallel, "battle_parallel" },
-            { EventPageManiacEventInfo.MapEvent, "map_event" },
-            { EventPageManiacEventInfo.CommonEvent, "common_event" },
-            { EventPageManiacEventInfo.BattleEvent, "battle_event" }
-        };
-
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
@@ -186,77 +132,66 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
-        [XmlAttribute]
         public int CharacterIndex
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int CharacterDirection
         {
             get;
             set;
         } = 2;
 
-        [XmlAttribute]
         public int CharacterPattern
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public bool Translucent
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int MoveType
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public int MoveFrequency
         {
             get;
             set;
         } = 3;
 
-        [XmlAttribute]
         public int Trigger
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int Layer
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public bool OverlapForbidden
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int AnimationType
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int MoveSpeed
         {
             get;
@@ -273,6 +208,6 @@ namespace LcfSharp.Rpg.Events
         {
             get;
             set;
-        } = new List<EventCommand>();
+        } = [];
     }
 }

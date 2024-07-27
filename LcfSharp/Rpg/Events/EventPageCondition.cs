@@ -1,9 +1,36 @@
-﻿namespace LcfSharp.Rpg.Events
-{
-    using LcfSharp.IO.Attributes;
-    using System.Collections.Generic;
-    using System.Xml.Serialization;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
 
+using LcfSharp.IO.Attributes;
+
+namespace LcfSharp.Rpg.Events
+{
     public enum EventPageConditionComparison
     {
         Equal = 0,
@@ -16,77 +43,62 @@
 
     public class EventPageCondition
     {
-        public static readonly Dictionary<EventPageConditionComparison, string> Tags = new Dictionary<EventPageConditionComparison, string>
-        {
-            { EventPageConditionComparison.Equal, "equal" },
-            { EventPageConditionComparison.GreaterEqual, "greater_equal" },
-            { EventPageConditionComparison.LessEqual, "less_equal" },
-            { EventPageConditionComparison.Greater, "greater" },
-            { EventPageConditionComparison.Less, "less" },
-            { EventPageConditionComparison.NotEqual, "not_equal" }
-        };
+        public EventPageConditionFlags Flags 
+        { 
+            get; 
+            set; 
+        } = new EventPageConditionFlags();
 
-        public EventPageConditionFlags Flags { get; set; } = new EventPageConditionFlags();
-
-        [XmlAttribute]
         public int SwitchAID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public int SwitchBID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public int VariableID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public int VariableValue
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ItemID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public int ActorID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
         public int TimerSec
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
-        [XmlAttribute]
+        [LcfAlwaysPersist]
         public int Timer2Sec
         {
             get;
             set;
         }
 
-        [LcfAlwaysPersistAttribute]
-        [XmlAttribute]
+        [LcfAlwaysPersist]
         public int CompareOperator
         {
             get;

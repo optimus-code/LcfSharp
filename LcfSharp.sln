@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LcfSharp", "LcfSharp\LcfSha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LcfSharp.Tests", "LcfSharp.Tests\LcfSharp.Tests.csproj", "{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LcfSharp.IO", "LcfSharp.IO\LcfSharp.IO.csproj", "{19E5CD05-FF11-458C-82F7-7E658EE232A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LcfSharp.Editor", "LcfSharp.Editor\LcfSharp.Editor.csproj", "{B09C8B03-F858-4F4B-9D67-A647247B4EC5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{374BD3AE-9117-46B5-8C1A-B7D43842ECA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19E5CD05-FF11-458C-82F7-7E658EE232A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19E5CD05-FF11-458C-82F7-7E658EE232A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19E5CD05-FF11-458C-82F7-7E658EE232A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19E5CD05-FF11-458C-82F7-7E658EE232A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B09C8B03-F858-4F4B-9D67-A647247B4EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B09C8B03-F858-4F4B-9D67-A647247B4EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B09C8B03-F858-4F4B-9D67-A647247B4EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B09C8B03-F858-4F4B-9D67-A647247B4EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,24 +1,38 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Shared;
-using LcfSharp.IO.Types;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationChunk : int
-    {
-        /** String */
-        Name = 0x01,
-        /** Integer */
-        Speed = 0x02,
-        /** Array - rpg::BattlerAnimationPose */
-        Poses = 0x0A,
-        /** Array - rpg::BattlerAnimationWeapon */
-        Weapons = 0x0B
-    }
-
     public enum BattlerAnimationSpeed : int
     {
         Slow = 20,
@@ -45,65 +59,38 @@ namespace LcfSharp.Rpg.Battle.Battlers
     [LcfChunk<BattlerAnimationChunk>]
     public class BattlerAnimation
     {
-        public static readonly Dictionary<BattlerAnimationSpeed, string> SpeedTags = new Dictionary<BattlerAnimationSpeed, string>
-        {
-            { BattlerAnimationSpeed.Slow, "slow" },
-            { BattlerAnimationSpeed.Medium, "medium" },
-            { BattlerAnimationSpeed.Fast, "fast" }
-        };
-
-        public static readonly Dictionary<BattlerAnimationPoses, string> PoseTags = new Dictionary<BattlerAnimationPoses, string>
-        {
-            { BattlerAnimationPoses.Idle, "Idle" },
-            { BattlerAnimationPoses.AttackRight, "AttackRight" },
-            { BattlerAnimationPoses.AttackLeft, "AttackLeft" },
-            { BattlerAnimationPoses.Skill, "Skill" },
-            { BattlerAnimationPoses.Dead, "Dead" },
-            { BattlerAnimationPoses.Damage, "Damage" },
-            { BattlerAnimationPoses.Dazed, "Dazed" },
-            { BattlerAnimationPoses.Defend, "Defend" },
-            { BattlerAnimationPoses.WalkLeft, "WalkLeft" },
-            { BattlerAnimationPoses.WalkRight, "WalkRight" },
-            { BattlerAnimationPoses.Victory, "Victory" },
-            { BattlerAnimationPoses.Item, "Item" }
-        };
-
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
             set;
         } = 0;
 
-        [LcfAlwaysPersistAttribute]
+        [LcfAlwaysPersist]
 		public string Name
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public BattlerAnimationSpeed Speed
         {
             get;
             set;
         } = BattlerAnimationSpeed.Slow;
 
-        [LcfAlwaysPersistAttribute]
-        [XmlElement("Pose")]
+        [LcfAlwaysPersist]
         public List<BattlerAnimationPose> Poses
         {
             get;
             set;
-        } = new List<BattlerAnimationPose>();
+        } = [];
 
-        [LcfAlwaysPersistAttribute]
-        [XmlElement("Weapon")]
+        [LcfAlwaysPersist]
         public List<BattlerAnimationWeapon> Weapons
         {
             get;
             set;
-        } = new List<BattlerAnimationWeapon>();
+        } = [];
     }
 }

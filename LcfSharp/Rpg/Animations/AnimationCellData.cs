@@ -1,108 +1,101 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database.Animation;
 using LcfSharp.IO.Attributes;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Animations
 {
-    public enum AnimationCellDataChunk : int
-    {
-        /** Bool */
-        Valid = 0x01,
-        /** Integer */
-        CellID = 0x02,
-        /** Integer */
-        X = 0x03,
-        /** Integer */
-        Y = 0x04,
-        /** Integer */
-        Zoom = 0x05,
-        /** Integer */
-        ToneRed = 0x06,
-        /** Integer */
-        ToneGreen = 0x07,
-        /** Integer */
-        ToneBlue = 0x08,
-        /** Integer */
-        ToneGray = 0x09,
-        /** Integer */
-        Transparency = 0x0A
-    }
-
     [LcfChunk<AnimationCellDataChunk>]
     public class AnimationCellData
     {
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int Valid
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int CellID
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int X
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int Y
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int Zoom
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ToneRed
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ToneGreen
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ToneBlue
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int ToneGray
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int Transparency
         {
             get;

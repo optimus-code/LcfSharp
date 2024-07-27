@@ -1,29 +1,46 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg
 {
-    public enum TestBattlerChunk : int
-    {
-        /** Integer */
-        ActorID = 0x01,
-        /** Integer */
-        Level = 0x02,
-        /** Integer */
-        WeaponID = 0x0B,
-        /** Integer */
-        ShieldID = 0x0C,
-        /** Integer */
-        ArmorID = 0x0D,
-        /** Integer */
-        HelmetID = 0x0E,
-        /** Integer */
-        AccessoryID = 0x0F
-    }
-
+    /// <summary>
+    /// Class representing a test battler with various attributes.
+    /// </summary>
     [LcfChunk<TestBattlerChunk>]
     public class TestBattler
     {
+        /// <summary>
+        /// The unique identifier for the test battler. Default is 0.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -31,42 +48,63 @@ namespace LcfSharp.Rpg
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the actor associated with the test battler. Default is 1.
+        /// </summary>
         public int ActorID
         {
             get;
             set;
         } = 1;
 
+        /// <summary>
+        /// The level of the test battler. Default is 1.
+        /// </summary>
         public int Level
         {
             get;
             set;
         } = 1;
 
+        /// <summary>
+        /// The ID of the weapon equipped by the test battler. Default is 0.
+        /// </summary>
         public int WeaponID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the shield equipped by the test battler. Default is 0.
+        /// </summary>
         public int ShieldID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the armor equipped by the test battler. Default is 0.
+        /// </summary>
         public int ArmorID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the helmet equipped by the test battler. Default is 0.
+        /// </summary>
         public int HelmetID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the accessory equipped by the test battler. Default is 0.
+        /// </summary>
         public int AccessoryID
         {
             get;

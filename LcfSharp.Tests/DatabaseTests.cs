@@ -1,24 +1,19 @@
 using LcfSharp.IO;
 using LcfSharp.Rpg;
-using LcfSharp.Rpg.Actors;
-using System.Text.Json;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Tests
 {
     [TestClass]
     public class DatabaseTests
     {
-
         [TestMethod]
         public void ReadInt()
         {
-            // Sample data representing 0x84 0x58 in a memory stream
             byte[] data = { 0x84, 0x58 };
             using (MemoryStream ms = new MemoryStream(data))
             {
                 LcfReader lcfReader = new LcfReader(ms);
-                int result = lcfReader.ReadVarInt();
+                var result = lcfReader.ReadVarInt32();
                 Assert.IsTrue(result == 600);
             }
         }
@@ -26,7 +21,7 @@ namespace LcfSharp.Tests
         [TestMethod]
         public void TestRead()
         {
-            var db = DatabaseFile.Load("Data\\RPG_RT.ldb");
+            var db = Database.Load("Data\\RPG_RT.ldb");
 
             Assert.IsNotNull(db);
             Assert.IsTrue(db.Actors.Count == 8);
@@ -80,9 +75,9 @@ namespace LcfSharp.Tests
 
             var troop1 = db.Troops[0];
             Assert.IsTrue(troop1.Name == "Slimex2");
-            //Assert.IsTrue(troop1.Members.Count == 2);
-            //Assert.IsTrue(troop1.Members[0].EnemyID == 1);
-            //Assert.IsTrue(troop1.Members[1].EnemyID == 1);
+            Assert.IsTrue(troop1.Members.Count == 2);
+            Assert.IsTrue(troop1.Members[0].EnemyID == 1);
+            Assert.IsTrue(troop1.Members[1].EnemyID == 1);
             Assert.IsTrue(troop1.TerrainSet.Count == 10);
             Assert.IsTrue(troop1.TerrainSet[0] == true);
             Assert.IsTrue(troop1.TerrainSet[1] == true);
@@ -116,7 +111,7 @@ namespace LcfSharp.Tests
         [TestMethod]
         public void TestRW()
         {
-            var db = DatabaseFile.Load("Data\\RPG_RT_rw.ldb");
+            var db = Database.Load("Data\\RPG_RT_rw.ldb");
 
             Assert.IsNotNull(db);
             Assert.IsTrue(db.Actors[0].Name == "Ryle");
@@ -125,109 +120,6 @@ namespace LcfSharp.Tests
             Assert.IsTrue(db.Actors[3].Name == "Latyss");
             Assert.IsTrue(db.Actors[4].Name == "Hayami");
             Assert.IsTrue(db.Actors[5].Name == "Fina");
-        }
-           
-        [TestMethod]
-        public void TestJson()
-        {
-            var db = DatabaseFile.Load("Data\\RPG_RT.ldb");
-
-            Assert.IsNotNull(db);
-            Assert.IsTrue(db.Actors.Count == 8);
-
-            var json = JsonSerializer.Serialize(db);
-            File.WriteAllText("C:\\Users\\User\\source\\repos\\LcfSharp\\LcfSharp.Tests\\Data\\rpg_rt.json", json);
-        }
-
-        [TestMethod]
-        public void TestXml()
-        {
-            var db = DatabaseFile.Load("Data\\RPG_RT.ldb");
-
-            Assert.IsNotNull(db);
-            Assert.IsTrue(db.Actors.Count == 8);
-
-            var serializer = new XmlSerializer(db.GetType());
-            using (var stream = File.CreateText("C:\\Users\\User\\source\\repos\\LcfSharp\\LcfSharp.Tests\\Data\\RPG_RT.xml"))
-            {
-                serializer.Serialize(stream, db);;
-            }
-        }
-
-        [TestMethod]
-        public void IntegrityTest()
-        {
-            using (var stream = File.OpenRead("Data\\RPG_RT.ldb"))
-            using (var reader = new LcfReader(stream))
-            {
-                var headerLength = reader.ReadVarInt();
-                var header = reader.ReadString(headerLength);
-
-                Assert.IsNotNull(header);
-                Assert.IsTrue(header.Length == 11);
-                Assert.AreEqual(header, "LcfDataBase");
-
-                var inActors = false;
-
-                //var chunk = reader.ReadChunkHeader();
-                var actorsCID = reader.ReadVarInt();
-                var actorsCL = reader.ReadVarInt();
-
-                Assert.AreEqual(actorsCID, (int)DatabaseChunk.Actors);
-
-                var actorsCount = reader.ReadVarInt();
-
-                Assert.AreEqual(actorsCount, 8);
-
-                var actor1ID = reader.ReadVarInt();
-
-                Assert.AreEqual(actor1ID, 1);
-
-                var actor1NameCID = reader.ReadVarInt();
-                var actor1NameCL = reader.ReadVarInt();
-
-                Assert.AreEqual(actor1NameCID, (byte)ActorChunk.Name);
-
-                var actorName = reader.ReadString(actor1NameCL);
-
-                Assert.AreEqual(actorName, "Alex");
-                //Console.WriteLine($"Chunk: {chunk.ID} Length: {chunk.Length}");
-
-                //reader.Seek(chunkLength, SeekMode.FromCurrent);
-                //if (!inActors)
-                //{
-
-                //    switch (chunk.ID)
-                //    {
-                //        case (int)DatabaseChunk.Actors: // Actors
-                //            inActors = true;
-                //            break;
-
-                //        default:
-                //            reader.Seek(chunk.Length, SeekMode.FromCurrent);
-                //            break;
-                //    }
-                //}
-                //else
-                //{
-                //    switch (chunk.ID)
-                //    {
-                //        case (int)ActorChunk.Name: // Actors
-                //            inActors = true;
-                //            break;
-
-                //        default:
-                //            reader.Seek(chunk.Length, SeekMode.FromCurrent);
-                //            break;
-                //    }
-                //}
-
-                //Assert.AreEqual(chunk.ID, (int)DatabaseChunk.Actors);
-
-                //var nameLength = reader.ReadInt();
-                //Assert.IsTrue(chunk.Length == 4);
-
-            }
         }
     }
 }

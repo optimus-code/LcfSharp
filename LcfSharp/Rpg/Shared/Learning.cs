@@ -1,35 +1,65 @@
-﻿using LcfSharp.IO.Attributes;
-using System.Xml.Serialization;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
+using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Shared
 {
-    public enum LearningChunk : int
-    {
-        /** Integer */
-        Level = 0x01,
-        /** Integer */
-        SkillID = 0x02
-    }
-
+    /// <summary>
+    /// Class representing a skill learning entry.
+    /// </summary>
     [LcfChunk<LearningChunk>]
     public class Learning
     {
+        /// <summary>
+        /// The unique identifier for the learning entry. Default is 0.
+        /// </summary>
         [LcfID]
-        [XmlAttribute]
         public int ID
         {
             get;
             set;
         } = 0;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The level at which the skill is learned. Default is 1.
+        /// </summary>
         public int Level
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the skill to be learned. Default is 1.
+        /// </summary>
         public int SkillID
         {
             get;

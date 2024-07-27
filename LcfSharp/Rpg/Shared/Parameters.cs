@@ -1,83 +1,95 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using System.Collections.Generic;
 using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Shared
 {
+    /// <summary>
+    /// Class representing a collection of parameters for a character.
+    /// </summary>
     [LcfListCollection]
     public class Parameters
     {
-        public List<short> MaxHP { get; set; } = new List<short>();
-        public List<short> MaxSP { get; set; } = new List<short>();
-        public List<short> Attack { get; set; } = new List<short>();
-        public List<short> Defense { get; set; } = new List<short>();
-        public List<short> Spirit { get; set; } = new List<short>();
-        public List<short> Agility { get; set; } = new List<short>();
-
-        public void Setup(int finalLevel)
+        /// <summary>
+        /// List of maximum HP (Health Points) values.
+        /// </summary>
+        public List<short> MaxHP
         {
-            int level = Math.Max(finalLevel, 0);
-            ResizeList(MaxHP, level, 1);
-            ResizeList(MaxSP, level, 0);
-            ResizeList(Attack, level, 1);
-            ResizeList(Defense, level, 1);
-            ResizeList(Spirit, level, 1);
-            ResizeList(Agility, level, 1);
-        }
+            get;
+            set;
+        } = new List<short>( );
 
-        private void ResizeList(List<short> list, int size, short defaultValue)
+        /// <summary>
+        /// List of maximum SP (Spirit Points) values.
+        /// </summary>
+        public List<short> MaxSP
         {
-            if (list.Count < size)
-            {
-                int addCount = size - list.Count;
-                list.AddRange(Enumerable.Repeat(defaultValue, addCount));
-            }
-        }
+            get;
+            set;
+        } = new List<short>( );
 
-        public static bool operator ==(Parameters left, Parameters right)
+        /// <summary>
+        /// List of attack values.
+        /// </summary>
+        public List<short> Attack
         {
-            if (ReferenceEquals(left, right))
-                return true;
-            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
-                return false;
+            get;
+            set;
+        } = new List<short>( );
 
-            return left.MaxHP.SequenceEqual(right.MaxHP) &&
-                   left.MaxSP.SequenceEqual(right.MaxSP) &&
-                   left.Attack.SequenceEqual(right.Attack) &&
-                   left.Defense.SequenceEqual(right.Defense) &&
-                   left.Spirit.SequenceEqual(right.Spirit) &&
-                   left.Agility.SequenceEqual(right.Agility);
-        }
-
-        public static bool operator !=(Parameters left, Parameters right)
+        /// <summary>
+        /// List of defense values.
+        /// </summary>
+        public List<short> Defense
         {
-            return !(left == right);
-        }
+            get;
+            set;
+        } = new List<short>( );
 
-        public override bool Equals(object obj)
+        /// <summary>
+        /// List of spirit values.
+        /// </summary>
+        public List<short> Spirit
         {
-            if (obj is Parameters other)
-            {
-                return this == other;
-            }
-            return false;
-        }
+            get;
+            set;
+        } = new List<short>( );
 
-        public override int GetHashCode()
+        /// <summary>
+        /// List of agility values.
+        /// </summary>
+        public List<short> Agility
         {
-            return HashCode.Combine(
-                MaxHP, MaxSP, Attack, Defense, Spirit, Agility);
-        }
-
-        public override string ToString()
-        {
-            return $"MaxHP: {string.Join(", ", MaxHP)}, " +
-                   $"MaxSP: {string.Join(", ", MaxSP)}, " +
-                   $"Attack: {string.Join(", ", Attack)}, " +
-                   $"Defense: {string.Join(", ", Defense)}, " +
-                   $"Spirit: {string.Join(", ", Spirit)}, " +
-                   $"Agility: {string.Join(", ", Agility)}";
-        }
+            get;
+            set;
+        } = new List<short>( );
     }
 }

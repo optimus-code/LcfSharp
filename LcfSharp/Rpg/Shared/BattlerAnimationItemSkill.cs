@@ -1,25 +1,38 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
 using LcfSharp.Rpg.Battle.Battlers;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Shared
 {
-    public enum BattlerAnimationItemSkillChunk : int
-    {
-        Unknown02 = 0x02,
-        Type = 0x03,
-        WeaponAnimationId = 0x04,
-        Movement = 0x05,
-        AfterImage = 0x06,
-        Attacks = 0x07,
-        Ranged = 0x08,
-        RangedAnimationId = 0x09,
-        RangedSpeed = 0x0C,
-        BattleAnimationId = 0x0D,
-        Pose = 0x0E
-    }
-
     public enum BattlerAnimationItemSkillSpeed : int
     {
         Fast = 0,
@@ -50,33 +63,6 @@ namespace LcfSharp.Rpg.Shared
     [LcfChunk<BattlerAnimationItemSkillChunk>]
     public class BattlerAnimationItemSkill
     {
-        public static readonly Dictionary<BattlerAnimationItemSkillSpeed, string> SpeedTags = new Dictionary<BattlerAnimationItemSkillSpeed, string>
-        {
-            { BattlerAnimationItemSkillSpeed.Fast, "fast" },
-            { BattlerAnimationItemSkillSpeed.Medium, "medium" },
-            { BattlerAnimationItemSkillSpeed.Slow, "slow" }
-        };
-
-        public static readonly Dictionary<BattlerAnimationItemSkillAnimType, string> AnimTypeTags = new Dictionary<BattlerAnimationItemSkillAnimType, string>
-        {
-            { BattlerAnimationItemSkillAnimType.Weapon, "weapon" },
-            { BattlerAnimationItemSkillAnimType.Battle, "battle" }
-        };
-
-        public static readonly Dictionary<BattlerAnimationItemSkillMovement, string> MovementTags = new Dictionary<BattlerAnimationItemSkillMovement, string>
-        {
-            { BattlerAnimationItemSkillMovement.None, "none" },
-            { BattlerAnimationItemSkillMovement.Step, "step" },
-            { BattlerAnimationItemSkillMovement.Jump, "jump" },
-            { BattlerAnimationItemSkillMovement.Move, "move" }
-        };
-
-        public static readonly Dictionary<BattlerAnimationItemSkillAfterimage, string> AfterimageTags = new Dictionary<BattlerAnimationItemSkillAfterimage, string>
-        {
-            { BattlerAnimationItemSkillAfterimage.None, "none" },
-            { BattlerAnimationItemSkillAfterimage.Add, "add" }
-        };
-
         [LcfID]
         public int ID
         {

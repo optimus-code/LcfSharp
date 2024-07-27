@@ -1,1162 +1,1316 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Troops;
 using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg
 {
-    public enum TermsChunk : int
-    {
-        /** String */
-        Encounter = 0x01,
-        /** String */
-        SpecialCombat = 0x02,
-        /** String */
-        EscapeSuccess = 0x03,
-        /** String */
-        EscapeFailure = 0x04,
-        /** String */
-        Victory = 0x05,
-        /** String */
-        Defeat = 0x06,
-        /** String */
-        ExpReceived = 0x07,
-        /** String */
-        GoldReceivedA = 0x08,
-        /** String */
-        GoldReceivedB = 0x09,
-        /** String */
-        ItemReceived = 0x0A,
-        /** String */
-        Attacking = 0x0B,
-        /** String */
-        EnemyCritical = 0x0C,
-        /** String */
-        ActorCritical = 0x0D,
-        /** String */
-        Defending = 0x0E,
-        /** String */
-        Observing = 0x0F,
-        /** String */
-        Focus = 0x10,
-        /** String */
-        Autodestruction = 0x11,
-        /** String */
-        EnemyEscape = 0x12,
-        /** String */
-        EnemyTransform = 0x13,
-        /** String */
-        EnemyDamaged = 0x14,
-        /** String */
-        EnemyUndamaged = 0x15,
-        /** String */
-        ActorDamaged = 0x16,
-        /** String */
-        ActorUndamaged = 0x17,
-        /** String */
-        SkillFailureA = 0x18,
-        /** String */
-        SkillFailureB = 0x19,
-        /** String */
-        SkillFailureC = 0x1A,
-        /** String */
-        Dodge = 0x1B,
-        /** String */
-        UseItem = 0x1C,
-        /** String */
-        HpRecovery = 0x1D,
-        /** String */
-        ParameterIncrease = 0x1E,
-        /** String */
-        ParameterDecrease = 0x1F,
-        /** String */
-        EnemyHpAbsorbed = 0x20,
-        /** String */
-        ActorHpAbsorbed = 0x21,
-        /** String */
-        ResistanceIncrease = 0x22,
-        /** String */
-        ResistanceDecrease = 0x23,
-        /** String */
-        LevelUp = 0x24,
-        /** String */
-        SkillLearned = 0x25,
-        /** String */
-        BattleStart = 0x26,
-        /** String */
-        Miss = 0x27,
-        /** String */
-        ShopGreeting1 = 0x29,
-        /** String */
-        ShopRegreeting1 = 0x2A,
-        /** String */
-        ShopBuy1 = 0x2B,
-        /** String */
-        ShopSell1 = 0x2C,
-        /** String */
-        ShopLeave1 = 0x2D,
-        /** String */
-        ShopBuySelect1 = 0x2E,
-        /** String */
-        ShopBuyNumber1 = 0x2F,
-        /** String */
-        ShopPurchased1 = 0x30,
-        /** String */
-        ShopSellSelect1 = 0x31,
-        /** String */
-        ShopSellNumber1 = 0x32,
-        /** String */
-        ShopSold1 = 0x33,
-        /** String */
-        ShopGreeting2 = 0x36,
-        /** String */
-        ShopRegreeting2 = 0x37,
-        /** String */
-        ShopBuy2 = 0x38,
-        /** String */
-        ShopSell2 = 0x39,
-        /** String */
-        ShopLeave2 = 0x3A,
-        /** String */
-        ShopBuySelect2 = 0x3B,
-        /** String */
-        ShopBuyNumber2 = 0x3C,
-        /** String */
-        ShopPurchased2 = 0x3D,
-        /** String */
-        ShopSellSelect2 = 0x3E,
-        /** String */
-        ShopSellNumber2 = 0x3F,
-        /** String */
-        ShopSold2 = 0x40,
-        /** String */
-        ShopGreeting3 = 0x43,
-        /** String */
-        ShopRegreeting3 = 0x44,
-        /** String */
-        ShopBuy3 = 0x45,
-        /** String */
-        ShopSell3 = 0x46,
-        /** String */
-        ShopLeave3 = 0x47,
-        /** String */
-        ShopBuySelect3 = 0x48,
-        /** String */
-        ShopBuyNumber3 = 0x49,
-        /** String */
-        ShopPurchased3 = 0x4A,
-        /** String */
-        ShopSellSelect3 = 0x4B,
-        /** String */
-        ShopSellNumber3 = 0x4C,
-        /** String */
-        ShopSold3 = 0x4D,
-        /** String */
-        InnAGreeting1 = 0x50,
-        /** String */
-        InnAGreeting2 = 0x51,
-        /** String */
-        InnAGreeting3 = 0x52,
-        /** String */
-        InnAAccept = 0x53,
-        /** String */
-        InnACancel = 0x54,
-        /** String */
-        InnBGreeting1 = 0x55,
-        /** String */
-        InnBGreeting2 = 0x56,
-        /** String */
-        InnBGreeting3 = 0x57,
-        /** String */
-        InnBAccept = 0x58,
-        /** String */
-        InnBCancel = 0x59,
-        /** String */
-        PossessedItems = 0x5C,
-        /** String */
-        EquippedItems = 0x5D,
-        /** String */
-        Gold = 0x5F,
-        /** String */
-        BattleFight = 0x65,
-        /** String */
-        BattleAuto = 0x66,
-        /** String */
-        BattleEscape = 0x67,
-        /** String */
-        CommandAttack = 0x68,
-        /** String */
-        CommandDefend = 0x69,
-        /** String */
-        CommandItem = 0x6A,
-        /** String */
-        CommandSkill = 0x6B,
-        /** String */
-        MenuEquipment = 0x6C,
-        /** String */
-        MenuSave = 0x6E,
-        /** String */
-        MenuQuit = 0x70,
-        /** String */
-        NewGame = 0x72,
-        /** String */
-        LoadGame = 0x73,
-        /** String */
-        ExitGame = 0x75,
-        /** String */
-        Status = 0x76,
-        /** String */
-        Row = 0x77,
-        /** String */
-        Order = 0x78,
-        /** String */
-        WaitOn = 0x79,
-        /** String */
-        WaitOff = 0x7A,
-        /** String */
-        Level = 0x7B,
-        /** String */
-        HealthPoints = 0x7C,
-        /** String */
-        SpiritPoints = 0x7D,
-        /** String */
-        NormalStatus = 0x7E,
-        /** String - char x 2? */
-        ExpShort = 0x7F,
-        /** String - char x 2? */
-        LvlShort = 0x80,
-        /** String - char x 2? */
-        HpShort = 0x81,
-        /** String - char x 2? */
-        SpShort = 0x82,
-        /** String */
-        SpCost = 0x83,
-        /** String */
-        Attack = 0x84,
-        /** String */
-        Defense = 0x85,
-        /** String */
-        Spirit = 0x86,
-        /** String */
-        Agility = 0x87,
-        /** String */
-        Weapon = 0x88,
-        /** String */
-        Shield = 0x89,
-        /** String */
-        Armor = 0x8A,
-        /** String */
-        Helmet = 0x8B,
-        /** String */
-        Accessory = 0x8C,
-        /** String */
-        SaveGameMessage = 0x92,
-        /** String */
-        LoadGameMessage = 0x93,
-        /** String */
-        File = 0x94,
-        /** String */
-        ExitGameMessage = 0x97,
-        /** String */
-        Yes = 0x98,
-        /** String */
-        No = 0x99
-    }
-
+    /// <summary>
+    /// Class representing various terms used in the game.
+    /// </summary>
     [LcfChunk<TermsChunk>]
     public class Terms
     {
-		[LcfAlwaysPersistAttribute]
-		public string Encounter
+        /// <summary>
+        /// The text for encountering enemies.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Encounter
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SpecialCombat
+        /// <summary>
+        /// The text for special combat situations.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SpecialCombat
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EscapeSuccess
+        /// <summary>
+        /// The text for a successful escape.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EscapeSuccess
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EscapeFailure
+        /// <summary>
+        /// The text for a failed escape.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EscapeFailure
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Victory
+        /// <summary>
+        /// The text for a victory.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Victory
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Defeat
+        /// <summary>
+        /// The text for a defeat.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Defeat
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ExpReceived
+        /// <summary>
+        /// The text for experience received.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ExpReceived
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string GoldReceivedA
+        /// <summary>
+        /// The first part of the text for gold received.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string GoldReceivedA
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string GoldReceivedB
+        /// <summary>
+        /// The second part of the text for gold received.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string GoldReceivedB
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ItemReceived
+        /// <summary>
+        /// The text for items received.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ItemReceived
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Attacking
+        /// <summary>
+        /// The text for attacking.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Attacking
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EnemyCritical
+        /// <summary>
+        /// The text for enemy critical hits.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EnemyCritical
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ActorCritical
+        /// <summary>
+        /// The text for actor critical hits.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ActorCritical
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Defending
+        /// <summary>
+        /// The text for defending.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Defending
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Observing
+        /// <summary>
+        /// The text for observing.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Observing
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Focus
+        /// <summary>
+        /// The text for focusing.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Focus
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Autodestruction
+        /// <summary>
+        /// The text for autodestruction.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Autodestruction
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EnemyEscape
+        /// <summary>
+        /// The text for enemy escape.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EnemyEscape
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EnemyTransform
+        /// <summary>
+        /// The text for enemy transformation.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EnemyTransform
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EnemyDamaged
+        /// <summary>
+        /// The text for enemy damaged.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EnemyDamaged
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EnemyUndamaged
+        /// <summary>
+        /// The text for enemy undamaged.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EnemyUndamaged
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ActorDamaged
+        /// <summary>
+        /// The text for actor damaged.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ActorDamaged
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ActorUndamaged
+        /// <summary>
+        /// The text for actor undamaged.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ActorUndamaged
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SkillFailureA
+        /// <summary>
+        /// The first text for skill failure.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SkillFailureA
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SkillFailureB
+        /// <summary>
+        /// The second text for skill failure.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SkillFailureB
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SkillFailureC
+        /// <summary>
+        /// The third text for skill failure.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SkillFailureC
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Dodge
+        /// <summary>
+        /// The text for dodging.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Dodge
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string UseItem
+        /// <summary>
+        /// The text for using an item.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string UseItem
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string HpRecovery
+        /// <summary>
+        /// The text for HP recovery.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string HpRecovery
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ParameterIncrease
+        /// <summary>
+        /// The text for parameter increase.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ParameterIncrease
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ParameterDecrease
+        /// <summary>
+        /// The text for parameter decrease.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ParameterDecrease
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EnemyHpAbsorbed
+        /// <summary>
+        /// The text for enemy HP absorbed.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EnemyHpAbsorbed
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ActorHpAbsorbed
+        /// <summary>
+        /// The text for actor HP absorbed.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ActorHpAbsorbed
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ResistanceIncrease
+        /// <summary>
+        /// The text for resistance increase.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ResistanceIncrease
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ResistanceDecrease
+        /// <summary>
+        /// The text for resistance decrease.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ResistanceDecrease
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string LevelUp
+        /// <summary>
+        /// The text for leveling up.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string LevelUp
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SkillLearned
+        /// <summary>
+        /// The text for learning a new skill.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SkillLearned
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-		[LcfAlwaysPersistAttribute]
-		public string BattleStart
+        /// <summary>
+        /// The text for battle start. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string BattleStart
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public string Miss
+        /// <summary>
+        /// The text for missing an attack. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string Miss
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopGreeting1
+        /// <summary>
+        /// The first shop greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopGreeting1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopRegreeting1
+        /// <summary>
+        /// The first shop re-greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopRegreeting1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuy1
+        /// <summary>
+        /// The first shop buy text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuy1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSell1
+        /// <summary>
+        /// The first shop sell text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSell1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopLeave1
+        /// <summary>
+        /// The first shop leave text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopLeave1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuySelect1
+        /// <summary>
+        /// The first shop buy select text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuySelect1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuyNumber1
+        /// <summary>
+        /// The first shop buy number text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuyNumber1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopPurchased1
+        /// <summary>
+        /// The first shop purchased text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopPurchased1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSellSelect1
+        /// <summary>
+        /// The first shop sell select text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSellSelect1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSellNumber1
+        /// <summary>
+        /// The first shop sell number text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSellNumber1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSold1
+        /// <summary>
+        /// The first shop sold text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSold1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopGreeting2
+        /// <summary>
+        /// The second shop greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopGreeting2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopRegreeting2
+        /// <summary>
+        /// The second shop re-greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopRegreeting2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuy2
+        /// <summary>
+        /// The second shop buy text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuy2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSell2
+        /// <summary>
+        /// The second shop sell text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSell2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopLeave2
+        /// <summary>
+        /// The second shop leave text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopLeave2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuySelect2
+        /// <summary>
+        /// The second shop buy select text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuySelect2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuyNumber2
+        /// <summary>
+        /// The second shop buy number text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuyNumber2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopPurchased2
+        /// <summary>
+        /// The second shop purchased text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopPurchased2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSellSelect2
+        /// <summary>
+        /// The second shop sell select text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSellSelect2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSellNumber2
+        /// <summary>
+        /// The second shop sell number text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSellNumber2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSold2
+        /// <summary>
+        /// The second shop sold text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSold2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopGreeting3
+        /// <summary>
+        /// The third shop greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopGreeting3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopRegreeting3
+        /// <summary>
+        /// The third shop re-greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopRegreeting3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuy3
+        /// <summary>
+        /// The third shop buy text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuy3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSell3
+        /// <summary>
+        /// The third shop sell text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSell3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopLeave3
+        /// <summary>
+        /// The third shop leave text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopLeave3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuySelect3
+        /// <summary>
+        /// The third shop buy select text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuySelect3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopBuyNumber3
+        /// <summary>
+        /// The third shop buy number text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopBuyNumber3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopPurchased3
+        /// <summary>
+        /// The third shop purchased text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopPurchased3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSellSelect3
+        /// <summary>
+        /// The third shop sell select text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSellSelect3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSellNumber3
+        /// <summary>
+        /// The third shop sell number text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSellNumber3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ShopSold3
+        /// <summary>
+        /// The third shop sold text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ShopSold3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnAGreeting1
+        /// <summary>
+        /// The first inn greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnAGreeting1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnAGreeting2
+        /// <summary>
+        /// The second inn greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnAGreeting2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnAGreeting3
+        /// <summary>
+        /// The third inn greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnAGreeting3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnAAccept
+        /// <summary>
+        /// The inn acceptance text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnAAccept
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnACancel
+        /// <summary>
+        /// The inn cancellation text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnACancel
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnBGreeting1
+        /// <summary>
+        /// The first second inn greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnBGreeting1
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnBGreeting2
+        /// <summary>
+        /// The second second inn greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnBGreeting2
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnBGreeting3
+        /// <summary>
+        /// The third second inn greeting text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnBGreeting3
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnBAccept
+        /// <summary>
+        /// The second inn acceptance text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnBAccept
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string InnBCancel
+        /// <summary>
+        /// The second inn cancellation text.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string InnBCancel
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string PossessedItems
+        /// <summary>
+        /// The text for possessed items.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string PossessedItems
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string EquippedItems
+        /// <summary>
+        /// The text for equipped items.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string EquippedItems
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Gold
+        /// <summary>
+        /// The text for gold.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Gold
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string BattleFight
+        /// <summary>
+        /// The text for battle fight command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string BattleFight
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string BattleAuto
+        /// <summary>
+        /// The text for battle auto command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string BattleAuto
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string BattleEscape
+        /// <summary>
+        /// The text for battle escape command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string BattleEscape
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string CommandAttack
+        /// <summary>
+        /// The text for attack command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string CommandAttack
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string CommandDefend
+        /// <summary>
+        /// The text for defend command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string CommandDefend
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string CommandItem
+        /// <summary>
+        /// The text for item command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string CommandItem
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string CommandSkill
+        /// <summary>
+        /// The text for skill command.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string CommandSkill
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string MenuEquipment
+        /// <summary>
+        /// The text for menu equipment.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string MenuEquipment
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string MenuSave
+        /// <summary>
+        /// The text for menu save.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string MenuSave
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string MenuQuit
+        /// <summary>
+        /// The text for menu quit.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string MenuQuit
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string NewGame
+        /// <summary>
+        /// The text for starting a new game.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string NewGame
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string LoadGame
+        /// <summary>
+        /// The text for loading a game.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string LoadGame
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ExitGame
+        /// <summary>
+        /// The text for exiting the game.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ExitGame
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public string Status
+        /// <summary>
+        /// The text for status. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string Status
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public string Row
+        /// <summary>
+        /// The text for row. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string Row
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public string Order
+        /// <summary>
+        /// The text for order. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string Order
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public string WaitOn
+        /// <summary>
+        /// The text for wait on. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string WaitOn
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
-		public string WaitOff
+        /// <summary>
+        /// The text for wait off. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public string WaitOff
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Level
+        /// <summary>
+        /// The text for level.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Level
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string HealthPoints
+        /// <summary>
+        /// The text for health points.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string HealthPoints
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SpiritPoints
+        /// <summary>
+        /// The text for spirit points.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SpiritPoints
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string NormalStatus
+        /// <summary>
+        /// The text for normal status.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string NormalStatus
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ExpShort
+        /// <summary>
+        /// The abbreviated text for experience.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ExpShort
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string LvlShort
+        /// <summary>
+        /// The abbreviated text for level.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string LvlShort
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string HpShort
+        /// <summary>
+        /// The abbreviated text for health points.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string HpShort
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SpShort
+        /// <summary>
+        /// The abbreviated text for spirit points.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SpShort
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SpCost
+        /// <summary>
+        /// The text for SP cost.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SpCost
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Attack
+        /// <summary>
+        /// The text for attack.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Attack
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Defense
+        /// <summary>
+        /// The text for defense.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Defense
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Spirit
+        /// <summary>
+        /// The text for spirit.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Spirit
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Agility
+        /// <summary>
+        /// The text for agility.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Agility
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Weapon
+        /// <summary>
+        /// The text for weapon.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Weapon
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Shield
+        /// <summary>
+        /// The text for shield.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Shield
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Armor
+        /// <summary>
+        /// The text for armor.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Armor
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Helmet
+        /// <summary>
+        /// The text for helmet.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Helmet
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Accessory
+        /// <summary>
+        /// The text for accessory.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Accessory
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string SaveGameMessage
+        /// <summary>
+        /// The message for saving the game.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string SaveGameMessage
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string LoadGameMessage
+        /// <summary>
+        /// The message for loading the game.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string LoadGameMessage
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string File
+        /// <summary>
+        /// The text for file.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string File
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string ExitGameMessage
+        /// <summary>
+        /// The message for exiting the game.
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string ExitGameMessage
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string Yes
+        /// <summary>
+        /// The text for "Yes".
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string Yes
         {
             get;
             set;
         }
 
-		[LcfAlwaysPersistAttribute]
-		public string No
+        /// <summary>
+        /// The text for "No".
+        /// </summary>
+        [LcfAlwaysPersist]
+        public string No
         {
             get;
             set;

@@ -1,195 +1,245 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database.Troops;
 using LcfSharp.IO.Attributes;
-using LcfSharp.IO.Types;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Troops
 {
-    public enum TroopPageConditionChunk : int
-    {
-        Flags = 0x01,
-        SwitchAID = 0x02,
-        SwitchBID = 0x03,
-        VariableID = 0x04,
-        VariableValue = 0x05,
-        TurnA = 0x06,
-        TurnB = 0x07,
-        FatigueMin = 0x08,
-        FatigueMax = 0x09,
-        EnemyID = 0x0A,
-        EnemyHPMin = 0x0B,
-        EnemyHPMax = 0x0C,
-        ActorID = 0x0D,
-        ActorHPMin = 0x0E,
-        ActorHPMax = 0x0F,
-        TurnEnemyID = 0x10,
-        TurnEnemyA = 0x11,
-        TurnEnemyB = 0x12,
-        TurnActorID = 0x13,
-        TurnActorA = 0x14,
-        TurnActorB = 0x15,
-        CommandActorID = 0x16,
-        CommandID = 0x17
-    }
-
+    /// <summary>
+    /// Class representing the conditions for a troop page.
+    /// </summary>
     [LcfChunk<TroopPageConditionChunk>]
     public class TroopPageCondition
     {
+        /// <summary>
+        /// The flags for the troop page condition.
+        /// </summary>
         [LcfAlwaysPersist]
-        public TroopPageConditionFlags Flags 
+        public TroopPageConditionFlags Flags
         {
-            get; 
-            set; 
-        } = new TroopPageConditionFlags();
+            get;
+            set;
+        } = new TroopPageConditionFlags( );
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the first switch for the condition. Default is 1.
+        /// </summary>
         public int SwitchAID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the second switch for the condition. Default is 1.
+        /// </summary>
         public int SwitchBID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the variable for the condition. Default is 1.
+        /// </summary>
         public int VariableID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The value of the variable for the condition.
+        /// </summary>
         public int VariableValue
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The minimum turn value for the condition.
+        /// </summary>
         public int TurnA
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The maximum turn value for the condition.
+        /// </summary>
         public int TurnB
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The minimum fatigue value for the condition.
+        /// </summary>
         public int FatigueMin
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The maximum fatigue value for the condition. Default is 100.
+        /// </summary>
         public int FatigueMax
         {
             get;
             set;
         } = 100;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the enemy for the condition.
+        /// </summary>
         public int EnemyID
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The minimum HP value for the enemy.
+        /// </summary>
         public int EnemyHPMin
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The maximum HP value for the enemy. Default is 100.
+        /// </summary>
         public int EnemyHPMax
         {
             get;
             set;
         } = 100;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the actor for the condition. Default is 1.
+        /// </summary>
         public int ActorID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The minimum HP value for the actor.
+        /// </summary>
         public int ActorHPMin
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The maximum HP value for the actor. Default is 100.
+        /// </summary>
         public int ActorHPMax
         {
             get;
             set;
         } = 100;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the enemy turn for the condition.
+        /// </summary>
         public int TurnEnemyID
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The minimum enemy turn value for the condition.
+        /// </summary>
         public int TurnEnemyA
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The maximum enemy turn value for the condition.
+        /// </summary>
         public int TurnEnemyB
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the actor turn for the condition. Default is 1.
+        /// </summary>
         public int TurnActorID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The minimum actor turn value for the condition.
+        /// </summary>
         public int TurnActorA
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The maximum actor turn value for the condition.
+        /// </summary>
         public int TurnActorB
         {
             get;
             set;
         }
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the actor command for the condition. Default is 1.
+        /// </summary>
         public int CommandActorID
         {
             get;
             set;
         } = 1;
 
-        [XmlAttribute]
+        /// <summary>
+        /// The ID of the command for the condition. Default is 1.
+        /// </summary>
         public int CommandID
         {
             get;

@@ -1,154 +1,46 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
 using LcfSharp.IO.Attributes;
-using LcfSharp.IO.Types;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 namespace LcfSharp.Rpg.Events
 {
-    [LcfNoIndex]
+    [LcfCalculatedSize]
     public class EventCommand
     {
-        public static readonly Dictionary<EventCommandCode, string> Tags = new Dictionary<EventCommandCode, string>
-        {
-            { EventCommandCode.END, "END" },
-            { EventCommandCode.CallCommonEvent, "CallCommonEvent" },
-            { EventCommandCode.ForceFlee, "ForceFlee" },
-            { EventCommandCode.EnableCombo, "EnableCombo" },
-            { EventCommandCode.ChangeClass, "ChangeClass" },
-            { EventCommandCode.ChangeBattleCommands, "ChangeBattleCommands" },
-            { EventCommandCode.OpenLoadMenu, "OpenLoadMenu" },
-            { EventCommandCode.ExitGame, "ExitGame" },
-            { EventCommandCode.ToggleAtbMode, "ToggleAtbMode" },
-            { EventCommandCode.ToggleFullscreen, "ToggleFullscreen" },
-            { EventCommandCode.OpenVideoOptions, "OpenVideoOptions" },
-            { EventCommandCode.ShowMessage, "ShowMessage" },
-            { EventCommandCode.MessageOptions, "MessageOptions" },
-            { EventCommandCode.ChangeFaceGraphic, "ChangeFaceGraphic" },
-            { EventCommandCode.ShowChoice, "ShowChoice" },
-            { EventCommandCode.InputNumber, "InputNumber" },
-            { EventCommandCode.ControlSwitches, "ControlSwitches" },
-            { EventCommandCode.ControlVars, "ControlVars" },
-            { EventCommandCode.TimerOperation, "TimerOperation" },
-            { EventCommandCode.ChangeGold, "ChangeGold" },
-            { EventCommandCode.ChangeItems, "ChangeItems" },
-            { EventCommandCode.ChangePartyMembers, "ChangePartyMembers" },
-            { EventCommandCode.ChangeExp, "ChangeExp" },
-            { EventCommandCode.ChangeLevel, "ChangeLevel" },
-            { EventCommandCode.ChangeParameters, "ChangeParameters" },
-            { EventCommandCode.ChangeSkills, "ChangeSkills" },
-            { EventCommandCode.ChangeEquipment, "ChangeEquipment" },
-            { EventCommandCode.ChangeHP, "ChangeHP" },
-            { EventCommandCode.ChangeSP, "ChangeSP" },
-            { EventCommandCode.ChangeCondition, "ChangeCondition" },
-            { EventCommandCode.FullHeal, "FullHeal" },
-            { EventCommandCode.SimulatedAttack, "SimulatedAttack" },
-            { EventCommandCode.ChangeHeroName, "ChangeHeroName" },
-            { EventCommandCode.ChangeHeroTitle, "ChangeHeroTitle" },
-            { EventCommandCode.ChangeSpriteAssociation, "ChangeSpriteAssociation" },
-            { EventCommandCode.ChangeActorFace, "ChangeActorFace" },
-            { EventCommandCode.ChangeVehicleGraphic, "ChangeVehicleGraphic" },
-            { EventCommandCode.ChangeSystemBGM, "ChangeSystemBGM" },
-            { EventCommandCode.ChangeSystemSFX, "ChangeSystemSFX" },
-            { EventCommandCode.ChangeSystemGraphics, "ChangeSystemGraphics" },
-            { EventCommandCode.ChangeScreenTransitions, "ChangeScreenTransitions" },
-            { EventCommandCode.EnemyEncounter, "EnemyEncounter" },
-            { EventCommandCode.OpenShop, "OpenShop" },
-            { EventCommandCode.ShowInn, "ShowInn" },
-            { EventCommandCode.EnterHeroName, "EnterHeroName" },
-            { EventCommandCode.Teleport, "Teleport" },
-            { EventCommandCode.MemorizeLocation, "MemorizeLocation" },
-            { EventCommandCode.RecallToLocation, "RecallToLocation" },
-            { EventCommandCode.EnterExitVehicle, "EnterExitVehicle" },
-            { EventCommandCode.SetVehicleLocation, "SetVehicleLocation" },
-            { EventCommandCode.ChangeEventLocation, "ChangeEventLocation" },
-            { EventCommandCode.TradeEventLocations, "TradeEventLocations" },
-            { EventCommandCode.StoreTerrainID, "StoreTerrainID" },
-            { EventCommandCode.StoreEventID, "StoreEventID" },
-            { EventCommandCode.EraseScreen, "EraseScreen" },
-            { EventCommandCode.ShowScreen, "ShowScreen" },
-            { EventCommandCode.TintScreen, "TintScreen" },
-            { EventCommandCode.FlashScreen, "FlashScreen" },
-            { EventCommandCode.ShakeScreen, "ShakeScreen" },
-            { EventCommandCode.PanScreen, "PanScreen" },
-            { EventCommandCode.WeatherEffects, "WeatherEffects" },
-            { EventCommandCode.ShowPicture, "ShowPicture" },
-            { EventCommandCode.MovePicture, "MovePicture" },
-            { EventCommandCode.ErasePicture, "ErasePicture" },
-            { EventCommandCode.ShowBattleAnimation, "ShowBattleAnimation" },
-            { EventCommandCode.PlayerVisibility, "PlayerVisibility" },
-            { EventCommandCode.FlashSprite, "FlashSprite" },
-            { EventCommandCode.MoveEvent, "MoveEvent" },
-            { EventCommandCode.ProceedWithMovement, "ProceedWithMovement" },
-            { EventCommandCode.HaltAllMovement, "HaltAllMovement" },
-            { EventCommandCode.Wait, "Wait" },
-            { EventCommandCode.PlayBGM, "PlayBGM" },
-            { EventCommandCode.FadeOutBGM, "FadeOutBGM" },
-            { EventCommandCode.MemorizeBGM, "MemorizeBGM" },
-            { EventCommandCode.PlayMemorizedBGM, "PlayMemorizedBGM" },
-            { EventCommandCode.PlaySound, "PlaySound" },
-            { EventCommandCode.PlayMovie, "PlayMovie" },
-            { EventCommandCode.KeyInputProc, "KeyInputProc" },
-            { EventCommandCode.ChangeMapTileset, "ChangeMapTileset" },
-            { EventCommandCode.ChangePBG, "ChangePBG" },
-            { EventCommandCode.ChangeEncounterSteps, "ChangeEncounterSteps" },
-            { EventCommandCode.TileSubstitution, "TileSubstitution" },
-            { EventCommandCode.TeleportTargets, "TeleportTargets" },
-            { EventCommandCode.ChangeTeleportAccess, "ChangeTeleportAccess" },
-            { EventCommandCode.EscapeTarget, "EscapeTarget" },
-            { EventCommandCode.ChangeEscapeAccess, "ChangeEscapeAccess" },
-            { EventCommandCode.OpenSaveMenu, "OpenSaveMenu" },
-            { EventCommandCode.ChangeSaveAccess, "ChangeSaveAccess" },
-            { EventCommandCode.OpenMainMenu, "OpenMainMenu" },
-            { EventCommandCode.ChangeMainMenuAccess, "ChangeMainMenuAccess" },
-            { EventCommandCode.ConditionalBranch, "ConditionalBranch" },
-            { EventCommandCode.Label, "Label" },
-            { EventCommandCode.JumpToLabel, "JumpToLabel" },
-            { EventCommandCode.Loop, "Loop" },
-            { EventCommandCode.BreakLoop, "BreakLoop" },
-            { EventCommandCode.EndEventProcessing, "EndEventProcessing" },
-            { EventCommandCode.EraseEvent, "EraseEvent" },
-            { EventCommandCode.CallEvent, "CallEvent" },
-            { EventCommandCode.Comment, "Comment" },
-            { EventCommandCode.GameOver, "GameOver" },
-            { EventCommandCode.ReturntoTitleScreen, "ReturntoTitleScreen" },
-            { EventCommandCode.ChangeMonsterHP, "ChangeMonsterHP" },
-            { EventCommandCode.ChangeMonsterMP, "ChangeMonsterMP" },
-            { EventCommandCode.ChangeMonsterCondition, "ChangeMonsterCondition" },
-            { EventCommandCode.ShowHiddenMonster, "ShowHiddenMonster" },
-            { EventCommandCode.ChangeBattleBG, "ChangeBattleBG" },
-            { EventCommandCode.ShowBattleAnimation_B, "ShowBattleAnimation_B" },
-            { EventCommandCode.ConditionalBranch_B, "ConditionalBranch_B" },
-            { EventCommandCode.TerminateBattle, "TerminateBattle" },
-            { EventCommandCode.ShowMessage_2, "ShowMessage_2" },
-            { EventCommandCode.ShowChoiceOption, "ShowChoiceOption" },
-            { EventCommandCode.ShowChoiceEnd, "ShowChoiceEnd" },
-            { EventCommandCode.VictoryHandler, "VictoryHandler" },
-            { EventCommandCode.EscapeHandler, "EscapeHandler" },
-            { EventCommandCode.DefeatHandler, "DefeatHandler" },
-            { EventCommandCode.EndBattle, "EndBattle" },
-            { EventCommandCode.Transaction, "Transaction" },
-            { EventCommandCode.NoTransaction, "NoTransaction" },
-            { EventCommandCode.EndShop, "EndShop" },
-            { EventCommandCode.Stay, "Stay" },
-            { EventCommandCode.NoStay, "NoStay" },
-            { EventCommandCode.EndInn, "EndInn" },
-            { EventCommandCode.ElseBranch, "ElseBranch" },
-            { EventCommandCode.EndBranch, "EndBranch" },
-            { EventCommandCode.EndLoop, "EndLoop" },
-            { EventCommandCode.Comment_2, "Comment_2" },
-            { EventCommandCode.ElseBranch_B, "ElseBranch_B" },
-            { EventCommandCode.EndBranch_B, "EndBranch_B" }
-        };
-
-        [XmlAttribute]
         public EventCommandCode Code
         {
             get;
             set;
         }
 
-        [XmlAttribute]
         public int Indent
         {
             get;
@@ -165,6 +57,6 @@ namespace LcfSharp.Rpg.Events
         {
             get;
             set;
-        } = new List<int>();
+        } = [];
     }
 }

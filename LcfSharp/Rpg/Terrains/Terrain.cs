@@ -1,112 +1,48 @@
-﻿using LcfSharp.IO;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Audio;
-using LcfSharp.Rpg.Troops;
 using LcfSharp.IO.Types;
-using System;
-using System.Collections.Generic;
+using LcfSharp.Rpg.Audio;
 
 namespace LcfSharp.Rpg.Terrains
 {
-    public enum TerrainChunk : int
-    {
-        /** String */
-        Name = 0x01,
-        /** Integer */
-        Damage = 0x02,
-        /** Integer */
-        EncounterRate = 0x03,
-        /** String */
-        BackgroundName = 0x04,
-        /** Flag */
-        BoatPass = 0x05,
-        /** Flag */
-        ShipPass = 0x06,
-        /** Flag */
-        AirshipPass = 0x07,
-        /** Flag */
-        AirshipLand = 0x09,
-        /** Integer */
-        BushDepth = 0x0B,
-        /** rpg::Sound - RPG2003 */
-        Footstep = 0x0F,
-        /** Flag - RPG2003 */
-        OnDamageSe = 0x10,
-        /** Integer - RPG2003 */
-        BackgroundType = 0x11,
-        /** String - RPG2003 */
-        BackgroundAName = 0x15,
-        /** Flag - RPG2003 */
-        BackgroundAScrollH = 0x16,
-        /** Flag - RPG2003 */
-        BackgroundAScrollV = 0x17,
-        /** Integer - RPG2003 */
-        BackgroundAScrollHSpeed = 0x18,
-        /** Integer - RPG2003 */
-        BackgroundAScrollVSpeed = 0x19,
-        /** Flag - RPG2003 */
-        BackgroundB = 0x1E,
-        /** String - RPG2003 */
-        BackgroundBName = 0x1F,
-        /** Flag - RPG2003 */
-        BackgroundBScrollH = 0x20,
-        /** Flag - RPG2003 */
-        BackgroundBScrollV = 0x21,
-        /** Integer - RPG2003 */
-        BackgroundBScrollHSpeed = 0x22,
-        /** Integer - RPG2003 */
-        BackgroundBScrollVSpeed = 0x23,
-        /** Bitflag - RPG2003 */
-        SpecialFlags = 0x28,
-        /** Integer - RPG2003 */
-        SpecialBackParty = 0x29,
-        /** Integer - RPG2003 */
-        SpecialBackEnemies = 0x2A,
-        /** Integer - RPG2003 */
-        SpecialLateralParty = 0x2B,
-        /** Integer - RPG2003 */
-        SpecialLateralEnemies = 0x2C,
-        /** Integer - RPG2003 */
-        GridLocation = 0x2D,
-        /** Integer - RPG2003 */
-        GridTopY = 0x2E,
-        /** Integer - RPG2003 */
-        GridElongation = 0x2F,
-        /** Integer - RPG2003 */
-        GridInclination = 0x30
-    }
-
-    public enum TerrainBushDepth
-    {
-        Normal = 0,
-        Third = 1,
-        Half = 2,
-        Full = 3
-    }
-
-    public enum TerrainBGAssociation
-    {
-        Background = 0,
-        Frame = 1
-    }
-
+    /// <summary>
+    /// Class representing terrain with various properties and settings.
+    /// </summary>
     [LcfChunk<TerrainChunk>]
     public class Terrain
     {
-        public static readonly Dictionary<TerrainBushDepth, string> BushDepthTags = new Dictionary<TerrainBushDepth, string>
-        {
-            { TerrainBushDepth.Normal, "normal" },
-            { TerrainBushDepth.Third, "third" },
-            { TerrainBushDepth.Half, "half" },
-            { TerrainBushDepth.Full, "full" }
-        };
-
-        public static readonly Dictionary<TerrainBGAssociation, string> TBGAssociationags = new Dictionary<TerrainBGAssociation, string>
-        {
-            { TerrainBGAssociation.Background, "background" },
-            { TerrainBGAssociation.Frame, "frame" }
-        };
-
+        /// <summary>
+        /// The unique identifier for the terrain.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -114,195 +50,291 @@ namespace LcfSharp.Rpg.Terrains
             set;
         }
 
+        /// <summary>
+        /// The name of the terrain.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The damage value associated with the terrain.
+        /// </summary>
         public int Damage
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The encounter rate for the terrain. Default is 100.
+        /// </summary>
         public int EncounterRate
         {
             get;
             set;
         } = 100;
 
+        /// <summary>
+        /// The name of the background associated with the terrain.
+        /// </summary>
         public string BackgroundName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether a boat can pass through the terrain.
+        /// </summary>
         public bool BoatPass
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether a ship can pass through the terrain.
+        /// </summary>
         public bool ShipPass
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether an airship can pass through the terrain. Default is true.
+        /// </summary>
         public bool AirshipPass
         {
             get;
             set;
         } = true;
 
+        /// <summary>
+        /// Indicates whether an airship can land on the terrain. Default is true.
+        /// </summary>
         public bool AirshipLand
         {
             get;
             set;
         } = true;
 
-        [LcfAlwaysPersistAttribute]
+        /// <summary>
+        /// The bush depth for the terrain.
+        /// </summary>
+        [LcfAlwaysPersist]
         public TerrainBushDepth BushDepth
         {
             get;
             set;
         }
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
-        [LcfAlwaysPersistAttribute]
+        /// <summary>
+        /// The sound for footsteps on the terrain. Only available in RM2K3.
+        /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
         public Sound Footstep
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the terrain plays a sound effect on damage.
+        /// </summary>
         public bool OnDamageSe
         {
             get;
             set;
         }
 
-        public int BackgroundType
+        /// <summary>
+        /// The type of background associated with the terrain.
+        /// </summary>
+        public TerrainBGAssociation BackgroundType
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The name of the first background layer.
+        /// </summary>
         public string BackgroundAName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the first background layer scrolls horizontally.
+        /// </summary>
         public bool BackgroundAScrollH
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the first background layer scrolls vertically.
+        /// </summary>
         public bool BackgroundAScrollV
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The horizontal scroll speed of the first background layer.
+        /// </summary>
         public int BackgroundAScrollHSpeed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The vertical scroll speed of the first background layer.
+        /// </summary>
         public int BackgroundAScrollVSpeed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the second background layer is enabled.
+        /// </summary>
         public bool BackgroundB
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The name of the second background layer.
+        /// </summary>
         public string BackgroundBName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the second background layer scrolls horizontally.
+        /// </summary>
         public bool BackgroundBScrollH
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the second background layer scrolls vertically.
+        /// </summary>
         public bool BackgroundBScrollV
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The horizontal scroll speed of the second background layer.
+        /// </summary>
         public int BackgroundBScrollHSpeed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The vertical scroll speed of the second background layer.
+        /// </summary>
         public int BackgroundBScrollVSpeed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Special flags associated with the terrain.
+        /// </summary>
         public TerrainFlags SpecialFlags
-        { 
-            get; 
-            set; 
-        } = new TerrainFlags();
+        {
+            get;
+            set;
+        } = new TerrainFlags( );
 
+        /// <summary>
+        /// The special background party value. Default is 15.
+        /// </summary>
         public int SpecialBackParty
         {
             get;
             set;
         } = 15;
 
+        /// <summary>
+        /// The special background enemies value. Default is 10.
+        /// </summary>
         public int SpecialBackEnemies
         {
             get;
             set;
         } = 10;
 
+        /// <summary>
+        /// The special lateral party value. Default is 10.
+        /// </summary>
         public int SpecialLateralParty
         {
             get;
             set;
         } = 10;
 
+        /// <summary>
+        /// The special lateral enemies value. Default is 5.
+        /// </summary>
         public int SpecialLateralEnemies
         {
             get;
             set;
         } = 5;
 
+        /// <summary>
+        /// The grid location of the terrain.
+        /// </summary>
         public int GridLocation
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The top Y coordinate of the grid. Default is 120.
+        /// </summary>
         public int GridTopY
         {
             get;
             set;
         } = 120;
 
+        /// <summary>
+        /// The elongation value of the grid. Default is 392.
+        /// </summary>
         public int GridElongation
         {
             get;
             set;
         } = 392;
 
+        /// <summary>
+        /// The inclination value of the grid. Default is 16000.
+        /// </summary>
         public int GridInclination
         {
             get;

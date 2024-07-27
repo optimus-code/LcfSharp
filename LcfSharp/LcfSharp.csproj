@@ -6,16 +6,4 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="LmtReader.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="LmtReader.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\LcfSharp.IO\LcfSharp.IO.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,6 +1,34 @@
-﻿using System.Collections.Generic;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using System.Collections.Generic;
 using LcfSharp.Rpg.Events;
-using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Maps
 {
@@ -28,28 +56,6 @@ namespace LcfSharp.Rpg.Maps
 
     public class Map
     {
-        public static readonly Dictionary<MapScrollType, string> ScrollTypeTags = new Dictionary<MapScrollType, string>
-        {
-            { MapScrollType.None, "none" },
-            { MapScrollType.Vertical, "vertical" },
-            { MapScrollType.Horizontal, "horizontal" },
-            { MapScrollType.Both, "both" }
-        };
-
-        public static readonly Dictionary<MapGeneratorMode, string> GeneratorModeTags = new Dictionary<MapGeneratorMode, string>
-        {
-            { MapGeneratorMode.SinglePassage, "single_passage" },
-            { MapGeneratorMode.LinkedRooms, "linked_rooms" },
-            { MapGeneratorMode.MazePassage, "maze_passage" },
-            { MapGeneratorMode.OpenRoom, "open_room" }
-        };
-
-        public static readonly Dictionary<MapGeneratorTiles, string> GeneratorTilesTags = new Dictionary<MapGeneratorTiles, string>
-        {
-            { MapGeneratorTiles.One, "one" },
-            { MapGeneratorTiles.Two, "two" }
-        };
-
         public string LmuHeader
         {
             get;
@@ -204,37 +210,37 @@ namespace LcfSharp.Rpg.Maps
         {
             get;
             set;
-        } = new List<uint>();
+        } = [];
 
         public List<uint> GeneratorY
         {
             get;
             set;
-        } = new List<uint>();
+        } = [];
 
         public List<short> GeneratorTileIDs
         {
             get;
             set;
-        } = new List<short>();
+        } = [];
 
         public List<short> LowerLayer
         {
             get;
             set;
-        } = new List<short>();
+        } = [];
 
         public List<short> UpperLayer
         {
             get;
             set;
-        } = new List<short>();
+        } = [];
 
         public List<Event> Events
         {
             get;
             set;
-        } = new List<Event>();
+        } = [];
 
         public int SaveCount2k3e
         {
