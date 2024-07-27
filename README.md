@@ -30,13 +30,40 @@ To serialize Lcf chunks, use `[LcfChunk<ChunkEnumType>]` to decorate your classe
 #### Example:
 
 ```csharp
-[LcfChunk(ChunkEnumType.MyChunk)]
+[LcfChunk<ChunkEnumType.MyChunk>]
 public class MyLcfClass
 {
     public string PropertyOne { get; set; }
     public int PropertyTwo { get; set; }
 }
 ```
+
+## Defining Enum Chunks
+
+When working with LcfSharp, you need to define enum values that represent the chunks within your Lcf files. These values correspond to specific properties in the class that are decorated with the `[LcfChunk<ChunkEnumType>]` attribute.
+
+Here's an example of how to define an enum for music chunks:
+
+```csharp
+public enum MusicChunk : int
+{
+    /** String */
+    Name = 0x01,
+    /** Integer */
+    FadeIn = 0x02,
+    /** Integer */
+    Volume = 0x03,
+    /** Integer */
+    Tempo = 0x04,
+    /** Integer */
+    Balance = 0x05
+}
+```
+
+In this example:
+
+- `Name = 0x01` represents a string chunk for the music name.
+- `FadeIn = 0x02`, `Volume = 0x03`, `Tempo = 0x04`, and `Balance = 0x05` represent integer chunks for fade-in duration, volume, tempo, and balance, respectively.
 
 ### Ignoring Properties
 
