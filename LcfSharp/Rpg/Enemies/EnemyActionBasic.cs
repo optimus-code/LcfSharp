@@ -27,36 +27,51 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Enemies
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the basic enemy actions.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum EnemyActionBasic
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Basic attack.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Attack = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Dual attack.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        DualAttack = 1,
+
+        /// <summary>
+        /// Defense action.
+        /// </summary>
+        Defense = 2,
+
+        /// <summary>
+        /// Observe action.
+        /// </summary>
+        Observe = 3,
+
+        /// <summary>
+        /// Charge action.
+        /// </summary>
+        Charge = 4,
+
+        /// <summary>
+        /// Autodestruction action.
+        /// </summary>
+        Autodestruction = 5,
+
+        /// <summary>
+        /// Escape action.
+        /// </summary>
+        Escape = 6,
+
+        /// <summary>
+        /// Do nothing action.
+        /// </summary>
+        Nothing = 7
     }
 }

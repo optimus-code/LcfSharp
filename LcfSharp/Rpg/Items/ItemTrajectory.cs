@@ -27,36 +27,21 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Items
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the trajectory of a ranged item.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum ItemTrajectory : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Straight trajectory.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Straight = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Returning trajectory.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Return = 1
     }
 }

@@ -27,36 +27,51 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Enemies
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the condition type for enemy actions.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum EnemyActionConditionType
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Condition always true.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Always = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Condition based on a switch.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Switch = 1,
+
+        /// <summary>
+        /// Condition based on turns.
+        /// </summary>
+        Turn = 2,
+
+        /// <summary>
+        /// Condition based on actors.
+        /// </summary>
+        Actors = 3,
+
+        /// <summary>
+        /// Condition based on HP.
+        /// </summary>
+        HP = 4,
+
+        /// <summary>
+        /// Condition based on SP.
+        /// </summary>
+        SP = 5,
+
+        /// <summary>
+        /// Condition based on party level.
+        /// </summary>
+        PartyLvl = 6,
+
+        /// <summary>
+        /// Condition based on party fatigue.
+        /// </summary>
+        PartyFatigue = 7
     }
 }

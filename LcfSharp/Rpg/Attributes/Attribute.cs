@@ -32,15 +32,15 @@ using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Attributes
 {
-    public enum AttributeTypes
-    {
-        Physical = 0,
-        Magical = 1
-    }
-
+    /// <summary>
+    /// Class representing an attribute in the game.
+    /// </summary>
     [LcfChunk<AttributeChunk>]
     public class Attribute
     {
+        /// <summary>
+        /// The unique identifier for the attribute.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -48,44 +48,65 @@ namespace LcfSharp.Rpg.Attributes
             set;
         }
 
+        /// <summary>
+        /// The name of the attribute.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string Name
+        public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The type of the attribute.
+        /// </summary>
         [LcfAlwaysPersist]
-        public AttributeTypes Type
+        public AttributeType Type
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The A-rate of the attribute.
+        /// </summary>
         public int ARate
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The B-rate of the attribute.
+        /// </summary>
         public int BRate
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The C-rate of the attribute.
+        /// </summary>
         public int CRate
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The D-rate of the attribute.
+        /// </summary>
         public int DRate
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The E-rate of the attribute.
+        /// </summary>
         public int ERate
         {
             get;

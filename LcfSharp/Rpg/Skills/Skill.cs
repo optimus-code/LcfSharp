@@ -29,10 +29,10 @@
 
 using System.Collections.Generic;
 using LcfSharp.Rpg.Audio;
-using LcfSharp.Rpg.Shared;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using LcfSharp.Chunks.Database;
+using LcfSharp.Rpg.Battle.Battlers.ItemSkills;
 
 namespace LcfSharp.Rpg.Skills
 {

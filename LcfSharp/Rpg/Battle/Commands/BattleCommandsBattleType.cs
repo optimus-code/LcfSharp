@@ -27,36 +27,26 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Battle.Commands
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the battle type for battle commands.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum BattleCommandsBattleType : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Traditional battle type.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Traditional = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Alternative battle type.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Alternative = 1,
+
+        /// <summary>
+        /// Gauge battle type.
+        /// </summary>
+        Gauge = 2
     }
 }

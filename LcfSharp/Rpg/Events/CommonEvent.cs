@@ -33,16 +33,15 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
-    public enum CommonEventTrigger : int
-    {
-        Automatic = 3,
-        Parallel = 4,
-        Call = 5
-    }
-
+    /// <summary>
+    /// Class representing a common event in the game.
+    /// </summary>
     [LcfChunk<CommonEventChunk>]
     public class CommonEvent
     {
+        /// <summary>
+        /// The unique identifier for the common event.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -50,33 +49,48 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
+        /// <summary>
+        /// The name of the common event.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string Name
+        public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The trigger type for the common event.
+        /// </summary>
         public CommonEventTrigger Trigger
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether a switch is used to trigger the event.
+        /// </summary>
         public bool SwitchFlag
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the switch that triggers the event.
+        /// </summary>
         public int SwitchID
         {
             get;
             set;
         } = 1;
 
+        /// <summary>
+        /// The list of event commands associated with the common event.
+        /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize(( int ) CommonEventChunk.EventCommandsSize)]
+        [LcfSize( ( int ) CommonEventChunk.EventCommandsSize )]
         public List<EventCommand> EventCommands
         {
             get;

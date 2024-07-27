@@ -45,7 +45,7 @@ namespace LcfSharp.Rpg.Shared
         {
             get;
             set;
-        } = new List<short>( );
+        } = [];
 
         /// <summary>
         /// List of maximum SP (Spirit Points) values.
@@ -54,7 +54,7 @@ namespace LcfSharp.Rpg.Shared
         {
             get;
             set;
-        } = new List<short>( );
+        } = [];
 
         /// <summary>
         /// List of attack values.
@@ -63,7 +63,7 @@ namespace LcfSharp.Rpg.Shared
         {
             get;
             set;
-        } = new List<short>( );
+        } = [];
 
         /// <summary>
         /// List of defense values.
@@ -72,7 +72,7 @@ namespace LcfSharp.Rpg.Shared
         {
             get;
             set;
-        } = new List<short>( );
+        } = [];
 
         /// <summary>
         /// List of spirit values.
@@ -81,7 +81,7 @@ namespace LcfSharp.Rpg.Shared
         {
             get;
             set;
-        } = new List<short>( );
+        } = [];
 
         /// <summary>
         /// List of agility values.
@@ -90,6 +90,6 @@ namespace LcfSharp.Rpg.Shared
         {
             get;
             set;
-        } = new List<short>( );
+        } = [];
     }
 }

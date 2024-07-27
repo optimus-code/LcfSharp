@@ -29,40 +29,18 @@
 
 using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
-using LcfSharp.Rpg.Battle.Battlers;
 
-namespace LcfSharp.Rpg.Shared
+namespace LcfSharp.Rpg.Battle.Battlers.ItemSkills
 {
-    public enum BattlerAnimationItemSkillSpeed : int
-    {
-        Fast = 0,
-        Medium = 1,
-        Slow = 2
-    }
-
-    public enum BattlerAnimationItemSkillAnimType : int
-    {
-        Weapon = 0,
-        Battle = 1
-    }
-
-    public enum BattlerAnimationItemSkillMovement : int
-    {
-        None = 0,
-        Step = 1,
-        Jump = 2,
-        Move = 3
-    }
-
-    public enum BattlerAnimationItemSkillAfterimage : int
-    {
-        None = 0,
-        Add = 1
-    }
-
+    /// <summary>
+    /// Class representing the battler animation for item skills.
+    /// </summary>
     [LcfChunk<BattlerAnimationItemSkillChunk>]
     public class BattlerAnimationItemSkill
     {
+        /// <summary>
+        /// The unique identifier for the battler animation item skill.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -70,66 +48,99 @@ namespace LcfSharp.Rpg.Shared
             set;
         } = 0;
 
+        /// <summary>
+        /// An unknown property.
+        /// </summary>
         public int Unknown02
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The animation type of the battler animation item skill.
+        /// </summary>
         public BattlerAnimationItemSkillAnimType Type
         {
             get;
             set;
-        } = 0;
+        } = BattlerAnimationItemSkillAnimType.Weapon;
 
+        /// <summary>
+        /// The ID of the weapon animation.
+        /// </summary>
         public int WeaponAnimationID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The movement type of the battler animation item skill.
+        /// </summary>
         public BattlerAnimationItemSkillMovement Movement
         {
             get;
             set;
-        } = 0;
+        } = BattlerAnimationItemSkillMovement.None;
 
+        /// <summary>
+        /// The afterimage type of the battler animation item skill.
+        /// </summary>
         public BattlerAnimationItemSkillAfterimage AfterImage
         {
             get;
             set;
-        } = 0;
+        } = BattlerAnimationItemSkillAfterimage.None;
 
+        /// <summary>
+        /// The number of attacks.
+        /// </summary>
         public int Attacks
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// Indicates whether the skill is ranged.
+        /// </summary>
         public bool Ranged
         {
             get;
             set;
         } = false;
 
+        /// <summary>
+        /// The ID of the ranged animation.
+        /// </summary>
         public int RangedAnimationID
         {
             get;
             set;
         } = 0;
 
-        public int RangedSpeed
+        /// <summary>
+        /// The speed of the ranged animation.
+        /// </summary>
+        public BattlerAnimationItemSkillSpeed RangedSpeed
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the battle animation.
+        /// </summary>
         public int BattleAnimationID
         {
             get;
             set;
         } = 1;
 
+        /// <summary>
+        /// The pose of the battler animation.
+        /// </summary>
         public BattlerAnimationPoses Pose
         {
             get;

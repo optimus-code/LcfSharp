@@ -27,36 +27,26 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Events
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the trigger type for a common event.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum CommonEventTrigger : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Automatic trigger.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Automatic = 3,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Parallel trigger.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Parallel = 4,
+
+        /// <summary>
+        /// Call trigger.
+        /// </summary>
+        Call = 5
     }
 }

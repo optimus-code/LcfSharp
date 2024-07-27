@@ -32,8 +32,14 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
+    /// <summary>
+    /// Class representing an event in the game.
+    /// </summary>
     public class Event
     {
+        /// <summary>
+        /// The unique identifier for the event.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -41,28 +47,40 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
+        /// <summary>
+        /// The name of the event.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The X-coordinate of the event's location.
+        /// </summary>
         public int X
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The Y-coordinate of the event's location.
+        /// </summary>
         public int Y
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The list of pages associated with the event.
+        /// </summary>
         public List<EventPage> Pages
         {
             get;
             set;
-        } = [];
+        } = new List<EventPage>( );
     }
 }

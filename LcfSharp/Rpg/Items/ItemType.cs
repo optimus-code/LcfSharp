@@ -27,36 +27,66 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Items
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the type of item.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum ItemType : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Normal item.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Normal = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Weapon item.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Weapon = 1,
+
+        /// <summary>
+        /// Shield item.
+        /// </summary>
+        Shield = 2,
+
+        /// <summary>
+        /// Armor item.
+        /// </summary>
+        Armor = 3,
+
+        /// <summary>
+        /// Helmet item.
+        /// </summary>
+        Helmet = 4,
+
+        /// <summary>
+        /// Accessory item.
+        /// </summary>
+        Accessory = 5,
+
+        /// <summary>
+        /// Medicine item.
+        /// </summary>
+        Medicine = 6,
+
+        /// <summary>
+        /// Book item.
+        /// </summary>
+        Book = 7,
+
+        /// <summary>
+        /// Material item.
+        /// </summary>
+        Material = 8,
+
+        /// <summary>
+        /// Special item.
+        /// </summary>
+        Special = 9,
+
+        /// <summary>
+        /// Switch item.
+        /// </summary>
+        Switch = 10
     }
 }

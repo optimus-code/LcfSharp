@@ -33,32 +33,15 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationSpeed : int
-    {
-        Slow = 20,
-        Medium = 14,
-        Fast = 8
-    }
-
-    public enum BattlerAnimationPoses : int
-    {
-        Idle = 0,
-        AttackRight = 1,
-        AttackLeft = 2,
-        Skill = 3,
-        Dead = 4,
-        Damage = 5,
-        Dazed = 6,
-        Defend = 7,
-        WalkLeft = 8,
-        WalkRight = 9,
-        Victory = 10,
-        Item = 11
-    }
-
+    /// <summary>
+    /// Class representing a battler animation in the game.
+    /// </summary>
     [LcfChunk<BattlerAnimationChunk>]
     public class BattlerAnimation
     {
+        /// <summary>
+        /// The unique identifier for the battler animation.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -66,19 +49,28 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = 0;
 
+        /// <summary>
+        /// The name of the battler animation.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string Name
+        public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The speed of the battler animation.
+        /// </summary>
         public BattlerAnimationSpeed Speed
         {
             get;
             set;
         } = BattlerAnimationSpeed.Slow;
 
+        /// <summary>
+        /// The list of poses for the battler animation.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<BattlerAnimationPose> Poses
         {
@@ -86,6 +78,9 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = [];
 
+        /// <summary>
+        /// The list of weapons for the battler animation.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<BattlerAnimationWeapon> Weapons
         {

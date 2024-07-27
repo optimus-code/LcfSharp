@@ -32,9 +32,15 @@ using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Animations
 {
+    /// <summary>
+    /// Class representing cell data for an animation.
+    /// </summary>
     [LcfChunk<AnimationCellDataChunk>]
     public class AnimationCellData
     {
+        /// <summary>
+        /// The unique identifier for the animation cell data.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -42,60 +48,90 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the cell data is valid.
+        /// </summary>
         public int Valid
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the cell.
+        /// </summary>
         public int CellID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The X-coordinate of the cell.
+        /// </summary>
         public int X
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The Y-coordinate of the cell.
+        /// </summary>
         public int Y
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The zoom level of the cell.
+        /// </summary>
         public int Zoom
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The red tone value of the cell.
+        /// </summary>
         public int ToneRed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The green tone value of the cell.
+        /// </summary>
         public int ToneGreen
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The blue tone value of the cell.
+        /// </summary>
         public int ToneBlue
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The gray tone value of the cell.
+        /// </summary>
         public int ToneGray
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The transparency level of the cell.
+        /// </summary>
         public int Transparency
         {
             get;

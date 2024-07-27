@@ -27,36 +27,26 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Battle.Battlers
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the speed of a battler animation.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum BattlerAnimationSpeed : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Slow speed.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Slow = 20,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Medium speed.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Medium = 14,
+
+        /// <summary>
+        /// Fast speed.
+        /// </summary>
+        Fast = 8
     }
 }

@@ -27,36 +27,31 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Battle.Battlers.ItemSkills
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the movement type of the battler animation for item skills.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum BattlerAnimationItemSkillMovement : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// No movement.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        None = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Step movement.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Step = 1,
+
+        /// <summary>
+        /// Jump movement.
+        /// </summary>
+        Jump = 2,
+
+        /// <summary>
+        /// Move movement.
+        /// </summary>
+        Move = 3
     }
 }

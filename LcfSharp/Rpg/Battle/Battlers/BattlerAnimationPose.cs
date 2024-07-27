@@ -32,15 +32,15 @@ using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
-    public enum BattlerAnimationPoseAnimType
-    {
-        Character = 0,
-        Battle = 1
-    }
-
+    /// <summary>
+    /// Class representing a pose in a battler animation.
+    /// </summary>
     [LcfChunk<BattlerAnimationPoseChunk>]
     public class BattlerAnimationPose
     {
+        /// <summary>
+        /// The unique identifier for the battler animation pose.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -48,32 +48,47 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = 0;
 
+        /// <summary>
+        /// The name of the battler animation pose.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string Name
+        public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The name of the battler graphic.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string BattlerName
+        public string BattlerName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The index of the battler graphic.
+        /// </summary>
         public int BattlerIndex
         {
             get;
             set;
         } = 0;
 
-        public int AnimationType
+        /// <summary>
+        /// The animation type of the battler animation pose.
+        /// </summary>
+        public BattlerAnimationPoseAnimType AnimationType
         {
             get;
             set;
-        } = 0;
+        } = BattlerAnimationPoseAnimType.Character;
 
+        /// <summary>
+        /// The ID of the battle animation associated with the pose.
+        /// </summary>
         public int BattleAnimationID
         {
             get;

@@ -33,23 +33,15 @@ using LcfSharp.Rpg.Audio;
 
 namespace LcfSharp.Rpg.Animations
 {
+    /// <summary>
+    /// Class representing the timing of an animation.
+    /// </summary>
     [LcfChunk<AnimationTimingChunk>]
     public class AnimationTiming
     {
-        public enum AnimationFlashScope
-        {
-            Nothing = 0,
-            Target = 1,
-            Screen = 2
-        }
-
-        public enum AnimationScreenShake
-        {
-            Nothing = 0,
-            Target = 1,
-            Screen = 2
-        }
-
+        /// <summary>
+        /// The unique identifier for the animation timing.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -57,12 +49,18 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        /// <summary>
+        /// The frame at which the timing occurs.
+        /// </summary>
         public int Frame
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The sound effect to play at the timing.
+        /// </summary>
         [LcfAlwaysPersist]
         public Sound Se
         {
@@ -70,38 +68,56 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        /// <summary>
+        /// The scope of the flash effect.
+        /// </summary>
         [LcfAlwaysPersist]
-        public int FlashScope
+        public AnimationFlashScope FlashScope
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The red component of the flash color.
+        /// </summary>
         public int FlashRed
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The green component of the flash color.
+        /// </summary>
         public int FlashGreen
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The blue component of the flash color.
+        /// </summary>
         public int FlashBlue
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The power of the flash effect.
+        /// </summary>
         public int FlashPower
         {
             get;
             set;
         }
 
-        public int ScreenShakeValue
+        /// <summary>
+        /// The screen shake effect.
+        /// </summary>
+        public AnimationScreenShake ScreenShakeValue
         {
             get;
             set;

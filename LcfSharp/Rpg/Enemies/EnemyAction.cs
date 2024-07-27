@@ -32,40 +32,15 @@ using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Enemies
 {
-    public enum EnemyActionKind
-    {
-        Basic = 0,
-        Skill = 1,
-        Transformation = 2
-    }
-
-    public enum EnemyActionBasic
-    {
-        Attack = 0,
-        DualAttack = 1,
-        Defense = 2,
-        Observe = 3,
-        Charge = 4,
-        Autodestruction = 5,
-        Escape = 6,
-        Nothing = 7
-    }
-
-    public enum EnemyActionConditionType
-    {
-        Always = 0,
-        Switch = 1,
-        Turn = 2,
-        Actors = 3,
-        HP = 4,
-        SP = 5,
-        PartyLvl = 6,
-        PartyFatigue = 7
-    }
-
+    /// <summary>
+    /// Class representing an enemy action.
+    /// </summary>
     [LcfChunk<EnemyActionChunk>]
     public class EnemyAction
     {
+        /// <summary>
+        /// The unique identifier for the enemy action.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -73,6 +48,9 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
+        /// <summary>
+        /// The kind of enemy action.
+        /// </summary>
         [LcfAlwaysPersist]
         public EnemyActionKind Kind
         {
@@ -80,6 +58,9 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
+        /// <summary>
+        /// The basic enemy action.
+        /// </summary>
         [LcfAlwaysPersist]
         public EnemyActionBasic Basic
         {
@@ -87,18 +68,27 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
+        /// <summary>
+        /// The ID of the skill used in the action.
+        /// </summary>
         public int SkillID
         {
             get;
             set;
         }
-        
+
+        /// <summary>
+        /// The ID of the enemy associated with the action.
+        /// </summary>
         public int EnemyID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The condition type for the action.
+        /// </summary>
         [LcfAlwaysPersist]
         public EnemyActionConditionType ConditionType
         {
@@ -106,48 +96,72 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
+        /// <summary>
+        /// The first parameter for the condition.
+        /// </summary>
         public int ConditionParam1
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The second parameter for the condition.
+        /// </summary>
         public int ConditionParam2
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the switch used in the condition.
+        /// </summary>
         public int SwitchID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the switch is turned on.
+        /// </summary>
         public bool SwitchOn
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the switch to turn on.
+        /// </summary>
         public int SwitchOnID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the switch is turned off.
+        /// </summary>
         public bool SwitchOff
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the switch to turn off.
+        /// </summary>
         public int SwitchOffID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The rating of the action.
+        /// </summary>
         public int Rating
         {
             get;

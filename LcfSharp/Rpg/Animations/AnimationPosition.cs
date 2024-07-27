@@ -27,36 +27,26 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
 namespace LcfSharp.Rpg.Animations
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the position of an animation.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum AnimationPosition
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// The animation is positioned at the top.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Up = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// The animation is positioned in the middle.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Middle = 1,
+
+        /// <summary>
+        /// The animation is positioned at the bottom.
+        /// </summary>
+        Down = 2
     }
 }

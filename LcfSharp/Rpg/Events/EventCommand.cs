@@ -32,27 +32,42 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
+    /// <summary>
+    /// Class representing an event command in the game.
+    /// </summary>
     [LcfCalculatedSize]
     public class EventCommand
     {
+        /// <summary>
+        /// The code of the event command.
+        /// </summary>
         public EventCommandCode Code
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The indent level of the event command.
+        /// </summary>
         public int Indent
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The string associated with the event command.
+        /// </summary>
         public string String
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The list of parameters associated with the event command.
+        /// </summary>
         public List<int> Parameters
         {
             get;

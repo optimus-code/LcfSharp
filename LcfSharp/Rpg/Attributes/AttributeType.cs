@@ -27,36 +27,21 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Attributes
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the type of an attribute.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum AttributeType
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Physical attribute.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Physical = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Magical attribute.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Magical = 1
     }
 }

@@ -29,32 +29,50 @@
 
 namespace LcfSharp.Rpg.Actors
 {
+    /// <summary>
+    /// Class representing a character's equipment.
+    /// </summary>
     public class Equipment
     {
+        /// <summary>
+        /// The ID of the weapon equipped. Default is 0.
+        /// </summary>
         public short WeaponID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the shield equipped. Default is 0.
+        /// </summary>
         public short ShieldID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the armor equipped. Default is 0.
+        /// </summary>
         public short ArmorID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the helmet equipped. Default is 0.
+        /// </summary>
         public short HelmetID
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The ID of the accessory equipped. Default is 0.
+        /// </summary>
         public short AccessoryID
         {
             get;

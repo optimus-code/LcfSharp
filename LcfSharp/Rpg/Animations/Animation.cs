@@ -33,22 +33,15 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
-    public enum AnimationScope
-    {
-        Target = 0,
-        Screen = 1
-    }
-
-    public enum AnimationPosition
-    {
-        Up = 0,
-        Middle = 1,
-        Down = 2
-    }
-
+    /// <summary>
+    /// Class representing an animation.
+    /// </summary>
     [LcfChunk<AnimationChunk>]
     public class Animation
     {
+        /// <summary>
+        /// The unique identifier for the animation.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -56,26 +49,38 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        /// <summary>
+        /// The name of the animation.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string Name
+        public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The name of the animation file.
+        /// </summary>
         [LcfAlwaysPersist]
-		public string AnimationName
+        public string AnimationName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the animation is large.
+        /// </summary>
         public bool Large
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The list of timings for the animation.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<AnimationTiming> Timings
         {
@@ -83,6 +88,9 @@ namespace LcfSharp.Rpg.Animations
             set;
         } = [];
 
+        /// <summary>
+        /// The scope of the animation.
+        /// </summary>
         [LcfAlwaysPersist]
         public AnimationScope Scope
         {
@@ -90,6 +98,9 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        /// <summary>
+        /// The position of the animation.
+        /// </summary>
         [LcfAlwaysPersist]
         public AnimationPosition Position
         {
@@ -97,6 +108,9 @@ namespace LcfSharp.Rpg.Animations
             set;
         }
 
+        /// <summary>
+        /// The list of frames for the animation.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<AnimationFrame> Frames
         {

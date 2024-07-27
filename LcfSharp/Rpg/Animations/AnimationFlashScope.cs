@@ -27,36 +27,26 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
 namespace LcfSharp.Rpg.Animations
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the scope of an animation flash.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum AnimationFlashScope
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// No flash.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Nothing = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Flash on the target.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Target = 1,
+
+        /// <summary>
+        /// Flash on the screen.
+        /// </summary>
+        Screen = 2
     }
 }

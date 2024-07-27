@@ -32,9 +32,15 @@ using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
+    /// <summary>
+    /// Class representing a weapon used in battler animations.
+    /// </summary>
     [LcfChunk<BattlerAnimationWeaponChunk>]
     public class BattlerAnimationWeapon
     {
+        /// <summary>
+        /// The unique identifier for the battler animation weapon.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -42,18 +48,27 @@ namespace LcfSharp.Rpg.Battle.Battlers
             set;
         } = 0;
 
+        /// <summary>
+        /// The name of the battler animation weapon.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The name of the weapon graphic.
+        /// </summary>
         public string WeaponName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The index of the weapon graphic.
+        /// </summary>
         public int WeaponIndex
         {
             get;

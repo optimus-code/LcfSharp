@@ -27,36 +27,31 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Items
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the target type of a ranged item.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum ItemTarget : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Single target.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Single = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Center target.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Center = 1,
+
+        /// <summary>
+        /// Simultaneous target.
+        /// </summary>
+        Simultaneous = 2,
+
+        /// <summary>
+        /// Sequential target.
+        /// </summary>
+        Sequential = 3
     }
 }

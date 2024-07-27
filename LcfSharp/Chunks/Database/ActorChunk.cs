@@ -74,7 +74,7 @@ namespace LcfSharp.Chunks.Database
         /** Integer */
         UnarmedAnimation = 0x38,
         /** Integer - RPG2003 */
-        ClassId = 0x39,
+        ClassID = 0x39,
         /** Integer - RPG2003 */
         BattleX = 0x3B,
         /** Integer - RPG2003 */

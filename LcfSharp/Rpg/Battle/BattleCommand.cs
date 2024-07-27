@@ -32,20 +32,15 @@ using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Battle
 {
-    public enum BattleCommandType : int
-    {
-        Attack = 0,
-        Skill = 1,
-        Subskill = 2,
-        Defense = 3,
-        Item = 4,
-        Escape = 5,
-        Special = 6
-    }
-
+    /// <summary>
+    /// Class representing a battle command.
+    /// </summary>
     [LcfChunk<BattleCommandChunk>]
     public class BattleCommand
     {
+        /// <summary>
+        /// The unique identifier for the battle command. Default is 0.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -53,6 +48,9 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = 0;
 
+        /// <summary>
+        /// The name of the battle command.
+        /// </summary>
         [LcfAlwaysPersist]
         public string Name
         {
@@ -60,6 +58,9 @@ namespace LcfSharp.Rpg.Battle
             set;
         }
 
+        /// <summary>
+        /// The type of the battle command. Default is Attack.
+        /// </summary>
         public BattleCommandType Type
         {
             get;

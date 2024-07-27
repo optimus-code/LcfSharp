@@ -33,9 +33,15 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Enemies
 {
+    /// <summary>
+    /// Class representing an enemy in the game.
+    /// </summary>
     [LcfChunk<EnemyChunk>]
     public class Enemy
     {
+        /// <summary>
+        /// The unique identifier for the enemy.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -43,130 +49,193 @@ namespace LcfSharp.Rpg.Enemies
             set;
         }
 
+        /// <summary>
+        /// The name of the enemy.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The name of the battler graphic.
+        /// </summary>
         public string BattlerName
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The hue of the battler graphic.
+        /// </summary>
         public int BattlerHue
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The maximum HP of the enemy.
+        /// </summary>
         public int MaxHP
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The maximum SP of the enemy.
+        /// </summary>
         public int MaxSP
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The attack power of the enemy.
+        /// </summary>
         public int Attack
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The defense power of the enemy.
+        /// </summary>
         public int Defense
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The spirit power of the enemy.
+        /// </summary>
         public int Spirit
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The agility of the enemy.
+        /// </summary>
         public int Agility
         {
             get;
             set;
         }
-        
+
+        /// <summary>
+        /// Indicates whether the enemy is transparent.
+        /// </summary>
         public bool Transparent
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The experience points awarded for defeating the enemy.
+        /// </summary>
         public int Exp
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The amount of gold awarded for defeating the enemy.
+        /// </summary>
         public int Gold
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The ID of the item dropped by the enemy.
+        /// </summary>
         public int DropID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The probability of the item being dropped.
+        /// </summary>
         public int DropProb
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the enemy can perform critical hits.
+        /// </summary>
         public bool CriticalHit
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The chance of performing a critical hit.
+        /// </summary>
         public int CriticalHitChance
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the enemy can miss attacks.
+        /// </summary>
         public bool Miss
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the enemy can levitate.
+        /// </summary>
         public bool Levitate
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The state ranks of the enemy.
+        /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize(( int ) EnemyChunk.StateRanksSize)]
+        [LcfSize( ( int ) EnemyChunk.StateRanksSize )]
         public List<byte> StateRanks
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The attribute ranks of the enemy.
+        /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize(( int ) EnemyChunk.AttributeRanksSize)]
+        [LcfSize( ( int ) EnemyChunk.AttributeRanksSize )]
         public List<byte> AttributeRanks
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The list of actions the enemy can perform.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<EnemyAction> Actions
         {

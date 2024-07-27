@@ -32,57 +32,26 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
-namespace LcfSharp.Rpg.Battle
+namespace LcfSharp.Rpg.Battle.Commands
 {
-    public enum BattleCommandsPlacement : int
-    {
-        Manual = 0,
-        Automatic = 1
-    }
-
-    public enum BattleCommandsRowShown : int
-    {
-        Front = 0,
-        Back = 1
-    }
-
-    public enum BattleCommandsBattleType : int
-    {
-        Traditional = 0,
-        Alternative = 1,
-        Gauge = 2
-    }
-
-    public enum BattleCommandsWindowSize : int
-    {
-        Large = 0,
-        Small = 1
-    }
-
-    public enum BattleCommandsTransparency : int
-    {
-        Opaque = 0,
-        Transparent = 1
-    }
-
-    public enum BattleCommandsFacing : int
-    {
-        Retain = 0,
-        Up = 1,
-        Right = 2,
-        Down = 3,
-        Left = 4
-    }
-
+    /// <summary>
+    /// Class representing the battle commands settings.
+    /// </summary>
     [LcfChunk<BattleCommandsChunk>]
     public class BattleCommands
     {
+        /// <summary>
+        /// The placement of battle commands. Default is Manual.
+        /// </summary>
         public BattleCommandsPlacement Placement
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandsPlacement.Manual;
 
+        /// <summary>
+        /// Indicates whether the death handler is unused. Only available in RM2K3. Default is false.
+        /// </summary>
         [LcfVersion(LcfEngineVersion.RM2K3)]
         public bool DeathHandlerUnused
         {
@@ -90,24 +59,36 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = false;
 
+        /// <summary>
+        /// The row shown for battle commands. Default is Front.
+        /// </summary>
         public BattleCommandsRowShown Row
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandsRowShown.Front;
 
+        /// <summary>
+        /// The battle type for battle commands. Default is Traditional.
+        /// </summary>
         public BattleCommandsBattleType BattleType
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandsBattleType.Traditional;
 
+        /// <summary>
+        /// Indicates whether normal parameters are displayed. Default is true.
+        /// </summary>
         public bool UnusedDisplayNormalParameters
         {
             get;
             set;
         } = true;
 
+        /// <summary>
+        /// The list of battle commands.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<BattleCommand> Commands
         {
@@ -115,6 +96,9 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = [];
 
+        /// <summary>
+        /// Indicates whether the death handler is used. Only available in RM2K3. Default is false.
+        /// </summary>
         [LcfVersion(LcfEngineVersion.RM2K3)]
         public bool DeathHandler
         {
@@ -122,52 +106,76 @@ namespace LcfSharp.Rpg.Battle
             set;
         } = false;
 
+        /// <summary>
+        /// The event ID for death handling. Default is 1.
+        /// </summary>
         public int DeathEvent
         {
             get;
             set;
         } = 1;
 
+        /// <summary>
+        /// The window size for battle commands. Default is Large.
+        /// </summary>
         public BattleCommandsWindowSize WindowSize
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandsWindowSize.Large;
 
+        /// <summary>
+        /// The transparency setting for battle commands. Default is Opaque.
+        /// </summary>
         public BattleCommandsTransparency Transparency
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandsTransparency.Opaque;
 
+        /// <summary>
+        /// Indicates whether death teleport is enabled. Default is false.
+        /// </summary>
         public bool DeathTeleport
         {
             get;
             set;
         } = false;
 
+        /// <summary>
+        /// The teleport ID for death handling. Default is 1.
+        /// </summary>
         public int DeathTeleportID
         {
             get;
             set;
         } = 1;
 
+        /// <summary>
+        /// The X-coordinate for death teleport. Default is 0.
+        /// </summary>
         public int DeathTeleportX
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The Y-coordinate for death teleport. Default is 0.
+        /// </summary>
         public int DeathTeleportY
         {
             get;
             set;
         } = 0;
 
+        /// <summary>
+        /// The facing direction for death teleport. Default is Retain.
+        /// </summary>
         public BattleCommandsFacing DeathTeleportFace
         {
             get;
             set;
-        } = 0;
+        } = BattleCommandsFacing.Retain;
     }
 }

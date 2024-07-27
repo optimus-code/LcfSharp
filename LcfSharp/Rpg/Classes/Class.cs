@@ -34,9 +34,15 @@ using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Classes
 {
+    /// <summary>
+    /// Class representing a character class in the game.
+    /// </summary>
     [LcfChunk<ClassChunk>]
     public class Class
     {
+        /// <summary>
+        /// The unique identifier for the class.
+        /// </summary>
         [LcfID]
         public int ID
         {
@@ -44,66 +50,99 @@ namespace LcfSharp.Rpg.Classes
             set;
         }
 
+        /// <summary>
+        /// The name of the class.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the class can wield two weapons.
+        /// </summary>
         public bool TwoWeapon
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the class's equipment is locked.
+        /// </summary>
         public bool LockEquipment
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the class is set to auto-battle.
+        /// </summary>
         public bool AutoBattle
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates whether the class has super guard ability.
+        /// </summary>
         public bool SuperGuard
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The parameters of the class.
+        /// </summary>
         public Parameters Parameters
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The base experience points for the class.
+        /// </summary>
         public int ExpBase
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The experience inflation rate for the class.
+        /// </summary>
         public int ExpInflation
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The experience correction value for the class.
+        /// </summary>
         public int ExpCorrection
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The battler animation ID for the class.
+        /// </summary>
         public int BattlerAnimation
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The list of skills the class can learn.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<Learning> Skills
         {
@@ -111,22 +150,31 @@ namespace LcfSharp.Rpg.Classes
             set;
         }
 
+        /// <summary>
+        /// The state ranks of the class.
+        /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize(( int ) ClassChunk.StateRanksSize)]
+        [LcfSize( ( int ) ClassChunk.StateRanksSize )]
         public List<byte> StateRanks
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The attribute ranks of the class.
+        /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize(( int ) ClassChunk.AttributeRanksSize)]
+        [LcfSize( ( int ) ClassChunk.AttributeRanksSize )]
         public List<byte> AttributeRanks
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The battle commands for the class.
+        /// </summary>
         [LcfAlwaysPersist]
         public List<int> BattleCommands
         {

@@ -27,36 +27,21 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Battle.Commands
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the window size for battle commands.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum BattleCommandsWindowSize : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Large window size.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Large = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Small window size.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Small = 1
     }
 }

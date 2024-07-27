@@ -27,36 +27,26 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Database.Animation;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Animations
+namespace LcfSharp.Rpg.Enemies
 {
     /// <summary>
-    /// Class representing an animation frame.
+    /// Enum representing the kind of enemy action.
     /// </summary>
-    [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public enum EnemyActionKind : int
     {
         /// <summary>
-        /// The unique identifier for the animation frame.
+        /// Basic action.
         /// </summary>
-        [LcfID]
-        public int ID
-        {
-            get;
-            set;
-        }
+        Basic = 0,
 
         /// <summary>
-        /// The list of animation cell data in the frame.
+        /// Skill action.
         /// </summary>
-        [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
-        {
-            get;
-            set;
-        } = [];
+        Skill = 1,
+
+        /// <summary>
+        /// Transformation action.
+        /// </summary>
+        Transformation = 2
     }
 }
