@@ -30,40 +30,47 @@ To serialize Lcf chunks, use `[LcfChunk<ChunkEnumType>]` to decorate your classe
 #### Example:
 
 ```csharp
-[LcfChunk<ChunkEnumType.MyChunk>]
-public class MyLcfClass
+[LcfChunk<RootChunkEnum>]
+public class MyLcfClass : ILcfRootChunk
 {
+    public List<ChildChunk> Children { get; set; }
+}
+```
+
+## Handling Child Chunks with IDs
+
+In LcfSharp, some chunks are children of other chunks and have unique IDs. These IDs are read and written automatically as long as you use an `int` type decorated with the `[LcfID]` attribute.
+
+### Example
+
+Here's an example of how to define a class with child chunks that include an ID:
+
+```csharp
+[LcfChunk<ChildChunkEnum>]
+public class ChildChunk
+{
+    [LcfID]
+    public int ID { get; set; }
+
     public string PropertyOne { get; set; }
+
     public int PropertyTwo { get; set; }
 }
 ```
 
-## Defining Enum Chunks
+### Enum for Child Chunk Properties
 
-When working with LcfSharp, you need to define enum values that represent the chunks within your Lcf files. These values correspond to specific properties in the class that are decorated with the `[LcfChunk<ChunkEnumType>]` attribute.
-
-Here's an example of how to define an enum for music chunks:
+Define an enum to represent the properties of the child chunk:
 
 ```csharp
-public enum MusicChunk : int
+public enum ChildChunkEnum : int
 {
     /** String */
-    Name = 0x01,
+    PropertyOne = 0x01,
     /** Integer */
-    FadeIn = 0x02,
-    /** Integer */
-    Volume = 0x03,
-    /** Integer */
-    Tempo = 0x04,
-    /** Integer */
-    Balance = 0x05
+    PropertyTwo = 0x02
 }
 ```
-
-In this example:
-
-- `Name = 0x01` represents a string chunk for the music name.
-- `FadeIn = 0x02`, `Volume = 0x03`, `Tempo = 0x04`, and `Balance = 0x05` represent integer chunks for fade-in duration, volume, tempo, and balance, respectively.
 
 ### Ignoring Properties
 
@@ -105,6 +112,42 @@ public class MyLcfClass
     [LcfVersion(LcfEngineVersion.RM2K3)]
     public string VersionSpecificProperty { get; set; }
 }
+```
+
+## Handling Collections in Chunks with List<>
+
+When dealing with collections in chunks, the recommended approach is to use the `List<>` type. The length of the list can be determined by one of three methods:
+
+1. **Chunk Length (Default)**: By default, the length of the list is determined by the chunk length.
+2. **Using Another Chunk's Length**:
+   - You can specify the length using another chunk by decorating the list property with the `[LcfSize((int)ActorChunk.AttributeRanksSize)]` attribute.
+3. **Explicit Calculation**:
+   - If properties are decorated with `[LcfCalculateSize]`, the list is read until the next chunk, i.e. length is not available ahead of time.
+
+### Special Case: Classes Without ID Property
+
+If the list item is a class that does not contain an ID property (i.e., it is not decorated with `[LcfID]`), the length is read automatically from the stream if no length is provided by the parent chunk (if there is one). In this scenario, the Lcf format doesn't provide a byte length value but a direct number of elements.
+
+### Examples
+
+#### Default Length from Chunk
+
+```csharp
+public List<MyItem> Items { get; set; }
+```
+
+#### Length from Another Chunk
+
+```csharp
+[LcfSize((int)ActorChunk.AttributeRanksSize)]
+public List<MyItem> Items { get; set; }
+```
+
+#### Automatic based on continuous chunk reading
+
+```csharp
+[LcfCalculateSize]
+public List<MyItem> Items { get; set; }
 ```
 
 ## Status
