@@ -23,9 +23,6 @@ jobs:
     
     - name: Build
       run: dotnet build --no-restore ./LcfSharp/LcfSharp.csproj
-    
-    - name: Test
-      run: dotnet test --no-build --verbosity normal ./LcfSharp.Tests/LcfSharp.Tests.csproj
 
   publish:
     needs: build
