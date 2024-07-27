@@ -384,7 +384,7 @@ namespace LcfSharp.Rpg.Events
         {
             get;
             set;
-        } = 3;
+        } = EventPageMoveSpeed.Half;
 
         /// <summary>
         /// The move route of the event page.
