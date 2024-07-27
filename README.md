@@ -8,6 +8,14 @@ LcfSharp is a .NET library for reading and writing RPG Maker 2000/03 Lcf (Ldb, L
 - **Write Lcf Files**: Serialise .NET objects back into RPG Maker 2000/03 Lcf files.
 - **Modeled on System.Text.Json**: Familiar interface for developers who have worked with `System.Text.Json`.
 
+## Installing
+
+To install LcfSharp from NuGet, use the following command in the NuGet Package Manager Console:
+
+```shell
+Install-Package LcfSharp
+```
+
 ## Usage
 
 To use existing types provided by LcfSharp, such as `Database`, you can deserialise an Lcf file with the following code snippet:
