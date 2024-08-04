@@ -1,5 +1,7 @@
-using LcfSharp.IO;
+﻿using LcfSharp.IO;
+using LcfSharp.IO.Extensions;
 using LcfSharp.Rpg;
+using System.Text;
 
 namespace LcfSharp.Tests
 {
@@ -17,6 +19,33 @@ namespace LcfSharp.Tests
                 Assert.IsTrue( result == 600 );
             }
         }
+
+        [TestMethod]
+        public void ReadString( )
+        {
+            Encoding.RegisterProvider( CodePagesEncodingProvider.Instance );
+
+            // Byte arrays for SHIFT-JIS and ASCII encoded strings
+            byte[] shiftJisData = { 0x82, 0xA0, 0x82, 0xA2, 0x82, 0xA4, 0x82, 0xA6, 0x82, 0xA8 }; // "あいうえお" in SHIFT-JIS
+            byte[] asciiData = { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // "Hello" in ASCII
+
+            // Read and decode SHIFT-JIS string
+            using ( var shiftJisMs = new MemoryStream( shiftJisData ) )
+            {
+                var shiftJisReader = new BinaryReader( shiftJisMs );
+                var shiftJisString = shiftJisReader.ReadString( shiftJisData.Length );
+                Assert.AreEqual( "あいうえお", shiftJisString );
+            }
+
+            // Read and decode ASCII string
+            using ( var asciiMs = new MemoryStream( asciiData ) )
+            {
+                var asciiReader = new BinaryReader( asciiMs );
+                var asciiString = asciiReader.ReadString( asciiData.Length );
+                Assert.AreEqual( "Hello", asciiString );
+            }
+        }
+
 
         [TestMethod]
         public void TestRead( )

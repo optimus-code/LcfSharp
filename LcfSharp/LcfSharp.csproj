@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -18,6 +18,9 @@
 	  <PackageProjectUrl>https://github.com/optimus-code/LcfSharp</PackageProjectUrl>
 	  <PackageIconUrl>https://raw.githubusercontent.com/optimus-code/LcfSharp/main/icon.png</PackageIconUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
+  </ItemGroup>
 
   <ItemGroup>
 	  <None Update="LICENSE" Pack="true" PackagePath="" />

@@ -28,14 +28,18 @@
 /// </copyright>
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using UtfUnknown;
 
 namespace LcfSharp.IO.Extensions
 {
     public static class BinaryReaderExtensions
     {
+        private static readonly Encoding _shiftJis = Encoding.GetEncoding( 932 );
+
         /// <summary>
         /// Read an ASCII string with no length prefixed
         /// </summary>
@@ -44,7 +48,13 @@ namespace LcfSharp.IO.Extensions
         /// <returns></returns>
         public static string ReadString(this BinaryReader br, int length )
         {
-            return Encoding.ASCII.GetString(br.ReadBytes(length));
+            var buffer = br.ReadBytes( length );
+            var result = CharsetDetector.DetectFromBytes( buffer );
+
+            if ( result.Detected.Encoding == _shiftJis )
+                return _shiftJis.GetString( buffer );
+
+            return Encoding.ASCII.GetString(buffer);
         }
 
         /// <summary>
