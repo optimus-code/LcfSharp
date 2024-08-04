@@ -48,10 +48,13 @@ namespace LcfSharp.IO.Extensions
         /// <returns></returns>
         public static string ReadString(this BinaryReader br, int length )
         {
+            if ( length == 0 )
+                return null;
+
             var buffer = br.ReadBytes( length );
             var result = CharsetDetector.DetectFromBytes( buffer );
 
-            if ( result.Detected.Encoding == _shiftJis )
+            if ( result?.Detected?.Encoding == _shiftJis )
                 return _shiftJis.GetString( buffer );
 
             return Encoding.ASCII.GetString(buffer);
