@@ -27,80 +27,33 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-namespace LcfSharp.Rpg.Maps
+namespace LcfSharp.Chunks.MapTree
 {
-    public class Start
+    public enum StartChunk : int
     {
-        public int PartyMapID
-        {
-            get;
-            set;
-        } = 0;
-
-        public int PartyX
-        {
-            get;
-            set;
-        } = 0;
-
-        public int PartyY
-        {
-            get;
-            set;
-        } = 0;
-
-        public int BoatMapID
-        {
-            get;
-            set;
-        } = 0;
-
-        public int BoatX
-        {
-            get;
-            set;
-        } = 0;
-
-        public int BoatY
-        {
-            get;
-            set;
-        } = 0;
-
-        public int ShipMapID
-        {
-            get;
-            set;
-        } = 0;
-
-        public int ShipX
-        {
-            get;
-            set;
-        } = 0;
-
-        public int ShipY
-        {
-            get;
-            set;
-        } = 0;
-
-        public int AirshipMapID
-        {
-            get;
-            set;
-        } = 0;
-
-        public int AirshipX
-        {
-            get;
-            set;
-        } = 0;
-
-        public int AirshipY
-        {
-            get;
-            set;
-        } = 0;
+        /* Integer */
+        PartyMapID = 0x01,
+        /* Integer */
+        PartyX = 0x02,
+        /* Integer */
+        PartyY = 0x03,
+        /* Integer */
+        BoatMapID = 0x0B,
+        /* Integer */
+        BoatX = 0x0C,
+        /* Integer */
+        BoatY = 0x0D,
+        /* Integer */
+        ShipMapID = 0x15,
+        /* Integer */
+        ShipX = 0x16,
+        /* Integer */
+        ShipY = 0x17,
+        /* Integer */
+        AirshipMapID = 0x1F,
+        /* Integer */
+        AirshipX = 0x20,
+        /* Integer */
+        AirshipY = 0x21
     }
 }

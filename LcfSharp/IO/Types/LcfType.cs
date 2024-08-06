@@ -100,14 +100,15 @@ namespace LcfSharp.IO.Types
         {
             Properties = LcfProperty.Get( type );
 
+            IDProperty = GetIDProperty( );
+
             var chunkAttribute = type.GetCustomAttribute<LcfChunkAttribute>( );
 
-            if ( chunkAttribute == null )
-                throw new LcfException( $"Missing LcfChunk attribute on '{type.FullName}'." );
-
-            ChunkEnumType = chunkAttribute.ChunkEnumType;
-            IDProperty = GetIDProperty( );
-            MapChunks( );
+            if ( chunkAttribute != null )
+            {
+                ChunkEnumType = chunkAttribute.ChunkEnumType;
+                MapChunks( );
+            }
         }
 
         /// <summary>

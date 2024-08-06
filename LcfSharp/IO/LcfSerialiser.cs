@@ -133,6 +133,18 @@ namespace LcfSharp.IO
                         throw new LcfInvalidHeaderException( "LcfDatabase", header ?? "NULL" );
                     }
                     return header;
+
+                case LcfFormat.LMT:
+                    headerLength = reader.ReadVarInt32( );
+                    header = reader.ReadString( headerLength );
+
+                    if ( string.IsNullOrEmpty( header )
+                        || header.Length != 10
+                        || header != "LcfMapTree" )
+                    {
+                        throw new LcfInvalidHeaderException( "LcfMapTree", header ?? "NULL" );
+                    }
+                    return header;
             }
 
             return null;
@@ -149,6 +161,12 @@ namespace LcfSharp.IO
             {
                 case LcfFormat.LDB:
                     var header = "LcfDataBase";
+                    writer.WriteVarInt32( header.Length );
+                    writer.WriteString( header );
+                    break;
+
+                case LcfFormat.LMT:
+                    header = "LcfMapTree";
                     writer.WriteVarInt32( header.Length );
                     writer.WriteString( header );
                     break;

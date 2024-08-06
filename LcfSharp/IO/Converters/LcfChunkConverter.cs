@@ -27,6 +27,7 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.MapTree;
 using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Extensions;
 using LcfSharp.IO.Types;
@@ -116,6 +117,10 @@ namespace LcfSharp.IO.Converters
             var properties = lcfType.Properties;
             var chunkEnumType = lcfType.ChunkEnumType;
 
+            if ( lcfType.ChunkEnumType == typeof(MapInfoChunk))
+            {
+
+            }
             while ( reader.BaseStream.Position < reader.BaseStream.Length )
             {
                 var chunkID = reader.ReadVarInt32( );
@@ -125,6 +130,10 @@ namespace LcfSharp.IO.Converters
 
                 var chunkLength = reader.ReadVarInt32( );
 
+                if ( lcfType.ChunkEnumType == typeof( MapInfoChunk ) )
+                {
+
+                }
                 if ( Enum.IsDefined( chunkEnumType, chunkID ) )
                 {
                     LcfProperty match = lcfType.GetPropertyByChunkID( chunkID );
@@ -179,6 +188,10 @@ namespace LcfSharp.IO.Converters
 
             _lengthEvaluations.Clear( );
 
+            if ( lcfType.ChunkEnumType == typeof( MapInfoChunk ) )
+            {
+
+            }
             return obj;
         }
 

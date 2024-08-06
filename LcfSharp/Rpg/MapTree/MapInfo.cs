@@ -27,145 +27,181 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.MapTree;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using LcfSharp.Rpg.Audio;
 using System.Collections.Generic;
 
-namespace LcfSharp.Rpg.Maps
+namespace LcfSharp.Rpg.MapTree
 {
-    public enum MapInfoMusicType
-    {
-        Parent = 0,
-        Event = 1,
-        Specific = 2
-    }
-
-    public enum MapInfoBGMType
-    {
-        Parent = 0,
-        Terrain = 1,
-        Specific = 2
-    }
-
-    public enum MapInfoTriState
-    {
-        Parent = 0,
-        Allow = 1,
-        Forbid = 2
-    }
-
+    /// <summary>
+    /// Represents the information for a map
+    /// </summary>
+    [LcfChunk<MapInfoChunk>]
     public class MapInfo
     {
+        /// <summary>
+        /// Gets or sets the unique identifier for the map.
+        /// </summary>
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the name of the map.
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the ID of the parent map.
+        /// </summary>
         public int ParentMap
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the indentation level of the map.
+        /// </summary>
         public int Indentation
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the type of the map.
+        /// </summary>
         public int Type
         {
             get;
             set;
         } = -1;
 
+        /// <summary>
+        /// Gets or sets the X coordinate of the scrollbar position.
+        /// </summary>
         public int ScrollbarX
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the Y coordinate of the scrollbar position.
+        /// </summary>
         public int ScrollbarY
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the node is expanded in the editor.
+        /// </summary>
         public bool ExpandedNode
         {
             get;
             set;
         }
 
-        public int MusicType
+        /// <summary>
+        /// Gets or sets the music type for the map.
+        /// </summary>
+        public MapInfoMusicType MusicType
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the music settings for the map.
+        /// </summary>
         public Music Music
         {
             get;
             set;
         }
 
-        public int BackgroundType
+        /// <summary>
+        /// Gets or sets the background music type for the map.
+        /// </summary>
+        public MapInfoBGMType BackgroundType
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the name of the background for the map.
+        /// </summary>
         public string BackgroundName
         {
             get;
             set;
         }
 
-        public int Teleport
+        /// <summary>
+        /// Gets or sets the teleportation setting for the map.
+        /// </summary>
+        public MapInfoTriState Teleport
         {
             get;
             set;
         }
 
-        public int Escape
+        /// <summary>
+        /// Gets or sets the escape setting for the map.
+        /// </summary>
+        public MapInfoTriState Escape
         {
             get;
             set;
         }
 
-        public int Save
+        /// <summary>
+        /// Gets or sets the save setting for the map.
+        /// </summary>
+        public MapInfoTriState Save
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the list of encounters on the map.
+        /// </summary>
         public List<Encounter> Encounters
         {
             get;
             set;
-        } = [];
+        } = new List<Encounter>( );
 
+        /// <summary>
+        /// Gets or sets the number of steps between encounters.
+        /// </summary>
         public int EncounterSteps
         {
             get;
             set;
         } = 25;
 
-        public Rect AreaRect
+        /// <summary>
+        /// Gets or sets the area rectangle for the map.
+        /// </summary>
+        public Rectangle AreaRect
         {
             get;
             set;
-        }
-
-        // Temp
-        public struct Rect
-        {
         }
     }
 }

@@ -27,20 +27,11 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-namespace LcfSharp.Rpg.Maps
+namespace LcfSharp.Chunks.MapTree
 {
-    public class Encounter
+    public enum EncounterChunk : int
     {
-        public int ID
-        {
-            get;
-            set;
-        }
-
-        public int TroopID
-        {
-            get;
-            set;
-        }
+        /* Integer */
+        TroopID = 0x01
     }
 }

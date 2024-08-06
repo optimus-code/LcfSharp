@@ -64,6 +64,7 @@ namespace LcfSharp.IO.Converters
             { typeof(short), new LcfInt16Converter() },
             { typeof(int), new LcfInt32Converter() },
             { typeof(long), new LcfInt64Converter() },
+            { typeof(Rectangle), new LcfRectangleConverter() },
             { typeof(EventCommand), new LcfEventCommandConverter() }
         };
 

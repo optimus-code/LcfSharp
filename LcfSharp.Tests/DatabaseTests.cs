@@ -1,6 +1,5 @@
 ﻿using LcfSharp.IO;
 using LcfSharp.IO.Extensions;
-using LcfSharp.Rpg;
 using System.Text;
 
 namespace LcfSharp.Tests
@@ -50,7 +49,7 @@ namespace LcfSharp.Tests
         [TestMethod]
         public void TestRead( )
         {
-            var db = Database.Load( Path.Combine( "Data", "RPG_RT.ldb" ) );
+            var db = LdbFile.Load( Path.Combine( "Data", "RPG_RT.ldb" ) );
 
             Assert.IsNotNull( db );
             Assert.IsTrue( db.Actors.Count == 8 );
@@ -140,7 +139,7 @@ namespace LcfSharp.Tests
         [TestMethod]
         public void TestRW( )
         {
-            var db = Database.Load( Path.Combine( "Data", "RPG_RT_rw.ldb" ) );
+            var db = LdbFile.Load( Path.Combine( "Data", "RPG_RT_rw.ldb" ) );
 
             Assert.IsNotNull( db );
             Assert.IsTrue( db.Actors[0].Name == "Ryle" );
@@ -149,6 +148,14 @@ namespace LcfSharp.Tests
             Assert.IsTrue( db.Actors[3].Name == "Latyss" );
             Assert.IsTrue( db.Actors[4].Name == "Hayami" );
             Assert.IsTrue( db.Actors[5].Name == "Fina" );
+        }
+
+        [TestMethod]
+        public void TestLMT( )
+        {
+            var mapTree = LmtFile.Load( Path.Combine( "Data", "RPG_RT.lmt" ) );
+
+            Assert.IsNotNull( mapTree );
         }
     }
 }

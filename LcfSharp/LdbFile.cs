@@ -32,6 +32,7 @@ using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Converters;
 using LcfSharp.IO.Types;
+using LcfSharp.Rpg;
 using LcfSharp.Rpg.Actors;
 using LcfSharp.Rpg.Animations;
 using LcfSharp.Rpg.Attributes;
@@ -51,13 +52,13 @@ using LcfSharp.Rpg.Troops;
 using System.Collections.Generic;
 using System.IO;
 
-namespace LcfSharp.Rpg
+namespace LcfSharp
 {
     /// <summary>
     /// Class representing the RPG Maker database containing various game data.
     /// </summary>
     [LcfChunk<DatabaseChunk>]
-    public class Database : ILcfRootChunk
+    public class LdbFile : ILcfRootChunk
     {
         /// <summary>
         /// The header of the database.
@@ -216,7 +217,7 @@ namespace LcfSharp.Rpg
         /// <summary>
         /// The battle commands settings for RPG Maker 2003.
         /// </summary>
-        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersist]
         public BattleCommands BattleCommands
         {
@@ -227,7 +228,7 @@ namespace LcfSharp.Rpg
         /// <summary>
         /// The list of classes in the database for RPG Maker 2003.
         /// </summary>
-        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersist]
         public List<Class> Classes
         {
@@ -238,7 +239,7 @@ namespace LcfSharp.Rpg
         /// <summary>
         /// The list of battler animations in the database for RPG Maker 2003.
         /// </summary>
-        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         [LcfAlwaysPersist]
         public List<BattlerAnimation> BattlerAnimations
         {
@@ -251,11 +252,11 @@ namespace LcfSharp.Rpg
         /// </summary>
         /// <param name="path">The file path of the database.</param>
         /// <returns>The loaded Database object.</returns>
-        public static Database Load( string path )
+        public static LdbFile Load(string path)
         {
-            using ( var stream = File.OpenRead( path ) )
+            using (var stream = File.OpenRead(path))
             {
-                return LcfSerialiser.Deserialise<Database>( stream );
+                return LcfSerialiser.Deserialise<LdbFile>(stream);
             }
         }
     }

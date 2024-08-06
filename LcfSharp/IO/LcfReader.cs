@@ -27,11 +27,13 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Converters;
 using LcfSharp.IO.Extensions;
 using LcfSharp.IO.Types;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace LcfSharp.IO
 {
@@ -80,8 +82,20 @@ namespace LcfSharp.IO
         /// <returns>An object of declared type.</returns>
         private ILcfRootChunk Deserialise( Type type )
         {
-            var chunkReader = new LcfChunkConverter( type );
-            return ( ILcfRootChunk ) chunkReader.Read( _reader, null );
+            var hasChunkAttribute = type.GetCustomAttribute<LcfChunkAttribute>( true ) != null;
+
+            // If it has a chunk attribute use a chunk converter
+            if ( hasChunkAttribute )
+            {
+                var chunkReader = new LcfChunkConverter( type );
+                return ( ILcfRootChunk ) chunkReader.Read( _reader, null );
+            }
+            // Otherwise use class converter
+            else
+            {
+                var classReader = new LcfClassConverter( type );
+                return ( ILcfRootChunk ) classReader.Read( _reader, null );
+            }
         }
 
         /// <summary>
