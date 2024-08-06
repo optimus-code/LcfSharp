@@ -27,6 +27,7 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Events;
 using LcfSharp.IO.Attributes;
 using System.Collections.Generic;
 
@@ -35,6 +36,7 @@ namespace LcfSharp.Rpg.Events
     /// <summary>
     /// Class representing an event in the game.
     /// </summary>
+    [LcfChunk<EventChunk>]
     public class Event
     {
         /// <summary>

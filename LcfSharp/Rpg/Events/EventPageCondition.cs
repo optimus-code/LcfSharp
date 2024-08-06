@@ -27,6 +27,7 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Events;
 using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Events
@@ -41,6 +42,7 @@ namespace LcfSharp.Rpg.Events
         NotEqual = 5
     }
 
+    [LcfChunk<EventPageConditionChunk>]
     public class EventPageCondition
     {
         public EventPageConditionFlags Flags 

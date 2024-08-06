@@ -34,6 +34,9 @@
     <None Update="Data\Map0001.lmu">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Map0056.lmu">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\RPG_RT.ldb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

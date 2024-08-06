@@ -27,36 +27,21 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
+using LcfSharp.Chunks.Maps;
+using LcfSharp.IO;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using LcfSharp.Rpg.Events;
+using System.Collections.Generic;
+using System.IO;
 
-namespace LcfSharp.Rpg.Maps
+namespace LcfSharp
 {
-    public enum MapScrollType
+    [LcfChunk<MapChunk>]
+    public class LmuFile : ILcfRootChunk
     {
-        None = 0,
-        Vertical = 1,
-        Horizontal = 2,
-        Both = 3
-    }
-
-    public enum MapGeneratorMode
-    {
-        SinglePassage = 0,
-        LinkedRooms = 1,
-        MazePassage = 2,
-        OpenRoom = 3
-    }
-
-    public enum MapGeneratorTiles
-    {
-        One = 0,
-        Two = 1
-    }
-
-    public class Map
-    {
-        public string LmuHeader
+        [LcfIgnore]
+        public string Header
         {
             get;
             set;
@@ -206,18 +191,21 @@ namespace LcfSharp.Rpg.Maps
             set;
         } = true;
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public List<uint> GeneratorX
         {
             get;
             set;
         } = [];
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public List<uint> GeneratorY
         {
             get;
             set;
         } = [];
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public List<short> GeneratorTileIDs
         {
             get;
@@ -242,6 +230,7 @@ namespace LcfSharp.Rpg.Maps
             set;
         } = [];
 
+        [LcfVersion(LcfEngineVersion.RM2K3)]
         public int SaveCount2k3e
         {
             get;
@@ -252,6 +241,19 @@ namespace LcfSharp.Rpg.Maps
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Loads the map from the specified file path.
+        /// </summary>
+        /// <param name="path">The file path of the map.</param>
+        /// <returns>The loaded <see cref="LmuFile"/> object.</returns>
+        public static LmuFile Load( string path )
+        {
+            using ( var stream = File.OpenRead( path ) )
+            {
+                return LcfSerialiser.Deserialise<LmuFile>( stream, new LcfSerialiserOptions { Format = LcfFormat.LMU } );
+            }
         }
     }
 }

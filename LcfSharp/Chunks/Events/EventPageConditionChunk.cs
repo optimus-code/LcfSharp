@@ -27,31 +27,38 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Events;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Events
+namespace LcfSharp.Chunks.Events
 {
-    [LcfChunk<MoveRouteChunk>]
-    public class MoveRoute
+    public enum EventPageConditionChunk : int
     {
-        public List<MoveCommand> Commands
-        {
-            get;
-            set;
-        }
+        /* Bitflag */
+        Flags = 0x01,
 
-        public bool Repeat
-        {
-            get;
-            set;
-        } = true;
+        /* Integer */
+        SwitchAID = 0x02,
 
-        public bool Skippable
-        {
-            get;
-            set;
-        } = false;
+        /* Integer */
+        SwitchBID = 0x03,
+
+        /* Integer */
+        VariableID = 0x04,
+
+        /* Integer */
+        VariableValue = 0x05,
+
+        /* Integer */
+        ItemID = 0x06,
+
+        /* Integer */
+        ActorID = 0x07,
+
+        /* Integer */
+        TimerSec = 0x08,
+
+        /* Integer - RPG2003 */
+        Timer2Sec = 0x09,
+
+        /* Integer - RPG2003 */
+        CompareOperator = 0x0A
     }
 }

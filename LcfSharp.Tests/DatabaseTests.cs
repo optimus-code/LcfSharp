@@ -47,7 +47,7 @@ namespace LcfSharp.Tests
 
 
         [TestMethod]
-        public void TestRead( )
+        public void TestLdb( )
         {
             var db = LdbFile.Load( Path.Combine( "Data", "RPG_RT.ldb" ) );
 
@@ -137,7 +137,7 @@ namespace LcfSharp.Tests
         }
 
         [TestMethod]
-        public void TestRW( )
+        public void TestLdbRW( )
         {
             var db = LdbFile.Load( Path.Combine( "Data", "RPG_RT_rw.ldb" ) );
 
@@ -156,6 +156,14 @@ namespace LcfSharp.Tests
             var mapTree = LmtFile.Load( Path.Combine( "Data", "RPG_RT.lmt" ) );
 
             Assert.IsNotNull( mapTree );
+        }
+
+        [TestMethod]
+        public void TestLMU( )
+        {
+            var map = LmuFile.Load( Path.Combine( "Data", "Map0056.lmu" ) );
+
+            Assert.IsNotNull( map );
         }
     }
 }

@@ -27,31 +27,11 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Events;
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
-
-namespace LcfSharp.Rpg.Events
+namespace LcfSharp.Rpg.Maps
 {
-    [LcfChunk<MoveRouteChunk>]
-    public class MoveRoute
+    public enum MapGeneratorTiles
     {
-        public List<MoveCommand> Commands
-        {
-            get;
-            set;
-        }
-
-        public bool Repeat
-        {
-            get;
-            set;
-        } = true;
-
-        public bool Skippable
-        {
-            get;
-            set;
-        } = false;
+        One = 0,
+        Two = 1
     }
 }

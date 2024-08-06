@@ -250,8 +250,8 @@ namespace LcfSharp
         /// <summary>
         /// Loads the database from the specified file path.
         /// </summary>
-        /// <param name="path">The file path of the database.</param>
-        /// <returns>The loaded Database object.</returns>
+        /// <param name="path">The file path of the map tree.</param>
+        /// <returns>The loaded Map Tree object.</returns>
         public static LdbFile Load(string path)
         {
             using (var stream = File.OpenRead(path))
