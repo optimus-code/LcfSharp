@@ -156,14 +156,20 @@ namespace LcfSharp.Tests
             var mapTree = LmtFile.Load( Path.Combine( "Data", "RPG_RT.lmt" ) );
 
             Assert.IsNotNull( mapTree );
+
+            Assert.IsTrue( mapTree.Maps[0].Name == "Romancing Walker" );
+            Assert.IsTrue( mapTree.Maps[1].Name == "Main MAP" );
         }
 
         [TestMethod]
         public void TestLMU( )
         {
-            var map = LmuFile.Load( Path.Combine( "Data", "Map0056.lmu" ) );
+            var map = LmuFile.Load( Path.Combine( "Data", "Map0001.lmu" ) );
 
             Assert.IsNotNull( map );
+
+            Assert.IsTrue( map.Width == 100 );
+            Assert.IsTrue( map.Height == 135 );
         }
     }
 }

@@ -18,12 +18,12 @@ Install-Package LcfSharp
 
 ## Usage
 
-To use existing types provided by LcfSharp, such as `Database`, you can deserialise an Lcf file with the following code snippet:
+To use existing types provided by LcfSharp, such as `LdbFile`, you can deserialise an Lcf file with the following code snippet:
 
 ```csharp
 using (var stream = File.OpenRead(path))
 {
-    return LcfSerialiser.Deserialise<Database>(stream);
+    return LcfSerialiser.Deserialise<LdbFile>(stream);
 }
 ```
 
