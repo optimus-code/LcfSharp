@@ -20,10 +20,12 @@ jobs:
     
     - name: Build for All Target Frameworks
       run: dotnet build --configuration Release --no-restore ./LcfSharp/LcfSharp.csproj
-    
-    # Optional Test Step - Uncomment if tests are available
-    #- name: Test
-    #  run: dotnet test --no-build --verbosity normal ./LcfSharp.Tests/LcfSharp.Tests.csproj
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./LcfSharp/LcfSharp/bin/Release
 
   publish:
     needs: build
@@ -32,14 +34,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
         
-    - name: Restore dependencies
-      run: dotnet restore ./LcfSharp/LcfSharp.csproj
-    
     - name: Pack NuGet package
       run: dotnet pack --configuration Release --no-build --output ./nupkg ./LcfSharp/LcfSharp.csproj
     
