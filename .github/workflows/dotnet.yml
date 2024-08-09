@@ -20,6 +20,9 @@ jobs:
     
     - name: Build for All Target Frameworks
       run: dotnet build --configuration Release --no-restore ./LcfSharp/LcfSharp.csproj
+    
+    - name: Verify Build Output
+      run: ls -R ./LcfSharp/LcfSharp/bin/Release
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
