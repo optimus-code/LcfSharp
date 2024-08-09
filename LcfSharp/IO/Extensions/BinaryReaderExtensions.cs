@@ -28,11 +28,9 @@
 /// </copyright>
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using UtfUnknown;
 
 namespace LcfSharp.IO.Extensions
 {
@@ -46,18 +44,18 @@ namespace LcfSharp.IO.Extensions
         /// <param name="br"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static string ReadString(this BinaryReader br, int length )
+        public static string ReadString( this BinaryReader br, int length )
         {
             if ( length == 0 )
                 return null;
 
             var buffer = br.ReadBytes( length );
-            var result = CharsetDetector.DetectFromBytes( buffer );
+            //var result = CharsetDetector.DetectFromBytes( buffer );
 
-            if ( result?.Detected?.Encoding == _shiftJis )
-                return _shiftJis.GetString( buffer );
+            //if ( result?.Detected?.Encoding == _shiftJis )
+            //    return _shiftJis.GetString( buffer );
 
-            return Encoding.ASCII.GetString(buffer);
+            return Encoding.ASCII.GetString( buffer );
         }
 
         /// <summary>
@@ -66,15 +64,15 @@ namespace LcfSharp.IO.Extensions
         /// <param name="br"></param>
         /// <param name="size">The number of short values to read.</param>
         /// <returns>A list of short values.</returns>
-        public static List<short> ReadInt16List(this BinaryReader br, int size )
+        public static List<short> ReadInt16List( this BinaryReader br, int size )
         {
-            if (size == 0)
+            if ( size == 0 )
                 return [];
 
-            var buffer = new List<short>();
+            var buffer = new List<short>( );
 
-            for (var i = 0; i < size; i++)
-                buffer.Add(br.ReadInt16());
+            for ( var i = 0; i < size; i++ )
+                buffer.Add( br.ReadInt16( ) );
 
             return buffer;
         }
@@ -87,25 +85,25 @@ namespace LcfSharp.IO.Extensions
         /// <param name="br"></param>
         /// <returns></returns>
         /// <exception cref="FormatException"></exception>
-        public static int ReadVarInt32(this BinaryReader br)
+        public static int ReadVarInt32( this BinaryReader br )
         {
             var result = 0;
             var loops = 0;
 
-            while (true)
+            while ( true )
             {
-                var byteReadJustNow = br.ReadByte();
+                var byteReadJustNow = br.ReadByte( );
                 result <<= 7;
                 result |= byteReadJustNow & 0x7F;
 
-                if ((byteReadJustNow & 0x80) == 0)
+                if ( ( byteReadJustNow & 0x80 ) == 0 )
                 {
                     break;
                 }
 
-                if (loops > 5)
+                if ( loops > 5 )
                 {
-                    throw new FormatException("Bad 7-bit encoded integer.");
+                    throw new FormatException( "Bad 7-bit encoded integer." );
                 }
 
                 loops++;
@@ -150,18 +148,18 @@ namespace LcfSharp.IO.Extensions
         }
 
 
-        public static byte? PeekByte(this BinaryReader br)
+        public static byte? PeekByte( this BinaryReader br )
         {
             var stream = br.BaseStream;
 
-            if (stream.Position >= stream.Length)
+            if ( stream.Position >= stream.Length )
                 return null;
 
-            if (!stream.CanSeek)
+            if ( !stream.CanSeek )
                 return null;
 
             var origPos = stream.Position;
-            var value = br.ReadByte();
+            var value = br.ReadByte( );
             stream.Position = origPos;
             return value;
         }

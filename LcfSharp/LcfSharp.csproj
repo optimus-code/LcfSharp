@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+	<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
 	  <PackageId>LcfSharp</PackageId>
-	  <Version>0.0.4</Version>
+	  <Version>0.0.5</Version>
 	  <Authors>optimus-code</Authors>
 	  <Product>LcfSharp</Product>
 	  <Description>LcfSharp is a .NET library for handling LCF data structures, providing essential functionalities for reading, writing, and manipulating LCF files.</Description>

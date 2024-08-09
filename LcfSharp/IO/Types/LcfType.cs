@@ -29,10 +29,10 @@
 
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Exceptions;
-using System.Collections.Generic;
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace LcfSharp.IO.Types
 {
@@ -118,10 +118,26 @@ namespace LcfSharp.IO.Types
         {
             foreach ( var property in Properties )
             {
-                if ( Enum.TryParse( ChunkEnumType, property.Property.Name, out var enumValue )
-                    && property.IsAllowed )
+                // Attempt to parse the enum value using reflection
+                object enumValue = null;
+                bool isValidEnum = false;
+
+                try
                 {
-                    Chunks[( int ) enumValue] = property;
+                    enumValue = Enum.Parse( ChunkEnumType, property.Property.Name );
+                    isValidEnum = Enum.IsDefined( ChunkEnumType, enumValue );
+                }
+                catch
+                {
+                    // Parsing failed, invalid enum value
+                    isValidEnum = false;
+                }
+
+                if ( isValidEnum && property.IsAllowed )
+                {
+                    // Cast the enumValue to the actual enum type
+                    var enumIntValue = ( int ) enumValue;
+                    Chunks[enumIntValue] = property;
 
                     if ( property.Size != null )
                         SizeChunks.Add( property.Size.ChunkID, property );

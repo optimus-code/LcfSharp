@@ -144,7 +144,7 @@ namespace LcfSharp.IO.Converters
             {
                 resultantConverter = new LcfEnumConverter( type );
             }
-            else if ( type.IsAssignableTo( typeof( IDbFlags ) ) )
+            else if ( typeof( IDbFlags ).IsAssignableFrom( type ) )
             {
                 resultantConverter = new LcfDbFlagsConverter( type );
             }

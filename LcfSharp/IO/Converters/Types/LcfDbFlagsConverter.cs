@@ -76,7 +76,7 @@ namespace LcfSharp.IO.Converters.Types
         {
             Type = type;
 
-            if ( !Type.IsAssignableTo( typeof( IDbFlags ) ) )
+            if ( !typeof( IDbFlags ).IsAssignableFrom( Type ) )
                 throw new LcfException( "Invalid DbFlags type, does not inherit from IDbFlags." );
 
             Properties = LcfConverterFactory.GetProperties( type )
