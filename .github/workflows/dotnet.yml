@@ -18,11 +18,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./LcfSharp/LcfSharp.csproj
     
-    - name: Build and Pack NuGet package
-      run: |
-        dotnet build --configuration Release --no-restore ./LcfSharp/LcfSharp.csproj
-        dotnet pack --configuration Release --no-build --output ./nupkg ./LcfSharp/LcfSharp.csproj
-
+    - name: Build for All Target Frameworks
+      run: dotnet build --configuration Release --no-restore ./LcfSharp/LcfSharp.csproj
+    
     # Optional Test Step - Uncomment if tests are available
     #- name: Test
     #  run: dotnet test --no-build --verbosity normal ./LcfSharp.Tests/LcfSharp.Tests.csproj
@@ -42,7 +40,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./LcfSharp/LcfSharp.csproj
     
-    - name: Build and Pack NuGet package
+    - name: Pack NuGet package
       run: dotnet pack --configuration Release --no-build --output ./nupkg ./LcfSharp/LcfSharp.csproj
     
     - name: Publish NuGet package to GitHub Packages
