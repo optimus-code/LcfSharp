@@ -1,4 +1,7 @@
-﻿namespace LcfSharp.Tests
+﻿using System.IO;
+using System.Linq;
+
+namespace LcfSharp.Tests
 {
     [TestClass]
     public class Ldb : LcfTester
@@ -64,16 +67,16 @@
             Assert.IsTrue( troop1.Members[0].EnemyID == 1 );
             Assert.IsTrue( troop1.Members[1].EnemyID == 1 );
             Assert.IsTrue( troop1.TerrainSet.Count == 10 );
-            Assert.IsTrue( troop1.TerrainSet[0] == true );
-            Assert.IsTrue( troop1.TerrainSet[1] == true );
-            Assert.IsTrue( troop1.TerrainSet[2] == true );
-            Assert.IsTrue( troop1.TerrainSet[3] == true );
-            Assert.IsTrue( troop1.TerrainSet[4] == true );
-            Assert.IsTrue( troop1.TerrainSet[5] == true );
-            Assert.IsTrue( troop1.TerrainSet[6] == true );
-            Assert.IsTrue( troop1.TerrainSet[7] == true );
-            Assert.IsTrue( troop1.TerrainSet[8] == false );
-            Assert.IsTrue( troop1.TerrainSet[9] == false );
+            Assert.IsTrue( troop1.TerrainSet[0] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[1] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[2] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[3] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[4] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[5] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[6] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[7] == 1 );
+            Assert.IsTrue( troop1.TerrainSet[8] == 0 );
+            Assert.IsTrue( troop1.TerrainSet[9] == 0 );
 
             Assert.IsTrue( db.Troops[1].Name == "Slimex3" );
 
@@ -105,6 +108,9 @@
             Assert.IsTrue( db.Actors[3].Name == "Latyss" );
             Assert.IsTrue( db.Actors[4].Name == "Hayami" );
             Assert.IsTrue( db.Actors[5].Name == "Fina" );
+
+            Assert.IsTrue( db.Skills[4].Name == "$YStun Claw" );
+            Assert.IsTrue( db.Skills[4].StateEffects.Count == 8 && db.Skills[4].StateEffects.Last() == 1 );
         }
     }
 }

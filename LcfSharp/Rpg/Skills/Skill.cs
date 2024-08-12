@@ -228,7 +228,7 @@ namespace LcfSharp.Rpg.Skills
 
         [LcfAlwaysPersist]
         [LcfSize( ( int ) SkillChunk.StateEffectsSize, NoSizeWhenEmpty = true )]
-        public List<bool> StateEffects
+        public List<byte> StateEffects
         {
             get;
             set;
@@ -236,7 +236,7 @@ namespace LcfSharp.Rpg.Skills
 
         [LcfAlwaysPersist]
         [LcfSize( ( int ) SkillChunk.AttributeEffectsSize, NoSizeWhenEmpty = true )]
-        public List<bool> AttributeEffects
+        public List<byte> AttributeEffects
         {
             get;
             set;

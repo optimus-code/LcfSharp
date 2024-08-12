@@ -6,36 +6,23 @@ namespace LcfSharp.IO.Utilities
 {
     internal static class LcfDataDumper
     {
-        /// <summary>
-        /// Dumps a range of bytes from a BinaryReader stream to a .cs file.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="reader">The BinaryReader to read from.</param>
-        /// <param name="onRead">The reading to happen inside this wrapper</param>
-        public static void Dump( Type type, BinaryReader reader, Func<object> onRead )
+        public static void Dump( Type type, BinaryReader reader, long startPosition, long endPosition, object instance )
         {
+            var buffer = new byte[endPosition - startPosition];
 
-
-            long startOffset = reader.BaseStream.Position;
-
-            var instance = onRead?.Invoke( );
-
-            long endOffset = reader.BaseStream.Position;
-
-            byte[] buffer = new byte[endOffset - startOffset];
-
-            reader.BaseStream.Seek( startOffset, SeekOrigin.Begin );
+            reader.BaseStream.Seek( startPosition, SeekOrigin.Begin );
             reader.BaseStream.Read( buffer, 0, buffer.Length );
-            reader.BaseStream.Seek( endOffset, SeekOrigin.Begin );
+            reader.BaseStream.Seek( endPosition, SeekOrigin.Begin );
+
 
             string hexArray = BitConverter.ToString( buffer ).Replace( "-", ", 0x" );
 
             string output = $@"
 // {type.FullName}
-// Start Offset: 0x{startOffset:X}
-// End Offset: 0x{endOffset:X}
-byte[] data = new byte[] {{ 0x{hexArray} }};
-string json = {JsonSerializer.Serialize(instance)}
+// Start Offset: 0x{startPosition:X}
+// End Offset: 0x{endPosition:X}
+byte[] data = [0x{hexArray}];
+var instance = new {type.Name} {{ {JsonSerializer.Serialize( instance ).Replace( "\"", "" )} }};
 ";
             File.AppendAllText( Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Generated2.cs" ), output );
         }

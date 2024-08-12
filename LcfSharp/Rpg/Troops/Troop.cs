@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database.Troops;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Troops
@@ -62,6 +63,7 @@ namespace LcfSharp.Rpg.Troops
         /// The list of members in the troop.
         /// </summary>
         [LcfAlwaysPersist]
+        [LcfAlwaysWriteChunkLength]
         public List<TroopMember> Members
         {
             get;
@@ -82,7 +84,7 @@ namespace LcfSharp.Rpg.Troops
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) TroopChunk.TerrainSetSize )]
-        public List<bool> TerrainSet
+        public List<byte> TerrainSet
         {
             get;
             set;

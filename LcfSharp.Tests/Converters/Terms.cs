@@ -1,4 +1,5 @@
 ﻿using LcfSharp.IO.Converters;
+using System.IO;
 using RpgTerms = LcfSharp.Rpg.Terms;
 
 namespace LcfSharp.Tests.Converters

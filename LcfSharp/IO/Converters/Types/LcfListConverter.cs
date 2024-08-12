@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Extensions;
 using LcfSharp.IO.Types;
+using LcfSharp.Rpg.Troops;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -101,15 +102,16 @@ namespace LcfSharp.IO.Converters.Types
         {
             var list = ( List<T> ) value;
 
+            if ( _elementConverter.Type == typeof( TroopMember ) )
+            {
+
+            }
             if ( writeLength )
                 writer.WriteVarInt32( list.Count );
 
             var i = 1;
             foreach ( var item in list )
             {
-                if ( _hasIDAttribute )
-                    writer.WriteVarInt32( i );
-
                 _elementConverter.Write( writer, item, false );
                 i++;
             }

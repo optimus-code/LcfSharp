@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.States
 {
@@ -175,6 +176,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The type of effect the state has.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public StateAffectType AffectType
         {
             get;
@@ -229,6 +231,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// Indicates whether the state causes the character to avoid attacks.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool AvoidAttacks
         {
             get;
@@ -238,6 +241,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// Indicates whether the state reflects magic.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool ReflectMagic
         {
             get;
@@ -247,6 +251,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// Indicates whether the state is cursed.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool Cursed
         {
             get;
@@ -256,6 +261,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The ID of the battler animation associated with the state. Default is 100.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BattlerAnimationID
         {
             get;

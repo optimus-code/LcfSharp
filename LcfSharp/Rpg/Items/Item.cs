@@ -430,7 +430,7 @@ namespace LcfSharp.Rpg.Items
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ItemChunk.ActorSetSize, NoSizeWhenEmpty = true )]
-        public List<bool> ActorSet
+        public List<byte> ActorSet
         {
             get;
             set;
@@ -441,7 +441,7 @@ namespace LcfSharp.Rpg.Items
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ItemChunk.StateSetSize, NoSizeWhenEmpty = true )]
-        public List<bool> StateSet
+        public List<byte> StateSet
         {
             get;
             set;
@@ -452,7 +452,7 @@ namespace LcfSharp.Rpg.Items
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ItemChunk.AttributeSetSize, NoSizeWhenEmpty = true )]
-        public List<bool> AttributeSet
+        public List<byte> AttributeSet
         {
             get;
             set;
@@ -513,7 +513,7 @@ namespace LcfSharp.Rpg.Items
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ItemChunk.ClassSetSize )]
-        public List<bool> ClassSet
+        public List<byte> ClassSet
         {
             get;
             set;

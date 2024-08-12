@@ -1,23 +1,24 @@
 ﻿using LcfSharp.IO;
 using LcfSharp.IO.Converters;
+using System.IO;
 
 namespace LcfSharp.Tests
 {
     [TestClass]
     public class Numbers
     {
-        private readonly (byte[] data, int value)[] testCases = new[]
-{
-    (new byte[] { 0x84, 0x58 }, 600),              // Correct: 600 -> 0x84, 0x58
-    (new byte[] { 0x81, 0x9D, 0x0E }, 20110),      // Correct: 20110 -> 0x81, 0x9D, 0x0E
-    (new byte[] { 0x00 }, 0),                      // Correct: 0 -> 0x00
-    (new byte[] { 0x7F }, 127),                    // Correct: 127 -> 0x7F
-    (new byte[] { 0x81, 0x00 }, 128),              // Correct: 128 -> 0x81, 0x00
-    (new byte[] { 0xFF, 0x7F }, 16383),            // Correct: 16383 -> 0xFF, 0x7F
-    (new byte[] { 0x81, 0x80, 0x00 }, 16384),      // Correct: 16384 -> 0x81, 0x80, 0x00
-    (new byte[] { 0xFF, 0xFF, 0x7F }, 2097151),    // Correct: 2097151 -> 0xFF, 0xFF, 0x7F
-    (new byte[] { 0xFF, 0xFF, 0xFF, 0x7F }, 268435455) // Correct: 268435455 -> 0xFF, 0xFF, 0xFF, 0x7F
-};
+        private readonly (byte[] data, int value)[] testCases =
+        [
+            ([0x84, 0x58], 600),              // Correct: 600 -> 0x84, 0x58
+            ([0x81, 0x9D, 0x0E], 20110),      // Correct: 20110 -> 0x81, 0x9D, 0x0E
+            ([0x00], 0),                      // Correct: 0 -> 0x00
+            ([0x7F], 127),                    // Correct: 127 -> 0x7F
+            ([0x81, 0x00], 128),              // Correct: 128 -> 0x81, 0x00
+            ([0xFF, 0x7F], 16383),            // Correct: 16383 -> 0xFF, 0x7F
+            ([0x81, 0x80, 0x00], 16384),      // Correct: 16384 -> 0x81, 0x80, 0x00
+            ([0xFF, 0xFF, 0x7F], 2097151),    // Correct: 2097151 -> 0xFF, 0xFF, 0x7F
+            ([0xFF, 0xFF, 0xFF, 0x7F], 268435455) // Correct: 268435455 -> 0xFF, 0xFF, 0xFF, 0x7F
+        ];
 
 
 

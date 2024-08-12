@@ -27,51 +27,15 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-namespace LcfSharp.Chunks.Database
+using System;
+
+namespace LcfSharp.IO.Attributes
 {
-    public enum StateChunk : int
+    /// <summary>
+    /// Indicates that the object should always write chunk length (Typically for arrays/lists(
+    /// </summary>
+    [AttributeUsage( AttributeTargets.Property, AllowMultiple = false, Inherited = true )]
+    public class LcfAlwaysWriteChunkLengthAttribute : Attribute
     {
-        Name = 0x01,
-        Type = 0x02,
-        Color = 0x03,
-        Priority = 0x04,
-        Restriction = 0x05,
-        ARate = 0x0B,
-        BRate = 0x0C,
-        CRate = 0x0D,
-        DRate = 0x0E,
-        ERate = 0x0F,
-        HoldTurn = 0x15,
-        AutoReleaseProb = 0x16,
-        ReleaseByDamage = 0x17,
-        AffectType = 0x1E,
-        AffectAttack = 0x1F,
-        AffectDefense = 0x20,
-        AffectSpirit = 0x21,
-        AffectAgility = 0x22,
-        ReduceHitRatio = 0x23,
-        AvoidAttacks = 0x24,
-        ReflectMagic = 0x25,
-        Cursed = 0x26,
-        BattlerAnimationID = 0x27,
-        RestrictSkill = 0x29,
-        RestrictSkillLevel = 0x2A,
-        RestrictMagic = 0x2B,
-        RestrictMagicLevel = 0x2C,
-        HPChangeType = 0x2D,
-        SPChangeType = 0x2E,
-        MessageActor = 0x33,
-        MessageEnemy = 0x34,
-        MessageAlready = 0x35,
-        MessageAffected = 0x36,
-        MessageRecovery = 0x37,
-        HPChangeMax = 0x3D,
-        HPChangeVal = 0x3E,
-        HPChangeMapSteps = 0x3F,
-        HPChangeMapVal = 0x40,
-        SPChangeMax = 0x41,
-        SPChangeVal = 0x42,
-        SPChangeMapSteps = 0x43,
-        SPChangeMapVal = 0x44
     }
 }

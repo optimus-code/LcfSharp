@@ -32,6 +32,7 @@ using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Extensions;
 using LcfSharp.IO.Types;
 using LcfSharp.IO.Utilities;
+using LcfSharp.Rpg.Troops;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,7 +70,7 @@ namespace LcfSharp.IO.Converters
             var instance = Build( );
             var parsedProperties = new HashSet<string>( );
 
-           // LcfDataDumper.Dump( Type, reader, ( ) => { 
+            var startOffset = reader.BaseStream.Position;
 
             // If it has an ID property read in that first!
             if ( _cache.IDProperty != null )
@@ -134,11 +135,13 @@ namespace LcfSharp.IO.Converters
                     reader.BaseStream.Seek( chunkLength, SeekOrigin.Current );
                 }
             }
-           //     return instance;
-           // } );
 #if DEBUG
             CollectDebugInfo( parsedProperties );
 #endif
+
+            var endOffset = reader.BaseStream.Position;
+
+            //LcfDataDumper.Dump( Type, reader, startOffset, endOffset, instance );
 
             _lengthEvaluations.Clear( );
 
@@ -156,6 +159,7 @@ namespace LcfSharp.IO.Converters
                     p.AlwaysPersist != null &&
                     p.Property.PropertyType != typeof( string ) )
                 .ToList( );
+
             if ( unusedProperties.Any( ) )
                 Debug.WriteLine( $"Unparsed properties in type '{Type.FullName}': {unusedProperties.Count}" );
         }
@@ -171,16 +175,29 @@ namespace LcfSharp.IO.Converters
         {
             var properties = _cache.Properties;
 
+            if ( Type == typeof( TroopMember ) )
+            {
+
+            }
             // If it has an ID property, write that first.
             if ( _cache.IDProperty != null )
             {
                 writer.WriteVarInt32( ( int ) _cache.IDProperty.Property.GetValue( value ) );
             }
 
+            if ( Type == typeof( TroopMember ) )
+            {
+
+            }
             foreach ( var property in properties )
             {
                 if ( property.IsAllowed && property != _cache.IDProperty )
                 {
+
+                    if ( Type == typeof( TroopMember ) )
+                    {
+
+                    }
                     var chunkID = _cache.GetChunkIDByProperty( property );
                     var propertyValue = property.Property.GetValue( value );
                     var converter = LcfConverterFactory.GetConverter( property.Property.PropertyType );
@@ -192,18 +209,19 @@ namespace LcfSharp.IO.Converters
                         using ( var ms = new MemoryStream( ) )
                         using ( var chunkWriter = new BinaryWriter( ms ) )
                         {
-                            if ( writer.BaseStream.Position >= 670 )
-                            {
-
-                            }
-                            if ( chunkID == 0x3F )
-                            {
-
-                            }
                             var alwaysPersist = property.AlwaysPersist != null;
 
-                            if ( alwaysPersist ||
-                                ( !alwaysPersist && !propertyValue.Equals( property.DefaultValue ) ) )
+                            var doWrite = alwaysPersist ||
+                                ( !alwaysPersist && ( propertyValue == null && property.DefaultValue != null || propertyValue?.Equals( property.DefaultValue ) == false ) );
+                            if ( property.Property.Name == "EnemyID" )
+                            {
+
+                            }
+                            if ( Type == typeof( TroopMember ) )
+                            {
+
+                            }
+                            if ( doWrite )
                             {
                                 converter.Write( chunkWriter, propertyValue, false );
 
@@ -265,7 +283,17 @@ namespace LcfSharp.IO.Converters
                                     }
                                     else
                                     {
-                                        writer.WriteVarInt32( property.IsGenericListType ? ( ( IList ) propertyValue ).Count : chunkBuffer.Length );
+                                        if ( property.IsGenericListType )
+                                        {
+                                            if ( property.AlwaysWriteChunkLength != null )
+                                                writer.WriteVarInt32( chunkBuffer.Length + 1 ); // + 1 for the 0 byte? 
+
+                                            writer.WriteVarInt32( ( ( IList ) propertyValue ).Count );
+                                        }
+                                        else 
+                                        {
+                                            writer.WriteVarInt32( chunkBuffer.Length );
+                                        }
                                         writer.Write( chunkBuffer );
                                     }
 

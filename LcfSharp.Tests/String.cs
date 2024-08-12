@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO;
 using LcfSharp.IO.Extensions;
+using System.IO;
 using System.Text;
 
 namespace LcfSharp.Tests
@@ -10,7 +11,7 @@ namespace LcfSharp.Tests
         [TestMethod]
         public void ReadAscii( )
         {
-            byte[] data = { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // "Hello" in ASCII
+            byte[] data = [0x48, 0x65, 0x6C, 0x6C, 0x6F]; // "Hello" in ASCII
 
             using ( var ms = new MemoryStream( data ) )
             {
@@ -25,7 +26,7 @@ namespace LcfSharp.Tests
         {
             var encoding = LcfSerialiser.SHIFT_JIS;
 
-            byte[] data = { 0x82, 0xA0, 0x82, 0xA2, 0x82, 0xA4, 0x82, 0xA6, 0x82, 0xA8 }; // "あいうえお" in SHIFT-JIS
+            byte[] data = [0x82, 0xA0, 0x82, 0xA2, 0x82, 0xA4, 0x82, 0xA6, 0x82, 0xA8]; // "あいうえお" in SHIFT-JIS
             
             using ( var ms = new MemoryStream( data ) )
             {
@@ -39,7 +40,7 @@ namespace LcfSharp.Tests
         public void WriteAscii( )
         {
             var input = "Hello";
-            byte[] expectedData = { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // "Hello" in ASCII
+            byte[] expectedData = [0x48, 0x65, 0x6C, 0x6C, 0x6F]; // "Hello" in ASCII
 
             using ( var ms = new MemoryStream( ) )
             {
@@ -56,7 +57,7 @@ namespace LcfSharp.Tests
         {
             var input = "あいうえお";
             var encoding = LcfSerialiser.SHIFT_JIS;
-            byte[] expectedData = { 0x82, 0xA0, 0x82, 0xA2, 0x82, 0xA4, 0x82, 0xA6, 0x82, 0xA8 }; // "あいうえお" in SHIFT-JIS
+            byte[] expectedData = [0x82, 0xA0, 0x82, 0xA2, 0x82, 0xA4, 0x82, 0xA6, 0x82, 0xA8]; // "あいうえお" in SHIFT-JIS
 
             using ( var ms = new MemoryStream( ) )
             {

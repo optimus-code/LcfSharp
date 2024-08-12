@@ -1,4 +1,6 @@
-﻿namespace LcfSharp.Tests
+﻿using System.IO;
+
+namespace LcfSharp.Tests
 {
     [TestClass]
     public class Lmu : LcfTester

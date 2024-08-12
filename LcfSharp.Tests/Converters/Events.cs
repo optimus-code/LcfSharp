@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO.Converters;
 using LcfSharp.Rpg.Events;
+using System.IO;
 
 namespace LcfSharp.Tests.Converters
 {

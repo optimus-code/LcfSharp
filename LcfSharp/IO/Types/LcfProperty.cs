@@ -96,6 +96,12 @@ namespace LcfSharp.IO.Types
             private set;
         }
 
+        public LcfAlwaysWriteChunkLengthAttribute AlwaysWriteChunkLength
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets a value indicating whether the property is allowed based on the version attribute and engine version.
         /// </summary>
@@ -140,7 +146,6 @@ namespace LcfSharp.IO.Types
             get;
             private set;
         }
-
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LcfProperty"/> class for the specified property.
@@ -197,6 +202,10 @@ namespace LcfSharp.IO.Types
                 else if ( attribute is LcfVersionAttribute versionAttr )
                 {
                     Version = versionAttr;
+                }
+                else if ( attribute is LcfAlwaysWriteChunkLengthAttribute chunkLengthAttr )
+                {
+                    AlwaysWriteChunkLength = chunkLengthAttr;
                 }
             }
         }
