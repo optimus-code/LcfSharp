@@ -28,6 +28,7 @@
 /// </copyright>
 
 using System.Collections.Generic;
+using System.Linq;
 using LcfSharp.IO.Attributes;
 
 namespace LcfSharp.Rpg.Shared
@@ -91,5 +92,20 @@ namespace LcfSharp.Rpg.Shared
             get;
             set;
         } = [];
+
+        public override bool Equals( object obj )
+        {
+            if ( obj == null || GetType( ) != obj.GetType( ) )
+                return false;
+
+            var other = ( Parameters ) obj;
+
+            return MaxHP.SequenceEqual( other.MaxHP ) &&
+                   MaxSP.SequenceEqual( other.MaxSP ) &&
+                   Attack.SequenceEqual( other.Attack ) &&
+                   Defense.SequenceEqual( other.Defense ) &&
+                   Spirit.SequenceEqual( other.Spirit ) &&
+                   Agility.SequenceEqual( other.Agility );
+        }
     }
 }

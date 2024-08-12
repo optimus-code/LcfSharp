@@ -43,9 +43,12 @@ namespace LcfSharp.IO
     {
         private static readonly LcfSerialiserOptions _defaultOptions = new( );
 
+        public static readonly Encoding SHIFT_JIS;
+
         static LcfSerialiser( )
         {
             Encoding.RegisterProvider( CodePagesEncodingProvider.Instance );
+            SHIFT_JIS = Encoding.GetEncoding( 932 );
         }
 
         /// <summary>

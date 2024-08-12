@@ -57,12 +57,16 @@ namespace LcfSharp.IO.Converters.Types
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The string value to write.</param>
-        public override void Write( BinaryWriter writer, object value )
+        /// <param name="writeLength">Strings need length writing when not in chunks</param>
+        public override void Write( BinaryWriter writer, object value, bool writeLength )
         {
             var stringValue = ( string ) value;
-            writer.WriteVarInt32( stringValue.Length );
-#warning Handling scenarios where length comes from chunk needs to be revisited
-            writer.WriteString( stringValue );
+
+            if ( writeLength )
+                writer.WriteVarInt32( string.IsNullOrEmpty( stringValue ) ? 0 : stringValue.Length );
+
+            if ( !string.IsNullOrEmpty( stringValue ) )
+                writer.WriteString( stringValue );
         }
     }
 }

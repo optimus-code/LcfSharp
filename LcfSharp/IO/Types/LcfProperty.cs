@@ -32,18 +32,24 @@ using LcfSharp.IO.Converters;
 using System.Collections.Generic;
 using System.Reflection;
 using System;
+using System.Linq;
 
 namespace LcfSharp.IO.Types
 {
     /// <summary>
     /// Represents a property in an LCF (RPG Maker 2000 format) type, including metadata and attributes.
     /// </summary>
-    internal class LcfProperty
+    public class LcfProperty
     {
         /// <summary>
         /// Cache for storing properties of different types.
         /// </summary>
         static Dictionary<Type, List<LcfProperty>> _propertyCache = [];
+
+        /// <summary>
+        /// Cache for storing default instances to obtain default property values
+        /// </summary>
+        static Dictionary<Type, object> _defaultInstances = [];
 
         /// <summary>
         /// Gets the <see cref="PropertyInfo"/> associated with this LcfProperty.
@@ -127,24 +133,71 @@ namespace LcfSharp.IO.Types
         }
 
         /// <summary>
+        /// Repreents the default value assigned
+        /// </summary>
+        public object DefaultValue
+        {
+            get;
+            private set;
+        }
+
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="LcfProperty"/> class for the specified property.
         /// </summary>
         /// <param name="property">The property to create an <see cref="LcfProperty"/> for.</param>
         public LcfProperty( PropertyInfo property )
         {
             Property = property;
-            ID = property.GetCustomAttribute<LcfIDAttribute>( );
-            AlwaysPersist = property.GetCustomAttribute<LcfAlwaysPersistAttribute>( );
-            Size = property.GetCustomAttribute<LcfSizeAttribute>( );
-            Version = property.GetCustomAttribute<LcfVersionAttribute>( );
+
+            GatherAttributes( property );
+
             IsAllowed = CheckIsAllowed( );
 
-            IsGenericListType = property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition( ) == typeof( List<> );
+            IsGenericListType = property.PropertyType.IsGenericType && 
+                property.PropertyType.GetGenericTypeDefinition( ) == typeof( List<> );
 
             if ( IsGenericListType )
             {
                 GenericListInnerType = property.PropertyType.GetGenericArguments( )[0];
                 IsGenericListBasicType = !GenericListInnerType.IsClass && GenericListInnerType.IsPrimitive;
+            }
+
+            if ( !_defaultInstances.ContainsKey( property.DeclaringType ) )
+                _defaultInstances.Add( property.DeclaringType, Activator.CreateInstance( property.DeclaringType ) );
+
+            var defaultInstance = _defaultInstances[property.DeclaringType];
+
+            DefaultValue = Property.GetValue( defaultInstance );
+        }
+
+        /// <summary>
+        /// Gather attribute information for the property
+        /// </summary>
+        /// <param name="property"></param>
+        private void GatherAttributes( PropertyInfo property )
+        {
+            // Retrieve all attributes at once
+            var customAttributes = property.GetCustomAttributes( true );
+
+            foreach ( var attribute in customAttributes )
+            {
+                if ( attribute is LcfIDAttribute idAttr )
+                {
+                    ID = idAttr;
+                }
+                else if ( attribute is LcfAlwaysPersistAttribute alwaysPersistAttr )
+                {
+                    AlwaysPersist = alwaysPersistAttr;
+                }
+                else if ( attribute is LcfSizeAttribute sizeAttr )
+                {
+                    Size = sizeAttr;
+                }
+                else if ( attribute is LcfVersionAttribute versionAttr )
+                {
+                    Version = versionAttr;
+                }
             }
         }
 

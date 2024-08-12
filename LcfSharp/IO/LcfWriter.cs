@@ -81,7 +81,7 @@ namespace LcfSharp.IO
         private void Serialise( Type type, ILcfRootChunk value )
         {
             var chunkWriter = new LcfChunkConverter( type );
-            chunkWriter.Write( _writer, value );
+            chunkWriter.Write( _writer, value, false );
         }
 
         /// <summary>

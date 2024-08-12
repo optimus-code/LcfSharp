@@ -35,8 +35,9 @@ namespace LcfSharp.IO.Attributes
     /// Indicates that this property depends on another chunk being read to get the size for an array or list.
     /// </summary>
     /// <param name="chunkID">The chunk ID that determines the size of the array or list.</param>
+    /// <param name="noSizeWhenEmpty">Determines whether the size chunk is written when empty</param>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class LcfSizeAttribute( int chunkID ) : Attribute
+    public class LcfSizeAttribute( int chunkID, bool noSizeWhenEmpty = false ) : Attribute
     {
         /// <summary>
         /// Gets the chunk ID that determines the size of the array or list.
@@ -45,23 +46,14 @@ namespace LcfSharp.IO.Attributes
         {
             get;
         } = chunkID;
-    }
 
-    /// <summary>
-    /// Indicates that this property depends on another chunk being read to get the size for an array or list.
-    /// </summary>
-    /// <typeparam name="TEnum">The enum type used for the chunk ID.</typeparam>
-    [AttributeUsage( AttributeTargets.Property, AllowMultiple = false, Inherited = true )]
-    public class LcfSizeAttribute<TEnum> : LcfSizeAttribute
-        where TEnum : Enum
-    {
         /// <summary>
-        /// Initialises a new instance of the <see cref="LcfSizeAttribute{TEnum}"/> class with the specified chunk ID.
+        /// Some quirk to specify whether it writes the size when empty
         /// </summary>
-        /// <param name="chunkID">The chunk ID that determines the size of the array or list.</param>
-        public LcfSizeAttribute( TEnum chunkID )
-            : base( Convert.ToInt32( chunkID ) )
+        public bool NoSizeWhenEmpty
         {
-        }
+            get;
+            set;
+        } = noSizeWhenEmpty;
     }
 }

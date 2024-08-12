@@ -429,18 +429,18 @@ namespace LcfSharp.Rpg.Items
         /// The actor set affected by the item.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) ItemChunk.ActorSetSize )]
+        [LcfSize( ( int ) ItemChunk.ActorSetSize, NoSizeWhenEmpty = true )]
         public List<bool> ActorSet
         {
             get;
             set;
-        }
+        } = [];
 
         /// <summary>
         /// The state set affected by the item.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) ItemChunk.StateSetSize )]
+        [LcfSize( ( int ) ItemChunk.StateSetSize, NoSizeWhenEmpty = true )]
         public List<bool> StateSet
         {
             get;
@@ -451,7 +451,7 @@ namespace LcfSharp.Rpg.Items
         /// The attribute set affected by the item.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) ItemChunk.AttributeSetSize )]
+        [LcfSize( ( int ) ItemChunk.AttributeSetSize, NoSizeWhenEmpty = true )]
         public List<bool> AttributeSet
         {
             get;

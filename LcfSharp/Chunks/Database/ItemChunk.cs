@@ -52,7 +52,7 @@ namespace LcfSharp.Chunks.Database
         /** Flag */
         TwoHanded = 0x0F,
         /** Integer */
-        SpCost = 0x10,
+        SPCost = 0x10,
         /** Integer */
         Hit = 0x11,
         /** Integer */

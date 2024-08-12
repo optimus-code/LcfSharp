@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace LcfSharp.IO.Converters
+namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
     /// Converter class for reading and writing EventCommand objects.
@@ -73,7 +73,8 @@ namespace LcfSharp.IO.Converters
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The EventCommand object to write.</param>
-        public override void Write( BinaryWriter writer, object value )
+        /// <param name="writeLength">Not applicable</param>
+        public override void Write( BinaryWriter writer, object value, bool writeLength )
         {
             var instance = value as EventCommand;
             if ( instance == null )

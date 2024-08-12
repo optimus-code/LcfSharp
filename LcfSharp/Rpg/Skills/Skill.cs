@@ -27,12 +27,12 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
-using LcfSharp.Rpg.Audio;
+using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
-using LcfSharp.Chunks.Database;
+using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Battle.Battlers.ItemSkills;
+using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Skills
 {
@@ -83,14 +83,14 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = SkillType.Normal;
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public SkillSpType SPType
         {
             get;
             set;
         } = SkillSpType.Cost;
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SPPercent
         {
             get;
@@ -141,7 +141,7 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = false;
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool ReverseStateEffect
         {
             get;
@@ -227,7 +227,7 @@ namespace LcfSharp.Rpg.Skills
         } = false;
 
         [LcfAlwaysPersist]
-        [LcfSize(( int ) SkillChunk.StateEffectsSize)]
+        [LcfSize( ( int ) SkillChunk.StateEffectsSize, NoSizeWhenEmpty = true )]
         public List<bool> StateEffects
         {
             get;
@@ -235,7 +235,7 @@ namespace LcfSharp.Rpg.Skills
         }
 
         [LcfAlwaysPersist]
-        [LcfSize(( int ) SkillChunk.AttributeEffectsSize)]
+        [LcfSize( ( int ) SkillChunk.AttributeEffectsSize, NoSizeWhenEmpty = true )]
         public List<bool> AttributeEffects
         {
             get;
@@ -248,14 +248,14 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = false;
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BattlerAnimation
         {
             get;
             set;
         } = -1;
 
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
         public List<BattlerAnimationItemSkill> BattlerAnimationData
         {

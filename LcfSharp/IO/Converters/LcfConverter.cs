@@ -73,7 +73,8 @@ namespace LcfSharp.IO.Converters
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The object to write.</param>
-        public abstract void Write( BinaryWriter writer, object value );
+        /// <param name="writeLength">The converter should write the length</param>
+        public abstract void Write( BinaryWriter writer, object value, bool writeLength );
     }
 
     /// <summary>

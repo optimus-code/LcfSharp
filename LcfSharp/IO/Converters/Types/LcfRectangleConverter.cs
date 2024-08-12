@@ -39,7 +39,7 @@ namespace LcfSharp.IO.Converters.Types
     public class LcfRectangleConverter : LcfConverter<Rectangle>
     {
         /// <summary>
-        /// Reads a 7-bit variable-length encoded integer from the specified binary reader.
+        /// Reads a Rectangle from the specified binary reader.
         /// </summary>
         /// <param name="reader">The binary reader to read from.</param>
         /// <param name="length">The length of the data to read (not used).</param>
@@ -51,13 +51,18 @@ namespace LcfSharp.IO.Converters.Types
         }
 
         /// <summary>
-        /// Writes the specified 7-bit variable-length encoded integer to the binary writer.
+        /// Writes the specified Rectangle to the binary writer.
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The 32-bit integer value to write.</param>
-        public override void Write( BinaryWriter writer, object value )
+        /// <param name="writeLength">Not applicable</param>
+        public override void Write( BinaryWriter writer, object value, bool writeLength )
         {
-            throw new NotImplementedException( );
+            var rectValue = ( Rectangle ) value;
+            writer.Write( rectValue.Left );
+            writer.Write( rectValue.Top );
+            writer.Write( rectValue.Right );
+            writer.Write( rectValue.Bottom );
         }
     }
 }

@@ -20,6 +20,7 @@
 	  <PackageIconUrl>https://raw.githubusercontent.com/optimus-code/LcfSharp/main/icon.png</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
     <PackageReference Include="UTF.Unknown" Version="2.5.1" />
   </ItemGroup>
 

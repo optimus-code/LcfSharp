@@ -53,7 +53,8 @@ namespace LcfSharp.IO.Converters.Types
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The boolean value to write.</param>
-        public override void Write( BinaryWriter writer, object value )
+        /// <param name="writeLength">Not applicable here</param>
+        public override void Write( BinaryWriter writer, object value, bool writeLength )
         {
             writer.WriteVarInt32( ( bool ) value ? 1 : 0 );
         }

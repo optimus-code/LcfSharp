@@ -29,6 +29,7 @@
 
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Exceptions;
+using LcfSharp.IO.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,29 +43,14 @@ namespace LcfSharp.IO.Converters.Types
     /// <summary>
     /// Provides methods to convert list collection types (multiple lists) in the LCF (RPG Maker 2000 format).
     /// </summary>
-    public class LcfListCollectionConverter : LcfConverter
+    public class LcfListCollectionConverter : LcfComplexConverter
     {
-        /// <summary>
-        /// Gets the type that this converter handles.
-        /// </summary>
-        public sealed override Type Type
-        {
-            get;
-            protected set;
-        }
-
-        /// <summary>
-        /// Determines whether this converter can convert the specified type.
-        /// </summary>
-        /// <param name="typeToConvert">The type to check for conversion support.</param>
-        /// <returns><c>true</c> if this converter can convert the specified type; otherwise, <c>false</c>.</returns>
-        public override bool CanConvert( Type typeToConvert ) => typeToConvert == Type;
-
         /// <summary>
         /// Initialises a new instance of the <see cref="LcfListCollectionConverter"/> class for the specified class type.
         /// </summary>
         /// <param name="classType">The class type to convert.</param>
         public LcfListCollectionConverter( Type classType )
+            : base( classType )
         {
             Type = classType;
         }
@@ -81,18 +67,15 @@ namespace LcfSharp.IO.Converters.Types
             if ( !length.HasValue || length.Value == 0 )
                 throw new LcfException( "No length specified for LcfListCollection converter!." );
 
-            var properties = LcfConverterFactory.GetProperties( Type )
-                .Where( p => p.GetCustomAttribute<LcfIgnoreAttribute>( ) == null &&
-                            p.PropertyType.IsGenericType &&
-                            p.PropertyType.GetGenericTypeDefinition( ) == typeof( List<> ) )
-                .ToArray( );
+            var properties = _cache.Properties
+                .Where( p => p.IsGenericListType );
 
-            var listCount = properties.Length;
+            var listCount = properties.Count( );
 
             if ( listCount == 0 )
                 throw new LcfException( "No list properties found in type marked as an LcfListCollection" );
 
-            var elementType = properties.First( ).PropertyType.GetGenericArguments( )[0];
+            var elementType = properties.First( ).GenericListInnerType;
             var listConverterType = typeof( LcfListConverter<> ).MakeGenericType( elementType );
             var converter = ( LcfConverter ) Activator.CreateInstance( listConverterType );
 
@@ -106,7 +89,7 @@ namespace LcfSharp.IO.Converters.Types
             foreach ( var property in properties )
             {
                 var list = ( IList ) converter.Read( reader, listItemCount );
-                property.SetValue( obj, list );
+                property.Property.SetValue( obj, list );
             }
             return obj;
         }
@@ -116,29 +99,28 @@ namespace LcfSharp.IO.Converters.Types
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The object to write.</param>
+        /// <param name="writeLength">Whether to write the length / need to revisit</param>
         /// <exception cref="InvalidDataException">Thrown when no converter is found for a property type.</exception>
-        public override void Write( BinaryWriter writer, object value )
+        public override void Write( BinaryWriter writer, object value, bool writeLength )
         {
-            var properties = LcfConverterFactory.GetProperties( Type )
-                .Where( p => p.GetCustomAttribute<LcfIgnoreAttribute>( ) == null &&
-                            p.PropertyType.IsGenericType &&
-                            p.PropertyType.GetGenericTypeDefinition( ) == typeof( List<> ) )
-                .ToArray( );
+            var properties = _cache.Properties
+                .Where( p => p.IsGenericListType );
+
+            var listCount = properties.Count( );
+            var elementType = properties.First().GenericListInnerType;
 
             foreach ( var property in properties )
             {
-                var list = ( IList ) property.GetValue( value );
+                var list = ( IList ) property.Property.GetValue( value );
                 if ( list != null )
                 {
-                    var elementType = property.PropertyType.GetGenericArguments( )[0];
                     var listConverterType = typeof( LcfListConverter<> ).MakeGenericType( elementType );
                     var converter = ( LcfConverter ) Activator.CreateInstance( listConverterType );
-
-                    converter.Write( writer, list );
+                    converter.Write( writer, list, false );
                 }
                 else
                 {
-                    throw new InvalidDataException( $"Property {property.Name} has a null value." );
+                    throw new InvalidDataException( $"Property {property.Property.Name} has a null value." );
                 }
             }
         }

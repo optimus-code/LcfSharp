@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -36,8 +37,6 @@ namespace LcfSharp.IO.Extensions
 {
     public static class BinaryReaderExtensions
     {
-        private static readonly Encoding _shiftJis = Encoding.GetEncoding( 932 );
-
         /// <summary>
         /// Read an ASCII string with no length prefixed
         /// </summary>
@@ -56,6 +55,23 @@ namespace LcfSharp.IO.Extensions
             //    return _shiftJis.GetString( buffer );
 
             return Encoding.ASCII.GetString( buffer );
+        }
+
+        /// <summary>
+        /// Read an ASCII string with no length prefixed
+        /// </summary>
+        /// <param name="br"></param>
+        /// <param name="length"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string ReadString( this BinaryReader br, int length, Encoding encoding )
+        {
+            if ( length == 0 || encoding == null )
+                return null;
+
+            var buffer = br.ReadBytes( length );
+
+            return encoding.GetString( buffer );
         }
 
         /// <summary>
@@ -84,30 +100,26 @@ namespace LcfSharp.IO.Extensions
         /// that occurs before. Hence needing this version for RM2K compatibility.</remarks>
         /// <param name="br"></param>
         /// <returns></returns>
-        /// <exception cref="FormatException"></exception>
         public static int ReadVarInt32( this BinaryReader br )
         {
             var result = 0;
             var loops = 0;
-
-            while ( true )
+            var byteReadJustNow = 0;
+            do
             {
-                var byteReadJustNow = br.ReadByte( );
                 result <<= 7;
-                result |= byteReadJustNow & 0x7F;
 
-                if ( ( byteReadJustNow & 0x80 ) == 0 )
-                {
-                    break;
-                }
+                byteReadJustNow = br.ReadByte( );
+                result |= byteReadJustNow & 0x7F;
 
                 if ( loops > 5 )
                 {
-                    throw new FormatException( "Bad 7-bit encoded integer." );
+                    // Log a warning instead of throwing an exception, and continue
+                    Debug.WriteLine( "Invalid compressed integer" );
                 }
 
                 loops++;
-            }
+            } while ( ( byteReadJustNow & 0x80 ) != 0 );
 
             return loops > 5 ? 0 : result;
         }

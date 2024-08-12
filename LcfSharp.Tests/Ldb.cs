@@ -1,55 +1,12 @@
-﻿using LcfSharp.IO;
-using LcfSharp.IO.Extensions;
-using System.Text;
-
-namespace LcfSharp.Tests
+﻿namespace LcfSharp.Tests
 {
     [TestClass]
-    public class DatabaseTests
+    public class Ldb : LcfTester
     {
         [TestMethod]
-        public void ReadInt( )
+        public void Read( )
         {
-            byte[] data = { 0x84, 0x58 };
-            using ( MemoryStream ms = new MemoryStream( data ) )
-            {
-                LcfReader lcfReader = new LcfReader( ms );
-                var result = lcfReader.ReadVarInt32( );
-                Assert.IsTrue( result == 600 );
-            }
-        }
-
-        [TestMethod]
-        public void ReadString( )
-        {
-            Encoding.RegisterProvider( CodePagesEncodingProvider.Instance );
-
-            // Byte arrays for SHIFT-JIS and ASCII encoded strings
-            byte[] shiftJisData = { 0x82, 0xA0, 0x82, 0xA2, 0x82, 0xA4, 0x82, 0xA6, 0x82, 0xA8 }; // "あいうえお" in SHIFT-JIS
-            byte[] asciiData = { 0x48, 0x65, 0x6C, 0x6C, 0x6F }; // "Hello" in ASCII
-
-            // Read and decode SHIFT-JIS string
-            using ( var shiftJisMs = new MemoryStream( shiftJisData ) )
-            {
-                var shiftJisReader = new BinaryReader( shiftJisMs );
-                var shiftJisString = shiftJisReader.ReadString( shiftJisData.Length );
-                Assert.AreEqual( "あいうえお", shiftJisString );
-            }
-
-            // Read and decode ASCII string
-            using ( var asciiMs = new MemoryStream( asciiData ) )
-            {
-                var asciiReader = new BinaryReader( asciiMs );
-                var asciiString = asciiReader.ReadString( asciiData.Length );
-                Assert.AreEqual( "Hello", asciiString );
-            }
-        }
-
-
-        [TestMethod]
-        public void TestLdb( )
-        {
-            var db = LdbFile.Load( Path.Combine( "Data", "RPG_RT.ldb" ) );
+            var db = ExecuteWithTiming( () => LdbFile.Load( Path.Combine( "Data", "RPG_RT.ldb" ) ) );
 
             Assert.IsNotNull( db );
             Assert.IsTrue( db.Actors.Count == 8 );
@@ -137,9 +94,9 @@ namespace LcfSharp.Tests
         }
 
         [TestMethod]
-        public void TestLdbRW( )
+        public void ReadCustom( )
         {
-            var db = LdbFile.Load( Path.Combine( "Data", "RPG_RT_rw.ldb" ) );
+            var db = ExecuteWithTiming( ( ) => LdbFile.Load( Path.Combine( "Data", "RPG_RT_rw.ldb" ) ) );
 
             Assert.IsNotNull( db );
             Assert.IsTrue( db.Actors[0].Name == "Ryle" );
@@ -148,28 +105,6 @@ namespace LcfSharp.Tests
             Assert.IsTrue( db.Actors[3].Name == "Latyss" );
             Assert.IsTrue( db.Actors[4].Name == "Hayami" );
             Assert.IsTrue( db.Actors[5].Name == "Fina" );
-        }
-
-        [TestMethod]
-        public void TestLMT( )
-        {
-            var mapTree = LmtFile.Load( Path.Combine( "Data", "RPG_RT.lmt" ) );
-
-            Assert.IsNotNull( mapTree );
-
-            Assert.IsTrue( mapTree.Maps[0].Name == "Romancing Walker" );
-            Assert.IsTrue( mapTree.Maps[1].Name == "Main MAP" );
-        }
-
-        [TestMethod]
-        public void TestLMU( )
-        {
-            var map = LmuFile.Load( Path.Combine( "Data", "Map0001.lmu" ) );
-
-            Assert.IsNotNull( map );
-
-            Assert.IsTrue( map.Width == 100 );
-            Assert.IsTrue( map.Height == 135 );
         }
     }
 }

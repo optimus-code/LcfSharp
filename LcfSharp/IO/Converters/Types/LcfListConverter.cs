@@ -34,6 +34,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -46,16 +47,18 @@ namespace LcfSharp.IO.Converters.Types
         private readonly LcfConverter _elementConverter;
         private readonly bool _hasIDAttribute;
         private readonly bool _noIndex;
+        private readonly LcfType _elementCache;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LcfListConverter{T}"/> class.
         /// </summary>
         public LcfListConverter( )
         {
-            _elementConverter = LcfConverterFactory.GetConverter( typeof( T ) );
-            _hasIDAttribute = LcfConverterFactory.GetProperties( _elementConverter.Type )
-                .Count( p => p.GetCustomAttribute<LcfIDAttribute>( ) != null ) > 0;
-            _noIndex = typeof( T ).GetCustomAttribute<LcfCalculatedSizeAttribute>( ) != null;
+            var listType = typeof( T );
+            _elementConverter = LcfConverterFactory.GetConverter( listType );
+            _elementCache = LcfType.Get( _elementConverter.Type );
+            _hasIDAttribute = _elementCache.IDProperty != null;
+            _noIndex = listType.GetCustomAttribute<LcfCalculatedSizeAttribute>( ) != null;
         }
 
         /// <summary>
@@ -93,15 +96,23 @@ namespace LcfSharp.IO.Converters.Types
         /// </summary>
         /// <param name="writer">The binary writer to write to.</param>
         /// <param name="value">The list of elements to write.</param>
-        public override void Write( BinaryWriter writer, object value )
+        /// <param name="writeLength">Whether to write the list length</param>
+        public override void Write( BinaryWriter writer, object value, bool writeLength )
         {
             var list = ( List<T> ) value;
-            writer.WriteVarInt32( list.Count );
+
+            if ( writeLength )
+                writer.WriteVarInt32( list.Count );
+
+            var i = 1;
             foreach ( var item in list )
             {
-                _elementConverter.Write( writer, item );
+                if ( _hasIDAttribute )
+                    writer.WriteVarInt32( i );
+
+                _elementConverter.Write( writer, item, false );
+                i++;
             }
-#warning Come back to this as length can come from chunk!
         }
     }
 }

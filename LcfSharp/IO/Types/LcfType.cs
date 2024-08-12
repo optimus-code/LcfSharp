@@ -31,6 +31,7 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
@@ -39,7 +40,7 @@ namespace LcfSharp.IO.Types
     /// <summary>
     /// Represents metadata and utilities for LCF (RPG Maker 2000 format) types.
     /// </summary>
-    internal class LcfType
+    public class LcfType
     {
         /// <summary>
         /// Cache for storing <see cref="LcfType"/> instances for different types.
@@ -76,20 +77,20 @@ namespace LcfSharp.IO.Types
         /// <summary>
         /// Gets the dictionary mapping chunk identifiers to <see cref="LcfProperty"/> objects.
         /// </summary>
-        public Dictionary<int, LcfProperty> Chunks
+        public IReadOnlyDictionary<int, LcfProperty> Chunks
         {
             get;
             private set;
-        } = [];
+        }
 
         /// <summary>
         /// Gets the dictionary mapping size chunk identifiers to <see cref="LcfProperty"/> objects.
         /// </summary>
-        public Dictionary<int, LcfProperty> SizeChunks
+        public IReadOnlyDictionary<int, LcfProperty> SizeChunks
         {
             get;
             private set;
-        } = [];
+        }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LcfType"/> class for the specified type.
@@ -116,6 +117,9 @@ namespace LcfSharp.IO.Types
         /// </summary>
         private void MapChunks( )
         {
+            var chunks = new Dictionary<int, LcfProperty>( );
+            var sizeChunks = new Dictionary<int, LcfProperty>( );
+
             foreach ( var property in Properties )
             {
                 // Attempt to parse the enum value using reflection
@@ -137,12 +141,18 @@ namespace LcfSharp.IO.Types
                 {
                     // Cast the enumValue to the actual enum type
                     var enumIntValue = ( int ) enumValue;
-                    Chunks[enumIntValue] = property;
+                    chunks[enumIntValue] = property;
 
                     if ( property.Size != null )
-                        SizeChunks.Add( property.Size.ChunkID, property );
+                        sizeChunks.Add( property.Size.ChunkID, property );
                 }
             }
+
+            if ( chunks.Count > 0 )
+                Chunks = new ReadOnlyDictionary<int, LcfProperty>( chunks );
+
+            if ( sizeChunks.Count > 0 )
+                SizeChunks = new ReadOnlyDictionary<int, LcfProperty>( sizeChunks );            
         }
 
         /// <summary>
@@ -183,8 +193,10 @@ namespace LcfSharp.IO.Types
         /// <returns>The property corresponding to the specified chunk identifier.</returns>
         public LcfProperty GetPropertyByChunkID( int chunkID )
         {
-            Chunks.TryGetValue( chunkID, out var property );
-            return property;
+            if ( Chunks?.TryGetValue( chunkID, out var property ) == true )
+                return property;
+
+            return null;
         }
 
         /// <summary>
@@ -195,10 +207,12 @@ namespace LcfSharp.IO.Types
         /// <exception cref="LcfException">Thrown when the property does not have an associated chunk identifier.</exception>
         public int GetChunkIDByProperty( LcfProperty property )
         {
-            if ( Chunks.Count( c => c.Value == property ) == 0 )
-                throw new LcfException( $"Property {property.Property.Name} does not have an associated chunk id." );
-
-            return Chunks.FirstOrDefault( c => c.Value == property ).Key;
+            foreach ( var chunk in Chunks )
+            {
+                if ( chunk.Value == property )
+                    return chunk.Key;
+            }
+            throw new LcfException( $"Property {property.Property.Name} does not have an associated chunk id." );
         }
     }
 }

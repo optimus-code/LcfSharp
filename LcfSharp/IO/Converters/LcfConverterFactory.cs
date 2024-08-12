@@ -143,10 +143,12 @@ namespace LcfSharp.IO.Converters
             if ( type.IsEnum )
             {
                 resultantConverter = new LcfEnumConverter( type );
+                isBasicConverter = true;
             }
             else if ( typeof( IDbFlags ).IsAssignableFrom( type ) )
             {
                 resultantConverter = new LcfDbFlagsConverter( type );
+                isBasicConverter = true;
             }
             else if ( type.IsClass && type.GetCustomAttribute<LcfListCollectionAttribute>( ) != null )
             {

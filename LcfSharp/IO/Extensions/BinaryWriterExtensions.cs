@@ -41,9 +41,26 @@ namespace LcfSharp.IO.Extensions
         /// </summary>
         /// <param name="bw"></param>
         /// <param name="value"></param>
-        public static void WriteString(this BinaryWriter bw, string value )
+        public static void WriteString( this BinaryWriter bw, string value )
         {
-            bw.Write(Encoding.ASCII.GetBytes(value));
+            if ( value == null )
+                return;
+
+            bw.Write( Encoding.ASCII.GetBytes( value ) );
+        }
+
+        /// <summary>
+        /// Write an ASCII string with no length prefixed
+        /// </summary>
+        /// <param name="bw"></param>
+        /// <param name="value"></param>
+        /// <param name="encoding"></param>
+        public static void WriteString( this BinaryWriter bw, string value, Encoding encoding )
+        {
+            if ( value == null || encoding == null )
+                return;
+
+            bw.Write( encoding.GetBytes( value ) );
         }
 
         /// <summary>
@@ -70,19 +87,26 @@ namespace LcfSharp.IO.Extensions
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void WriteVarInt32( this BinaryWriter bw, int value )
         {
-            if ( value < 0 )
-                throw new ArgumentOutOfRangeException( nameof( value ), "Value must be non-negative." );
+            uint unsignedValue = ( uint ) value;
 
-            var loops = 0;
-            while ( value >= 0x80 )
+            for ( int i = 28; i >= 0; i -= 7 )
             {
-                bw.Write( ( byte ) ( ( value & 0x7F ) | 0x80 ) );
-                value >>= 7;
-                loops++;
-                if ( loops > 5 )
-                    throw new ArgumentOutOfRangeException( nameof( value ), "Value is too large to be a valid 7-bit encoded integer." );
+                if ( i > 0 && unsignedValue < ( 1U << i ) )
+                {
+                    continue; // Skip unnecessary writes
+                }
+
+                // Cast the result of the shift operation to byte to avoid the warning
+                byte byteToWrite = ( byte ) ( ( unsignedValue >> i ) & 0x7F );
+
+                // Set the MSB if there are more bytes to write
+                if ( i > 0 )
+                {
+                    byteToWrite |= 0x80;
+                }
+
+                bw.Write( byteToWrite );
             }
-            bw.Write( ( byte ) value );
         }
 
         /// <summary>
