@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Events;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -94,6 +95,7 @@ namespace LcfSharp.Rpg.Events
         }
 
         [LcfAlwaysPersist]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int Timer2Sec
         {
             get;
@@ -101,6 +103,7 @@ namespace LcfSharp.Rpg.Events
         }
 
         [LcfAlwaysPersist]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int CompareOperator
         {
             get;

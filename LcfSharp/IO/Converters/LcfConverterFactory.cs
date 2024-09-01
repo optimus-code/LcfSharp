@@ -31,9 +31,9 @@ using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Converters.Types;
 using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Types;
+using LcfSharp.Rpg.Events;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Reflection;
 
@@ -65,7 +65,8 @@ namespace LcfSharp.IO.Converters
             { typeof(int), new LcfInt32Converter() },
             { typeof(long), new LcfInt64Converter() },
             { typeof(Rectangle), new LcfRectangleConverter() },
-            { typeof(EventCommand), new LcfEventCommandConverter() }
+            { typeof(EventCommand), new LcfEventCommandConverter() },
+            { typeof(MoveCommand), new LcfMoveCommandConverter() }
         };
 
         /// <summary>

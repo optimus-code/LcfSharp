@@ -36,6 +36,7 @@ namespace LcfSharp.Rpg.Events
     [LcfChunk<MoveRouteChunk>]
     public class MoveRoute
     {
+        [LcfSize( ( int ) MoveRouteChunk.MoveCommandsSize )]
         public List<MoveCommand> Commands
         {
             get;

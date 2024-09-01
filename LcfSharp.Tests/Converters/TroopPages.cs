@@ -59,6 +59,9 @@ namespace LcfSharp.Tests.Converters
             EventCommands = new List<EventCommand>
             {
                 new EventCommand { Code = ( EventCommandCode ) 10210, Indent = 0, String = null, Parameters = new List<int> { 0, 86, 86, 0 } },
+                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() },
+                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() },
+                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() },
                 new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() }
             }
         };

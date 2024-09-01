@@ -88,7 +88,7 @@ namespace LcfSharp.IO.Converters.Types
             {
                 writer.WriteVarInt32( instance.Indent );
                 writer.WriteVarInt32( instance.String.Length );
-                writer.Write( instance.String );
+                writer.WriteString( instance.String );
 
                 writer.WriteVarInt32( instance.Parameters.Count );
                 foreach ( var parameter in instance.Parameters )

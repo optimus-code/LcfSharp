@@ -1,5 +1,6 @@
 ﻿using LcfSharp.IO.Converters;
 using LcfSharp.Rpg.Events;
+using System;
 using System.IO;
 
 namespace LcfSharp.Tests.Converters
@@ -43,6 +44,13 @@ namespace LcfSharp.Tests.Converters
                 lcfConverter.Write( writer, instance, false );
 
                 var output = ms.ToArray( );
+                var minSize = Math.Min( output.Length, data.Length );
+
+                for ( var i = 0; i < minSize; i++ )
+                {
+                    Assert.AreEqual( data[i], output[i] );
+                }
+
                 CollectionAssert.AreEqual( output, data );
             }
         }

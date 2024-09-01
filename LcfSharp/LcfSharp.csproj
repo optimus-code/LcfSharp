@@ -8,7 +8,7 @@
   </PropertyGroup>
   <PropertyGroup>
 	  <PackageId>LcfSharp</PackageId>
-	  <Version>0.0.6</Version>
+	  <Version>0.0.7</Version>
 	  <Authors>optimus-code</Authors>
 	  <Product>LcfSharp</Product>
 	  <Description>LcfSharp is a .NET library for handling LCF data structures, providing essential functionalities for reading, writing, and manipulating LCF files.</Description>
