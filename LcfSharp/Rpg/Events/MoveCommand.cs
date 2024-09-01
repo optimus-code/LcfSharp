@@ -1,4 +1,7 @@
-﻿/// <copyright>
+﻿
+using LcfSharp.IO.Attributes;
+
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -26,9 +29,9 @@
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
-
 namespace LcfSharp.Rpg.Events
 {
+    [LcfCalculatedSize]
     public class MoveCommand
     {
         public MoveCommandCode CommandID

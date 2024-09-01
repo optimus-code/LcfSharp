@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 namespace LcfSharp.Tests
 {
@@ -8,7 +9,11 @@ namespace LcfSharp.Tests
         [TestMethod]
         public void Read( )
         {
-            var map = ExecuteWithTiming( ( ) => LmuFile.Load( Path.Combine( "Data", "Map0006.lmu" ) ) );
+            var mapTree = ExecuteWithTiming( ( ) => LmtFile.Load( Path.Combine( "Data", "RPG_RT.lmt" ) ) );
+
+
+            var mapName = mapTree?.Maps?.FirstOrDefault( m => m.ID == 168 ).Name;
+            var map = ExecuteWithTiming( ( ) => LmuFile.Load( Path.Combine( "Data", "Map0168.lmu" ) ) );
 
             Assert.IsNotNull( map );
 

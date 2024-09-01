@@ -108,10 +108,17 @@ namespace LcfSharp.IO.Converters
                                 propertyLength = chunkLength / Marshal.SizeOf( match.GenericListInnerType );
                         }
 
-                        if ( match.Size != null && _lengthEvaluations.ContainsKey( match.Property.Name ) )
+                        if ( match.Size != null )
                         {
-                            propertyLength = _lengthEvaluations[match.Property.Name];
-                            _lengthEvaluations.Remove( match.Property.Name );
+                            if ( _lengthEvaluations.ContainsKey( match.Property.Name ) )
+                            {
+                                propertyLength = _lengthEvaluations[match.Property.Name];
+                                _lengthEvaluations.Remove( match.Property.Name );
+                            }
+                            else // length is probably zero hence why size was not included in written chunks
+                            {
+                                propertyLength = 0;
+                            }
                         }
 
                         ReadProperty( reader, instance, match.Property, propertyLength );
