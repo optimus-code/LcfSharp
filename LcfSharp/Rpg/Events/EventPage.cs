@@ -400,6 +400,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The list of event commands associated with the event page.
         /// </summary>
+        [LcfSize( ( int ) EventPageChunk.EventCommandsSize )]
         public List<EventCommand> EventCommands
         {
             get;

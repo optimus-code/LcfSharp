@@ -31,7 +31,7 @@ namespace LcfSharp.Rpg.Events
 {
     public class MoveCommand
     {
-        public int CommandID
+        public MoveCommandCode CommandID
         {
             get;
             set;

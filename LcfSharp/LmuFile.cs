@@ -101,7 +101,7 @@ namespace LcfSharp
             set;
         }
 
-        public int ParallaxSx
+        public int ParallaxSX
         {
             get;
             set;
@@ -113,7 +113,7 @@ namespace LcfSharp
             set;
         }
 
-        public int ParallaxSy
+        public int ParallaxSY
         {
             get;
             set;

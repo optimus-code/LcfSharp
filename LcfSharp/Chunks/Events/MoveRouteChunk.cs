@@ -35,7 +35,7 @@ namespace LcfSharp.Chunks.Events
         MoveCommandsSize = 0x0B,
 
         /* Array - rpg::MoveCommand */
-        MoveCommands = 0x0C,
+        Commands = 0x0C,
 
         /* Flag */
         Repeat = 0x15,
