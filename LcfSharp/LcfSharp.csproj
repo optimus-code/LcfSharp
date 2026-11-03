@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+	<TargetFrameworks>net10.0;net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
 	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
 	  <PackageId>LcfSharp</PackageId>
-	  <Version>0.0.8</Version>
+	  <Version>0.0.9</Version>
 	  <Authors>optimus-code</Authors>
 	  <Product>LcfSharp</Product>
 	  <Description>LcfSharp is a .NET library for handling LCF data structures, providing essential functionalities for reading, writing, and manipulating LCF files.</Description>
@@ -20,8 +20,8 @@
 	  <PackageIconUrl>https://raw.githubusercontent.com/optimus-code/LcfSharp/main/icon.png</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
-    <PackageReference Include="UTF.Unknown" Version="2.5.1" />
+    <PackageReference Include="System.Text.Json" Version="10.0.14" />
+	<PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.14" />
   </ItemGroup>
 
   <ItemGroup>
