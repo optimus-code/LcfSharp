@@ -80,7 +80,7 @@ namespace LcfSharp
             set;
         }
 
-        public string ParallaxName
+        public LcfString ParallaxName
         {
             get;
             set;
