@@ -29,7 +29,8 @@
 
 using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
     /// Class representing a battler animation in the game.
     /// </summary>
     [LcfChunk<BattlerAnimationChunk>]
-    public class BattlerAnimation
+    public class BattlerAnimation : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the battler animation.
@@ -53,7 +54,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         /// The name of the battler animation.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -72,7 +73,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         /// The list of poses for the battler animation.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<BattlerAnimationPose> Poses
+        public LcfIndexedList<BattlerAnimationPose> Poses
         {
             get;
             set;
@@ -82,7 +83,7 @@ namespace LcfSharp.Rpg.Battle.Battlers
         /// The list of weapons for the battler animation.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<BattlerAnimationWeapon> Weapons
+        public LcfIndexedList<BattlerAnimationWeapon> Weapons
         {
             get;
             set;

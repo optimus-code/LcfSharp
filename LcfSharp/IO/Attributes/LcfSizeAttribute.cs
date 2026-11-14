@@ -32,12 +32,14 @@ using System;
 namespace LcfSharp.IO.Attributes
 {
     /// <summary>
-    /// Indicates that this property depends on another chunk being read to get the size for an array or list.
+    /// Indicates that this property depends on another chunk being read to 
+    /// get the size for an array or list.
     /// </summary>
-    /// <param name="chunkID">The chunk ID that determines the size of the array or list.</param>
-    /// <param name="noSizeWhenEmpty">Determines whether the size chunk is written when empty</param>
+    /// <param name="chunkID">The chunk ID that determines the size of the
+    /// array or list.</param>
+    /// <param name="alwaysPersist">The size chunk should always be emitted.</param>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class LcfSizeAttribute( int chunkID, bool noSizeWhenEmpty = false ) : Attribute
+    public class LcfSizeAttribute( int chunkID, bool alwaysPersist = false ) : Attribute
     {
         /// <summary>
         /// Gets the chunk ID that determines the size of the array or list.
@@ -48,12 +50,13 @@ namespace LcfSharp.IO.Attributes
         } = chunkID;
 
         /// <summary>
-        /// Some quirk to specify whether it writes the size when empty
+        /// The size chunk should be emitted even if the element count is 
+        /// equal to the default element count.
         /// </summary>
-        public bool NoSizeWhenEmpty
+        public bool AlwaysPersist
         {
             get;
             set;
-        } = noSizeWhenEmpty;
+        } = alwaysPersist;
     }
 }

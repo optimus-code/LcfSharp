@@ -29,6 +29,8 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Core
 {
@@ -36,7 +38,7 @@ namespace LcfSharp.Rpg.Core
     /// Class representing a variable with an ID and name.
     /// </summary>
     [LcfChunk<VariableChunk>]
-    public class Variable
+    public class Variable : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the variable.
@@ -51,7 +53,7 @@ namespace LcfSharp.Rpg.Core
         /// <summary>
         /// The name of the variable.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;

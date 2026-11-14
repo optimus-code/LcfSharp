@@ -30,6 +30,7 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.States
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.States
     /// Class representing a state in the game.
     /// </summary>
     [LcfChunk<StateChunk>]
-    public class State
+    public class State : IIndexedItem
     {
         /// <summary>
         /// The constant ID for the death state.
@@ -57,7 +58,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The name of the state.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -325,7 +326,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The message shown when the state affects an actor.
         /// </summary>
-        public string MessageActor
+        public LcfString MessageActor
         {
             get;
             set;
@@ -334,7 +335,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The message shown when the state affects an enemy.
         /// </summary>
-        public string MessageEnemy
+        public LcfString MessageEnemy
         {
             get;
             set;
@@ -343,7 +344,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The message shown when the state is already present.
         /// </summary>
-        public string MessageAlready
+        public LcfString MessageAlready
         {
             get;
             set;
@@ -352,7 +353,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The message shown when the state affects a character.
         /// </summary>
-        public string MessageAffected
+        public LcfString MessageAffected
         {
             get;
             set;
@@ -361,7 +362,7 @@ namespace LcfSharp.Rpg.States
         /// <summary>
         /// The message shown when the state is recovered.
         /// </summary>
-        public string MessageRecovery
+        public LcfString MessageRecovery
         {
             get;
             set;

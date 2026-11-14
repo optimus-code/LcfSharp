@@ -48,15 +48,6 @@ namespace LcfSharp.IO
         } = LcfFormat.LDB;
 
         /// <summary>
-        /// Gets or sets a value indicating whether unknown chunks should be ignored.
-        /// </summary>
-        public bool IgnoreUnknownChunks
-        {
-            get;
-            set;
-        } = true;
-
-        /// <summary>
         /// Gets or sets the list of custom converters to use.
         /// </summary>
         public List<LcfConverter> Converters
@@ -73,5 +64,14 @@ namespace LcfSharp.IO
             get;
             set;
         } = LcfEngineVersion.RM2K;
+
+        /// <summary>
+        /// Gets or sets the encoding type for strings in LCF data.
+        /// </summary>
+        public LcfEncodingType EncodingType
+        {
+            get;
+            set;
+        } = LcfEncodingType.WesternEurope1252;
     }
 }

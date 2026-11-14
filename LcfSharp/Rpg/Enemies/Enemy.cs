@@ -29,7 +29,8 @@
 
 using LcfSharp.Chunks.Database.Enemies;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Enemies
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.Enemies
     /// Class representing an enemy in the game.
     /// </summary>
     [LcfChunk<EnemyChunk>]
-    public class Enemy
+    public class Enemy : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the enemy.
@@ -52,7 +53,7 @@ namespace LcfSharp.Rpg.Enemies
         /// <summary>
         /// The name of the enemy.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -61,7 +62,7 @@ namespace LcfSharp.Rpg.Enemies
         /// <summary>
         /// The name of the battler graphic.
         /// </summary>
-        public string BattlerName
+        public LcfString BattlerName
         {
             get;
             set;
@@ -92,7 +93,7 @@ namespace LcfSharp.Rpg.Enemies
         {
             get;
             set;
-        }
+        } = 10;
 
         /// <summary>
         /// The attack power of the enemy.
@@ -216,7 +217,7 @@ namespace LcfSharp.Rpg.Enemies
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) EnemyChunk.StateRanksSize )]
-        public List<byte> StateRanks
+        public LcfPackedList<byte> StateRanks
         {
             get;
             set;
@@ -227,7 +228,7 @@ namespace LcfSharp.Rpg.Enemies
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) EnemyChunk.AttributeRanksSize )]
-        public List<byte> AttributeRanks
+        public LcfPackedList<byte> AttributeRanks
         {
             get;
             set;
@@ -237,7 +238,7 @@ namespace LcfSharp.Rpg.Enemies
         /// The list of actions the enemy can perform.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<EnemyAction> Actions
+        public LcfIndexedList<EnemyAction> Actions
         {
             get;
             set;

@@ -29,7 +29,7 @@
 
 using LcfSharp.Chunks.Database.Animation;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -37,7 +37,7 @@ namespace LcfSharp.Rpg.Animations
     /// Class representing an animation frame.
     /// </summary>
     [LcfChunk<AnimationFrameChunk>]
-    public class AnimationFrame
+    public class AnimationFrame : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the animation frame.
@@ -53,7 +53,7 @@ namespace LcfSharp.Rpg.Animations
         /// The list of animation cell data in the frame.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<AnimationCellData> Cells
+        public LcfIndexedList<AnimationCellData> Cells
         {
             get;
             set;

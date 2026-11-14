@@ -30,8 +30,8 @@
 using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.MapTree;
-using System.Collections.Generic;
 using System.IO;
 
 namespace LcfSharp
@@ -54,20 +54,20 @@ namespace LcfSharp
         /// <summary>
         /// Gets or sets the list of map information.
         /// </summary>
-        public List<MapInfo> Maps
+        public LcfIndexedList<MapInfo> Maps
         {
             get;
             set;
-        } = new List<MapInfo>();
+        } = new LcfIndexedList<MapInfo>( );
 
         /// <summary>
         /// Gets or sets the order of the map tree nodes.
         /// </summary>
-        public List<int> TreeOrder
+        public LcfList<int> TreeOrder
         {
             get;
             set;
-        } = new List<int>();
+        } = new LcfList<int>( );
 
         /// <summary>
         /// Gets or sets the ID of the active node in the map tree.
@@ -85,18 +85,41 @@ namespace LcfSharp
         {
             get;
             set;
-        } = new Start();
+        } = new Start( );
 
         /// <summary>
         /// Loads the map tree from the specified file path.
         /// </summary>
         /// <param name="path">The file path of the map tree.</param>
+        /// <param name="encodingType">The string encoding type.</param>
         /// <returns>The loaded <see cref="LmtFile"/> object.</returns>
-        public static LmtFile Load(string path)
+        public static LmtFile Load( string path, LcfEncodingType encodingType = LcfEncodingType.WesternEurope1252 )
         {
-            using (var stream = File.OpenRead(path))
+            using ( var stream = File.OpenRead( path ) )
             {
-                return LcfSerialiser.Deserialise<LmtFile>(stream, new LcfSerialiserOptions { Format = LcfFormat.LMT });
+                return LcfSerialiser.Deserialise<LmtFile>( stream, new LcfSerialiserOptions 
+                { 
+                    Format = LcfFormat.LMT,
+                    EncodingType = encodingType
+                } );
+            }
+        }
+
+        /// <summary>
+        /// Saves an LMT file to the specified file path.
+        /// </summary>
+        /// <param name="path">The file path of the map tree.</param>
+        /// <param name="lmtFile">The lmt data.</param>
+        /// <param name="encodingType">The string encoding type.</param>
+        public static void Save( string path, LmtFile lmtFile, LcfEncodingType encodingType = LcfEncodingType.WesternEurope1252 )
+        {
+            using ( var stream = File.OpenWrite( path ) )
+            {
+                LcfSerialiser.Serialise( stream, lmtFile, new LcfSerialiserOptions 
+                { 
+                    Format = LcfFormat.LMT,
+                    EncodingType = encodingType
+                } );
             }
         }
     }

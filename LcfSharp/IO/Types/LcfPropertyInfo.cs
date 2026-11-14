@@ -1,0 +1,258 @@
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Converters;
+using System.Collections.Generic;
+using System.Reflection;
+using System;
+using LcfSharp.IO.Types.Generic;
+
+namespace LcfSharp.IO.Types
+{
+    /// <summary>
+    /// Represents a property in an LCF (RPG Maker 2000 format) type, including metadata and attributes.
+    /// </summary>
+    public class LcfPropertyInfo
+    {
+        /// <summary>
+        /// Cache for storing properties of different types.
+        /// </summary>
+        static Dictionary<Type, List<LcfPropertyInfo>> _propertyCache = [];
+
+        /// <summary>
+        /// Cache for storing default instances to obtain default property values
+        /// </summary>
+        static Dictionary<Type, object> _defaultInstances = [];
+
+        /// <summary>
+        /// Gets the <see cref="PropertyInfo"/> associated with this LcfProperty.
+        /// </summary>
+        public PropertyInfo Property
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="LcfIDAttribute"/> of the property, if any.
+        /// </summary>
+        public LcfIDAttribute ID
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="LcfAlwaysPersistAttribute"/> of the property, if any.
+        /// </summary>
+        public LcfAlwaysPersistAttribute AlwaysPersist
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="LcfSizeAttribute"/> of the property, if any.
+        /// </summary>
+        public LcfSizeAttribute Size
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="LcfVersionAttribute"/> of the property, if any.
+        /// </summary>
+        public LcfVersionAttribute Version
+        {
+            get;
+            private set;
+        }
+
+        public LcfAlwaysWriteChunkLengthAttribute AlwaysWriteChunkLength
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the property is allowed based on the version attribute and engine version.
+        /// </summary>
+        public bool IsAllowed
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the property is a generic list type.
+        /// </summary>
+        public bool IsGenericListType
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the inner type of the generic list if the property is a generic list type.
+        /// </summary>
+        public Type GenericListInnerType
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the inner type of the generic list is a basic type (primitive or not a class).
+        /// </summary>
+        public bool IsGenericListBasicType
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Repreents the default value assigned
+        /// </summary>
+        public object DefaultValue
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="LcfPropertyInfo"/> class for the specified property.
+        /// </summary>
+        /// <param name="property">The property to create an <see cref="LcfPropertyInfo"/> for.</param>
+        public LcfPropertyInfo( PropertyInfo property )
+        {
+            Property = property;
+
+            GatherAttributes( property );
+
+            IsAllowed = CheckIsAllowed( );
+
+            IsGenericListType = property.PropertyType.IsGenericType &&
+                CheckIfGenericListType( property.PropertyType.GetGenericTypeDefinition( ) );
+
+            if ( IsGenericListType )
+            {
+                GenericListInnerType = property.PropertyType.GetGenericArguments( )[0];
+                IsGenericListBasicType = !GenericListInnerType.IsClass && GenericListInnerType.IsPrimitive;
+            }
+
+            if ( !_defaultInstances.ContainsKey( property.DeclaringType ) )
+                _defaultInstances.Add( property.DeclaringType, Activator.CreateInstance( property.DeclaringType ) );
+
+            var defaultInstance = _defaultInstances[property.DeclaringType];
+
+            DefaultValue = Property.GetValue( defaultInstance );
+        }
+
+        /// <summary>
+        /// Checks whether a type is an LCF list definition.
+        /// </summary>
+        /// <param name="type">The type to inspect.</param>
+        /// <returns>Whether the type is a supported list.</returns>
+        private static bool CheckIfGenericListType( Type type )
+        {
+            return type == typeof( LcfList<> ) ||
+                type == typeof( LcfIndexedList<> ) ||
+                type == typeof( LcfPackedList<> ) ||
+                type == typeof( LcfBoundedList<> );
+        }
+
+        /// <summary>
+        /// Gather attribute information for the property
+        /// </summary>
+        /// <param name="property">The property.</param>
+        private void GatherAttributes( PropertyInfo property )
+        {
+            var customAttributes = property.GetCustomAttributes( true );
+
+            foreach ( var attribute in customAttributes )
+            {
+                if ( attribute is LcfIDAttribute idAttr )
+                {
+                    ID = idAttr;
+                }
+                else if ( attribute is LcfAlwaysPersistAttribute alwaysPersistAttr )
+                {
+                    AlwaysPersist = alwaysPersistAttr;
+                }
+                else if ( attribute is LcfSizeAttribute sizeAttr )
+                {
+                    Size = sizeAttr;
+                }
+                else if ( attribute is LcfVersionAttribute versionAttr )
+                {
+                    Version = versionAttr;
+                }
+                else if ( attribute is LcfAlwaysWriteChunkLengthAttribute chunkLengthAttr )
+                {
+                    AlwaysWriteChunkLength = chunkLengthAttr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the property is allowed based on the version attribute and engine version.
+        /// </summary>
+        /// <returns><c>true</c> if the property is allowed; otherwise, <c>false</c>.</returns>
+        private bool CheckIsAllowed( )
+        {
+            return Property != null &&
+                ( Version == null ||
+                 Version.Version == LcfConverterFactory.EngineVersion );
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="LcfPropertyInfo"/> objects for the specified type.
+        /// </summary>
+        /// <param name="type">The type to get properties for.</param>
+        /// <returns>A list of <see cref="LcfPropertyInfo"/> objects for the specified type.</returns>
+        public static List<LcfPropertyInfo> Get( Type type )
+        {
+            if ( !_propertyCache.TryGetValue( type, out var properties ) )
+            {
+                properties = [];
+                foreach ( var p in LcfConverterFactory.GetProperties( type ) )
+                {
+                    if ( p.GetCustomAttribute<LcfIgnoreAttribute>( ) == null )
+                    {
+                        properties.Add( new LcfPropertyInfo( p ) );
+                    }
+                }
+                _propertyCache[type] = properties;
+            }
+            return properties;
+        }
+    }
+}

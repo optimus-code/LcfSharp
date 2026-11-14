@@ -27,15 +27,14 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
     /// <summary>
     /// Class representing an event command in the game.
     /// </summary>
-    [LcfCalculatedSize]
     public class EventCommand
     {
         /// <summary>
@@ -59,7 +58,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The string associated with the event command.
         /// </summary>
-        public string String
+        public LcfString String
         {
             get;
             set;
@@ -68,7 +67,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The list of parameters associated with the event command.
         /// </summary>
-        public List<int> Parameters
+        public LcfList<int> Parameters
         {
             get;
             set;

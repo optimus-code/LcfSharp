@@ -29,7 +29,8 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.Events
     /// Class representing a common event in the game.
     /// </summary>
     [LcfChunk<CommonEventChunk>]
-    public class CommonEvent
+    public class CommonEvent : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the common event.
@@ -52,8 +53,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The name of the common event.
         /// </summary>
-        [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -62,6 +62,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The trigger type for the common event.
         /// </summary>
+        [LcfAlwaysPersist]
         public CommonEventTrigger Trigger
         {
             get;
@@ -90,8 +91,8 @@ namespace LcfSharp.Rpg.Events
         /// The list of event commands associated with the common event.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) CommonEventChunk.EventCommandsSize )]
-        public List<EventCommand> EventCommands
+        [LcfSize( ( int ) CommonEventChunk.EventCommandsSize, AlwaysPersist = true )]
+        public EventCommandCollection EventCommands
         {
             get;
             set;

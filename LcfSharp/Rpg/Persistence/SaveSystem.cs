@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,51 +27,21 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+using LcfSharp.IO.Types;
 using LcfSharp.Rpg.Audio;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Persistence
 {
-    public enum SaveSystemScene
-    {
-        Map = 0,
-        Menu = 1,
-        Battle = 2,
-        Shop = 3,
-        Name = 4,
-        File = 5,
-        Title = 6,
-        GameOver = 7,
-        Debug = 8
-    }
-
-    public enum SaveSystemAtbMode
-    {
-        AtbActive = 0,
-        AtbWait = 1
-    }
-
+    /// <summary>
+    /// Represents System data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveSystemChunk>]
     public class SaveSystem
     {
-        public static readonly Dictionary<SaveSystemScene, string> SceneTags = new Dictionary<SaveSystemScene, string>
-        {
-            { SaveSystemScene.Map, "map" },
-            { SaveSystemScene.Menu, "menu" },
-            { SaveSystemScene.Battle, "battle" },
-            { SaveSystemScene.Shop, "shop" },
-            { SaveSystemScene.Name, "name" },
-            { SaveSystemScene.File, "file" },
-            { SaveSystemScene.Title, "title" },
-            { SaveSystemScene.GameOver, "game_over" },
-            { SaveSystemScene.Debug, "debug" }
-        };
-
-        public static readonly Dictionary<SaveSystemAtbMode, string> AtbModeTags = new Dictionary<SaveSystemAtbMode, string>
-        {
-            { SaveSystemAtbMode.AtbActive, "atb_active" },
-            { SaveSystemAtbMode.AtbWait, "atb_wait" }
-        };
-
+        [LcfAlwaysPersist]
         public int Scene
         {
             get;
@@ -84,7 +54,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string GraphicsName
+        public LcfString GraphicsName
         {
             get;
             set;
@@ -102,13 +72,17 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public List<bool> Switches
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveSystemChunk.SwitchesSize )]
+        public LcfPackedList<bool> Switches
         {
             get;
             set;
         } = [];
 
-        public List<int> Variables
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveSystemChunk.VariablesSize )]
+        public LcfPackedList<LcfFixedInt32> Variables
         {
             get;
             set;
@@ -138,7 +112,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string FaceName
+        public LcfString FaceName
         {
             get;
             set;
@@ -174,180 +148,210 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
+        [LcfAlwaysPersist]
         public Music TitleMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music BattleMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music BattleEndMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music InnMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music CurrentMusic
         {
             get;
             set;
-        }
+        } = new Music( );
 
+        [LcfAlwaysPersist]
         public Music BeforeVehicleMusic
         {
             get;
             set;
-        }
+        } = new Music( );
 
+        [LcfAlwaysPersist]
         public Music BeforeBattleMusic
         {
             get;
             set;
-        }
+        } = new Music( );
 
+        [LcfAlwaysPersist]
         public Music StoredMusic
         {
             get;
             set;
-        }
+        } = new Music( );
 
+        [LcfAlwaysPersist]
         public Music BoatMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music ShipMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music AirshipMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Music GameoverMusic
         {
             get;
             set;
         } = new Music { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound CursorSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound DecisionSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound CancelSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound BuzzerSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound BattleSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound EscapeSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound EnemyAttackSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound EnemyDamagedSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound ActorDamagedSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound DodgeSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound EnemyDeathSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public Sound ItemSE
         {
             get;
             set;
         } = new Sound { Name = "" };
 
+        [LcfAlwaysPersist]
         public sbyte TransitionOut
         {
             get;
             set;
         } = -1;
 
+        [LcfAlwaysPersist]
         public sbyte TransitionIn
         {
             get;
             set;
         } = -1;
 
+        [LcfAlwaysPersist]
         public sbyte BattleStartFadeout
         {
             get;
             set;
         } = -1;
 
+        [LcfAlwaysPersist]
         public sbyte BattleStartFadein
         {
             get;
             set;
         } = -1;
 
+        [LcfAlwaysPersist]
         public sbyte BattleEndFadeout
         {
             get;
             set;
         } = -1;
 
+        [LcfAlwaysPersist]
         public sbyte BattleEndFadein
         {
             get;
@@ -378,7 +382,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         } = true;
 
-        public string Background
+        public LcfString Background
         {
             get;
             set;
@@ -396,40 +400,11 @@ namespace LcfSharp.Rpg.Persistence
             set;
         } = 1;
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int AtbMode
         {
             get;
             set;
         }
-
-        public List<string> ManiacStrings
-        {
-            get;
-            set;
-        } = [];
-
-        public int ManiacFrameskip
-        {
-            get;
-            set;
-        }
-
-        public int ManiacPictureLimit
-        {
-            get;
-            set;
-        }
-
-        public List<byte> ManiacOptions
-        {
-            get;
-            set;
-        } = [];
-
-        public List<byte> ManiacJoypadBindings
-        {
-            get;
-            set;
-        } = [];
     }
 }

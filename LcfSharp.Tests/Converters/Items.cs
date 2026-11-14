@@ -1,25 +1,56 @@
-﻿using LcfSharp.IO.Converters;
+/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.IO;
+using LcfSharp.IO.Converters;
 using LcfSharp.Rpg.Items;
 using System.IO;
-using System.Linq;
 
 namespace LcfSharp.Tests.Converters
 {
+    /// <summary>
+    /// Tests item conversion and serialization.
+    /// </summary>
     [TestClass]
     public class Items
     {
         // Binary data representing the serialized form of the Item instance
-        byte[] data = [0x02, 0x01, 0x08, 0x24, 0x64, 0x50, 0x6F, 0x74, 0x69, 0x6F, 0x6E, 0x02, 0x31, 0x52, 0x65, 0x63, 0x6F, 0x76, 0x65, 0x72, 0x73, 0x20, 0x35, 0x30, 0x25, 0x20, 0x6F, 0x66, 0x20, 0x24, 0x6B, 0x48, 0x50, 0x2C, 0x20, 0x61, 0x6C, 0x73, 0x6F, 0x20, 0x61, 0x76, 0x61, 0x69, 0x6C, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x74, 0x6F, 0x20, 0x63, 0x68, 0x69, 0x6C, 0x64, 0x72, 0x65, 0x6E, 0x21, 0x03, 0x01, 0x06, 0x05, 0x01, 0x28, 0x0F, 0x01, 0x00, 0x1F, 0x01, 0x00, 0x20, 0x01, 0x32, 0x21, 0x01, 0x0A, 0x33, 0x01, 0x00, 0x3E, 0x00, 0x40, 0x00, 0x42, 0x00, 0x00];
+        byte[] data = [0x01, 0x08, 0x24, 0x64, 0x50, 0x6F, 0x74, 0x69, 0x6F, 0x6E, 0x02, 0x31, 0x52, 0x65, 0x63, 0x6F, 0x76, 0x65, 0x72, 0x73, 0x20, 0x35, 0x30, 0x25, 0x20, 0x6F, 0x66, 0x20, 0x24, 0x6B, 0x48, 0x50, 0x2C, 0x20, 0x61, 0x6C, 0x73, 0x6F, 0x20, 0x61, 0x76, 0x61, 0x69, 0x6C, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x74, 0x6F, 0x20, 0x63, 0x68, 0x69, 0x6C, 0x64, 0x72, 0x65, 0x6E, 0x21, 0x03, 0x01, 0x06, 0x05, 0x01, 0x28, 0x0F, 0x01, 0x00, 0x1F, 0x01, 0x00, 0x20, 0x01, 0x32, 0x21, 0x01, 0x0A, 0x33, 0x01, 0x00, 0x3E, 0x00, 0x40, 0x00, 0x42, 0x00, 0x00];
 
         // Item instance based on provided JSON
         Item instance = new Item
         {
-            ID = 2,
             Name = "$dPotion",
             Description = "Recovers 50% of $kHP, also available to children!",
             Type = ( ItemType ) 6,
             Price = 40,
-            Uses = 0,
+            Uses = 1,
             AtkPoints1 = 0,
             DefPoints1 = 0,
             SpiPoints1 = 0,
@@ -54,7 +85,7 @@ namespace LcfSharp.Tests.Converters
             UsingMessage = 0,
             SkillID = 0,
             SwitchID = 0,
-            OccasionField2 = false,
+            OccasionField2 = true,
             OccasionBattle = false,
             ActorSet = [],
             StateSet = [],
@@ -69,15 +100,19 @@ namespace LcfSharp.Tests.Converters
             RangedTarget = 0
         };
 
+        /// <summary>
+        /// Checks item deserialization.
+        /// </summary>
         [TestMethod]
         public void Read( )
         {
             using ( var ms = new MemoryStream( data ) )
             {
-                var reader = new BinaryReader( ms );
+                var reader = new LcfReader( ms );
+                var scope = reader.CreateRootScope( );
 
                 var lcfConverter = LcfConverterFactory.GetConverter( typeof( Item ) );
-                var item = ( Item ) lcfConverter.Read( reader, null );
+                var item = ( Item ) lcfConverter.Read( ref scope );
 
                 Assert.AreEqual( instance.ID, item.ID );
                 Assert.AreEqual( instance.Name, item.Name );
@@ -121,56 +156,36 @@ namespace LcfSharp.Tests.Converters
                 Assert.AreEqual( instance.SwitchID, item.SwitchID );
                 Assert.AreEqual( instance.OccasionField2, item.OccasionField2 );
                 Assert.AreEqual( instance.OccasionBattle, item.OccasionBattle );
-                CollectionAssert.AreEqual( instance.ActorSet, item.ActorSet );
-                CollectionAssert.AreEqual( instance.StateSet, item.StateSet );
-                CollectionAssert.AreEqual( instance.AttributeSet, item.AttributeSet );
+                TestHelpers.AssertBuffer( instance.ActorSet.ToArray( ), item.ActorSet.ToArray( ) );
+                TestHelpers.AssertBuffer( instance.StateSet.ToArray( ), item.StateSet.ToArray( ) );
+                TestHelpers.AssertBuffer( instance.AttributeSet.ToArray( ), item.AttributeSet.ToArray( ) );
                 Assert.AreEqual( instance.StateChance, item.StateChance );
                 Assert.AreEqual( instance.ReverseStateEffect, item.ReverseStateEffect );
                 Assert.AreEqual( instance.WeaponAnimation, item.WeaponAnimation );
-                Assert.AreEqual( instance.AnimationData, item.AnimationData );
+                Assert.AreSequenceEqual( instance.AnimationData, item.AnimationData );
                 Assert.AreEqual( instance.UseSkill, item.UseSkill );
-                Assert.AreEqual( instance.ClassSet, item.ClassSet );
+                Assert.AreSequenceEqual( instance.ClassSet, item.ClassSet );
                 Assert.AreEqual( instance.RangedTrajectory, item.RangedTrajectory );
                 Assert.AreEqual( instance.RangedTarget, item.RangedTarget );
             }
         }
 
+        /// <summary>
+        /// Checks item serialization.
+        /// </summary>
         [TestMethod]
         public void Write( )
         {
             using ( var ms = new MemoryStream( ) )
             {
-                var writer = new BinaryWriter( ms );
+                var writer = new LcfWriter( ms );
+                var scope = writer.CreateRootScope( );
 
                 var lcfConverter = LcfConverterFactory.GetConverter( typeof( Item ) );
-                lcfConverter.Write( writer, instance, false );
+                lcfConverter.Write( ref scope, instance );
+                writer.Commit( ref scope );
 
-                var buffer = ms.ToArray( );
-                int minLength = System.Math.Min( buffer.Length, data.Length );
-                int contextBytes = 5; // Number of bytes to show before and after the deviation
-
-                for ( int i = 0; i < minLength; i++ )
-                {
-                    if ( buffer[i] != data[i] )
-                    {
-                        // Show surrounding bytes for context
-                        int start = System.Math.Max( 0, i - contextBytes );
-                        int end = System.Math.Min( minLength - 1, i + contextBytes );
-
-                        var bufferSnippet = string.Join( " ", buffer.Skip( start ).Take( end - start + 1 ).Select( b => $"0x{b:X2}" ) );
-                        var dataSnippet = string.Join( " ", data.Skip( start ).Take( end - start + 1 ).Select( b => $"0x{b:X2}" ) );
-
-                        Assert.Fail( $"Buffers differ at index {i}. Expected: 0x{data[i]:X2}, Actual: 0x{buffer[i]:X2}\n" +
-                                    $"Written:\t{bufferSnippet}\n" +
-                                    $"Expected:\t{dataSnippet}" );
-                    }
-                }
-
-                // If no differences found, check if one buffer is longer than the other
-                if ( buffer.Length != data.Length )
-                {
-                    Assert.Fail( $"Buffers have different lengths. Expected: {data.Length}, Actual: {buffer.Length}" );
-                }
+                TestHelpers.AssertBuffer( data, ms.ToArray( ) );
             }
         }
     }

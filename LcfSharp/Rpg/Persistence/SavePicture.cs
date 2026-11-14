@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,85 +27,27 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Persistence
 {
-    public enum SavePictureEffect
+    /// <summary>
+    /// Represents Picture data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SavePictureChunk>]
+    public class SavePicture : IIndexedItem
     {
-        None = 0,
-        Rotation = 1,
-        Wave = 2,
-        ManiacFixedAngle = 3
-    }
-
-    public enum SavePictureMapLayer
-    {
-        None = 0,
-        Parallax = 1,
-        TilemapBelow = 2,
-        EventsBelow = 3,
-        EventsSameAsPlayer = 4,
-        TilemapAbove = 5,
-        EventsAbove = 6,
-        Weather = 7,
-        Animations = 8,
-        Windows = 9,
-        Timers = 10
-    }
-
-    public enum SavePictureBattleLayer
-    {
-        None = 0,
-        Background = 1,
-        BattlersAndAnimations = 2,
-        Weather = 3,
-        WindowsAndStatus = 4,
-        Timers = 5
-    }
-
-    public class SavePicture
-    {
-        public static readonly Dictionary<SavePictureEffect, string> EffectTags = new Dictionary<SavePictureEffect, string>
-        {
-            { SavePictureEffect.None, "none" },
-            { SavePictureEffect.Rotation, "rotation" },
-            { SavePictureEffect.Wave, "wave" },
-            { SavePictureEffect.ManiacFixedAngle, "maniac_fixed_angle" }
-        };
-
-        public static readonly Dictionary<SavePictureMapLayer, string> MapLayerTags = new Dictionary<SavePictureMapLayer, string>
-        {
-            { SavePictureMapLayer.None, "none" },
-            { SavePictureMapLayer.Parallax, "parallax" },
-            { SavePictureMapLayer.TilemapBelow, "tilemap_below" },
-            { SavePictureMapLayer.EventsBelow, "events_below" },
-            { SavePictureMapLayer.EventsSameAsPlayer, "events_same_as_player" },
-            { SavePictureMapLayer.TilemapAbove, "tilemap_above" },
-            { SavePictureMapLayer.EventsAbove, "events_above" },
-            { SavePictureMapLayer.Weather, "weather" },
-            { SavePictureMapLayer.Animations, "animations" },
-            { SavePictureMapLayer.Windows, "windows" },
-            { SavePictureMapLayer.Timers, "timers" }
-        };
-
-        public static readonly Dictionary<SavePictureBattleLayer, string> BattleLayerTags = new Dictionary<SavePictureBattleLayer, string>
-        {
-            { SavePictureBattleLayer.None, "none" },
-            { SavePictureBattleLayer.Background, "background" },
-            { SavePictureBattleLayer.BattlersAndAnimations, "battlers_and_animations" },
-            { SavePictureBattleLayer.Weather, "weather" },
-            { SavePictureBattleLayer.WindowsAndStatus, "windows_and_status" },
-            { SavePictureBattleLayer.Timers, "timers" }
-        };
-
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -201,36 +143,42 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpritesheetCols
         {
             get;
             set;
         } = 1;
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpritesheetRows
         {
             get;
             set;
         } = 1;
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpritesheetFrame
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpritesheetSpeed
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int Frames
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool SpritesheetPlayOnce
         {
             get;

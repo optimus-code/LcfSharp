@@ -27,36 +27,33 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.IO.Extensions;
-using System.IO;
+using LcfSharp.IO.Scopes;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert boolean values in the LCF (RPG Maker 2000 format).
+    /// Converts boolean values.
     /// </summary>
     public class LcfBooleanConverter : LcfConverter<bool>
     {
         /// <summary>
-        /// Reads a boolean value from the specified binary reader.
+        /// Reads a boolean value.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
-        /// <returns>The boolean value read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The boolean value.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
-            return reader.ReadVarInt32( ) > 0;
+            return scope.ReadVarInt32( ) > 0;
         }
 
         /// <summary>
-        /// Writes the specified boolean value to the binary writer.
+        /// Writes the specified boolean value.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
+        /// <param name="scope">The write scope.</param>
         /// <param name="value">The boolean value to write.</param>
-        /// <param name="writeLength">Not applicable here</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        public override void Write( ref LcfWriteScope scope, object value )
         {
-            writer.WriteVarInt32( ( bool ) value ? 1 : 0 );
+            scope.WriteVarInt32( ( bool ) value ? 1 : 0 );
         }
     }
 }

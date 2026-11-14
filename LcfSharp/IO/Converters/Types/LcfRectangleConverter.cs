@@ -27,42 +27,39 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Scopes;
 using LcfSharp.IO.Types;
-using System;
-using System.IO;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert 7-bit variable-length encoded integer values in the LCF (RPG Maker 2000 format).
+    /// Converts 7-bit variable-length encoded integer values.
     /// </summary>
     public class LcfRectangleConverter : LcfConverter<Rectangle>
     {
         /// <summary>
-        /// Reads a Rectangle from the specified binary reader.
+        /// Reads a rectangle.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
-        /// <returns>The 32-bit integer value read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The rectangle.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
-            return new Rectangle( reader.ReadUInt32( ), reader.ReadUInt32( ),
-                reader.ReadUInt32( ), reader.ReadUInt32( ) );
+            return new Rectangle( scope.ReadUInt32( ), scope.ReadUInt32( ),
+                scope.ReadUInt32( ), scope.ReadUInt32( ) );
         }
 
         /// <summary>
-        /// Writes the specified Rectangle to the binary writer.
+        /// Writes a rectangle.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
-        /// <param name="value">The 32-bit integer value to write.</param>
-        /// <param name="writeLength">Not applicable</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        /// <param name="scope">The write scope.</param>
+        /// <param name="value">The value to write.</param>
+        public override void Write( ref LcfWriteScope scope, object value )
         {
             var rectValue = ( Rectangle ) value;
-            writer.Write( rectValue.Left );
-            writer.Write( rectValue.Top );
-            writer.Write( rectValue.Right );
-            writer.Write( rectValue.Bottom );
+            scope.WriteUInt32( rectValue.Left );
+            scope.WriteUInt32( rectValue.Top );
+            scope.WriteUInt32( rectValue.Right );
+            scope.WriteUInt32( rectValue.Bottom );
         }
     }
 }

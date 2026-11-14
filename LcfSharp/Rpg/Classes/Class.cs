@@ -29,8 +29,9 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Shared;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Classes
 {
@@ -38,7 +39,7 @@ namespace LcfSharp.Rpg.Classes
     /// Class representing a character class in the game.
     /// </summary>
     [LcfChunk<ClassChunk>]
-    public class Class
+    public class Class : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the class.
@@ -53,7 +54,7 @@ namespace LcfSharp.Rpg.Classes
         /// <summary>
         /// The name of the class.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -144,7 +145,7 @@ namespace LcfSharp.Rpg.Classes
         /// The list of skills the class can learn.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<Learning> Skills
+        public LcfIndexedList<Learning> Skills
         {
             get;
             set;
@@ -155,7 +156,7 @@ namespace LcfSharp.Rpg.Classes
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ClassChunk.StateRanksSize )]
-        public List<byte> StateRanks
+        public LcfPackedList<byte> StateRanks
         {
             get;
             set;
@@ -166,7 +167,7 @@ namespace LcfSharp.Rpg.Classes
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ClassChunk.AttributeRanksSize )]
-        public List<byte> AttributeRanks
+        public LcfPackedList<byte> AttributeRanks
         {
             get;
             set;
@@ -176,7 +177,7 @@ namespace LcfSharp.Rpg.Classes
         /// The battle commands for the class.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<int> BattleCommands
+        public LcfPackedList<LcfFixedInt32> BattleCommands
         {
             get;
             set;

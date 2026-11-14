@@ -30,8 +30,8 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Shared;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Actors
 {
@@ -39,7 +39,7 @@ namespace LcfSharp.Rpg.Actors
     /// Class representing an actor in the game.
     /// </summary>
     [LcfChunk<ActorChunk>]
-    public class Actor
+    public class Actor : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the actor. Default is 0.
@@ -55,7 +55,7 @@ namespace LcfSharp.Rpg.Actors
         /// The name of the actor.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -64,8 +64,7 @@ namespace LcfSharp.Rpg.Actors
         /// <summary>
         /// The title of the actor.
         /// </summary>
-        [LcfAlwaysPersist]
-        public string Title
+        public LcfString Title
         {
             get;
             set;
@@ -75,7 +74,7 @@ namespace LcfSharp.Rpg.Actors
         /// The name of the character graphic.
         /// </summary>
         [LcfAlwaysPersist]
-        public string CharacterName
+        public LcfString CharacterName
         {
             get;
             set;
@@ -139,7 +138,7 @@ namespace LcfSharp.Rpg.Actors
         /// The name of the face graphic.
         /// </summary>
         [LcfAlwaysPersist]
-        public string FaceName
+        public LcfString FaceName
         {
             get;
             set;
@@ -290,7 +289,7 @@ namespace LcfSharp.Rpg.Actors
         /// The list of skills the actor can learn.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<Learning> Skills
+        public LcfIndexedList<Learning> Skills
         {
             get;
             set;
@@ -308,7 +307,7 @@ namespace LcfSharp.Rpg.Actors
         /// <summary>
         /// The custom name of the skill.
         /// </summary>
-        public string SkillName
+        public LcfString SkillName
         {
             get;
             set;
@@ -319,7 +318,7 @@ namespace LcfSharp.Rpg.Actors
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ActorChunk.StateRanksSize )]
-        public List<byte> StateRanks
+        public LcfPackedList<byte> StateRanks
         {
             get;
             set;
@@ -330,7 +329,7 @@ namespace LcfSharp.Rpg.Actors
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ActorChunk.AttributeRanksSize )]
-        public List<byte> AttributeRanks
+        public LcfPackedList<byte> AttributeRanks
         {
             get;
             set;
@@ -341,7 +340,7 @@ namespace LcfSharp.Rpg.Actors
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public List<int> BattleCommands
+        public LcfPackedList<LcfFixedInt32> BattleCommands
         {
             get;
             set;

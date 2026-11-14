@@ -30,8 +30,8 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Audio;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.GameSystems
 {
@@ -53,7 +53,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The name of the boat.
         /// </summary>
-        public string BoatName
+        public LcfString BoatName
         {
             get;
             set;
@@ -62,7 +62,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The name of the ship.
         /// </summary>
-        public string ShipName
+        public LcfString ShipName
         {
             get;
             set;
@@ -71,7 +71,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The name of the airship.
         /// </summary>
-        public string AirshipName
+        public LcfString AirshipName
         {
             get;
             set;
@@ -107,7 +107,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The name of the title screen graphic.
         /// </summary>
-        public string TitleName
+        public LcfString TitleName
         {
             get;
             set;
@@ -116,7 +116,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The name of the game over screen graphic.
         /// </summary>
-        public string GameoverName
+        public LcfString GameoverName
         {
             get;
             set;
@@ -125,7 +125,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The name of the system graphic.
         /// </summary>
-        public string SystemName
+        public LcfString SystemName
         {
             get;
             set;
@@ -135,7 +135,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// The name of the second system graphic (only in RM2K3).
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
-        public string System2Name
+        public LcfString System2Name
         {
             get;
             set;
@@ -144,7 +144,9 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The list of party member IDs.
         /// </summary>
-        public List<short> Party
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) GameSystemChunk.PartySize )]
+        public LcfPackedList<short> Party
         {
             get;
             set;
@@ -156,7 +158,7 @@ namespace LcfSharp.Rpg.GameSystems
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
         [LcfSize( ( int ) GameSystemChunk.MenuCommandsSize )]
-        public List<short> MenuCommands
+        public LcfPackedList<short> MenuCommands
         {
             get;
             set;
@@ -345,6 +347,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The fade-out transition effect for screen transitions.
         /// </summary>
+        [LcfAlwaysPersist]
         public GameSystemFadeOut TransitionOut
         {
             get;
@@ -354,6 +357,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The fade-in transition effect for screen transitions.
         /// </summary>
+        [LcfAlwaysPersist]
         public GameSystemFadeIn TransitionIn
         {
             get;
@@ -363,6 +367,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The fade-out transition effect for the start of battles.
         /// </summary>
+        [LcfAlwaysPersist]
         public GameSystemFadeOut BattleStartFadeOut
         {
             get;
@@ -372,6 +377,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The fade-in transition effect for the start of battles.
         /// </summary>
+        [LcfAlwaysPersist]
         public GameSystemFadeIn BattleStartFadeIn
         {
             get;
@@ -381,6 +387,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The fade-out transition effect for the end of battles.
         /// </summary>
+        [LcfAlwaysPersist]
         public GameSystemFadeOut BattleEndFadeOut
         {
             get;
@@ -390,6 +397,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The fade-in transition effect for the end of battles.
         /// </summary>
+        [LcfAlwaysPersist]
         public GameSystemFadeIn BattleEndFadeIn
         {
             get;
@@ -426,6 +434,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The ID of the selected hero.
         /// </summary>
+        [LcfAlwaysPersist]
         public int SelectedHero
         {
             get;
@@ -435,7 +444,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The background used for battle tests.
         /// </summary>
-        public string BattleTestBackground
+        public LcfString BattleTestBackground
         {
             get;
             set;
@@ -444,7 +453,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// <summary>
         /// The list of test battlers used in battle tests.
         /// </summary>
-        public List<TestBattler> BattleTestData
+        public LcfIndexedList<TestBattler> BattleTestData
         {
             get;
             set;
@@ -524,7 +533,7 @@ namespace LcfSharp.Rpg.GameSystems
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string FrameName
+        public LcfString FrameName
         {
             get;
             set;

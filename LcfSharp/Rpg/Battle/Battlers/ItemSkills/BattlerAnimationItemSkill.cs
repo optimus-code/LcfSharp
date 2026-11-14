@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Battle.Battlers.ItemSkills
 {
@@ -36,7 +37,7 @@ namespace LcfSharp.Rpg.Battle.Battlers.ItemSkills
     /// Class representing the battler animation for item skills.
     /// </summary>
     [LcfChunk<BattlerAnimationItemSkillChunk>]
-    public class BattlerAnimationItemSkill
+    public class BattlerAnimationItemSkill : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the battler animation item skill.

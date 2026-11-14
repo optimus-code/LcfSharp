@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,31 +27,43 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Persistence
 {
+    /// <summary>
+    /// Represents Inventory data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveInventoryChunk>]
     public class SaveInventory
     {
-        public List<short> Party
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveInventoryChunk.PartySize, AlwaysPersist = true )]
+        public LcfPackedList<short> Party
         {
             get;
             set;
         } = [];
 
-        public List<short> ItemIDs
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveInventoryChunk.ItemIDsSize, AlwaysPersist = true )]
+        public LcfPackedList<short> ItemIDs
         {
             get;
             set;
         } = [];
 
-        public List<byte> ItemCounts
+        [LcfAlwaysPersist]
+        public LcfPackedList<byte> ItemCounts
         {
             get;
             set;
         } = [];
 
-        public List<byte> ItemUsage
+        [LcfAlwaysPersist]
+        public LcfPackedList<byte> ItemUsage
         {
             get;
             set;

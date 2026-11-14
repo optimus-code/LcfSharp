@@ -30,8 +30,8 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
-using LcfSharp.IO.Converters;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg;
 using LcfSharp.Rpg.Actors;
 using LcfSharp.Rpg.Animations;
@@ -49,7 +49,6 @@ using LcfSharp.Rpg.Skills;
 using LcfSharp.Rpg.States;
 using LcfSharp.Rpg.Terrains;
 using LcfSharp.Rpg.Troops;
-using System.Collections.Generic;
 using System.IO;
 
 namespace LcfSharp
@@ -73,7 +72,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of actors in the database.
         /// </summary>
-        public List<Actor> Actors
+        public LcfIndexedList<Actor> Actors
         {
             get;
             set;
@@ -82,7 +81,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of skills in the database.
         /// </summary>
-        public List<Skill> Skills
+        public LcfIndexedList<Skill> Skills
         {
             get;
             set;
@@ -91,7 +90,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of items in the database.
         /// </summary>
-        public List<Item> Items
+        public LcfIndexedList<Item> Items
         {
             get;
             set;
@@ -100,7 +99,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of enemies in the database.
         /// </summary>
-        public List<Enemy> Enemies
+        public LcfIndexedList<Enemy> Enemies
         {
             get;
             set;
@@ -109,7 +108,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of troops in the database.
         /// </summary>
-        public List<Troop> Troops
+        public LcfIndexedList<Troop> Troops
         {
             get;
             set;
@@ -118,7 +117,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of terrains in the database.
         /// </summary>
-        public List<Terrain> Terrains
+        public LcfIndexedList<Terrain> Terrains
         {
             get;
             set;
@@ -127,7 +126,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of attributes in the database.
         /// </summary>
-        public List<Attribute> Attributes
+        public LcfIndexedList<Attribute> Attributes
         {
             get;
             set;
@@ -136,7 +135,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of states in the database.
         /// </summary>
-        public List<State> States
+        public LcfIndexedList<State> States
         {
             get;
             set;
@@ -145,7 +144,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of animations in the database.
         /// </summary>
-        public List<Animation> Animations
+        public LcfIndexedList<Animation> Animations
         {
             get;
             set;
@@ -154,7 +153,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of chipsets in the database.
         /// </summary>
-        public List<Chipset> Chipsets
+        public LcfIndexedList<Chipset> Chipsets
         {
             get;
             set;
@@ -181,7 +180,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of switches in the database.
         /// </summary>
-        public List<Switch> Switches
+        public LcfIndexedList<Switch> Switches
         {
             get;
             set;
@@ -190,7 +189,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of variables in the database.
         /// </summary>
-        public List<Variable> Variables
+        public LcfIndexedList<Variable> Variables
         {
             get;
             set;
@@ -199,7 +198,7 @@ namespace LcfSharp
         /// <summary>
         /// The list of common events in the database.
         /// </summary>
-        public List<CommonEvent> CommonEvents
+        public LcfIndexedList<CommonEvent> CommonEvents
         {
             get;
             set;
@@ -217,7 +216,7 @@ namespace LcfSharp
         /// <summary>
         /// The battle commands settings for RPG Maker 2003.
         /// </summary>
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
         public BattleCommands BattleCommands
         {
@@ -228,9 +227,9 @@ namespace LcfSharp
         /// <summary>
         /// The list of classes in the database for RPG Maker 2003.
         /// </summary>
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public List<Class> Classes
+        public LcfIndexedList<Class> Classes
         {
             get;
             set;
@@ -239,9 +238,9 @@ namespace LcfSharp
         /// <summary>
         /// The list of battler animations in the database for RPG Maker 2003.
         /// </summary>
-        [LcfVersion(LcfEngineVersion.RM2K3)]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public List<BattlerAnimation> BattlerAnimations
+        public LcfIndexedList<BattlerAnimation> BattlerAnimations
         {
             get;
             set;
@@ -251,12 +250,35 @@ namespace LcfSharp
         /// Loads the database from the specified file path.
         /// </summary>
         /// <param name="path">The file path of the map tree.</param>
+        /// <param name="encodingType">The string encoding type.</param>
         /// <returns>The loaded Map Tree object.</returns>
-        public static LdbFile Load(string path)
+        public static LdbFile Load( string path, LcfEncodingType encodingType = LcfEncodingType.WesternEurope1252 )
         {
-            using (var stream = File.OpenRead(path))
+            using ( var stream = File.OpenRead( path ) )
             {
-                return LcfSerialiser.Deserialise<LdbFile>(stream);
+                return LcfSerialiser.Deserialise<LdbFile>( stream, new LcfSerialiserOptions
+                {
+                    Format = LcfFormat.LDB,
+                    EncodingType = encodingType
+                } );
+            }
+        }
+
+        /// <summary>
+        /// Save an LDB file to the specified file path.
+        /// </summary>
+        /// <param name="path">The file path of the database.</param>
+        /// <param name="file">The file data.</param>
+        /// <param name="encodingType">The string encoding type.</param>
+        public static void Save( string path, LmuFile file, LcfEncodingType encodingType = LcfEncodingType.WesternEurope1252 )
+        {
+            using ( var stream = File.OpenWrite( path ) )
+            {
+                LcfSerialiser.Serialise( stream, file, new LcfSerialiserOptions 
+                { 
+                    Format = LcfFormat.LDB,
+                    EncodingType = encodingType
+                } );
             }
         }
     }

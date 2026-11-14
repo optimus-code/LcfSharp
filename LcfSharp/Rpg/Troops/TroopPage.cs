@@ -29,8 +29,8 @@
 
 using LcfSharp.Chunks.Database.Troops;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Events;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Troops
 {
@@ -38,7 +38,7 @@ namespace LcfSharp.Rpg.Troops
     /// Class representing a page of a troop.
     /// </summary>
     [LcfChunk<TroopPageChunk>]
-    public class TroopPage
+    public class TroopPage : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the troop page.
@@ -64,8 +64,8 @@ namespace LcfSharp.Rpg.Troops
         /// The list of event commands for the troop page.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) TroopPageChunk.EventCommandsSize )]
-        public List<EventCommand> EventCommands
+        [LcfSize( ( int ) TroopPageChunk.EventCommandsSize, AlwaysPersist = true )]
+        public EventCommandCollection EventCommands
         {
             get;
             set;

@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -57,10 +57,17 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 using LcfSharp.Rpg.Events;
 
 namespace LcfSharp.Rpg.Persistence.Maps
 {
+    /// <summary>
+    /// Represents MapEventBase data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveMapEventBaseChunk>]
     public class SaveMapEventBase
     {
         public bool Active
@@ -69,30 +76,35 @@ namespace LcfSharp.Rpg.Persistence.Maps
             set;
         } = true;
 
+        [LcfAlwaysPersist]
         public int MapID
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersist]
         public int PositionX
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersist]
         public int PositionY
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersist]
         public int Direction
         {
             get;
             set;
         } = 2;
 
+        [LcfAlwaysPersist]
         public int Facing
         {
             get;
@@ -123,6 +135,7 @@ namespace LcfSharp.Rpg.Persistence.Maps
             set;
         } = 2;
 
+        [LcfAlwaysPersist]
         public int Layer
         {
             get;
@@ -135,6 +148,7 @@ namespace LcfSharp.Rpg.Persistence.Maps
             set;
         }
 
+        [LcfAlwaysPersist]
         public int AnimationType
         {
             get;
@@ -147,17 +161,19 @@ namespace LcfSharp.Rpg.Persistence.Maps
             set;
         }
 
+        [LcfAlwaysPersist]
         public int MoveSpeed
         {
             get;
             set;
         } = 4;
 
+        [LcfAlwaysPersist]
         public MoveRoute MoveRoute
         {
             get;
             set;
-        }
+        } = new MoveRoute( );
 
         public bool MoveRouteOverwrite
         {
@@ -249,7 +265,7 @@ namespace LcfSharp.Rpg.Persistence.Maps
             set;
         }
 
-        public string SpriteName
+        public LcfString SpriteName
         {
             get;
             set;

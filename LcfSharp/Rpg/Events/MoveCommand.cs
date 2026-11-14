@@ -1,7 +1,4 @@
-﻿
-using LcfSharp.IO.Attributes;
-
-/// <copyright>
+﻿/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -29,9 +26,15 @@ using LcfSharp.IO.Attributes;
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
+
+using LcfSharp.IO.Types;
+
+
 namespace LcfSharp.Rpg.Events
 {
-    [LcfCalculatedSize]
+    /// <summary>
+    /// Represents MoveCommand data in an LCF file.
+    /// </summary>
     public class MoveCommand
     {
         public MoveCommandCode CommandID
@@ -40,7 +43,7 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
-        public string ParameterString
+        public LcfString ParameterString
         {
             get;
             set;

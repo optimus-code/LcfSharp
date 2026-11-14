@@ -30,7 +30,7 @@
 using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
-using System.Collections.Generic;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Battle.Commands
 {
@@ -90,7 +90,7 @@ namespace LcfSharp.Rpg.Battle.Commands
         /// The list of battle commands.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<BattleCommand> Commands
+        public LcfIndexedList<BattleCommand> Commands
         {
             get;
             set;

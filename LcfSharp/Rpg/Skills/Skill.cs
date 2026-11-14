@@ -30,14 +30,17 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Audio;
 using LcfSharp.Rpg.Battle.Battlers.ItemSkills;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Skills
 {
+    /// <summary>
+    /// Represents Skill data in an LCF file.
+    /// </summary>
     [LcfChunk<SkillChunk>]
-    public class Skill
+    public class Skill : IIndexedItem
     {
         [LcfID]
         public int ID
@@ -46,25 +49,25 @@ namespace LcfSharp.Rpg.Skills
             set;
         } = 0;
 
-        public string Name
+        public LcfString Name
         {
             get;
             set;
         }
 
-        public string Description
+        public LcfString Description
         {
             get;
             set;
         }
 
-        public string UsingMessage1
+        public LcfString UsingMessage1
         {
             get;
             set;
         }
 
-        public string UsingMessage2
+        public LcfString UsingMessage2
         {
             get;
             set;
@@ -227,16 +230,16 @@ namespace LcfSharp.Rpg.Skills
         } = false;
 
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) SkillChunk.StateEffectsSize, NoSizeWhenEmpty = true )]
-        public List<byte> StateEffects
+        [LcfSize( ( int ) SkillChunk.StateEffectsSize )]
+        public LcfPackedList<byte> StateEffects
         {
             get;
             set;
         }
 
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) SkillChunk.AttributeEffectsSize, NoSizeWhenEmpty = true )]
-        public List<byte> AttributeEffects
+        [LcfSize( ( int ) SkillChunk.AttributeEffectsSize )]
+        public LcfPackedList<byte> AttributeEffects
         {
             get;
             set;
@@ -257,7 +260,7 @@ namespace LcfSharp.Rpg.Skills
 
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public List<BattlerAnimationItemSkill> BattlerAnimationData
+        public LcfIndexedList<BattlerAnimationItemSkill> BattlerAnimationData
         {
             get;
             set;

@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database.Enemies;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Enemies
 {
@@ -36,7 +37,7 @@ namespace LcfSharp.Rpg.Enemies
     /// Class representing an enemy action.
     /// </summary>
     [LcfChunk<EnemyActionChunk>]
-    public class EnemyAction
+    public class EnemyAction : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the enemy action.

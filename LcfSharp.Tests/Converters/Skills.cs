@@ -1,22 +1,51 @@
-﻿using LcfSharp.Rpg.Skills;
+/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.IO;
 using LcfSharp.IO.Converters;
-using LcfSharp.IO.Extensions;
+using LcfSharp.Rpg.Skills;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LcfSharp.Tests.Converters
 {
+    /// <summary>
+    /// Tests skill conversion and serialization.
+    /// </summary>
     [TestClass]
     public class Skills
     {
         // Binary data representing the serialized form of the Skill instance
-        byte[] data = [0x05, 0x01, 0x0B, 0x24, 0x59, 0x53, 0x74, 0x75, 0x6E, 0x20, 0x43, 0x6C, 0x61, 0x77, 0x02, 0x22, 0x50, 0x61, 0x72, 0x61, 0x6C, 0x79, 0x7A, 0x65, 0x20, 0x31, 0x20, 0x65, 0x6E, 0x65, 0x6D, 0x79, 0x20, 0x77, 0x69, 0x74, 0x68, 0x20, 0x70, 0x6F, 0x69, 0x73, 0x6F, 0x6E, 0x20, 0x63, 0x6C, 0x61, 0x77, 0x2E, 0x03, 0x1C, 0x25, 0x53, 0x20, 0x73, 0x6C, 0x61, 0x73, 0x68, 0x65, 0x73, 0x20, 0x77, 0x69, 0x74, 0x68, 0x20, 0x24, 0x59, 0x53, 0x74, 0x75, 0x6E, 0x20, 0x43, 0x6C, 0x61, 0x77, 0x21, 0x07, 0x01, 0x03, 0x08, 0x01, 0x00, 0x0C, 0x01, 0x00, 0x0E, 0x01, 0x12, 0x10, 0x08, 0x01, 0x05, 0x28, 0x4F, 0x46, 0x46, 0x29, 0x00, 0x15, 0x01, 0x0A, 0x16, 0x01, 0x00, 0x1F, 0x01, 0x01, 0x29, 0x01, 0x08, 0x2A, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x2C, 0x00, 0x00];
+        byte[] data = [0x01, 0x0B, 0x24, 0x59, 0x53, 0x74, 0x75, 0x6E, 0x20, 0x43, 0x6C, 0x61, 0x77, 0x02, 0x22, 0x50, 0x61, 0x72, 0x61, 0x6C, 0x79, 0x7A, 0x65, 0x20, 0x31, 0x20, 0x65, 0x6E, 0x65, 0x6D, 0x79, 0x20, 0x77, 0x69, 0x74, 0x68, 0x20, 0x70, 0x6F, 0x69, 0x73, 0x6F, 0x6E, 0x20, 0x63, 0x6C, 0x61, 0x77, 0x2E, 0x03, 0x1C, 0x25, 0x53, 0x20, 0x73, 0x6C, 0x61, 0x73, 0x68, 0x65, 0x73, 0x20, 0x77, 0x69, 0x74, 0x68, 0x20, 0x24, 0x59, 0x53, 0x74, 0x75, 0x6E, 0x20, 0x43, 0x6C, 0x61, 0x77, 0x21, 0x07, 0x01, 0x03, 0x08, 0x01, 0x00, 0x0C, 0x01, 0x00, 0x0E, 0x01, 0x12, 0x10, 0x08, 0x01, 0x05, 0x28, 0x4F, 0x46, 0x46, 0x29, 0x00, 0x15, 0x01, 0x0A, 0x16, 0x01, 0x00, 0x1F, 0x01, 0x01, 0x29, 0x01, 0x08, 0x2A, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x2C, 0x00, 0x00];
 
         // Skill instance based on provided JSON
         Skill instance = new Skill
         {
-            ID = 5,
             Name = "$YStun Claw",
             Description = "Paralyze 1 enemy with poison claw.",
             UsingMessage1 = "%S slashes with $YStun Claw!",
@@ -52,22 +81,26 @@ namespace LcfSharp.Tests.Converters
             AffectAgility = false,
             AbsorbDamage = false,
             IgnoreDefense = false,
-            StateEffects = new List<byte> { 0, 0, 0, 0, 0, 0, 0, 1 },
+            StateEffects = [0, 0, 0, 0, 0, 0, 0, 1],
             AttributeEffects = [],
             AffectAttrDefence = false,
             BattlerAnimation = -1,
             BattlerAnimationData = []
         };
 
+        /// <summary>
+        /// Checks skill deserialization.
+        /// </summary>
         [TestMethod]
         public void Read( )
         {
             using ( var ms = new MemoryStream( data ) )
             {
-                var reader = new BinaryReader( ms );
+                var reader = new LcfReader( ms );
+                var scope = reader.CreateRootScope( );
 
                 var lcfConverter = LcfConverterFactory.GetConverter( typeof( Skill ) );
-                var skill = ( Skill ) lcfConverter.Read( reader, null );
+                var skill = ( Skill ) lcfConverter.Read( ref scope );
 
                 Assert.AreEqual( instance.ID, skill.ID );
                 Assert.AreEqual( instance.Name, skill.Name );
@@ -105,50 +138,30 @@ namespace LcfSharp.Tests.Converters
                 Assert.AreEqual( instance.AbsorbDamage, skill.AbsorbDamage );
                 Assert.AreEqual( instance.IgnoreDefense, skill.IgnoreDefense );
 
-                CollectionAssert.AreEqual( instance.StateEffects, skill.StateEffects );
-                CollectionAssert.AreEqual( instance.AttributeEffects, skill.AttributeEffects );
+                TestHelpers.AssertBuffer( instance.StateEffects.ToArray( ), skill.StateEffects.ToArray( ) );
+                TestHelpers.AssertBuffer( instance.AttributeEffects.ToArray( ), skill.AttributeEffects.ToArray( ) );
                 Assert.AreEqual( instance.AffectAttrDefence, skill.AffectAttrDefence );
                 Assert.AreEqual( instance.BattlerAnimation, skill.BattlerAnimation );
                 CollectionAssert.AreEqual( instance.BattlerAnimationData, skill.BattlerAnimationData );
             }
         }
 
+        /// <summary>
+        /// Checks skill serialization.
+        /// </summary>
         [TestMethod]
         public void Write( )
         {
             using ( var ms = new MemoryStream( ) )
             {
-                var writer = new BinaryWriter( ms );
+                var writer = new LcfWriter( ms );
+                var scope = writer.CreateRootScope( );
 
                 var lcfConverter = LcfConverterFactory.GetConverter( typeof( Skill ) );
-                lcfConverter.Write( writer, instance, false );
+                lcfConverter.Write( ref scope, instance );
+                writer.Commit( ref scope );
 
-                var buffer = ms.ToArray( );
-                int minLength = System.Math.Min( buffer.Length, data.Length );
-                int contextBytes = 5; // Number of bytes to show before and after the deviation
-
-                for ( int i = 0; i < minLength; i++ )
-                {
-                    if ( buffer[i] != data[i] )
-                    {
-                        // Show surrounding bytes for context
-                        int start = System.Math.Max( 0, i - contextBytes );
-                        int end = System.Math.Min( minLength - 1, i + contextBytes );
-
-                        var bufferSnippet = string.Join( " ", buffer.Skip( start ).Take( end - start + 1 ).Select( b => $"0x{b:X2}" ) );
-                        var dataSnippet = string.Join( " ", data.Skip( start ).Take( end - start + 1 ).Select( b => $"0x{b:X2}" ) );
-
-                        Assert.Fail( $"Buffers differ at index {i}. Expected: 0x{data[i]:X2}, Actual: 0x{buffer[i]:X2}\n" +
-                                    $"Written:\t{bufferSnippet}\n" +
-                                    $"Expected:\t{dataSnippet}" );
-                    }
-                }
-
-                // If no differences found, check if one buffer is longer than the other
-                if ( buffer.Length != data.Length )
-                {
-                    Assert.Fail( $"Buffers have different lengths. Expected: {data.Length}, Actual: {buffer.Length}" );
-                }
+                TestHelpers.AssertBuffer( data, ms.ToArray( ) );
             }
         }
     }

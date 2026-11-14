@@ -27,29 +27,24 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.MapTree;
 using LcfSharp.IO.Exceptions;
-using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Scopes;
 using LcfSharp.IO.Types;
-using LcfSharp.IO.Utilities;
-using LcfSharp.Rpg.Troops;
+using LcfSharp.IO.Types.Generic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace LcfSharp.IO.Converters
 {
     /// <summary>
-    /// Provides methods to convert chunk types in the LCF (RPG Maker 2000 format).
+    /// Converts chunk types.
     /// </summary>
     public class LcfChunkConverter : LcfComplexConverter
     {
-        private Dictionary<string, int> _lengthEvaluations = [];
-
         /// <summary>
         /// Initialises a new instance of the <see cref="LcfChunkConverter"/> class for the specified chunk type.
         /// </summary>
@@ -60,105 +55,82 @@ namespace LcfSharp.IO.Converters
         }
 
         /// <summary>
-        /// Reads an object of the specified chunk type from the binary reader.
+        /// Reads a chunk record from the source scope.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
-        /// <returns>The object read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The decoded record.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
             var instance = Build( );
             var parsedProperties = new HashSet<string>( );
 
-            var startOffset = reader.BaseStream.Position;
-
-            // If it has an ID property read in that first!
             if ( _cache.IDProperty != null )
             {
-                _cache.IDProperty.Property.SetValue( instance, reader.ReadVarInt32( ) );
                 parsedProperties.Add( _cache.IDProperty.Property.Name );
             }
 
             var properties = _cache.Properties;
             var chunkEnumType = _cache.ChunkEnumType;
 
-            while ( reader.BaseStream.Position < reader.BaseStream.Length )
+            while ( !scope.IsFinished )
             {
-                var chunkID = reader.ReadVarInt32( );
+                var chunkID = scope.ReadVarInt32( );
 
                 if ( chunkID == 0 )
                     break;
 
-                var chunkLength = reader.ReadVarInt32( );
+                var chunkLength = scope.PeekVarInt32( out var bytesPeeked );
 
                 if ( Enum.IsDefined( chunkEnumType, chunkID ) )
                 {
-                    LcfProperty match = _cache.GetPropertyByChunkID( chunkID );
+                    LcfPropertyInfo match = _cache.GetPropertyByChunkID( chunkID );
 
                     if ( match?.IsAllowed == true )
                     {
+                        var isStringType = match.Property.PropertyType == typeof( LcfString );
+
+                        // Strings normally carry their own length, but chunk strings use
+                        // the enclosing chunk length rather than an additional string length.
+                        if ( !isStringType )
+                            scope.Advance( bytesPeeked );
+
+                        var chunkScope = scope.TakeScope( scope.Position, isStringType ? bytesPeeked + chunkLength : chunkLength );
+                        
                         if ( parsedProperties.Contains( match.Property.Name ) )
                             throw new LcfException( $"{match.Property.Name} has already been parsed, there's a read error somewhere." );
 
-                        var propertyLength = chunkLength;
-
-                        if ( match.IsGenericListType )
-                        {
-                            if ( match.IsGenericListBasicType )
-                                propertyLength = chunkLength / Marshal.SizeOf( match.GenericListInnerType );
-                        }
-
-                        if ( match.Size != null )
-                        {
-                            if ( _lengthEvaluations.ContainsKey( match.Property.Name ) )
-                            {
-                                propertyLength = _lengthEvaluations[match.Property.Name];
-                                _lengthEvaluations.Remove( match.Property.Name );
-                            }
-                            else // length is probably zero hence why size was not included in written chunks
-                            {
-                                propertyLength = 0;
-                            }
-                        }
-
-                        ReadProperty( reader, instance, match.Property, propertyLength );
+                        ReadProperty( ref chunkScope, instance, match.Property );
                         parsedProperties.Add( match.Property.Name );
                     }
-                    // If there's a property with a size value dependent on this
                     else if ( _cache.SizeChunks?.TryGetValue( chunkID, out var targetProperty ) == true )
                     {
-                        _lengthEvaluations.Add( targetProperty.Property.Name, reader.ReadVarInt32( ) );
+                        // Discard "Size" chunks as they are not needed for reading
+                        scope.Advance( bytesPeeked + chunkLength );
                     }
                     else
                     {
 #if DEBUG
                         Debug.WriteLine( $"Missing property match for chunk: '0x{chunkID:X}' in '{Type.FullName}'." );
 #endif
-                        reader.BaseStream.Seek( chunkLength, SeekOrigin.Current );
+                        scope.Advance( bytesPeeked + chunkLength );
                     }
                 }
                 else
                 {
-                    reader.BaseStream.Seek( chunkLength, SeekOrigin.Current );
+                    scope.Advance( bytesPeeked + chunkLength );
                 }
             }
 #if DEBUG
             CollectDebugInfo( parsedProperties );
-#endif
-
-            var endOffset = reader.BaseStream.Position;
-
-            //LcfDataDumper.Dump( Type, reader, startOffset, endOffset, instance );
-
-            _lengthEvaluations.Clear( );
+#endif            
 
             return instance;
         }
 
         /// <summary>
-        /// Output some debug info when there's parsing issues
+        /// Reports persistent properties that were absent from the input.
         /// </summary>
-        /// <param name="parsedProperties"></param>
+        /// <param name="parsedProperties">The parsed properties.</param>
         private void CollectDebugInfo( HashSet<string> parsedProperties )
         {
             var unusedProperties = _cache.Chunks.Values
@@ -168,162 +140,187 @@ namespace LcfSharp.IO.Converters
                 .ToList( );
 
             if ( unusedProperties.Any( ) )
-                Debug.WriteLine( $"Unparsed properties in type '{Type.FullName}': {unusedProperties.Count}" );
+            {
+                var properties = string.Join( ", ", unusedProperties.Select( p => p.Property.Name ).ToArray( ) );
+                Debug.WriteLine( $"Unparsed properties in type '{Type.FullName}': {unusedProperties.Count} = {properties}" );
+            }
         }
 
         /// <summary>
-        /// Writes the specified object to the binary writer.
+        /// Writes the specified object.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
+        /// <param name="scope">The write scope.</param>
         /// <param name="value">The object to write.</param>
-        /// <param name="writeLength">Not applicable for chunk converter</param>
         /// <exception cref="InvalidDataException">Thrown when no converter is found for a property type.</exception>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        public override void Write( ref LcfWriteScope scope, object value )
         {
-            var properties = _cache.Properties;
-
-            if ( Type == typeof( TroopMember ) )
+            foreach ( var property in _cache.Properties )
             {
+                if ( !property.IsAllowed || property == _cache.IDProperty )
+                    continue;
 
-            }
-            // If it has an ID property, write that first.
-            if ( _cache.IDProperty != null )
-            {
-                writer.WriteVarInt32( ( int ) _cache.IDProperty.Property.GetValue( value ) );
-            }
+                var propertyType = property.Property.PropertyType;
+                var propertyValue = property.Property.GetValue( value );
 
-            if ( Type == typeof( TroopMember ) )
-            {
+                bool writeProperty = ShouldWrite( property, propertyValue );
+                bool writeSize = false;
 
-            }
-            foreach ( var property in properties )
-            {
-                if ( property.IsAllowed && property != _cache.IDProperty )
+                if ( property.Size != null )
                 {
+                    int count = ( propertyValue as IList )?.Count ?? 0;
+                    int defaultCount = ( property.DefaultValue as IList )?.Count ?? 0;
 
-                    if ( Type == typeof( TroopMember ) )
-                    {
+                    writeSize = property.Size.AlwaysPersist ||
+                        count != defaultCount;
+                }
 
-                    }
-                    var chunkID = _cache.GetChunkIDByProperty( property );
-                    var propertyValue = property.Property.GetValue( value );
-                    var converter = LcfConverterFactory.GetConverter( property.Property.PropertyType );
+                if ( !writeProperty && !writeSize )
+                    continue;
 
-                    if ( converter is not null )
-                    {
-                        // We have to write to a sub-stream to get the length as length is pre-fixed
-                        // before chunk content
-                        using ( var ms = new MemoryStream( ) )
-                        using ( var chunkWriter = new BinaryWriter( ms ) )
-                        {
-                            var alwaysPersist = property.AlwaysPersist != null;
+                var converter = LcfConverterFactory.GetConverter( propertyType );
 
-                            var doWrite = alwaysPersist ||
-                                ( !alwaysPersist && ( propertyValue == null && property.DefaultValue != null || propertyValue?.Equals( property.DefaultValue ) == false ) );
-                            if ( property.Property.Name == "EnemyID" )
-                            {
+                if ( converter == null )
+                {
+                    throw new InvalidDataException(
+                        $"No converter found for {propertyType}" );
+                }
 
-                            }
-                            if ( Type == typeof( TroopMember ) )
-                            {
+                if ( property.Size != null && propertyValue == null )
+                {
+                    propertyValue = Activator.CreateInstance( propertyType );
+                }
 
-                            }
-                            if ( doWrite )
-                            {
-                                converter.Write( chunkWriter, propertyValue, false );
+                var chunkScope = scope.CreateScope( );
 
-                                var chunkBuffer = ms.ToArray( );
-                                var isEmpty = ( chunkBuffer == null || chunkBuffer.Length == 0 );
+                converter.Write( ref chunkScope, propertyValue );
 
-                                // If there is data or the property is marked with LcfAlwaysPersist then
-                                // the chunk will always be written regardless of if it is default value or null / zero length
-                                // Still need to handle default value acquisition to decide to exclude properties if theyre value types
-                                if ( ( chunkBuffer?.Length > 0 ) ||
-                                    ( alwaysPersist && isEmpty ) )
-                                {
-                                    var hasSizeChunk = false;
+                if ( writeSize )
+                {
+                    int sizeValue = GetCompanionSizeValue(
+                        property, propertyValue, chunkScope.Length );
 
-                                    if ( property.Property.PropertyType.IsClass )
-                                    {
-                                        // If there's a size chunk write that first
-                                        if ( property.Size != null )
-                                        {
-                                            // Some weird quirk where the payload is encoded but not the size when empty
-                                            if ( property.Size.NoSizeWhenEmpty && !isEmpty || 
-                                                !property.Size.NoSizeWhenEmpty )
-                                            {
-                                                var sizeChunkID = property.Size.ChunkID;
+                    var sizePayload = scope.CreateScope( );
+                    sizePayload.WriteVarInt32( sizeValue );
 
-                                                writer.WriteVarInt32( sizeChunkID );
-                                                writer.WriteVarInt32( 1 ); // ?? NO idea why i need this
-                                                writer.WriteVarInt32( property.IsGenericListType ? ( ( IList ) propertyValue ).Count : chunkBuffer.Length );
-                                            }
-                                            hasSizeChunk = true;
-                                        }
-                                    }
+                    WriteChunk(
+                        ref scope,
+                        property.Size.ChunkID,
+                        sizePayload.WrittenSpan );
+                }
 
-                                    writer.WriteVarInt32( chunkID );
+                if ( writeProperty &&
+                    ( chunkScope.Length > 0 ||
+                      property.AlwaysPersist != null ||
+                      writeSize ) )
+                {
+                    int chunkID = _cache.GetChunkIDByProperty( property );
 
-                                    if ( isEmpty && !hasSizeChunk )
-                                    {
-                                        // Lists always have a blank that is never serialised
-                                        if ( property.IsGenericListType )
-                                        {
-                                            writer.WriteVarInt32( 1 );
-                                            writer.WriteVarInt32( 0 );
-                                        }
-                                        else
-                                        {
-                                            writer.WriteVarInt32( 0 );
-                                        }
-                                    }
-                                    else if ( isEmpty && hasSizeChunk && 
-                                        property.AlwaysPersist != null && 
-                                        property.Size?.NoSizeWhenEmpty == true )
-                                    {
-                                        writer.WriteVarInt32( 0 );
-                                    }
-                                    else if ( isEmpty && property.Size?.NoSizeWhenEmpty == true ||
-                                        isEmpty && property.AlwaysPersist == null )
-                                    {
-                                        // Do nothing
-                                    }
-                                    else
-                                    {
-                                        if ( property.IsGenericListType )
-                                        {
-                                            if ( property.AlwaysWriteChunkLength != null )
-                                                writer.WriteVarInt32( chunkBuffer.Length + 1 ); // + 1 for the 0 byte? 
-
-                                            writer.WriteVarInt32( ( ( IList ) propertyValue ).Count );
-                                        }
-                                        else 
-                                        {
-                                            writer.WriteVarInt32( chunkBuffer.Length );
-                                        }
-                                        writer.Write( chunkBuffer );
-                                    }
-
-
-                                    //writer.WriteVarInt32( ( byte ) 0 );
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        throw new InvalidDataException( $"No converter found for type {property.Property.PropertyType}" );
-                    }
+                    WriteChunk(
+                        ref scope,
+                        chunkID,
+                        chunkScope.WrittenSpan,
+                        propertyType == typeof( LcfString ) );
                 }
             }
 
-            // Apparently some types can't end in zero bytes
-            if ( value is not LdbFile && value is not LmtFile )
+            if ( value is not LdbFile && value is not LmtFile && value is not LsdFile )
+                scope.WriteVarInt32( 0 );
+        }
+
+        /// <summary>
+        /// Writes a chunk identifier, length and payload.
+        /// </summary>
+        /// <param name="scope">The destination scope.</param>
+        /// <param name="chunkID">The chunk identifier.</param>
+        /// <param name="payload">The encoded payload.</param>
+        /// <param name="payloadContainsLength">Whether the payload already contains its length.</param>
+        private static void WriteChunk( ref LcfWriteScope scope, 
+            int chunkID, 
+            ReadOnlySpan<byte> payload, 
+            bool payloadContainsLength = false )
+        {
+            scope.WriteVarInt32( chunkID );
+
+            if ( !payloadContainsLength )
+                scope.WriteVarInt32( payload.Length );
+
+            scope.WriteBytes( payload );
+        }
+
+        /// <summary>
+        /// Checks whether a property must be serialized.
+        /// </summary>
+        /// <param name="property">The property metadata.</param>
+        /// <param name="value">The current property value.</param>
+        /// <returns>Whether the property chunk should be written.</returns>
+        private static bool ShouldWrite( LcfPropertyInfo property, object value )
+        {
+            if ( property.AlwaysPersist != null )
+                return true;
+
+            var defaultValue = property.DefaultValue;
+
+            if ( value is IList || defaultValue is IList )
             {
-                writer.WriteVarInt32( 0 );
+                var list = value as IList;
+                var defaultList = defaultValue as IList;
+
+                int count = list?.Count ?? 0;
+                int defaultCount = defaultList?.Count ?? 0;
+
+                if ( count != defaultCount )
+                    return true;
+
+                for ( int i = 0; i < count; i++ )
+                {
+                    if ( !Equals( list[i], defaultList[i] ) )
+                        return true;
+                }
+
+                return false;
+            }
+            else if ( value is IDbFlags flags && defaultValue is IDbFlags defaultFlags )
+            {
+                foreach ( var flagProperty in property.Property.PropertyType.GetProperties( ) )
+                {
+                    if ( flagProperty.PropertyType != typeof( bool ) )
+                        continue;
+
+                    if ( ( bool ) flagProperty.GetValue( flags ) !=
+                            ( bool ) flagProperty.GetValue( defaultFlags ) )
+                        return true;
+                }
+
+                return false;
             }
 
-#warning Come back to this as Database and another type cause crashes if they end with 0 with rm2k editor
+            return !Equals( value, defaultValue );
         }
+
+        /// <summary>
+        /// Gets the encoded size or element count for a companion chunk.
+        /// </summary>
+        /// <param name="property">The property metadata.</param>
+        /// <param name="value">The collection value.</param>
+        /// <param name="payloadLength">The encoded payload length.</param>
+        /// <returns>The companion size value.</returns>
+        private static int GetCompanionSizeValue(
+            LcfPropertyInfo property,
+            object value,
+            int payloadLength )
+        {
+            var type = property.Property.PropertyType;
+
+            // The current packed-list size fields contain element counts.
+            if ( type.IsGenericType &&
+                type.GetGenericTypeDefinition( ) == typeof( LcfPackedList<> ) )
+            {
+                return ( value as ICollection )?.Count ?? 0;
+            }
+
+            // Event and move commands use encoded byte lengths.
+            return payloadLength;
+        }
+
     }
 }

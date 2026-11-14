@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Shared
 {
@@ -36,7 +37,7 @@ namespace LcfSharp.Rpg.Shared
     /// Class representing a skill learning entry.
     /// </summary>
     [LcfChunk<LearningChunk>]
-    public class Learning
+    public class Learning : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the learning entry. Default is 0.

@@ -1,4 +1,5 @@
-﻿/// <copyright>
+
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -26,8 +27,17 @@
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
+
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+
 namespace LcfSharp.Rpg.Persistence
 {
+    /// <summary>
+    /// Represents Title data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveTitleChunk>]
     public class SaveTitle
     {
         public double Timestamp
@@ -36,7 +46,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string HeroName
+        public LcfString HeroName
         {
             get;
             set;
@@ -54,7 +64,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string Face1Name
+        public LcfString Face1Name
         {
             get;
             set;
@@ -66,7 +76,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string Face2Name
+        public LcfString Face2Name
         {
             get;
             set;
@@ -78,7 +88,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string Face3Name
+        public LcfString Face3Name
         {
             get;
             set;
@@ -90,7 +100,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string Face4Name
+        public LcfString Face4Name
         {
             get;
             set;

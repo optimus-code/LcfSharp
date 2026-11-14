@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database.Animation;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Audio;
 
 namespace LcfSharp.Rpg.Animations
@@ -37,8 +38,10 @@ namespace LcfSharp.Rpg.Animations
     /// Class representing the timing of an animation.
     /// </summary>
     [LcfChunk<AnimationTimingChunk>]
-    public class AnimationTiming
+    public class AnimationTiming : IIndexedItem
     {
+        private const int DEFAULT_FLASH_COMPONENT = 31;
+
         /// <summary>
         /// The unique identifier for the animation timing.
         /// </summary>
@@ -85,7 +88,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_FLASH_COMPONENT;
 
         /// <summary>
         /// The green component of the flash color.
@@ -94,7 +97,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_FLASH_COMPONENT;
 
         /// <summary>
         /// The blue component of the flash color.
@@ -103,7 +106,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_FLASH_COMPONENT;
 
         /// <summary>
         /// The power of the flash effect.
@@ -112,7 +115,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_FLASH_COMPONENT;
 
         /// <summary>
         /// The screen shake effect.

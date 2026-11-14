@@ -1,23 +1,52 @@
-﻿using LcfSharp.IO.Converters;
+﻿/// <copyright>
+/// 
+/// LcfSharp Copyright (c) 2024 optimus-code
+/// (A "loose" .NET port of liblcf)
+/// Licensed under the MIT License.
+/// 
+/// Copyright (c) 2014-2023 liblcf authors
+/// Licensed under the MIT License.
+/// 
+/// Permission is hereby granted, free of charge, to any person obtaining
+/// a copy of this software and associated documentation files (the
+/// "Software"), to deal in the Software without restriction, including
+/// without limitation the rights to use, copy, modify, merge, publish,
+/// distribute, sublicense, and/or sell copies of the Software, and to
+/// permit persons to whom the Software is furnished to do so, subject to
+/// the following conditions:
+/// 
+/// The above copyright notice and this permission notice shall be included
+/// in all copies or substantial portions of the Software.
+/// 
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+/// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+/// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+/// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+/// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+/// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/// </copyright>
+
+using LcfSharp.IO;
+using LcfSharp.IO.Converters;
 using LcfSharp.Rpg.Events;
 using LcfSharp.Rpg.Troops;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace LcfSharp.Tests.Converters
 {
+    /// <summary>
+    /// Tests troop page conversion and serialization.
+    /// </summary>
     [TestClass]
     public class TroopPages
     {
         // Binary data representing the serialized form of the TroopPage instance
-        byte[] data = [0x01, 0x02, 0x04, 0x01, 0x01, 0x08, 0x00, 0x0B, 0x01, 0x0D, 0x0C, 0x0D, 0xCF, 0x62, 0x00, 0x00, 0x04, 0x00, 0x56, 0x56, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
+        byte[] data = [0x02, 0x04, 0x01, 0x01, 0x08, 0x00, 0x0B, 0x01, 0x0D, 0x0C, 0x0D, 0xCF, 0x62, 0x00, 0x00, 0x04, 0x00, 0x56, 0x56, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
 
         // TroopPage instance based on provided data
         TroopPage instance = new TroopPage
         {
-            ID = 1,
             Condition = new TroopPageCondition
             {
                 Flags = new TroopPageConditionFlags
@@ -25,7 +54,7 @@ namespace LcfSharp.Tests.Converters
                     SwitchA = false,
                     SwitchB = false,
                     Variable = false,
-                    Turn = false,
+                    Turn = true,
                     Fatigue = false,
                     EnemyHP = false,
                     ActorHP = false,
@@ -56,25 +85,25 @@ namespace LcfSharp.Tests.Converters
                 CommandActorID = 1,
                 CommandID = 1
             },
-            EventCommands = new List<EventCommand>
-            {
-                new EventCommand { Code = ( EventCommandCode ) 10210, Indent = 0, String = null, Parameters = new List<int> { 0, 86, 86, 0 } },
-                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() },
-                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() },
-                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() },
-                new EventCommand { Code = 0, Indent = 0, String = null, Parameters = new List<int>() }
-            }
+            EventCommands = 
+            [
+                new EventCommand { Code = ( EventCommandCode ) 10210, Indent = 0, String = null, Parameters = [0, 86, 86, 0] }
+            ]
         };
 
+        /// <summary>
+        /// Checks trooppage deserialization.
+        /// </summary>
         [TestMethod]
         public void Read( )
         {
             using ( var ms = new MemoryStream( data ) )
             {
-                var reader = new BinaryReader( ms );
+                var reader = new LcfReader( ms );
+                var scope = reader.CreateRootScope( );
 
                 var lcfConverter = LcfConverterFactory.GetConverter( typeof( TroopPage ) );
-                var troopPage = ( TroopPage ) lcfConverter.Read( reader, null );
+                var troopPage = ( TroopPage ) lcfConverter.Read( ref scope );
 
                 Assert.AreEqual( instance.ID, troopPage.ID );
 
@@ -134,42 +163,22 @@ namespace LcfSharp.Tests.Converters
             }
         }
 
+        /// <summary>
+        /// Checks trooppage serialization.
+        /// </summary>
         [TestMethod]
         public void Write( )
         {
             using ( var ms = new MemoryStream( ) )
             {
-                var writer = new BinaryWriter( ms );
+                var writer = new LcfWriter( ms );
+                var scope = writer.CreateRootScope( );
 
                 var lcfConverter = LcfConverterFactory.GetConverter( typeof( TroopPage ) );
-                lcfConverter.Write( writer, instance, false );
+                lcfConverter.Write( ref scope, instance );
+                writer.Commit( ref scope );
 
-                var buffer = ms.ToArray( );
-                int minLength = Math.Min( buffer.Length, data.Length );
-                int contextBytes = 5; // Number of bytes to show before and after the deviation
-
-                for ( int i = 0; i < minLength; i++ )
-                {
-                    if ( buffer[i] != data[i] )
-                    {
-                        // Show surrounding bytes for context
-                        int start = Math.Max( 0, i - contextBytes );
-                        int end = Math.Min( minLength - 1, i + contextBytes );
-
-                        var bufferSnippet = string.Join( " ", buffer.Skip( start ).Take( end - start + 1 ).Select( b => $"0x{b:X2}" ) );
-                        var dataSnippet = string.Join( " ", data.Skip( start ).Take( end - start + 1 ).Select( b => $"0x{b:X2}" ) );
-
-                        Assert.Fail( $"Buffers differ at index {i}. Expected: 0x{data[i]:X2}, Actual: 0x{buffer[i]:X2}\n" +
-                                    $"Written:\t{bufferSnippet}\n" +
-                                    $"Expected:\t{dataSnippet}" );
-                    }
-                }
-
-                // If no differences found, check if one buffer is longer than the other
-                if ( buffer.Length != data.Length )
-                {
-                    Assert.Fail( $"Buffers have different lengths. Expected: {data.Length}, Actual: {buffer.Length}" );
-                }
+                TestHelpers.AssertBuffer( data, ms.ToArray( ) );                
             }
         }
     }

@@ -1,7 +1,4 @@
-﻿using LcfSharp.Chunks.MapTree;
-using LcfSharp.IO.Attributes;
-
-/// <copyright>
+﻿/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -30,13 +27,19 @@ using LcfSharp.IO.Attributes;
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.MapTree;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+
+
+
 namespace LcfSharp.Rpg.MapTree
 {
     /// <summary>
     /// Represents an encounter configuration for a map
     /// </summary>
     [LcfChunk<EncounterChunk>]
-    public class Encounter
+    public class Encounter : IIndexedItem
     {
         /// <summary>
         /// Gets or sets the unique identifier for the encounter.

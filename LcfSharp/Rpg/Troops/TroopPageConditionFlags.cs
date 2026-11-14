@@ -27,6 +27,7 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Troops
@@ -102,6 +103,7 @@ namespace LcfSharp.Rpg.Troops
         /// <summary>
         /// Indicates if the condition is based on the enemy's turn.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool TurnEnemy
         {
             get;
@@ -111,6 +113,7 @@ namespace LcfSharp.Rpg.Troops
         /// <summary>
         /// Indicates if the condition is based on the actor's turn.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool TurnActor
         {
             get;
@@ -120,6 +123,7 @@ namespace LcfSharp.Rpg.Troops
         /// <summary>
         /// Indicates if the condition is based on the actor's command.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool CommandActor
         {
             get;

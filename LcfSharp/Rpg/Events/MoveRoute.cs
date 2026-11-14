@@ -27,17 +27,21 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Events;
+using LcfSharp.Chunks.Shared.Events;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
+    /// <summary>
+    /// Represents MoveRoute data in an LCF file.
+    /// </summary>
     [LcfChunk<MoveRouteChunk>]
     public class MoveRoute
     {
+        [LcfAlwaysPersist]
         [LcfSize( ( int ) MoveRouteChunk.MoveCommandsSize )]
-        public List<MoveCommand> Commands
+        public LcfBoundedList<MoveCommand> Commands
         {
             get;
             set;

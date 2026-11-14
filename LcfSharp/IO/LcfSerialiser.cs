@@ -32,7 +32,6 @@ using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Types;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace LcfSharp.IO
 {
@@ -42,14 +41,6 @@ namespace LcfSharp.IO
     public static class LcfSerialiser
     {
         private static readonly LcfSerialiserOptions _defaultOptions = new( );
-
-        public static readonly Encoding SHIFT_JIS;
-
-        static LcfSerialiser( )
-        {
-            Encoding.RegisterProvider( CodePagesEncodingProvider.Instance );
-            SHIFT_JIS = Encoding.GetEncoding( 932 );
-        }
 
         /// <summary>
         /// Prepares the converters based on the provided options.
@@ -160,6 +151,18 @@ namespace LcfSharp.IO
                         throw new LcfInvalidHeaderException( "LcfMapUnit", header ?? "NULL" );
                     }
                     return header;
+
+                case LcfFormat.LSD:
+                    headerLength = reader.ReadVarInt32( );
+                    header = reader.ReadString( headerLength );
+
+                    if ( string.IsNullOrEmpty( header )
+                        || header.Length != 11
+                        || header != "LcfSaveData" )
+                    {
+                        throw new LcfInvalidHeaderException( "LcfSaveData", header ?? "NULL" );
+                    }
+                    return header;
             }
 
             return null;
@@ -176,19 +179,21 @@ namespace LcfSharp.IO
             {
                 case LcfFormat.LDB:
                     var header = "LcfDataBase";
-                    writer.WriteVarInt32( header.Length );
                     writer.WriteString( header );
                     break;
 
                 case LcfFormat.LMT:
                     header = "LcfMapTree";
-                    writer.WriteVarInt32( header.Length );
                     writer.WriteString( header );
                     break;
 
                 case LcfFormat.LMU:
                     header = "LcfMapUnit";
-                    writer.WriteVarInt32( header.Length );
+                    writer.WriteString( header );
+                    break;
+
+                case LcfFormat.LSD:
+                    header = "LcfSaveData";
                     writer.WriteString( header );
                     break;
             }

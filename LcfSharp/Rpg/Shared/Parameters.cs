@@ -27,9 +27,10 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
-using System.Linq;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+using System;
+using System.Linq;
 
 namespace LcfSharp.Rpg.Shared
 {
@@ -37,12 +38,12 @@ namespace LcfSharp.Rpg.Shared
     /// Class representing a collection of parameters for a character.
     /// </summary>
     [LcfListCollection]
-    public class Parameters
+    public class Parameters : IEquatable<Parameters>
     {
         /// <summary>
         /// List of maximum HP (Health Points) values.
         /// </summary>
-        public List<short> MaxHP
+        public LcfPackedList<short> MaxHP
         {
             get;
             set;
@@ -51,7 +52,7 @@ namespace LcfSharp.Rpg.Shared
         /// <summary>
         /// List of maximum SP (Spirit Points) values.
         /// </summary>
-        public List<short> MaxSP
+        public LcfPackedList<short> MaxSP
         {
             get;
             set;
@@ -60,7 +61,7 @@ namespace LcfSharp.Rpg.Shared
         /// <summary>
         /// List of attack values.
         /// </summary>
-        public List<short> Attack
+        public LcfPackedList<short> Attack
         {
             get;
             set;
@@ -69,7 +70,7 @@ namespace LcfSharp.Rpg.Shared
         /// <summary>
         /// List of defense values.
         /// </summary>
-        public List<short> Defense
+        public LcfPackedList<short> Defense
         {
             get;
             set;
@@ -78,7 +79,7 @@ namespace LcfSharp.Rpg.Shared
         /// <summary>
         /// List of spirit values.
         /// </summary>
-        public List<short> Spirit
+        public LcfPackedList<short> Spirit
         {
             get;
             set;
@@ -87,25 +88,87 @@ namespace LcfSharp.Rpg.Shared
         /// <summary>
         /// List of agility values.
         /// </summary>
-        public List<short> Agility
+        public LcfPackedList<short> Agility
         {
             get;
             set;
         } = [];
 
-        public override bool Equals( object obj )
+        /// <summary>
+        /// Compares the parameter values with another collection.
+        /// </summary>
+        /// <param name="other">The collection to compare.</param>
+        /// <returns>Whether all parameter values are equal.</returns>
+        public bool Equals( Parameters other )
         {
-            if ( obj == null || GetType( ) != obj.GetType( ) )
+            if ( ReferenceEquals( this, other ) )
+                return true;
+
+            if ( other is null || GetType( ) != other.GetType( ) )
                 return false;
 
-            var other = ( Parameters ) obj;
-
-            return MaxHP.SequenceEqual( other.MaxHP ) &&
-                   MaxSP.SequenceEqual( other.MaxSP ) &&
-                   Attack.SequenceEqual( other.Attack ) &&
-                   Defense.SequenceEqual( other.Defense ) &&
-                   Spirit.SequenceEqual( other.Spirit ) &&
-                   Agility.SequenceEqual( other.Agility );
+            return ListsEqual( MaxHP, other.MaxHP ) &&
+                   ListsEqual( MaxSP, other.MaxSP ) &&
+                   ListsEqual( Attack, other.Attack ) &&
+                   ListsEqual( Defense, other.Defense ) &&
+                   ListsEqual( Spirit, other.Spirit ) &&
+                   ListsEqual( Agility, other.Agility );
         }
+
+        /// <summary>
+        /// Compares the parameter values with another object.
+        /// </summary>
+        /// <param name="obj">The object to compare.</param>
+        /// <returns>Whether the parameter values are equal.</returns>
+        public override bool Equals( object obj ) => Equals( obj as Parameters );
+
+        /// <summary>
+        /// Gets a hash code based on the parameter values.
+        /// </summary>
+        /// <returns>The hash code.</returns>
+        public override int GetHashCode( )
+        {
+            var hash = new HashCode( );
+            hash.Add( GetType( ) );
+            AddListHash( ref hash, MaxHP );
+            AddListHash( ref hash, MaxSP );
+            AddListHash( ref hash, Attack );
+            AddListHash( ref hash, Defense );
+            AddListHash( ref hash, Spirit );
+            AddListHash( ref hash, Agility );
+            return hash.ToHashCode( );
+        }
+
+        /// <summary>
+        /// Compares two parameter lists by value.
+        /// </summary>
+        /// <param name="left">The first list.</param>
+        /// <param name="right">The second list.</param>
+        /// <returns>Whether the lists contain the same values.</returns>
+        private static bool ListsEqual( LcfPackedList<short> left, LcfPackedList<short> right )
+        {
+            return ReferenceEquals( left, right ) ||
+                ( left != null && right != null && left.SequenceEqual( right ) );
+        }
+
+        /// <summary>
+        /// Adds a list's values to the hash code.
+        /// </summary>
+        /// <param name="hash">The hash code accumulator.</param>
+        /// <param name="list">The list to hash.</param>
+        private static void AddListHash( ref HashCode hash, LcfPackedList<short> list )
+        {
+            if ( list == null )
+            {
+                hash.Add( -1 );
+                return;
+            }
+
+            hash.Add( list.Count );
+
+            foreach ( var item in list )
+                hash.Add( item );
+        }
+
     }
 }

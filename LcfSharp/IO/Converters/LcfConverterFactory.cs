@@ -29,8 +29,11 @@
 
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Converters.Types;
+using LcfSharp.IO.Converters.Types.Events;
+using LcfSharp.IO.Converters.Types.Generic;
 using LcfSharp.IO.Exceptions;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Events;
 using System;
 using System.Collections.Generic;
@@ -54,19 +57,33 @@ namespace LcfSharp.IO.Converters
         }
 
         /// <summary>
+        /// Gets or sets the encoding type for strings in LCF data.
+        /// </summary>
+        public static LcfEncodingType EncodingType
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// A dictionary containing basic type converters.
         /// </summary>
         private static readonly Dictionary<Type, LcfConverter> Converters = new( )
         {
-            { typeof(string), new LcfStringConverter() },
+            { typeof(LcfString), new LcfStringConverter() },
+            { typeof(LcfFixedInt32), new LcfFixedInt32Converter() },
             { typeof(byte), new LcfByteConverter() },
+            { typeof(sbyte), new LcfSByteConverter() },
             { typeof(bool), new LcfBooleanConverter() },
             { typeof(short), new LcfInt16Converter() },
             { typeof(int), new LcfInt32Converter() },
+            { typeof(uint), new LcfUInt32Converter() },
             { typeof(long), new LcfInt64Converter() },
+            { typeof(double), new LcfDoubleConverter() },
             { typeof(Rectangle), new LcfRectangleConverter() },
             { typeof(EventCommand), new LcfEventCommandConverter() },
-            { typeof(MoveCommand), new LcfMoveCommandConverter() }
+            { typeof(MoveCommand), new LcfMoveCommandConverter() },
+            { typeof(EventCommandCollection), new LcfEventCommandCollectionConverter() }
         };
 
         /// <summary>
@@ -106,9 +123,31 @@ namespace LcfSharp.IO.Converters
             if ( Cache.TryGetValue( type, out var properties ) )
                 return properties;
 
-            properties = type.GetProperties( BindingFlags.Instance | BindingFlags.Public ).ToList( );
+            properties = type
+                .GetProperties( BindingFlags.Instance | BindingFlags.Public )
+                .OrderBy( p => GetInheritanceDepth( p.DeclaringType ) )
+                .ToList( );
+
             Cache[type] = properties;
             return properties;
+        }
+
+        /// <summary>
+        /// Gets the inheritance depth of a type.
+        /// </summary>
+        /// <param name="type">The type to inspect.</param>
+        /// <returns>The number of base classes.</returns>
+        private static int GetInheritanceDepth( Type type )
+        {
+            int depth = 0;
+
+            while ( type.BaseType != null )
+            {
+                depth++;
+                type = type.BaseType;
+            }
+
+            return depth;
         }
 
         /// <summary>
@@ -169,10 +208,34 @@ namespace LcfSharp.IO.Converters
                 resultantConverter = converter;
                 isBasicConverter = true;
             }
-            else if ( type.IsGenericType && type.GetGenericTypeDefinition( ) == typeof( List<> ) )
+            else if ( type.IsGenericType && CheckIfGenericListType( type.GetGenericTypeDefinition( ) ) )
             {
+                var genericListType = type.GetGenericTypeDefinition( );
                 var elementType = type.GetGenericArguments( )[0];
-                var listConverterType = typeof( LcfListConverter<> ).MakeGenericType( elementType );
+
+                Type listConverterType;
+
+                if ( genericListType == typeof( LcfList<> ) )
+                {
+                    listConverterType = typeof( LcfListConverter<> ).MakeGenericType( elementType );
+                }
+                else if ( genericListType == typeof( LcfIndexedList<> ) )
+                {
+                    listConverterType = typeof( LcfIndexedListConverter<> ).MakeGenericType( elementType );
+                }
+                else if ( genericListType == typeof( LcfPackedList<> ) )
+                {
+                    listConverterType = typeof( LcfPackedListConverter<> ).MakeGenericType( elementType );
+                }
+                else if ( genericListType == typeof( LcfBoundedList<> ) )
+                {
+                    listConverterType = typeof( LcfBoundedListConverter<> ).MakeGenericType( elementType );
+                }
+                else
+                {
+                    throw new NotImplementedException( );
+                }
+
                 resultantConverter = ( LcfConverter ) Activator.CreateInstance( listConverterType );
             }
             else if ( type.IsClass )
@@ -183,11 +246,23 @@ namespace LcfSharp.IO.Converters
             if ( resultantConverter == null )
                 throw new LcfMissingConverterException( type );
 
-            // Cache the result
             if ( !isBasicConverter )
                 DynamicConverters.Add( type, resultantConverter );
 
             return resultantConverter;
+        }
+
+        /// <summary>
+        /// Checks whether a type is a supported LCF list definition.
+        /// </summary>
+        /// <param name="type">The type to inspect.</param>
+        /// <returns>Whether the type is supported.</returns>
+        private static bool CheckIfGenericListType( Type type )
+        {
+            return type == typeof( LcfList<> ) ||
+                type == typeof( LcfIndexedList<> ) ||
+                type == typeof( LcfPackedList<> ) ||
+                type == typeof( LcfBoundedList<> );
         }
     }
 }

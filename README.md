@@ -1,6 +1,6 @@
 # LcfSharp
 
-LcfSharp is a .NET library for reading and writing RPG Maker 2000/03 Lcf (Ldb, Lmt, Lmu, etc.) files. This library aims to provide a straightforward and efficient way to work with Lcf files in C# applications.
+LcfSharp is a .NET library for reading and writing RPG Maker 2000/03 Lcf (Ldb, Lmt, Lmu, Lsd) files. This library aims to provide a straightforward and efficient way to work with Lcf files in C# applications.
 
 ## Features
 
@@ -18,15 +18,58 @@ Install-Package LcfSharp
 
 ## Usage
 
-To use existing types provided by LcfSharp, such as `LdbFile`, you can deserialise an Lcf file with the following code snippet:
+To use existing types provided by LcfSharp, such as `LdbFile`, you can load/save an Lcf files with the following code snippets:
+
+### Database
+
+#### Loading
 
 ```csharp
-using (var stream = File.OpenRead(path))
-{
-    return LcfSerialiser.Deserialise<LdbFile>(stream);
-}
+LdbFile.Load(path);
+```
+#### Saving
+
+```csharp
+LdbFile.Save(path, ldbFile);
 ```
 
+### Map Trees
+
+#### Loading
+
+```csharp
+LmtFile.Load(path);
+```
+#### Saving
+
+```csharp
+LmtFile.Save(path, lmtFile);
+```
+### Maps
+
+#### Loading
+
+```csharp
+LmuFile.Load(path);
+```
+#### Saving
+
+```csharp
+LmuFile.Save(path, lmuFile);
+```
+
+### Saves
+
+#### Loading
+
+```csharp
+LsdFile.Load(path);
+```
+#### Saving
+
+```csharp
+LsdFile.Save(path, lsdFile);
+```
 ## Implementing Your Own Readers/Writers
 
 Each Lcf file has a header and a collection of chunks. To deserialise a type, you need to use the `ILcfRootChunk` interface for the core class (see `Database.cs`).
@@ -47,7 +90,7 @@ public class MyLcfClass : ILcfRootChunk
 
 ## Handling Child Chunks with IDs
 
-In LcfSharp, some chunks are children of other chunks and have unique IDs. These IDs are read and written automatically as long as you use an `int` type decorated with the `[LcfID]` attribute.
+In LcfSharp, some chunks are children of other chunks and have unique IDs. These IDs are read and written automatically as long as you use an `int` type decorated with the `[LcfID]` attribute with its parent class inheriting `IIndexedItem`.
 
 ### Example
 
@@ -55,7 +98,7 @@ Here's an example of how to define a class with child chunks that include an ID:
 
 ```csharp
 [LcfChunk<ChildChunkEnum>]
-public class ChildChunk
+public class ChildChunk : IIndexedItem
 {
     [LcfID]
     public int ID { get; set; }
@@ -68,7 +111,7 @@ public class ChildChunk
 
 ### Enum for Child Chunk Properties
 
-Define an enum to represent the properties of the child chunk:
+Define an enum to represent the properties of the child chunk (The names must be identical to the property names in the respective class):
 
 ```csharp
 public enum ChildChunkEnum : int
@@ -122,45 +165,52 @@ public class MyLcfClass
 }
 ```
 
-## Handling Collections in Chunks with List<>
+## Handling Collections in Chunks
 
-When dealing with collections in chunks, the recommended approach is to use the `List<>` type. The length of the list can be determined by one of three methods:
+When dealing with collections in chunks, the type of list will depend on how you want/need the collection to be stored:
 
-1. **Chunk Length (Default)**: By default, the length of the list is determined by the chunk length.
-2. **Using Another Chunk's Length**:
-   - You can specify the length using another chunk by decorating the list property with the `[LcfSize((int)ActorChunk.AttributeRanksSize)]` attribute.
-3. **Explicit Calculation**:
-   - If properties are decorated with `[LcfCalculateSize]`, the list is read until the next chunk, i.e. length is not available ahead of time.
+1. **LcfList**:
+   Standard lists that are proceeded by an element count when reading/writing.
+2. **LcfIndexedList**: 
+   Lists where the contents are proceeded by an element count and its items are proceeded by an ID when reading/writing.
+3. **LcfPackedList**:
+   Fixed-width lists where the count can be calculated by the length of the payload divided by the fixed-size of the element type when reading/writing.
+4. **LcfBoundedList**:
+   Variable-width lists where the element size is variable so the items have to be read until there are no remaining bytes in the payload.
 
-### Special Case: Classes Without ID Property
+### Special Cases
 
-If the list item is a class that does not contain an ID property (i.e., it is not decorated with `[LcfID]`), the length is read automatically from the stream if no length is provided by the parent chunk (if there is one). In this scenario, the Lcf format doesn't provide a byte length value but a direct number of elements.
-
-### Examples
-
-#### Default Length from Chunk
-
-```csharp
-public List<MyItem> Items { get; set; }
-```
-
-#### Length from Another Chunk
+#### Dependent Size Chunks
+Sometimes you may want or need to specify the size of a list in a separate chunk. Decorating the list property with the `[LcfSize((int)MyChunk.MyItemsSize)]` attribute will ensure the length is written.
 
 ```csharp
-[LcfSize((int)ActorChunk.AttributeRanksSize)]
-public List<MyItem> Items { get; set; }
+[LcfSize((int)MyChunk.MyItemsSize)]
+public LcfIndexedList<MyItem> Items { get; set; }
 ```
 
-#### Automatic based on continuous chunk reading
+## String Encoding
+LcfSharp supports encoding/decoding strings in various regions.
 
 ```csharp
-[LcfCalculateSize]
-public List<MyItem> Items { get; set; }
+public enum LcfEncodingType
+{
+    WesternEurope1252,
+    JapaneseShiftJis,
+    Cyrillic1251,
+    CentralEurope1250,
+    SimplifiedChineseGb2312,
+    TraditionalChineseBig5,
+    KoreanUhc
+}
 ```
+
+All strings within LcfSharp data are held in a wrapper class called `LcfString`. The original bytes of the string are retained incase the data loaded doesn't match the encoding set but would require you to handle those cases specifically. The library will write strings in the `EncodingType` specified within `LcfString`. But reading will always use the encoding setting specified in `LcfSerialiserOptions`.
 
 ## Status
 
-Reading is implemented and is mostly working. There may be bugs that need to be ironed out. Writing is not confirmed working yet and needs more time to handle niche scenarios with Lcf writing (like list lengths, etc.).
+Reading and writing of all formats (Ldb, Lmt, Lmu, Lsd) is working. In tests that have been run it produces byte-identical output. 
+
+Unknown chunks will not be retained during round-trips and there may be some edge-cases where issues could be encountered. This is not guaranteed to work flawlessly as of yet and is still in alpha.
 
 ## Contributing
 
@@ -171,7 +221,7 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 This project couldn't exist without the great work from [liblcf](https://github.com/EasyRPG/liblcf). Special thanks to the authors of liblcf for their invaluable contributions to understanding the Lcf file format.
 
 ## License
-
+```
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 LcfSharp Copyright (c) 2024 optimus-code
@@ -199,3 +249,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```

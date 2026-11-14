@@ -27,11 +27,14 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System;
-using System.IO;
-using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Converters;
+using LcfSharp.IO.Scopes;
 using LcfSharp.IO.Types;
+using System;
+using System.Buffers;
+using System.IO;
+using System.Reflection;
 
 namespace LcfSharp.IO
 {
@@ -40,26 +43,33 @@ namespace LcfSharp.IO
     /// </summary>
     public class LcfWriter : IDisposable
     {
-        private readonly BinaryWriter _writer;
+        private readonly Stream _stream;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="LcfWriter"/> class with the specified stream.
+        /// Initialises a new instance of the <see cref="LcfWriter"/>
+        /// class with the specified stream.
         /// </summary>
         /// <param name="stream">The stream to write to.</param>
         public LcfWriter( Stream stream )
         {
-            _writer = new BinaryWriter( stream );
+            _stream = stream;
         }
 
         /// <summary>
-        /// Gets the current position within the stream.
+        /// Creates a scope over the unread portion of
+        /// the buffer without advancing the root cursor.
         /// </summary>
-        public long Position
+        public LcfWriteScope CreateRootScope( )
         {
-            get
-            {
-                return _writer.BaseStream.Position;
-            }
+            return new LcfWriteScope( new ArrayBufferWriter<byte>( ) );
+        }
+
+        /// <summary>
+        /// Commits bytes to the stream.
+        /// </summary>
+        public void Commit( ref LcfWriteScope scope )
+        {
+            _stream.Write( scope.WrittenSpan );
         }
 
         /// <summary>
@@ -80,8 +90,17 @@ namespace LcfSharp.IO
         /// <param name="value">The object to serialise.</param>
         private void Serialise( Type type, ILcfRootChunk value )
         {
-            var chunkWriter = new LcfChunkConverter( type );
-            chunkWriter.Write( _writer, value, false );
+            var scope = CreateRootScope( );
+
+            var isChunked = type.GetCustomAttribute<LcfChunkAttribute>(
+                    true ) != null;
+
+            LcfConverter converter = isChunked
+                ? new LcfChunkConverter( type )
+                : new LcfClassConverter( type );
+
+            converter.Write( ref scope, value );
+            Commit( ref scope );
         }
 
         /// <summary>
@@ -90,7 +109,9 @@ namespace LcfSharp.IO
         /// <param name="value">The integer value to write.</param>
         public void WriteVarInt32( int value )
         {
-            _writer.WriteVarInt32( value );
+            var scope = CreateRootScope( );
+            scope.WriteVarInt32( value );
+            Commit( ref scope );
         }
 
         /// <summary>
@@ -99,7 +120,9 @@ namespace LcfSharp.IO
         /// <param name="value">The string value to write.</param>
         public void WriteString( string value )
         {
-            _writer.WriteString( value );
+            var scope = CreateRootScope( );
+            scope.WriteString( value );
+            Commit( ref scope );
         }
 
         /// <summary>
@@ -107,7 +130,7 @@ namespace LcfSharp.IO
         /// </summary>
         public void Dispose( )
         {
-            _writer?.Dispose( );
+            _stream?.Dispose( );
         }
     }
 }

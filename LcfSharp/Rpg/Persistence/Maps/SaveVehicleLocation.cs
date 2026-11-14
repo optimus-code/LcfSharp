@@ -1,4 +1,6 @@
-﻿/// <copyright>
+
+
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,16 +29,16 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+
 namespace LcfSharp.Rpg.Persistence.Maps
 {
-    public enum SaveVehicleLocationVehicleType
-    {
-        None = 0,
-        Skiff = 1,
-        Ship = 2,
-        Airship = 3
-    }
-
+    /// <summary>
+    /// Represents VehicleLocation data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveVehicleLocationChunk>]
     public class SaveVehicleLocation : SaveMapEventBase
     {
         public int Vehicle
@@ -57,7 +59,7 @@ namespace LcfSharp.Rpg.Persistence.Maps
             set;
         }
 
-        public string OrigSpriteName
+        public LcfString OrigSpriteName
         {
             get;
             set;

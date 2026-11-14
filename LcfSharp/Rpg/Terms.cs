@@ -43,7 +43,7 @@ namespace LcfSharp.Rpg
         /// The text for encountering enemies.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Encounter
+        public LcfString Encounter
         {
             get;
             set;
@@ -53,7 +53,7 @@ namespace LcfSharp.Rpg
         /// The text for special combat situations.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SpecialCombat
+        public LcfString SpecialCombat
         {
             get;
             set;
@@ -63,7 +63,7 @@ namespace LcfSharp.Rpg
         /// The text for a successful escape.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EscapeSuccess
+        public LcfString EscapeSuccess
         {
             get;
             set;
@@ -73,7 +73,7 @@ namespace LcfSharp.Rpg
         /// The text for a failed escape.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EscapeFailure
+        public LcfString EscapeFailure
         {
             get;
             set;
@@ -83,7 +83,7 @@ namespace LcfSharp.Rpg
         /// The text for a victory.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Victory
+        public LcfString Victory
         {
             get;
             set;
@@ -93,7 +93,7 @@ namespace LcfSharp.Rpg
         /// The text for a defeat.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Defeat
+        public LcfString Defeat
         {
             get;
             set;
@@ -103,7 +103,7 @@ namespace LcfSharp.Rpg
         /// The text for experience received.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ExpReceived
+        public LcfString ExpReceived
         {
             get;
             set;
@@ -113,7 +113,7 @@ namespace LcfSharp.Rpg
         /// The first part of the text for gold received.
         /// </summary>
         [LcfAlwaysPersist]
-        public string GoldReceivedA
+        public LcfString GoldReceivedA
         {
             get;
             set;
@@ -123,7 +123,7 @@ namespace LcfSharp.Rpg
         /// The second part of the text for gold received.
         /// </summary>
         [LcfAlwaysPersist]
-        public string GoldReceivedB
+        public LcfString GoldReceivedB
         {
             get;
             set;
@@ -133,7 +133,7 @@ namespace LcfSharp.Rpg
         /// The text for items received.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ItemReceived
+        public LcfString ItemReceived
         {
             get;
             set;
@@ -143,7 +143,7 @@ namespace LcfSharp.Rpg
         /// The text for attacking.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Attacking
+        public LcfString Attacking
         {
             get;
             set;
@@ -153,7 +153,7 @@ namespace LcfSharp.Rpg
         /// The text for enemy critical hits.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EnemyCritical
+        public LcfString EnemyCritical
         {
             get;
             set;
@@ -163,7 +163,7 @@ namespace LcfSharp.Rpg
         /// The text for actor critical hits.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ActorCritical
+        public LcfString ActorCritical
         {
             get;
             set;
@@ -173,7 +173,7 @@ namespace LcfSharp.Rpg
         /// The text for defending.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Defending
+        public LcfString Defending
         {
             get;
             set;
@@ -183,7 +183,7 @@ namespace LcfSharp.Rpg
         /// The text for observing.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Observing
+        public LcfString Observing
         {
             get;
             set;
@@ -193,7 +193,7 @@ namespace LcfSharp.Rpg
         /// The text for focusing.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Focus
+        public LcfString Focus
         {
             get;
             set;
@@ -203,7 +203,7 @@ namespace LcfSharp.Rpg
         /// The text for autodestruction.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Autodestruction
+        public LcfString Autodestruction
         {
             get;
             set;
@@ -213,7 +213,7 @@ namespace LcfSharp.Rpg
         /// The text for enemy escape.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EnemyEscape
+        public LcfString EnemyEscape
         {
             get;
             set;
@@ -223,7 +223,7 @@ namespace LcfSharp.Rpg
         /// The text for enemy transformation.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EnemyTransform
+        public LcfString EnemyTransform
         {
             get;
             set;
@@ -233,7 +233,7 @@ namespace LcfSharp.Rpg
         /// The text for enemy damaged.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EnemyDamaged
+        public LcfString EnemyDamaged
         {
             get;
             set;
@@ -243,7 +243,7 @@ namespace LcfSharp.Rpg
         /// The text for enemy undamaged.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EnemyUndamaged
+        public LcfString EnemyUndamaged
         {
             get;
             set;
@@ -253,7 +253,7 @@ namespace LcfSharp.Rpg
         /// The text for actor damaged.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ActorDamaged
+        public LcfString ActorDamaged
         {
             get;
             set;
@@ -263,7 +263,7 @@ namespace LcfSharp.Rpg
         /// The text for actor undamaged.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ActorUndamaged
+        public LcfString ActorUndamaged
         {
             get;
             set;
@@ -273,7 +273,7 @@ namespace LcfSharp.Rpg
         /// The first text for skill failure.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SkillFailureA
+        public LcfString SkillFailureA
         {
             get;
             set;
@@ -283,7 +283,7 @@ namespace LcfSharp.Rpg
         /// The second text for skill failure.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SkillFailureB
+        public LcfString SkillFailureB
         {
             get;
             set;
@@ -293,7 +293,7 @@ namespace LcfSharp.Rpg
         /// The third text for skill failure.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SkillFailureC
+        public LcfString SkillFailureC
         {
             get;
             set;
@@ -303,7 +303,7 @@ namespace LcfSharp.Rpg
         /// The text for dodging.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Dodge
+        public LcfString Dodge
         {
             get;
             set;
@@ -313,7 +313,7 @@ namespace LcfSharp.Rpg
         /// The text for using an item.
         /// </summary>
         [LcfAlwaysPersist]
-        public string UseItem
+        public LcfString UseItem
         {
             get;
             set;
@@ -323,7 +323,7 @@ namespace LcfSharp.Rpg
         /// The text for HP recovery.
         /// </summary>
         [LcfAlwaysPersist]
-        public string HpRecovery
+        public LcfString HpRecovery
         {
             get;
             set;
@@ -333,7 +333,7 @@ namespace LcfSharp.Rpg
         /// The text for parameter increase.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ParameterIncrease
+        public LcfString ParameterIncrease
         {
             get;
             set;
@@ -343,7 +343,7 @@ namespace LcfSharp.Rpg
         /// The text for parameter decrease.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ParameterDecrease
+        public LcfString ParameterDecrease
         {
             get;
             set;
@@ -353,7 +353,7 @@ namespace LcfSharp.Rpg
         /// The text for enemy HP absorbed.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EnemyHpAbsorbed
+        public LcfString EnemyHpAbsorbed
         {
             get;
             set;
@@ -363,7 +363,7 @@ namespace LcfSharp.Rpg
         /// The text for actor HP absorbed.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ActorHpAbsorbed
+        public LcfString ActorHpAbsorbed
         {
             get;
             set;
@@ -373,7 +373,7 @@ namespace LcfSharp.Rpg
         /// The text for resistance increase.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ResistanceIncrease
+        public LcfString ResistanceIncrease
         {
             get;
             set;
@@ -383,7 +383,7 @@ namespace LcfSharp.Rpg
         /// The text for resistance decrease.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ResistanceDecrease
+        public LcfString ResistanceDecrease
         {
             get;
             set;
@@ -393,7 +393,7 @@ namespace LcfSharp.Rpg
         /// The text for leveling up.
         /// </summary>
         [LcfAlwaysPersist]
-        public string LevelUp
+        public LcfString LevelUp
         {
             get;
             set;
@@ -403,7 +403,7 @@ namespace LcfSharp.Rpg
         /// The text for learning a new skill.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SkillLearned
+        public LcfString SkillLearned
         {
             get;
             set;
@@ -414,7 +414,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string BattleStart
+        public LcfString BattleStart
         {
             get;
             set;
@@ -425,7 +425,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string Miss
+        public LcfString Miss
         {
             get;
             set;
@@ -435,7 +435,7 @@ namespace LcfSharp.Rpg
         /// The first shop greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopGreeting1
+        public LcfString ShopGreeting1
         {
             get;
             set;
@@ -445,7 +445,7 @@ namespace LcfSharp.Rpg
         /// The first shop re-greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopRegreeting1
+        public LcfString ShopRegreeting1
         {
             get;
             set;
@@ -455,7 +455,7 @@ namespace LcfSharp.Rpg
         /// The first shop buy text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuy1
+        public LcfString ShopBuy1
         {
             get;
             set;
@@ -465,7 +465,7 @@ namespace LcfSharp.Rpg
         /// The first shop sell text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSell1
+        public LcfString ShopSell1
         {
             get;
             set;
@@ -475,7 +475,7 @@ namespace LcfSharp.Rpg
         /// The first shop leave text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopLeave1
+        public LcfString ShopLeave1
         {
             get;
             set;
@@ -485,7 +485,7 @@ namespace LcfSharp.Rpg
         /// The first shop buy select text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuySelect1
+        public LcfString ShopBuySelect1
         {
             get;
             set;
@@ -495,7 +495,7 @@ namespace LcfSharp.Rpg
         /// The first shop buy number text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuyNumber1
+        public LcfString ShopBuyNumber1
         {
             get;
             set;
@@ -505,7 +505,7 @@ namespace LcfSharp.Rpg
         /// The first shop purchased text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopPurchased1
+        public LcfString ShopPurchased1
         {
             get;
             set;
@@ -515,7 +515,7 @@ namespace LcfSharp.Rpg
         /// The first shop sell select text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSellSelect1
+        public LcfString ShopSellSelect1
         {
             get;
             set;
@@ -525,7 +525,7 @@ namespace LcfSharp.Rpg
         /// The first shop sell number text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSellNumber1
+        public LcfString ShopSellNumber1
         {
             get;
             set;
@@ -535,7 +535,7 @@ namespace LcfSharp.Rpg
         /// The first shop sold text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSold1
+        public LcfString ShopSold1
         {
             get;
             set;
@@ -545,7 +545,7 @@ namespace LcfSharp.Rpg
         /// The second shop greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopGreeting2
+        public LcfString ShopGreeting2
         {
             get;
             set;
@@ -555,7 +555,7 @@ namespace LcfSharp.Rpg
         /// The second shop re-greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopRegreeting2
+        public LcfString ShopRegreeting2
         {
             get;
             set;
@@ -565,7 +565,7 @@ namespace LcfSharp.Rpg
         /// The second shop buy text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuy2
+        public LcfString ShopBuy2
         {
             get;
             set;
@@ -575,7 +575,7 @@ namespace LcfSharp.Rpg
         /// The second shop sell text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSell2
+        public LcfString ShopSell2
         {
             get;
             set;
@@ -585,7 +585,7 @@ namespace LcfSharp.Rpg
         /// The second shop leave text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopLeave2
+        public LcfString ShopLeave2
         {
             get;
             set;
@@ -595,7 +595,7 @@ namespace LcfSharp.Rpg
         /// The second shop buy select text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuySelect2
+        public LcfString ShopBuySelect2
         {
             get;
             set;
@@ -605,7 +605,7 @@ namespace LcfSharp.Rpg
         /// The second shop buy number text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuyNumber2
+        public LcfString ShopBuyNumber2
         {
             get;
             set;
@@ -615,7 +615,7 @@ namespace LcfSharp.Rpg
         /// The second shop purchased text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopPurchased2
+        public LcfString ShopPurchased2
         {
             get;
             set;
@@ -625,7 +625,7 @@ namespace LcfSharp.Rpg
         /// The second shop sell select text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSellSelect2
+        public LcfString ShopSellSelect2
         {
             get;
             set;
@@ -635,7 +635,7 @@ namespace LcfSharp.Rpg
         /// The second shop sell number text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSellNumber2
+        public LcfString ShopSellNumber2
         {
             get;
             set;
@@ -645,7 +645,7 @@ namespace LcfSharp.Rpg
         /// The second shop sold text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSold2
+        public LcfString ShopSold2
         {
             get;
             set;
@@ -655,7 +655,7 @@ namespace LcfSharp.Rpg
         /// The third shop greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopGreeting3
+        public LcfString ShopGreeting3
         {
             get;
             set;
@@ -665,7 +665,7 @@ namespace LcfSharp.Rpg
         /// The third shop re-greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopRegreeting3
+        public LcfString ShopRegreeting3
         {
             get;
             set;
@@ -675,7 +675,7 @@ namespace LcfSharp.Rpg
         /// The third shop buy text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuy3
+        public LcfString ShopBuy3
         {
             get;
             set;
@@ -685,7 +685,7 @@ namespace LcfSharp.Rpg
         /// The third shop sell text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSell3
+        public LcfString ShopSell3
         {
             get;
             set;
@@ -695,7 +695,7 @@ namespace LcfSharp.Rpg
         /// The third shop leave text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopLeave3
+        public LcfString ShopLeave3
         {
             get;
             set;
@@ -705,7 +705,7 @@ namespace LcfSharp.Rpg
         /// The third shop buy select text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuySelect3
+        public LcfString ShopBuySelect3
         {
             get;
             set;
@@ -715,7 +715,7 @@ namespace LcfSharp.Rpg
         /// The third shop buy number text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopBuyNumber3
+        public LcfString ShopBuyNumber3
         {
             get;
             set;
@@ -725,7 +725,7 @@ namespace LcfSharp.Rpg
         /// The third shop purchased text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopPurchased3
+        public LcfString ShopPurchased3
         {
             get;
             set;
@@ -735,7 +735,7 @@ namespace LcfSharp.Rpg
         /// The third shop sell select text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSellSelect3
+        public LcfString ShopSellSelect3
         {
             get;
             set;
@@ -745,7 +745,7 @@ namespace LcfSharp.Rpg
         /// The third shop sell number text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSellNumber3
+        public LcfString ShopSellNumber3
         {
             get;
             set;
@@ -755,7 +755,7 @@ namespace LcfSharp.Rpg
         /// The third shop sold text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ShopSold3
+        public LcfString ShopSold3
         {
             get;
             set;
@@ -765,7 +765,7 @@ namespace LcfSharp.Rpg
         /// The first inn greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnAGreeting1
+        public LcfString InnAGreeting1
         {
             get;
             set;
@@ -775,7 +775,7 @@ namespace LcfSharp.Rpg
         /// The second inn greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnAGreeting2
+        public LcfString InnAGreeting2
         {
             get;
             set;
@@ -785,7 +785,7 @@ namespace LcfSharp.Rpg
         /// The third inn greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnAGreeting3
+        public LcfString InnAGreeting3
         {
             get;
             set;
@@ -795,7 +795,7 @@ namespace LcfSharp.Rpg
         /// The inn acceptance text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnAAccept
+        public LcfString InnAAccept
         {
             get;
             set;
@@ -805,7 +805,7 @@ namespace LcfSharp.Rpg
         /// The inn cancellation text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnACancel
+        public LcfString InnACancel
         {
             get;
             set;
@@ -815,7 +815,7 @@ namespace LcfSharp.Rpg
         /// The first second inn greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnBGreeting1
+        public LcfString InnBGreeting1
         {
             get;
             set;
@@ -825,7 +825,7 @@ namespace LcfSharp.Rpg
         /// The second second inn greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnBGreeting2
+        public LcfString InnBGreeting2
         {
             get;
             set;
@@ -835,7 +835,7 @@ namespace LcfSharp.Rpg
         /// The third second inn greeting text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnBGreeting3
+        public LcfString InnBGreeting3
         {
             get;
             set;
@@ -845,7 +845,7 @@ namespace LcfSharp.Rpg
         /// The second inn acceptance text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnBAccept
+        public LcfString InnBAccept
         {
             get;
             set;
@@ -855,7 +855,7 @@ namespace LcfSharp.Rpg
         /// The second inn cancellation text.
         /// </summary>
         [LcfAlwaysPersist]
-        public string InnBCancel
+        public LcfString InnBCancel
         {
             get;
             set;
@@ -865,7 +865,7 @@ namespace LcfSharp.Rpg
         /// The text for possessed items.
         /// </summary>
         [LcfAlwaysPersist]
-        public string PossessedItems
+        public LcfString PossessedItems
         {
             get;
             set;
@@ -875,7 +875,7 @@ namespace LcfSharp.Rpg
         /// The text for equipped items.
         /// </summary>
         [LcfAlwaysPersist]
-        public string EquippedItems
+        public LcfString EquippedItems
         {
             get;
             set;
@@ -885,7 +885,7 @@ namespace LcfSharp.Rpg
         /// The text for gold.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Gold
+        public LcfString Gold
         {
             get;
             set;
@@ -895,7 +895,7 @@ namespace LcfSharp.Rpg
         /// The text for battle fight command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string BattleFight
+        public LcfString BattleFight
         {
             get;
             set;
@@ -905,7 +905,7 @@ namespace LcfSharp.Rpg
         /// The text for battle auto command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string BattleAuto
+        public LcfString BattleAuto
         {
             get;
             set;
@@ -915,7 +915,7 @@ namespace LcfSharp.Rpg
         /// The text for battle escape command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string BattleEscape
+        public LcfString BattleEscape
         {
             get;
             set;
@@ -925,7 +925,7 @@ namespace LcfSharp.Rpg
         /// The text for attack command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string CommandAttack
+        public LcfString CommandAttack
         {
             get;
             set;
@@ -935,7 +935,7 @@ namespace LcfSharp.Rpg
         /// The text for defend command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string CommandDefend
+        public LcfString CommandDefend
         {
             get;
             set;
@@ -945,7 +945,7 @@ namespace LcfSharp.Rpg
         /// The text for item command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string CommandItem
+        public LcfString CommandItem
         {
             get;
             set;
@@ -955,7 +955,7 @@ namespace LcfSharp.Rpg
         /// The text for skill command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string CommandSkill
+        public LcfString CommandSkill
         {
             get;
             set;
@@ -965,7 +965,7 @@ namespace LcfSharp.Rpg
         /// The text for menu equipment.
         /// </summary>
         [LcfAlwaysPersist]
-        public string MenuEquipment
+        public LcfString MenuEquipment
         {
             get;
             set;
@@ -975,7 +975,7 @@ namespace LcfSharp.Rpg
         /// The text for menu save.
         /// </summary>
         [LcfAlwaysPersist]
-        public string MenuSave
+        public LcfString MenuSave
         {
             get;
             set;
@@ -985,7 +985,7 @@ namespace LcfSharp.Rpg
         /// The text for menu quit.
         /// </summary>
         [LcfAlwaysPersist]
-        public string MenuQuit
+        public LcfString MenuQuit
         {
             get;
             set;
@@ -995,7 +995,7 @@ namespace LcfSharp.Rpg
         /// The text for starting a new game.
         /// </summary>
         [LcfAlwaysPersist]
-        public string NewGame
+        public LcfString NewGame
         {
             get;
             set;
@@ -1005,7 +1005,7 @@ namespace LcfSharp.Rpg
         /// The text for loading a game.
         /// </summary>
         [LcfAlwaysPersist]
-        public string LoadGame
+        public LcfString LoadGame
         {
             get;
             set;
@@ -1015,7 +1015,7 @@ namespace LcfSharp.Rpg
         /// The text for exiting the game.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ExitGame
+        public LcfString ExitGame
         {
             get;
             set;
@@ -1026,7 +1026,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string Status
+        public LcfString Status
         {
             get;
             set;
@@ -1037,7 +1037,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string Row
+        public LcfString Row
         {
             get;
             set;
@@ -1048,7 +1048,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string Order
+        public LcfString Order
         {
             get;
             set;
@@ -1059,7 +1059,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string WaitOn
+        public LcfString WaitOn
         {
             get;
             set;
@@ -1070,7 +1070,7 @@ namespace LcfSharp.Rpg
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public string WaitOff
+        public LcfString WaitOff
         {
             get;
             set;
@@ -1080,7 +1080,7 @@ namespace LcfSharp.Rpg
         /// The text for level.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Level
+        public LcfString Level
         {
             get;
             set;
@@ -1090,7 +1090,7 @@ namespace LcfSharp.Rpg
         /// The text for health points.
         /// </summary>
         [LcfAlwaysPersist]
-        public string HealthPoints
+        public LcfString HealthPoints
         {
             get;
             set;
@@ -1100,7 +1100,7 @@ namespace LcfSharp.Rpg
         /// The text for spirit points.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SpiritPoints
+        public LcfString SpiritPoints
         {
             get;
             set;
@@ -1110,7 +1110,7 @@ namespace LcfSharp.Rpg
         /// The text for normal status.
         /// </summary>
         [LcfAlwaysPersist]
-        public string NormalStatus
+        public LcfString NormalStatus
         {
             get;
             set;
@@ -1120,7 +1120,7 @@ namespace LcfSharp.Rpg
         /// The abbreviated text for experience.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ExpShort
+        public LcfString ExpShort
         {
             get;
             set;
@@ -1130,7 +1130,7 @@ namespace LcfSharp.Rpg
         /// The abbreviated text for level.
         /// </summary>
         [LcfAlwaysPersist]
-        public string LvlShort
+        public LcfString LvlShort
         {
             get;
             set;
@@ -1140,7 +1140,7 @@ namespace LcfSharp.Rpg
         /// The abbreviated text for health points.
         /// </summary>
         [LcfAlwaysPersist]
-        public string HpShort
+        public LcfString HpShort
         {
             get;
             set;
@@ -1150,7 +1150,7 @@ namespace LcfSharp.Rpg
         /// The abbreviated text for spirit points.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SpShort
+        public LcfString SpShort
         {
             get;
             set;
@@ -1160,7 +1160,7 @@ namespace LcfSharp.Rpg
         /// The text for SP cost.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SpCost
+        public LcfString SpCost
         {
             get;
             set;
@@ -1170,7 +1170,7 @@ namespace LcfSharp.Rpg
         /// The text for attack.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Attack
+        public LcfString Attack
         {
             get;
             set;
@@ -1180,7 +1180,7 @@ namespace LcfSharp.Rpg
         /// The text for defense.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Defense
+        public LcfString Defense
         {
             get;
             set;
@@ -1190,7 +1190,7 @@ namespace LcfSharp.Rpg
         /// The text for spirit.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Spirit
+        public LcfString Spirit
         {
             get;
             set;
@@ -1200,7 +1200,7 @@ namespace LcfSharp.Rpg
         /// The text for agility.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Agility
+        public LcfString Agility
         {
             get;
             set;
@@ -1210,7 +1210,7 @@ namespace LcfSharp.Rpg
         /// The text for weapon.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Weapon
+        public LcfString Weapon
         {
             get;
             set;
@@ -1220,7 +1220,7 @@ namespace LcfSharp.Rpg
         /// The text for shield.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Shield
+        public LcfString Shield
         {
             get;
             set;
@@ -1230,7 +1230,7 @@ namespace LcfSharp.Rpg
         /// The text for armor.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Armor
+        public LcfString Armor
         {
             get;
             set;
@@ -1240,7 +1240,7 @@ namespace LcfSharp.Rpg
         /// The text for helmet.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Helmet
+        public LcfString Helmet
         {
             get;
             set;
@@ -1250,7 +1250,7 @@ namespace LcfSharp.Rpg
         /// The text for accessory.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Accessory
+        public LcfString Accessory
         {
             get;
             set;
@@ -1260,7 +1260,7 @@ namespace LcfSharp.Rpg
         /// The message for saving the game.
         /// </summary>
         [LcfAlwaysPersist]
-        public string SaveGameMessage
+        public LcfString SaveGameMessage
         {
             get;
             set;
@@ -1270,7 +1270,7 @@ namespace LcfSharp.Rpg
         /// The message for loading the game.
         /// </summary>
         [LcfAlwaysPersist]
-        public string LoadGameMessage
+        public LcfString LoadGameMessage
         {
             get;
             set;
@@ -1280,7 +1280,7 @@ namespace LcfSharp.Rpg
         /// The text for file.
         /// </summary>
         [LcfAlwaysPersist]
-        public string File
+        public LcfString File
         {
             get;
             set;
@@ -1290,7 +1290,7 @@ namespace LcfSharp.Rpg
         /// The message for exiting the game.
         /// </summary>
         [LcfAlwaysPersist]
-        public string ExitGameMessage
+        public LcfString ExitGameMessage
         {
             get;
             set;
@@ -1300,7 +1300,7 @@ namespace LcfSharp.Rpg
         /// The text for "Yes".
         /// </summary>
         [LcfAlwaysPersist]
-        public string Yes
+        public LcfString Yes
         {
             get;
             set;
@@ -1310,7 +1310,7 @@ namespace LcfSharp.Rpg
         /// The text for "No".
         /// </summary>
         [LcfAlwaysPersist]
-        public string No
+        public LcfString No
         {
             get;
             set;

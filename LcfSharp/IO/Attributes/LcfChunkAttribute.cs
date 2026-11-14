@@ -60,7 +60,7 @@ namespace LcfSharp.IO.Attributes
     /// Indicates that the class represents an LCF chunk and specifies the enum type used for chunk identifiers.
     /// </summary>
     /// <typeparam name="TEnum">The enum type used for chunk identifiers.</typeparam>
-    [AttributeUsage( AttributeTargets.Class, AllowMultiple = false, Inherited = true )]
+    [AttributeUsage( AttributeTargets.Class, AllowMultiple = false, Inherited = false )]
     public class LcfChunkAttribute<TEnum> : LcfChunkAttribute
     {
         /// <summary>

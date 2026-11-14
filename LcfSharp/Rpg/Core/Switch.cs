@@ -29,6 +29,8 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Core
 {
@@ -36,7 +38,7 @@ namespace LcfSharp.Rpg.Core
     /// Class representing a switch with an ID and name.
     /// </summary>
     [LcfChunk<SwitchChunk>]
-    public class Switch
+    public class Switch : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the switch.
@@ -51,7 +53,7 @@ namespace LcfSharp.Rpg.Core
         /// <summary>
         /// The name of the switch.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;

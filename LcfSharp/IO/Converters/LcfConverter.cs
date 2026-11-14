@@ -27,8 +27,8 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Scopes;
 using System;
-using System.IO;
 
 namespace LcfSharp.IO.Converters
 {
@@ -61,20 +61,18 @@ namespace LcfSharp.IO.Converters
         public abstract bool CanConvert( Type typeToConvert );
 
         /// <summary>
-        /// Reads an object from the specified binary reader.
+        /// Reads an object.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read.</param>
-        /// <returns>The object read from the binary reader.</returns>
-        public abstract object Read( BinaryReader reader, int? length );
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The decoded value.</returns>
+        public abstract object Read( ref LcfReadScope scope );
 
         /// <summary>
-        /// Writes the specified object to the binary writer.
+        /// Writes the specified object.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
+        /// <param name="scope">The write scope.</param>
         /// <param name="value">The object to write.</param>
-        /// <param name="writeLength">The converter should write the length</param>
-        public abstract void Write( BinaryWriter writer, object value, bool writeLength );
+        public abstract void Write( ref LcfWriteScope scope, object value );
     }
 
     /// <summary>

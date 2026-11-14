@@ -27,36 +27,33 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.IO.Extensions;
-using System.IO;
+using LcfSharp.IO.Scopes;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert 7-bit variable-length encoded integer values in the LCF (RPG Maker 2000 format).
+    /// Converts 7-bit variable-length encoded integer values.
     /// </summary>
     public class LcfInt32Converter : LcfConverter<int>
     {
         /// <summary>
-        /// Reads a 7-bit variable-length encoded integer from the specified binary reader.
+        /// Reads a 7-bit variable-length encoded integer.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
-        /// <returns>The 32-bit integer value read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The 32-bit integer value.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
-            return reader.ReadVarInt32( );
+            return scope.ReadVarInt32( );
         }
 
         /// <summary>
-        /// Writes the specified 7-bit variable-length encoded integer to the binary writer.
+        /// Writes the specified 7-bit variable-length encoded integere.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
-        /// <param name="value">The 32-bit integer value to write.</param>
-        /// <param name="writeLength">Not applicable</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        /// <param name="scope">The write scope.</param>
+        /// <param name="value">The boolean value to write.</param>
+        public override void Write( ref LcfWriteScope scope, object value )
         {
-            writer.WriteVarInt32( ( int ) value );
+            scope.WriteVarInt32( ( int ) value );
         }
     }
 }

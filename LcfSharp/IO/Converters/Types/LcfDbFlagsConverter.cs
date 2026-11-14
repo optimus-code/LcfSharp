@@ -27,18 +27,19 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Exceptions;
+using LcfSharp.IO.Scopes;
 using LcfSharp.IO.Types;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert DbFlags types in the LCF (RPG Maker 2000 format).
+    /// Converts DbFlags types.
     /// </summary>
     public class LcfDbFlagsConverter : LcfConverter
     {
@@ -90,21 +91,20 @@ namespace LcfSharp.IO.Converters.Types
         /// <summary>
         /// Reads a DbFlags object from the specified binary reader.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read.</param>
-        /// <returns>The DbFlags object read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The DbFlags object.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
             var instance = Activator.CreateInstance( Type );
-            var size = length.HasValue ? length.Value : Properties.Count;
-            var byteCount = ( size + 7 ) / 8;
+            var flagCount = Properties.Count;
+            var byteCount = Math.Min( scope.Remaining, ( flagCount + 7 ) / 8 );
             var flagIndex = 0;
 
             for ( var byteIndex = 0; byteIndex < byteCount; byteIndex++ )
             {
-                var byteValue = reader.ReadByte( );
+                var byteValue = scope.ReadByte( );
 
-                for ( var bitIndex = 0; bitIndex < 8 && flagIndex < size; bitIndex++ )
+                for ( var bitIndex = 0; bitIndex < 8 && flagIndex < flagCount; bitIndex++ )
                 {
                     var flagValue = ( byteValue & ( 1 << bitIndex ) ) != 0;
                     Properties[flagIndex].SetValue( instance, flagValue );
@@ -112,43 +112,51 @@ namespace LcfSharp.IO.Converters.Types
                 }
             }
 
+            // Consume any additional bytes beyond the flags known to this model.
+            scope.Advance( scope.Remaining );
+
             return instance;
         }
 
         /// <summary>
-        /// Writes the specified DbFlags object to the binary writer.
+        /// Writes the specified DbFlags object.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
-        /// <param name="value">The DbFlags object to write.</param>
-        /// <param name="writeLength">Not applicable here</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        /// <param name="scope">The write scope.</param>
+        /// <param name="value">The object to write.</param>
+        public override void Write( ref LcfWriteScope scope, object value )
         {
             if ( value == null )
                 throw new ArgumentNullException( nameof( value ) );
 
-            if ( value.GetType( ) != Type )
-                throw new ArgumentException( $"Invalid value type. Expected {Type}, got {value.GetType( )}.", nameof( value ) );
+            var is2k3 = LcfConverterFactory.EngineVersion ==
+                LcfEngineVersion.RM2K3;
 
-            var size = Properties.Count;
-            var byteCount = ( size + 7 ) / 8;
-            var flagIndex = 0;
+            byte byteValue = 0;
+            var bitIndex = 0;
 
-            for ( var byteIndex = 0; byteIndex < byteCount; byteIndex++ )
+            foreach ( var property in Properties )
             {
-                byte byteValue = 0;
+                var version = property.GetCustomAttribute<LcfVersionAttribute>( );
 
-                for ( var bitIndex = 0; bitIndex < 8 && flagIndex < size; bitIndex++ )
+                // Omit RM2K3-only flags when writing an RM2K file.
+                if ( version?.Version == LcfEngineVersion.RM2K3 && !is2k3 )
+                    continue;
+
+                if ( ( bool ) property.GetValue( value ) )
+                    byteValue |= ( byte ) ( 1 << ( bitIndex % 8 ) );
+
+                bitIndex++;
+
+                if ( bitIndex % 8 == 0 )
                 {
-                    var flagValue = ( bool ) Properties[flagIndex].GetValue( value );
-                    if ( flagValue )
-                    {
-                        byteValue |= ( byte ) ( 1 << bitIndex );
-                    }
-                    flagIndex++;
+                    scope.WriteByte( byteValue );
+                    byteValue = 0;
                 }
-
-                writer.Write( byteValue );
             }
+
+            // Flush any remaining bits.
+            if ( bitIndex % 8 != 0 )
+                scope.WriteByte( byteValue );
         }
     }
 }

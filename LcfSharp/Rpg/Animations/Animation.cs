@@ -29,7 +29,8 @@
 
 using LcfSharp.Chunks.Database.Animation;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.Animations
     /// Class representing an animation.
     /// </summary>
     [LcfChunk<AnimationChunk>]
-    public class Animation
+    public class Animation : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the animation.
@@ -52,8 +53,7 @@ namespace LcfSharp.Rpg.Animations
         /// <summary>
         /// The name of the animation.
         /// </summary>
-        [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -62,8 +62,7 @@ namespace LcfSharp.Rpg.Animations
         /// <summary>
         /// The name of the animation file.
         /// </summary>
-        [LcfAlwaysPersist]
-        public string AnimationName
+        public LcfString AnimationName
         {
             get;
             set;
@@ -82,7 +81,7 @@ namespace LcfSharp.Rpg.Animations
         /// The list of timings for the animation.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<AnimationTiming> Timings
+        public LcfIndexedList<AnimationTiming> Timings
         {
             get;
             set;
@@ -106,13 +105,13 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = AnimationPosition.Down;
 
         /// <summary>
         /// The list of frames for the animation.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<AnimationFrame> Frames
+        public LcfIndexedList<AnimationFrame> Frames
         {
             get;
             set;

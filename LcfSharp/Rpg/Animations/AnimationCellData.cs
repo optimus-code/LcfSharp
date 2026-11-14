@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database.Animation;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Animations
 {
@@ -36,8 +37,10 @@ namespace LcfSharp.Rpg.Animations
     /// Class representing cell data for an animation.
     /// </summary>
     [LcfChunk<AnimationCellDataChunk>]
-    public class AnimationCellData
+    public class AnimationCellData : IIndexedItem
     {
+        private const int DEFAULT_TONE_COMPONENT = 100;
+
         /// <summary>
         /// The unique identifier for the animation cell data.
         /// </summary>
@@ -55,7 +58,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = 1;
 
         /// <summary>
         /// The ID of the cell.
@@ -100,7 +103,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_TONE_COMPONENT;
 
         /// <summary>
         /// The green tone value of the cell.
@@ -109,7 +112,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_TONE_COMPONENT;
 
         /// <summary>
         /// The blue tone value of the cell.
@@ -118,7 +121,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_TONE_COMPONENT;
 
         /// <summary>
         /// The gray tone value of the cell.
@@ -127,7 +130,7 @@ namespace LcfSharp.Rpg.Animations
         {
             get;
             set;
-        }
+        } = DEFAULT_TONE_COMPONENT;
 
         /// <summary>
         /// The transparency level of the cell.

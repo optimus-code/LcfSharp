@@ -27,21 +27,19 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Converters.Types.Generic;
 using LcfSharp.IO.Exceptions;
-using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Scopes;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert list collection types (multiple lists) in the LCF (RPG Maker 2000 format).
+    /// Converts list collection types (multiple lists).
     /// </summary>
     public class LcfListCollectionConverter : LcfComplexConverter
     {
@@ -56,17 +54,13 @@ namespace LcfSharp.IO.Converters.Types
         }
 
         /// <summary>
-        /// Reads an object of the specified list collection type from the binary reader.
+        /// Reads an object of the specified list collection type.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read.</param>
-        /// <returns>The object read from the binary reader.</returns>
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The object read.</returns>
         /// <exception cref="LcfException">Thrown when no length is specified, no list properties are found, or the list item count is invalid.</exception>
-        public override object Read( BinaryReader reader, int? length )
+        public override object Read( ref LcfReadScope scope )
         {
-            if ( !length.HasValue || length.Value == 0 )
-                throw new LcfException( "No length specified for LcfListCollection converter!." );
-
             var properties = _cache.Properties
                 .Where( p => p.IsGenericListType );
 
@@ -76,32 +70,32 @@ namespace LcfSharp.IO.Converters.Types
                 throw new LcfException( "No list properties found in type marked as an LcfListCollection" );
 
             var elementType = properties.First( ).GenericListInnerType;
-            var listConverterType = typeof( LcfListConverter<> ).MakeGenericType( elementType );
+            var listConverterType = typeof( LcfPackedListConverter<> ).MakeGenericType( elementType );
             var converter = ( LcfConverter ) Activator.CreateInstance( listConverterType );
 
             // The lists in the class all are the same size, divided by the amount of individual lists
-            var listItemCount = length.Value / Marshal.SizeOf( elementType ) / listCount;
+            var listItemCount = scope.Length / Marshal.SizeOf( elementType ) / listCount;
 
             if ( listItemCount <= 0 )
                 throw new LcfException( "Invalid list item count in LcfListCollection." );
 
+            var subListLength = Marshal.SizeOf( elementType ) * listItemCount;
             var obj = Activator.CreateInstance( Type );
             foreach ( var property in properties )
             {
-                var list = ( IList ) converter.Read( reader, listItemCount );
+                var subListScope = scope.TakeScope( subListLength );
+                var list = ( IList ) converter.Read( ref subListScope );
                 property.Property.SetValue( obj, list );
             }
             return obj;
         }
 
         /// <summary>
-        /// Writes the specified object to the binary writer.
+        /// Writes the specified List collection object.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
+        /// <param name="scope">The write scope.</param>
         /// <param name="value">The object to write.</param>
-        /// <param name="writeLength">Whether to write the length / need to revisit</param>
-        /// <exception cref="InvalidDataException">Thrown when no converter is found for a property type.</exception>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        public override void Write( ref LcfWriteScope scope, object value )
         {
             var properties = _cache.Properties
                 .Where( p => p.IsGenericListType );
@@ -114,9 +108,9 @@ namespace LcfSharp.IO.Converters.Types
                 var list = ( IList ) property.Property.GetValue( value );
                 if ( list != null )
                 {
-                    var listConverterType = typeof( LcfListConverter<> ).MakeGenericType( elementType );
+                    var listConverterType = typeof( LcfPackedListConverter<> ).MakeGenericType( elementType );
                     var converter = ( LcfConverter ) Activator.CreateInstance( listConverterType );
-                    converter.Write( writer, list, false );
+                    converter.Write( ref scope, list );
                 }
                 else
                 {

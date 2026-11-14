@@ -27,9 +27,10 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Events;
+using LcfSharp.Chunks.Shared.Events;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.Events
     /// Class representing an event in the game.
     /// </summary>
     [LcfChunk<EventChunk>]
-    public class Event
+    public class Event : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the event.
@@ -52,7 +53,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The name of the event.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -79,10 +80,10 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The list of pages associated with the event.
         /// </summary>
-        public List<EventPage> Pages
+        public LcfIndexedList<EventPage> Pages
         {
             get;
             set;
-        } = new List<EventPage>( );
+        } = new LcfIndexedList<EventPage>( );
     }
 }

@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -26,9 +26,15 @@
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
+
+using LcfSharp.IO.Types;
+
 namespace LcfSharp.Rpg.Persistence
 {
-    public class SavePictureFlags
+    /// <summary>
+    /// Represents the PictureFlags flag bits.
+    /// </summary>
+    public class SavePictureFlags : IDbFlags
     {
         public bool EraseOnMapChange
         {

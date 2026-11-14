@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,46 +27,43 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Persistence
 {
-    public enum SaveActorRowType
+    /// <summary>
+    /// Represents Actor data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveActorChunk>]
+    public class SaveActor : IIndexedItem
     {
-        Front = 0,
-        Back = 1
-    }
-
-    public class SaveActor
-    {
-        public static readonly Dictionary<SaveActorRowType, string> RowTypeTags = new Dictionary<SaveActorRowType, string>
-        {
-            { SaveActorRowType.Front, "front" },
-            { SaveActorRowType.Back, "back" }
-        };
-
-        // Sentinel name used to denote that the default LDB name should be used.
         public static readonly string EmptyName = "\x1";
 
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
-        public string Name
+        [LcfAlwaysPersist]
+        public LcfString Name
         {
             get;
             set;
         } = EmptyName;
 
-        public string Title
+        [LcfAlwaysPersist]
+        public LcfString Title
         {
             get;
             set;
         } = EmptyName;
 
-        public string SpriteName
+        public LcfString SpriteName
         {
             get;
             set;
@@ -84,7 +81,7 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public string FaceName
+        public LcfString FaceName
         {
             get;
             set;
@@ -144,13 +141,16 @@ namespace LcfSharp.Rpg.Persistence
             set;
         }
 
-        public List<short> Skills
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveActorChunk.SkillsSize, AlwaysPersist = true )]
+        public LcfPackedList<short> Skills
         {
             get;
             set;
         } = [];
 
-        public List<short> Equipped
+        [LcfAlwaysPersist]
+        public LcfPackedList<short> Equipped
         {
             get;
             set;
@@ -168,13 +168,17 @@ namespace LcfSharp.Rpg.Persistence
             set;
         } = -1;
 
-        public List<int> BattleCommands
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        [LcfAlwaysPersist]
+        public LcfPackedList<LcfFixedInt32> BattleCommands
         {
             get;
             set;
         } = [-1, -1, -1, -1, -1, -1, -1];
 
-        public List<short> Status
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveActorChunk.StatusSize )]
+        public LcfPackedList<short> Status
         {
             get;
             set;
@@ -192,41 +196,46 @@ namespace LcfSharp.Rpg.Persistence
             set;
         } = -1;
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int Row
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool TwoWeapon
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool LockEquipment
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool AutoBattle
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool SuperGuard
         {
             get;
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BattlerAnimation
         {
             get;
             set;
         }
     }
-
 }

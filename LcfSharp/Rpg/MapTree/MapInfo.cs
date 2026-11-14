@@ -30,8 +30,8 @@
 using LcfSharp.Chunks.MapTree;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Audio;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.MapTree
 {
@@ -39,7 +39,7 @@ namespace LcfSharp.Rpg.MapTree
     /// Represents the information for a map
     /// </summary>
     [LcfChunk<MapInfoChunk>]
-    public class MapInfo
+    public class MapInfo : IIndexedItem
     {
         /// <summary>
         /// Gets or sets the unique identifier for the map.
@@ -54,7 +54,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the name of the map.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -117,6 +117,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the music type for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public MapInfoMusicType MusicType
         {
             get;
@@ -126,6 +127,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the music settings for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public Music Music
         {
             get;
@@ -135,6 +137,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the background music type for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public MapInfoBGMType BackgroundType
         {
             get;
@@ -144,7 +147,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the name of the background for the map.
         /// </summary>
-        public string BackgroundName
+        public LcfString BackgroundName
         {
             get;
             set;
@@ -153,6 +156,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the teleportation setting for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public MapInfoTriState Teleport
         {
             get;
@@ -162,6 +166,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the escape setting for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public MapInfoTriState Escape
         {
             get;
@@ -171,6 +176,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the save setting for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public MapInfoTriState Save
         {
             get;
@@ -180,11 +186,12 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the list of encounters on the map.
         /// </summary>
-        public List<Encounter> Encounters
+        [LcfAlwaysPersist]
+        public LcfIndexedList<Encounter> Encounters
         {
             get;
             set;
-        } = new List<Encounter>( );
+        } = new LcfIndexedList<Encounter>( );
 
         /// <summary>
         /// Gets or sets the number of steps between encounters.
@@ -198,6 +205,7 @@ namespace LcfSharp.Rpg.MapTree
         /// <summary>
         /// Gets or sets the area rectangle for the map.
         /// </summary>
+        [LcfAlwaysPersist]
         public Rectangle AreaRect
         {
             get;

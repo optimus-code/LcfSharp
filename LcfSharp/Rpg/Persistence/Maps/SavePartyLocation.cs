@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,29 +27,30 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+
 namespace LcfSharp.Rpg.Persistence.Maps
 {
-    public enum SavePartyLocationVehicleType
-    {
-        None = 0,
-        Skiff = 1,
-        Ship = 2,
-        Airship = 3
-    }
-
-    public enum SavePartyLocationPanState
-    {
-        Fixed = 0,
-        Follow = 1
-    }
-
+    /// <summary>
+    /// Represents PartyLocation data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SavePartyLocationChunk>]
     public class SavePartyLocation : SaveMapEventBase
     {
-        // Equal to 9 tiles in 1/16th pixels
+        /// <summary>
+        /// Equal to 9 tiles in 1/16th pixels
+        /// </summary>
         public const int PanXDefault = 9 * 256;
-        // Equal to 7 tiles in 1/16th pixels
+
+        /// <summary>
+        /// Equal to 7 tiles in 1/16th pixels
+        /// </summary>
         public const int PanYDefault = 7 * 256;
-        // Frame speed in 1/16th pixels
+
+        /// <summary>
+        /// Frame speed in 1/16th pixels
+        /// </summary>
         public const int PanSpeedDefault = 2 << 3;
 
         public bool Boarding

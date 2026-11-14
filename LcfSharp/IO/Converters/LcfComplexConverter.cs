@@ -27,6 +27,7 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Scopes;
 using LcfSharp.IO.Types;
 using System;
 using System.IO;
@@ -35,7 +36,7 @@ using System.Reflection;
 namespace LcfSharp.IO.Converters
 {
     /// <summary>
-    /// Core type for complex converters, e.g. Class and Chunk
+    /// Base converter for complex LCF records.
     /// </summary>
     public abstract class LcfComplexConverter : LcfConverter
     {
@@ -56,10 +57,14 @@ namespace LcfSharp.IO.Converters
         public override bool CanConvert( Type typeToConvert ) => typeToConvert == Type;
 
         /// <summary>
-        /// The type cache
+        /// Cached metadata for the converted type.
         /// </summary>
-        protected readonly LcfType _cache;
+        protected readonly LcfTypeInfo _cache;
 
+        /// <summary>
+        /// Creates a converter for a complex LCF type.
+        /// </summary>
+        /// <param name="type">The model type.</param>
         public LcfComplexConverter( Type type )
         {
             Type = type;
@@ -67,19 +72,18 @@ namespace LcfSharp.IO.Converters
         }
 
         /// <summary>
-        /// Processes the specified property by reading its value from the binary reader.
+        /// Reads and assigns a model property.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="obj">The object to set the property value on.</param>
+        /// <param name="scope">The read scope.</param>
+        /// <param name="obj">The model instance.</param>
         /// <param name="property">The property to process.</param>
-        /// <param name="length">The length of the data to read.</param>
         /// <exception cref="InvalidDataException">Thrown when no converter is found for the property type.</exception>
-        protected void ReadProperty( BinaryReader reader, object obj, PropertyInfo property, int? length )
+        protected void ReadProperty( ref LcfReadScope scope, object obj, PropertyInfo property )
         {
             var converter = LcfConverterFactory.GetConverter( property.PropertyType );
             if ( converter is not null )
             {
-                var value = converter.Read( reader, length );
+                var value = converter.Read( ref scope );
                 property.SetValue( obj, value );
             }
             else
@@ -89,19 +93,18 @@ namespace LcfSharp.IO.Converters
         }
 
         /// <summary>
-        /// Processes the specified property by write its value from the binary writer.
+        /// Writes a model property.
         /// </summary>
-        /// <param name="writer">The binary reader to read from.</param>
-        /// <param name="obj">The object to set the property value on.</param>
+        /// <param name="scope">The write scope.</param>
+        /// <param name="obj">The model instance.</param>
         /// <param name="property">The property to process.</param>
-        /// <param name="writeLength">Whether to write the length</param>
         /// <exception cref="InvalidDataException">Thrown when no converter is found for the property type.</exception>
-        protected void WriteProperty( BinaryWriter writer, object obj, PropertyInfo property, bool writeLength )
+        protected void WriteProperty( ref LcfWriteScope scope, object obj, PropertyInfo property )
         {
             var converter = LcfConverterFactory.GetConverter( property.PropertyType );
             if ( converter is not null )
             {
-                converter.Write( writer, property.GetValue( obj ), writeLength );
+                converter.Write( ref scope, property.GetValue( obj ) );
             }
             else
             {
@@ -110,21 +113,21 @@ namespace LcfSharp.IO.Converters
         }
 
         /// <summary>
-        /// Build a complex type instance
+        /// Creates an instance of the target model type.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The type metadata.</returns>
         protected object Build( )
         {
             return Activator.CreateInstance( Type );
         }
 
         /// <summary>
-        /// Get the type cache
+        /// Gets cached metadata for the target model type.
         /// </summary>
-        /// <returns></returns>
-        private LcfType GetCache( )
+        /// <returns>The type metadata.</returns>
+        private LcfTypeInfo GetCache( )
         {
-            return LcfType.Get( Type );
+            return LcfTypeInfo.Get( Type );
         }
     }
 }

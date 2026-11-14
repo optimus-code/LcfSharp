@@ -27,7 +27,7 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Events;
+using LcfSharp.Chunks.Shared.Events;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 
@@ -43,6 +43,9 @@ namespace LcfSharp.Rpg.Events
         NotEqual = 5
     }
 
+    /// <summary>
+    /// Represents EventPageCondition data in an LCF file.
+    /// </summary>
     [LcfChunk<EventPageConditionChunk>]
     public class EventPageCondition
     {

@@ -30,6 +30,7 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Audio;
 
 namespace LcfSharp.Rpg.Terrains
@@ -38,7 +39,7 @@ namespace LcfSharp.Rpg.Terrains
     /// Class representing terrain with various properties and settings.
     /// </summary>
     [LcfChunk<TerrainChunk>]
-    public class Terrain
+    public class Terrain : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the terrain.
@@ -53,7 +54,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The name of the terrain.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -80,7 +81,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The name of the background associated with the terrain.
         /// </summary>
-        public string BackgroundName
+        public LcfString BackgroundName
         {
             get;
             set;
@@ -135,8 +136,8 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The sound for footsteps on the terrain. Only available in RM2K3.
         /// </summary>
-        [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public Sound Footstep
         {
             get;
@@ -146,6 +147,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Indicates whether the terrain plays a sound effect on damage.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool OnDamageSe
         {
             get;
@@ -155,6 +157,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The type of background associated with the terrain.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public TerrainBGAssociation BackgroundType
         {
             get;
@@ -164,7 +167,8 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The name of the first background layer.
         /// </summary>
-        public string BackgroundAName
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        public LcfString BackgroundAName
         {
             get;
             set;
@@ -173,6 +177,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Indicates whether the first background layer scrolls horizontally.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool BackgroundAScrollH
         {
             get;
@@ -182,6 +187,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Indicates whether the first background layer scrolls vertically.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool BackgroundAScrollV
         {
             get;
@@ -191,6 +197,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The horizontal scroll speed of the first background layer.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BackgroundAScrollHSpeed
         {
             get;
@@ -200,6 +207,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The vertical scroll speed of the first background layer.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BackgroundAScrollVSpeed
         {
             get;
@@ -209,6 +217,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Indicates whether the second background layer is enabled.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool BackgroundB
         {
             get;
@@ -218,7 +227,8 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The name of the second background layer.
         /// </summary>
-        public string BackgroundBName
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
+        public LcfString BackgroundBName
         {
             get;
             set;
@@ -227,6 +237,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Indicates whether the second background layer scrolls horizontally.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool BackgroundBScrollH
         {
             get;
@@ -236,6 +247,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Indicates whether the second background layer scrolls vertically.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool BackgroundBScrollV
         {
             get;
@@ -245,6 +257,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The horizontal scroll speed of the second background layer.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BackgroundBScrollHSpeed
         {
             get;
@@ -254,6 +267,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The vertical scroll speed of the second background layer.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int BackgroundBScrollVSpeed
         {
             get;
@@ -263,6 +277,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// Special flags associated with the terrain.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public TerrainFlags SpecialFlags
         {
             get;
@@ -272,6 +287,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The special background party value. Default is 15.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpecialBackParty
         {
             get;
@@ -281,6 +297,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The special background enemies value. Default is 10.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpecialBackEnemies
         {
             get;
@@ -290,6 +307,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The special lateral party value. Default is 10.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpecialLateralParty
         {
             get;
@@ -299,6 +317,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The special lateral enemies value. Default is 5.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int SpecialLateralEnemies
         {
             get;
@@ -308,6 +327,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The grid location of the terrain.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int GridLocation
         {
             get;
@@ -317,6 +337,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The top Y coordinate of the grid. Default is 120.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int GridTopY
         {
             get;
@@ -326,6 +347,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The elongation value of the grid. Default is 392.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int GridElongation
         {
             get;
@@ -335,6 +357,7 @@ namespace LcfSharp.Rpg.Terrains
         /// <summary>
         /// The inclination value of the grid. Default is 16000.
         /// </summary>
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public int GridInclination
         {
             get;

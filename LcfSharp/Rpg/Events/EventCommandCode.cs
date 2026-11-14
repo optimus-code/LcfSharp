@@ -35,11 +35,6 @@ namespace LcfSharp.Rpg.Events
     public enum EventCommandCode : int
     {
         /// <summary>
-        /// No command.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
         /// End event command.
         /// </summary>
         END = 10,

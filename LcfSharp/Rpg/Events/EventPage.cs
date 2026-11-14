@@ -27,9 +27,10 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.Chunks.Events;
+using LcfSharp.Chunks.Shared.Events;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Events
 {
@@ -259,7 +260,7 @@ namespace LcfSharp.Rpg.Events
     /// Class representing an event page in the game.
     /// </summary>
     [LcfChunk<EventPageChunk>]
-    public class EventPage
+    public class EventPage : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the event page.
@@ -283,7 +284,7 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The name of the character graphic.
         /// </summary>
-        public string CharacterName
+        public LcfString CharacterName
         {
             get;
             set;
@@ -337,11 +338,11 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The move frequency of the event page. Default is 3.
         /// </summary>
-        public EventPageMoveSpeed MoveFrequency
+        public int MoveFrequency
         {
             get;
             set;
-        } = EventPageMoveSpeed.Half;
+        } = 3;
 
         /// <summary>
         /// The trigger of the event page.
@@ -400,8 +401,8 @@ namespace LcfSharp.Rpg.Events
         /// <summary>
         /// The list of event commands associated with the event page.
         /// </summary>
-        [LcfSize( ( int ) EventPageChunk.EventCommandsSize )]
-        public List<EventCommand> EventCommands
+        [LcfSize( ( int ) EventPageChunk.EventCommandsSize, AlwaysPersist = true )]
+        public EventCommandCollection EventCommands
         {
             get;
             set;

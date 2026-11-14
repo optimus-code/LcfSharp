@@ -30,7 +30,7 @@
 using LcfSharp.Chunks.Database.Troops;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
-using System.Collections.Generic;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Troops
 {
@@ -38,7 +38,7 @@ namespace LcfSharp.Rpg.Troops
     /// Class representing a troop in the game.
     /// </summary>
     [LcfChunk<TroopChunk>]
-    public class Troop
+    public class Troop : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the troop.
@@ -53,7 +53,7 @@ namespace LcfSharp.Rpg.Troops
         /// <summary>
         /// The name of the troop.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -64,7 +64,7 @@ namespace LcfSharp.Rpg.Troops
         /// </summary>
         [LcfAlwaysPersist]
         [LcfAlwaysWriteChunkLength]
-        public List<TroopMember> Members
+        public LcfIndexedList<TroopMember> Members
         {
             get;
             set;
@@ -84,7 +84,7 @@ namespace LcfSharp.Rpg.Troops
         /// </summary>
         [LcfAlwaysPersist]
         [LcfSize( ( int ) TroopChunk.TerrainSetSize )]
-        public List<byte> TerrainSet
+        public LcfPackedList<byte> TerrainSet
         {
             get;
             set;
@@ -103,7 +103,7 @@ namespace LcfSharp.Rpg.Troops
         /// The list of pages for the troop.
         /// </summary>
         [LcfAlwaysPersist]
-        public List<TroopPage> Pages
+        public LcfIndexedList<TroopPage> Pages
         {
             get;
             set;

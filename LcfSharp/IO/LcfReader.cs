@@ -29,11 +29,12 @@
 
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Converters;
-using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Scopes;
 using LcfSharp.IO.Types;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace LcfSharp.IO
 {
@@ -42,7 +43,11 @@ namespace LcfSharp.IO
     /// </summary>
     public class LcfReader : IDisposable
     {
-        private readonly BinaryReader _reader;
+        private readonly ReadOnlyMemory<byte> _buffer;
+        private int _position;
+
+        public int Position => _position;
+        public int Remaining => _buffer.Length - _position;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LcfReader"/> class with the specified stream.
@@ -50,22 +55,39 @@ namespace LcfSharp.IO
         /// <param name="stream">The stream to read from.</param>
         public LcfReader( Stream stream )
         {
-            _reader = new BinaryReader( stream );
-        }
+            if ( stream == null )
+                throw new ArgumentNullException( nameof( stream ) );
 
-        /// <summary>
-        /// Gets the current position within the stream.
-        /// </summary>
-        public long Position
-        {
-            get
+            using ( stream )
+            using ( var memory = new MemoryStream( ) )
             {
-                return _reader.BaseStream.Position;
+                stream.CopyTo( memory );
+                _buffer = memory.ToArray( );
             }
+
+            _position = 0;
         }
 
         /// <summary>
-        /// Deserialises data from the stream into an object of type <typeparamref name="T"/>.
+        /// Creates a scope over the unread portion of
+        /// the buffer without advancing the root cursor.
+        /// </summary>
+        public LcfReadScope CreateRootScope( )
+        {
+            return new LcfReadScope( _buffer, _position, Remaining );
+        }
+
+        /// <summary>
+        /// Commits bytes consumed by a temporary scope.
+        /// </summary>
+        private void Commit( ref LcfReadScope scope )
+        {
+            _position += scope.Position;
+        }
+
+        /// <summary>
+        /// Deserialises data from the stream into an
+        /// object of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The type of object to deserialise.</typeparam>
         /// <returns>An object of type <typeparamref name="T"/>.</returns>
@@ -76,26 +98,26 @@ namespace LcfSharp.IO
         }
 
         /// <summary>
-        /// Deserialises data from the stream into an object of type <typeparamref name="T"/>.
+        /// Deserialises data from the stream into an object of type.
         /// </summary>
         /// <param name="type">The type of object to deserialise.</param>
         /// <returns>An object of declared type.</returns>
         private ILcfRootChunk Deserialise( Type type )
         {
-            var hasChunkAttribute = type.GetCustomAttribute<LcfChunkAttribute>( true ) != null;
+            var scope = CreateRootScope( );
 
-            // If it has a chunk attribute use a chunk converter
-            if ( hasChunkAttribute )
-            {
-                var chunkReader = new LcfChunkConverter( type );
-                return ( ILcfRootChunk ) chunkReader.Read( _reader, null );
-            }
-            // Otherwise use class converter
-            else
-            {
-                var classReader = new LcfClassConverter( type );
-                return ( ILcfRootChunk ) classReader.Read( _reader, null );
-            }
+            var isChunked = type.GetCustomAttribute<LcfChunkAttribute>(
+                    true ) != null;
+
+            LcfConverter converter = isChunked
+                ? new LcfChunkConverter( type )
+                : new LcfClassConverter( type );
+
+            var result = ( ILcfRootChunk ) converter.Read( ref scope );
+
+            Commit( ref scope );
+
+            return result;
         }
 
         /// <summary>
@@ -104,7 +126,13 @@ namespace LcfSharp.IO
         /// <returns>The integer value.</returns>
         public int ReadVarInt32( )
         {
-            return _reader.ReadVarInt32( );
+            var scope = CreateRootScope( );
+
+            int result = scope.ReadVarInt32( );
+
+            Commit( ref scope );
+
+            return result;
         }
 
         /// <summary>
@@ -114,7 +142,17 @@ namespace LcfSharp.IO
         /// <returns>The string value.</returns>
         public string ReadString( int length )
         {
-            return _reader.ReadString( length );
+            var scope = CreateRootScope( );
+
+            // The LCF file signature is ASCII.
+            // Model string codecs can use Shift-JIS.
+            var bytes = scope.ReadBytes( length );
+            string result = Encoding.ASCII.GetString(
+                bytes.ToArray( ) );
+
+            Commit( ref scope );
+
+            return result;
         }
 
         /// <summary>
@@ -122,7 +160,6 @@ namespace LcfSharp.IO
         /// </summary>
         public void Dispose( )
         {
-            _reader?.Dispose( );
         }
     }
 }

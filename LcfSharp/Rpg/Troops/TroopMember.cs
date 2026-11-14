@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database.Troops;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Troops
 {
@@ -36,7 +37,7 @@ namespace LcfSharp.Rpg.Troops
     /// Class representing a member of a troop.
     /// </summary>
     [LcfChunk<TroopMemberChunk>]
-    public class TroopMember
+    public class TroopMember : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the troop member.

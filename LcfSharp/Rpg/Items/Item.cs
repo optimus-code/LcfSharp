@@ -30,8 +30,8 @@
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Battle.Battlers.ItemSkills;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Items
 {
@@ -39,7 +39,7 @@ namespace LcfSharp.Rpg.Items
     /// Class representing an item in the game.
     /// </summary>
     [LcfChunk<ItemChunk>]
-    public class Item
+    public class Item : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the item.
@@ -54,7 +54,7 @@ namespace LcfSharp.Rpg.Items
         /// <summary>
         /// The name of the item.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -63,7 +63,7 @@ namespace LcfSharp.Rpg.Items
         /// <summary>
         /// The description of the item.
         /// </summary>
-        public string Description
+        public LcfString Description
         {
             get;
             set;
@@ -95,7 +95,7 @@ namespace LcfSharp.Rpg.Items
         {
             get;
             set;
-        }
+        } = 1;
 
         /// <summary>
         /// The attack points added by the item.
@@ -414,7 +414,7 @@ namespace LcfSharp.Rpg.Items
         {
             get;
             set;
-        }
+        } = true;
 
         /// <summary>
         /// Indicates whether the item can be used in battle.
@@ -429,8 +429,8 @@ namespace LcfSharp.Rpg.Items
         /// The actor set affected by the item.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) ItemChunk.ActorSetSize, NoSizeWhenEmpty = true )]
-        public List<byte> ActorSet
+        [LcfSize( ( int ) ItemChunk.ActorSetSize )]
+        public LcfPackedList<byte> ActorSet
         {
             get;
             set;
@@ -440,8 +440,8 @@ namespace LcfSharp.Rpg.Items
         /// The state set affected by the item.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) ItemChunk.StateSetSize, NoSizeWhenEmpty = true )]
-        public List<byte> StateSet
+        [LcfSize( ( int ) ItemChunk.StateSetSize )]
+        public LcfPackedList<byte> StateSet
         {
             get;
             set;
@@ -451,8 +451,8 @@ namespace LcfSharp.Rpg.Items
         /// The attribute set affected by the item.
         /// </summary>
         [LcfAlwaysPersist]
-        [LcfSize( ( int ) ItemChunk.AttributeSetSize, NoSizeWhenEmpty = true )]
-        public List<byte> AttributeSet
+        [LcfSize( ( int ) ItemChunk.AttributeSetSize )]
+        public LcfPackedList<byte> AttributeSet
         {
             get;
             set;
@@ -491,7 +491,7 @@ namespace LcfSharp.Rpg.Items
         /// </summary>
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
-        public List<BattlerAnimationItemSkill> AnimationData
+        public LcfIndexedList<BattlerAnimationItemSkill> AnimationData
         {
             get;
             set;
@@ -513,7 +513,7 @@ namespace LcfSharp.Rpg.Items
         [LcfVersion( LcfEngineVersion.RM2K3 )]
         [LcfAlwaysPersist]
         [LcfSize( ( int ) ItemChunk.ClassSetSize )]
-        public List<byte> ClassSet
+        public LcfPackedList<byte> ClassSet
         {
             get;
             set;

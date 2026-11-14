@@ -27,9 +27,8 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.IO.Extensions;
+using LcfSharp.IO.Scopes;
 using System;
-using System.IO;
 
 namespace LcfSharp.IO.Converters.Types
 {
@@ -64,23 +63,21 @@ namespace LcfSharp.IO.Converters.Types
         public override bool CanConvert( Type typeToConvert ) => typeToConvert == Type;
 
         /// <summary>
-        /// Reads an enum value from the specified binary reader.
+        /// Reads a 7-bit encoded enum value.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
-        /// <returns>The enum value read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The enum value.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
-            return Enum.ToObject( Type, reader.ReadVarInt32( ) );
+            return Enum.ToObject( Type, scope.ReadVarInt32( ) );
         }
 
         /// <summary>
-        /// Writes the specified enum value to the binary writer.
+        /// Writes the specified enum value.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
-        /// <param name="value">The enum value to write.</param>
-        /// <param name="writeLength">Not applicable</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        /// <param name="scope">The write scope.</param>
+        /// <param name="value">The enum value.</param>
+        public override void Write( ref LcfWriteScope scope, object value )
         {
             if ( value == null )
                 throw new ArgumentNullException( nameof( value ) );
@@ -88,7 +85,7 @@ namespace LcfSharp.IO.Converters.Types
             if ( !Enum.IsDefined( Type, value ) )
                 throw new ArgumentException( $"Invalid value for enum type {Type}", nameof( value ) );
 
-            writer.WriteVarInt32( ( int ) value );
+            scope.WriteVarInt32( ( int ) value );
         }
     }
 }

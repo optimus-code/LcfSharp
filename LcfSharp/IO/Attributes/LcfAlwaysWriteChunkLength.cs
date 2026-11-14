@@ -32,7 +32,7 @@ using System;
 namespace LcfSharp.IO.Attributes
 {
     /// <summary>
-    /// Indicates that the object should always write chunk length (Typically for arrays/lists(
+    /// Requires writing the chunk length even for an empty payload.
     /// </summary>
     [AttributeUsage( AttributeTargets.Property, AllowMultiple = false, Inherited = true )]
     public class LcfAlwaysWriteChunkLengthAttribute : Attribute

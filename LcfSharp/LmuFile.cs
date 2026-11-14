@@ -31,12 +31,15 @@ using LcfSharp.Chunks.Maps;
 using LcfSharp.IO;
 using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Events;
-using System.Collections.Generic;
 using System.IO;
 
 namespace LcfSharp
 {
+    /// <summary>
+    /// Represents LmuFile in the LCF data model.
+    /// </summary>
     [LcfChunk<MapChunk>]
     public class LmuFile : ILcfRootChunk
     {
@@ -192,39 +195,39 @@ namespace LcfSharp
         } = true;
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
-        public List<uint> GeneratorX
+        public LcfPackedList<uint> GeneratorX
         {
             get;
             set;
         } = [];
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
-        public List<uint> GeneratorY
+        public LcfPackedList<uint> GeneratorY
         {
             get;
             set;
         } = [];
 
         [LcfVersion(LcfEngineVersion.RM2K3)]
-        public List<short> GeneratorTileIDs
+        public LcfPackedList<short> GeneratorTileIDs
         {
             get;
             set;
         } = [];
 
-        public List<short> LowerLayer
+        public LcfPackedList<short> LowerLayer
         {
             get;
             set;
         } = [];
 
-        public List<short> UpperLayer
+        public LcfPackedList<short> UpperLayer
         {
             get;
             set;
         } = [];
 
-        public List<Event> Events
+        public LcfIndexedList<Event> Events
         {
             get;
             set;
@@ -244,15 +247,38 @@ namespace LcfSharp
         }
 
         /// <summary>
-        /// Loads the map from the specified file path.
+        /// Loads the LMU file from the specified file path.
         /// </summary>
         /// <param name="path">The file path of the map.</param>
+        /// <param name="encodingType">The string encoding type.</param>
         /// <returns>The loaded <see cref="LmuFile"/> object.</returns>
-        public static LmuFile Load( string path )
+        public static LmuFile Load( string path, LcfEncodingType encodingType = LcfEncodingType.WesternEurope1252 )
         {
             using ( var stream = File.OpenRead( path ) )
             {
-                return LcfSerialiser.Deserialise<LmuFile>( stream, new LcfSerialiserOptions { Format = LcfFormat.LMU } );
+                return LcfSerialiser.Deserialise<LmuFile>( stream, new LcfSerialiserOptions 
+                { 
+                    Format = LcfFormat.LMU,
+                    EncodingType = encodingType
+                } );
+            }
+        }
+
+        /// <summary>
+        /// Save an LMU file to the specified file path.
+        /// </summary>
+        /// <param name="path">The file path of the map.</param>
+        /// <param name="file">The file data.</param>
+        /// <param name="encodingType">The string encoding type.</param>
+        public static void Save( string path, LmuFile file, LcfEncodingType encodingType = LcfEncodingType.WesternEurope1252 )
+        {
+            using ( var stream = File.OpenWrite( path ) )
+            {
+                LcfSerialiser.Serialise( stream, file, new LcfSerialiserOptions 
+                { 
+                    Format = LcfFormat.LMU,
+                    EncodingType = encodingType
+                } );
             }
         }
     }

@@ -29,6 +29,8 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Attributes
 {
@@ -36,7 +38,7 @@ namespace LcfSharp.Rpg.Attributes
     /// Class representing an attribute in the game.
     /// </summary>
     [LcfChunk<AttributeChunk>]
-    public class Attribute
+    public class Attribute : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the attribute.
@@ -52,7 +54,7 @@ namespace LcfSharp.Rpg.Attributes
         /// The name of the attribute.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;

@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,20 +27,29 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 using LcfSharp.Rpg.Events;
-using System.Collections.Generic;
 
 namespace LcfSharp.Rpg.Persistence.Events
 {
-    public class SaveEventExecFrame
+    /// <summary>
+    /// Represents EventExecFrame data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveEventExecFrameChunk>]
+    public class SaveEventExecFrame : IIndexedItem
     {
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
-        public List<EventCommand> Commands
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveEventExecFrameChunk.CommandsSize, AlwaysPersist = true )]
+        public EventCommandCollection Commands
         {
             get;
             set;
@@ -64,37 +73,9 @@ namespace LcfSharp.Rpg.Persistence.Events
             set;
         }
 
-        public List<byte> SubcommandPath
-        {
-            get;
-            set;
-        } = [];
-
-        public int ManiacEventInfo
-        {
-            get;
-            set;
-        }
-
-        public int ManiacEventID
-        {
-            get;
-            set;
-        }
-
-        public int ManiacEventPageID
-        {
-            get;
-            set;
-        }
-
-        public int ManiacLoopInfoSize
-        {
-            get;
-            set;
-        }
-
-        public List<int> ManiacLoopInfo
+        [LcfAlwaysPersist]
+        [LcfSize( ( int ) SaveEventExecFrameChunk.SubCommandPathSize )]
+        public LcfPackedList<byte> SubCommandPath
         {
             get;
             set;

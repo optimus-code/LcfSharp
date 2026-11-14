@@ -29,6 +29,7 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg
 {
@@ -36,7 +37,7 @@ namespace LcfSharp.Rpg
     /// Class representing a test battler with various attributes.
     /// </summary>
     [LcfChunk<TestBattlerChunk>]
-    public class TestBattler
+    public class TestBattler : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the test battler. Default is 0.

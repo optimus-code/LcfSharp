@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -26,8 +26,16 @@
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
+
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+
 namespace LcfSharp.Rpg.Persistence
 {
+    /// <summary>
+    /// Represents Panorama data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SavePanoramaChunk>]
     public class SavePanorama
     {
         public int PanX

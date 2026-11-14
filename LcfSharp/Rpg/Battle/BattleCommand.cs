@@ -29,6 +29,8 @@
 
 using LcfSharp.Chunks.Database.Battle;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Battle
 {
@@ -36,7 +38,7 @@ namespace LcfSharp.Rpg.Battle
     /// Class representing a battle command.
     /// </summary>
     [LcfChunk<BattleCommandChunk>]
-    public class BattleCommand
+    public class BattleCommand : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the battle command. Default is 0.
@@ -52,7 +54,7 @@ namespace LcfSharp.Rpg.Battle
         /// The name of the battle command.
         /// </summary>
         [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;

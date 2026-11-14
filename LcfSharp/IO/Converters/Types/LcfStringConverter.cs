@@ -27,46 +27,35 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using LcfSharp.IO.Extensions;
-using System.IO;
+using LcfSharp.IO.Scopes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert string values in the LCF (RPG Maker 2000 format).
+    /// Converts string values.
     /// </summary>
     public class LcfStringConverter : LcfConverter<string>
     {
         /// <summary>
-        /// Reads a string from the specified binary reader.
+        /// Reads a string.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the string to read. If null, the length is read from the stream.</param>
-        /// <returns>The string value read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The string value.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
-            if ( length.HasValue && length.Value == 0 )
-                return null;
-
-            var count = length.HasValue ? length.Value : reader.ReadVarInt32( );
-            return reader.ReadString( count );
+            return scope.ReadString( LcfConverterFactory.EncodingType );
         }
 
         /// <summary>
-        /// Writes the specified string value to the binary writer.
+        /// Writes the specified string value.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
-        /// <param name="value">The string value to write.</param>
-        /// <param name="writeLength">Strings need length writing when not in chunks</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        /// <param name="scope">The write scope.</param>
+        /// <param name="value">The value to write.</param>
+        public override void Write( ref LcfWriteScope scope, object value )
         {
-            var stringValue = ( string ) value;
-
-            if ( writeLength )
-                writer.WriteVarInt32( string.IsNullOrEmpty( stringValue ) ? 0 : stringValue.Length );
-
-            if ( !string.IsNullOrEmpty( stringValue ) )
-                writer.WriteString( stringValue );
+            var stringValue = ( LcfString ) value;
+            scope.WriteString( stringValue );
         }
     }
 }

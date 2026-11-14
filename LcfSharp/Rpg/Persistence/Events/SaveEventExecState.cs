@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -27,13 +27,20 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.Collections.Generic;
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Persistence.Events
 {
+    /// <summary>
+    /// Represents EventExecState data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveEventExecStateChunk>]
     public class SaveEventExecState
     {
-        public List<SaveEventExecFrame> Stack
+        [LcfAlwaysPersist]
+        public LcfIndexedList<SaveEventExecFrame> Stack
         {
             get;
             set;
@@ -57,61 +64,61 @@ namespace LcfSharp.Rpg.Persistence.Events
             set;
         }
 
-        public bool KeyinputWait
+        public bool KeyInputWait
         {
             get;
             set;
         }
 
-        public byte KeyinputVariable
+        public byte KeyInputVariable
         {
             get;
             set;
         }
 
-        public bool KeyinputAllDirections
+        public bool KeyInputAllDirections
         {
             get;
             set;
         }
 
-        public int KeyinputDecision
+        public int KeyInputDecision
         {
             get;
             set;
         }
 
-        public int KeyinputCancel
+        public int KeyInputCancel
         {
             get;
             set;
         }
 
-        public int Keyinput2kShift2k3Numbers
+        public int KeyInput2kShift2k3Numbers
         {
             get;
             set;
         }
 
-        public int Keyinput2kDown2k3Operators
+        public int KeyInput2kDown2k3Operators
         {
             get;
             set;
         }
 
-        public int Keyinput2kLeft2k3Shift
+        public int KeyInput2kLeft2k3Shift
         {
             get;
             set;
         }
 
-        public int Keyinput2kRight
+        public int KeyInput2kRight
         {
             get;
             set;
         }
 
-        public int Keyinput2kUp
+        public int KeyInput2kUp
         {
             get;
             set;
@@ -123,37 +130,37 @@ namespace LcfSharp.Rpg.Persistence.Events
             set;
         }
 
-        public int KeyinputTimeVariable
+        public int KeyInputTimeVariable
         {
             get;
             set;
         }
 
-        public int Keyinput2k3Down
+        public int KeyInput2k3Down
         {
             get;
             set;
         }
 
-        public int Keyinput2k3Left
+        public int KeyInput2k3Left
         {
             get;
             set;
         }
 
-        public int Keyinput2k3Right
+        public int KeyInput2k3Right
         {
             get;
             set;
         }
 
-        public int Keyinput2k3Up
+        public int KeyInput2k3Up
         {
             get;
             set;
         }
 
-        public bool KeyinputTimed
+        public bool KeyInputTimed
         {
             get;
             set;

@@ -29,14 +29,18 @@
 
 using LcfSharp.Chunks.Shared.Audio;
 using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Audio
 {
+    /// <summary>
+    /// Represents Sound data in an LCF file.
+    /// </summary>
     [LcfChunk<SoundChunk>]
     public class Sound
     {
         [LcfAlwaysPersist]
-        public string Name
+        public LcfString Name
         {
             get;
             set;

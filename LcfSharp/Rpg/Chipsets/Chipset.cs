@@ -29,7 +29,8 @@
 
 using LcfSharp.Chunks.Database;
 using LcfSharp.IO.Attributes;
-using System.Collections.Generic;
+using LcfSharp.IO.Types;
+using LcfSharp.IO.Types.Generic;
 
 namespace LcfSharp.Rpg.Chipsets
 {
@@ -37,7 +38,7 @@ namespace LcfSharp.Rpg.Chipsets
     /// Class representing a chipset in the game.
     /// </summary>
     [LcfChunk<ChipsetChunk>]
-    public class Chipset
+    public class Chipset : IIndexedItem
     {
         /// <summary>
         /// The unique identifier for the chipset.
@@ -52,7 +53,7 @@ namespace LcfSharp.Rpg.Chipsets
         /// <summary>
         /// The name of the chipset.
         /// </summary>
-        public string Name
+        public LcfString Name
         {
             get;
             set;
@@ -61,7 +62,7 @@ namespace LcfSharp.Rpg.Chipsets
         /// <summary>
         /// The name of the chipset file.
         /// </summary>
-        public string ChipsetName
+        public LcfString ChipsetName
         {
             get;
             set;
@@ -70,7 +71,7 @@ namespace LcfSharp.Rpg.Chipsets
         /// <summary>
         /// The terrain data for the chipset.
         /// </summary>
-        public List<short> TerrainData
+        public LcfPackedList<short> TerrainData
         {
             get;
             set;
@@ -79,7 +80,7 @@ namespace LcfSharp.Rpg.Chipsets
         /// <summary>
         /// The passable data for the lower layer of the chipset.
         /// </summary>
-        public List<byte> PassableDataLower
+        public LcfPackedList<byte> PassableDataLower
         {
             get;
             set;
@@ -88,7 +89,7 @@ namespace LcfSharp.Rpg.Chipsets
         /// <summary>
         /// The passable data for the upper layer of the chipset.
         /// </summary>
-        public List<byte> PassableDataUpper
+        public LcfPackedList<byte> PassableDataUpper
         {
             get;
             set;

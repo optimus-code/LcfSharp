@@ -1,4 +1,5 @@
-﻿/// <copyright>
+
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -26,20 +27,31 @@
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
+
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+
 namespace LcfSharp.Rpg.Persistence.Events
 {
-    public class SaveCommonEvent
+    /// <summary>
+    /// Represents CommonEvent data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveCommonEventChunk>]
+    public class SaveCommonEvent : IIndexedItem
     {
+        [LcfID]
         public int ID
         {
             get;
             set;
         }
 
+        [LcfAlwaysPersist]
         public SaveEventExecState ParallelEventExecState
         {
             get;
             set;
-        }
+        } = new SaveEventExecState( );
     }
 }

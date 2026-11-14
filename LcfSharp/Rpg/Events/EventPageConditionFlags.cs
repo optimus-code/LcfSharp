@@ -27,10 +27,14 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Attributes;
 using LcfSharp.IO.Types;
 
 namespace LcfSharp.Rpg.Events
 {
+    /// <summary>
+    /// Represents the EventPageConditionFlags flag bits.
+    /// </summary>
     public class EventPageConditionFlags : IDbFlags
     {
         public bool SwitchA
@@ -69,6 +73,7 @@ namespace LcfSharp.Rpg.Events
             set;
         }
 
+        [LcfVersion( LcfEngineVersion.RM2K3 )]
         public bool Timer2
         {
             get;

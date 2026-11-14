@@ -27,35 +27,33 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
-using System.IO;
+using LcfSharp.IO.Scopes;
 
 namespace LcfSharp.IO.Converters.Types
 {
     /// <summary>
-    /// Provides methods to convert 16-bit integer values in the LCF (RPG Maker 2000 format).
+    /// Converts 16-bit integer values.
     /// </summary>
     public class LcfInt16Converter : LcfConverter<short>
     {
         /// <summary>
-        /// Reads a 16-bit integer from the specified binary reader.
+        /// Reads a 16-bit integer.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
-        /// <returns>The 16-bit integer value read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        /// <param name="scope">The read scope.</param>
+        /// <returns>The 16-bit integer value.</returns>
+        public override object Read( ref LcfReadScope scope )
         {
-            return reader.ReadInt16( );
+            return scope.ReadInt16( );
         }
 
         /// <summary>
-        /// Writes the specified 16-bit integer value to the binary writer.
+        /// Writes the specified 16-bit integer value.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
-        /// <param name="value">The 16-bit integer value to write.</param>
-        /// <param name="writeLength">Not applicable</param>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        /// <param name="scope">The write scope.</param>
+        /// <param name="value">The 16-bit integer.</param>
+        public override void Write( ref LcfWriteScope scope, object value )
         {
-            writer.Write( ( short ) value );
+            scope.WriteInt16( ( short ) value );
         }
     }
 }

@@ -27,13 +27,14 @@
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
 
+using LcfSharp.IO.Scopes;
 using System;
 using System.IO;
 
 namespace LcfSharp.IO.Converters
 {
     /// <summary>
-    /// Provides methods to convert class types in the LCF (RPG Maker 2000 format).
+    /// Converts class types.
     /// </summary>
     public class LcfClassConverter : LcfComplexConverter
     {
@@ -47,40 +48,38 @@ namespace LcfSharp.IO.Converters
         }
 
         /// <summary>
-        /// Reads an object of the specified class type from the binary reader.
+        /// Reads a class record from the source scope.
         /// </summary>
-        /// <param name="reader">The binary reader to read from.</param>
-        /// <param name="length">The length of the data to read (not used).</param>
+        /// <param name="scope">The read scope.</param>
         /// <returns>The object read from the binary reader.</returns>
-        public override object Read( BinaryReader reader, int? length )
+        public override object Read( ref LcfReadScope scope )
         {
             var instance = Build( );
 
             foreach ( var property in _cache.Properties )
             {
-                if ( reader.BaseStream.Position >= reader.BaseStream.Length )
+                if ( scope.IsFinished )
                     break;
 
                 if ( property.IsAllowed )
-                    ReadProperty( reader, instance, property.Property, null );
+                    ReadProperty( ref scope, instance, property.Property );
             }
 
             return instance;
         }
 
         /// <summary>
-        /// Writes the specified object to the binary writer.
+        /// Writes a class record to the destination scope.
         /// </summary>
-        /// <param name="writer">The binary writer to write to.</param>
+        /// <param name="scope">The write scope.</param>
         /// <param name="value">The object to write.</param>
-        /// <param name="writeLength">Not relevant to class converters</param>
         /// <exception cref="InvalidDataException">Thrown when no converter is found for a property type.</exception>
-        public override void Write( BinaryWriter writer, object value, bool writeLength )
+        public override void Write( ref LcfWriteScope scope, object value )
         {
             foreach ( var property in _cache.Properties )
             {
                 if ( property.IsAllowed )
-                    WriteProperty( writer, value, property.Property, true );
+                    WriteProperty( ref scope, value, property.Property );
             }
         }
     }

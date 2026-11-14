@@ -1,4 +1,4 @@
-﻿/// <copyright>
+/// <copyright>
 /// 
 /// LcfSharp Copyright (c) 2024 optimus-code
 /// (A "loose" .NET port of liblcf)
@@ -26,10 +26,20 @@
 /// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 /// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /// </copyright>
+
+using LcfSharp.Chunks.Persistence;
+using LcfSharp.IO.Attributes;
+using LcfSharp.IO.Types.Generic;
+
 namespace LcfSharp.Rpg.Persistence
 {
-    public class SaveTarget
+    /// <summary>
+    /// Represents Target data in an LSD save file.
+    /// </summary>
+    [LcfChunk<SaveTargetChunk>]
+    public class SaveTarget : IIndexedItem
     {
+        [LcfID]
         public int ID
         {
             get;
