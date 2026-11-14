@@ -57,6 +57,7 @@ namespace LcfSharp.IO
             }
 
             LcfConverterFactory.EngineVersion = options.Version;
+            LcfConverterFactory.EncodingType = options.EncodingType;
         }
 
         /// <summary>

@@ -51,7 +51,7 @@ namespace LcfSharp.Tests
         /// <param name="firstEventPages">The expected page count for the first event.</param>
         [TestMethod]
         [DataRow( "Map0001.lmu", 20, 100, 135, 115, "Lavas Ville", 9 )]
-        [DataRow( "Map0003.lmu", 80, 20, 15, 1, "OPENING", 2 )]
+        [DataRow( "Map0003.lmu", 80, 20, 15, 1, "At the Beginning...", 2 )]
         [DataRow( "Map0006.lmu", 25, 45, 60, 96, "InnR", 2 )]
         [DataRow( "Map0056.lmu", 38, 60, 45, 69, "Rock Block Event", 3 )]
         [DataRow( "Map0168.lmu", 12, 40, 40, 44, "Exit", 1 )]
